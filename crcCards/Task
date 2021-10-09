@@ -1,0 +1,11 @@
+Class: Task
+
+Responsibility:
+    - Stores name of task
+    - May store subtasks (also instances of the Task class)
+    - stores deadline (optional)  # maybe make two classes?
+    - stores estimated time needed
+    - Stores whether or not it is completed
+
+Collaborator:
+    - Task
