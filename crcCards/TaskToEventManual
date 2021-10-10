@@ -1,0 +1,9 @@
+Class name: TaskToEventManual
+Implements TaskToEvent
+
+Responsibilities:
+* Creates an Event from the Task with a specific time
+
+Collaborators:
+* Taskgit
+* Event
