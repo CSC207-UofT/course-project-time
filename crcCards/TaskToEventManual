@@ -5,5 +5,5 @@ Responsibilities:
 * Creates an Event from the Task with a specific time
 
 Collaborators:
-* Taskgit
+* Task
 * Event
