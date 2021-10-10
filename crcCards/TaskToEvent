@@ -1,0 +1,8 @@
+Interface: TaskToEvent
+
+Responsibility:
+    - Given Task, create an Event
+
+Collaborator:
+    - Task
+    - Event
