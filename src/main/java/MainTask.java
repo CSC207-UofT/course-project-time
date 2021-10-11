@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * estimated time needed, deadline (optional), and subtasks (optional)
  *
  */
-public class MainTask extends Task implements Main{
+public class MainTask extends Task {
 
     private Duration timeNeeded;
     private LocalDateTime deadline;
