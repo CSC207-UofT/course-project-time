@@ -3,9 +3,7 @@ package main.java;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Jenci, Tahseen
- */
+
 public class TodoList{
     private List<Task> completedlist = new ArrayList<>();
     private List<Task> incompletedlist = new ArrayList<>();
