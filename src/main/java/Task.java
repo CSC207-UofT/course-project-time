@@ -18,16 +18,12 @@ public class Task {
         this.subTasks = new ArrayList<Task>();
     }
 
-    public void renameTask(String newName) {
+    public void setTaskName(String newName) {
         this.taskName = newName;
     }
 
-    public void complete() {
-        this.completed = true;
-    }
-
-    public void undoComplete() {
-        this.completed = false;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     /**

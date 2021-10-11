@@ -62,7 +62,7 @@ public class Event {
         this.dates.add(date);
     }
 
-    public void renameEvent(String newName) {
+    public void setEventName(String newName) {
         this.eventName = newName;
     }
 
