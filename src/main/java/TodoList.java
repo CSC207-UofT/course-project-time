@@ -19,4 +19,9 @@ public class TodoList{
             completedlist.add(task);
         }
     }
+
+    public boolean addSubtask(Task task)
+    {
+        return incompletedlist.add(task);
+    }
 }
