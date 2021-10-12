@@ -2,8 +2,8 @@ Class name: TaskToEventManual
 Implements TaskToEvent
 
 Responsibilities:
-* Creates an Event from the Task with a specific time
+    - Creates an Event from the Task with a specific time
 
 Collaborators:
-* Task
-* Event
+    - Task
+    - Event
