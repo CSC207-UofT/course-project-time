@@ -8,25 +8,25 @@ public class TaskToEventAuto implements TaskToEvent {
     /**
      *
      * @param task      the task that needs to be converted into an event
-     * @param schedule  the schedule that the event will be added into
+     * @param calendar  the calendar that contains the user's available times
      * @return an Event scheduled at a suggested time,
      *          depending on the available times
      */
     @Override
-    public Event createEventFromTask(Task task, Schedule schedule) {
+    public Event createEventFromTask(Task task, Calendar calendar) {
         // if we have different schedules then the available time we get from for example the school schedule might be scheduled time in the family schedule
         // potentially add a tag to events that will store the "schedule"
 
         List<LocalDateTime> suggestedTimes = new ArrayList<>();
-        LocalDateTime availableTime = schedule.getAvailableTime(suggestedTimes, task.getDurationNeeded());
-        boolean scheduled = suggestTimeToUser(availableTime);
+        LocalDateTime availableTime = calendar.getAvailableTime(suggestedTimes, task.getDurationNeeded());
+        boolean scheduled = confirmTimeWithUser(availableTime);
 
         suggestedTimes.add(availableTime);
 
         while (!scheduled) {
-            availableTime = schedule.getAvailableTime(suggestedTimes, task.getDurationNeeded());
-            scheduled = suggestTimeToUser(availableTime);
-            availableTime.add(availableTime);
+            availableTime = calendar.getAvailableTime(suggestedTimes, task.getDurationNeeded());
+            scheduled = confirmTimeWithUser(availableTime);
+            suggestedTimes.add(availableTime);
         }
 
         Event event = new Event(Task, availableTime);
@@ -38,7 +38,7 @@ public class TaskToEventAuto implements TaskToEvent {
      * @param time an available time for the event
      * @return  a boolean indicating if the user agrees with the suggested time
      */
-    private boolean suggestTimeToUser(LocalDateTime time) {
+    private boolean confirmTimeWithUser(LocalDateTime time) {
         boolean scheduled;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Suggested time: " + time);
