@@ -1,0 +1,11 @@
+Class: CalendarBuilder
+
+Responsibility:
+    - Add/remove events from Calendar
+    - Takes a TodoList and add all events to the Calendar
+
+Collaborator:
+    - Calendar
+    - TodoList
+    - Task
+    - Event
