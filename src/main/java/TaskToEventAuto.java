@@ -18,18 +18,18 @@ public class TaskToEventAuto implements TaskToEvent {
         // potentially add a tag to events that will store the "schedule"
 
         List<LocalDateTime> suggestedTimes = new ArrayList<>();
-        LocalDateTime availableTime = calendar.getAvailableTime(suggestedTimes, task.getDurationNeeded());
+        LocalDateTime availableTime = calendar.getAvailableTime(suggestedTimes, task.getTimeNeeded());
         boolean scheduled = confirmTimeWithUser(availableTime);
 
         suggestedTimes.add(availableTime);
 
         while (!scheduled) {
-            availableTime = calendar.getAvailableTime(suggestedTimes, task.getDurationNeeded());
+            availableTime = calendar.getAvailableTime(suggestedTimes, task.getTimeNeeded());
             scheduled = confirmTimeWithUser(availableTime);
             suggestedTimes.add(availableTime);
         }
 
-        Event event = new Event(Task, availableTime);
+        Event event = new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded));
         return event;
     }
 

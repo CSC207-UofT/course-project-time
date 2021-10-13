@@ -1,5 +1,5 @@
 package main.java;
 
 public interface TaskToEvent {
-    public Event createEventFromTask(Task task, Schedule schedule)
+    public Event createEventFromTask(Task task, Calendar calendar);
 }
