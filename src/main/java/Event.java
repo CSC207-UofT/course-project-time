@@ -3,42 +3,34 @@ package main.java;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * An Event stores the name of the event, the start time
+ * and end time of the event, tags, the corresponding task,
+ * and the dates of event.
+ */
 public class Event {
-
-    // If we create another class for repeated events, this class
-    // will be cleaner. In this class, to store the information of repeat,
-    // we separate the time and date, so that <dates> can store the
-    // repeated dates.
-
-    // To track whether an event is completed in the time duration (success)
-    // or not completed (fail), we may need to add variable of completed.
-    // However, since the events may be repeated, we may need to change
-    // <dates> into a map, so that it can store the status of the event on
-    // each day.
 
     private String eventName;
     private LocalTime startTime;
     private LocalTime endTime;
-    private HashSet<String> tags;
-    private ArrayList<Task> subTasks;
-    private HashSet<LocalDate> dates;
+    private Set<String> tags;
+    private Task task;
+    private Set<LocalDate> dates;
 
     /**
-     * Construct an event based on a mainTask.
-     * Since the mainTask stores the time needed,
-     * we only need a startTime to decide the endTime.
-     * @param mainTask the main task that will be changed into an event
+     * Construct an event based on a task.
+     * @param task the main task that will be changed into an event
      * @param startTime the start time of the event
+     * @param endTime the end time the event
      */
-    public Event(MainTask mainTask, LocalDateTime startTime) {
-        this.eventName = mainTask.getTaskName();
+    public Event(Task task, LocalDateTime startTime, LocalTime endTime) {
+        this.eventName = task.getTaskName();
         this.startTime = startTime.toLocalTime();
-        this.endTime = this.startTime.plus(mainTask.getTimeNeeded()); // may exceed 24h
+        this.endTime = endTime;
         this.tags = new HashSet<String>();
-        this.subTasks = mainTask.getSubTasks();
         this.dates = new HashSet<LocalDate>();
         this.dates.add(startTime.toLocalDate());
     }
@@ -49,6 +41,7 @@ public class Event {
      * @param eventName the name of the event
      * @param startTime the start time of the event (without date)
      * @param endTime the end time of the event (without date)
+     * @param tags the tags of the event
      * @param date the date time of the event
      */
     public Event(String eventName, LocalTime startTime, LocalTime endTime,
@@ -57,13 +50,21 @@ public class Event {
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
-        this.subTasks = new ArrayList<Task>();
+        this.task = new Task(eventName);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
     }
 
     public void setEventName(String newName) {
         this.eventName = newName;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public void addTag(String tag) {
@@ -79,20 +80,7 @@ public class Event {
         }
     }
 
-    public void addSubTask(Task subTask) {
-        this.subTasks.add(subTask);
-    }
-
-    public boolean removeSubTask(Task subTask) {
-        if (this.subTasks.contains(subTask)) {
-            this.subTasks.remove(subTask);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void addRepeated(LocalDate date) {
+    public void addRepeatedDate(LocalDate date) {
         this.dates.add(date);
     }
 
@@ -108,15 +96,15 @@ public class Event {
         return this.endTime;
     }
 
-    public HashSet<String> getTags() {
+    public Set<String> getTags() {
         return this.tags;
     }
 
-    public ArrayList<Task> getSubTasks() {
-        return this.subTasks;
+    public Task getTask() {
+        return this.task;
     }
 
-    public HashSet<LocalDate> getDates() {
+    public Set<LocalDate> getDates() {
         return this.dates;
     }
 
