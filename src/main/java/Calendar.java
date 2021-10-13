@@ -1,6 +1,7 @@
 package main.java;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +16,7 @@ public class Calendar {
     private final String name;
     private final Event[] events;
     private final GapFinder gapFinder;
+    private final TodoList todoList;
 
     public Calendar(String name, Event[] events) {
         this(name, events, new SortAndSearch());
@@ -24,14 +26,11 @@ public class Calendar {
         this.name = name;
         this.events = events;
         this.gapFinder = gapFinder;
+        this.todoList = new TodoList();
 
         for(Event event : this.events)
         {
-            MainTask task = new MainTask(event.getEventName());
-            for(Task subtask : event.getSubTasks())
-            {
-                task.addSubTask(subtask);
-            }
+            Task task = new Task(event.getEventName());
             todoList.addSubtask(task);
         }
     }
@@ -50,8 +49,13 @@ public class Calendar {
 
         for (LocalDateTime time : timesToIgnore)
             timeFramesToIgnore.add(new TimeFrame(time, time.plus(taskDuration)));
-        for (Event evt : events)
-            timeFramesToIgnore.add(new TimeFrame(evt.getStartTime(), evt.getEndTime()));
+        for (Event evt : events) {
+            for (LocalDate date : evt.getDates()) {
+                LocalDateTime startTime = evt.getStartTime().atDate(date);
+                LocalDateTime endTime = evt.getEndTime().atDate(date);
+                timeFramesToIgnore.add(new TimeFrame(startTime, endTime));
+            }
+        }
 
         return gapFinder.findTimeGap(timeFramesToIgnore, taskDuration);
     }
@@ -63,8 +67,12 @@ public class Calendar {
      */
     public boolean checkAvailability(LocalDateTime targetTime) {
         for (Event evt : events) {
-            if (targetTime.isAfter(evt.getStartTime()) && targetTime.isBefore(evt.getEndTime()))
-                return false;
+            for (LocalDate date : evt.getDates()) {
+                LocalDateTime startTime = evt.getStartTime().atDate(date);
+                LocalDateTime endTime = evt.getEndTime().atDate(date);
+                if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime))
+                    return false;
+            }
         }
         return true;
     }
