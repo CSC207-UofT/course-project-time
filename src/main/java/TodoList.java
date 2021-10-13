@@ -13,7 +13,7 @@ public class TodoList{
      * uncompletedList and add to completedList
      * @param task the task that will be removed from uncompletedList and added to completedList if task is completed
      */
-    private void completedTask(Task task){
+    private void updateTaskStatus(Task task){
         if(task.getCompleted()){
             uncompletedList.remove(task);
             completedList.add(task);
@@ -24,9 +24,9 @@ public class TodoList{
      * Check for all tasks in uncompletedList,
      * move the completed tasks into completedList
      */
-    public void checkCompletionAll() {
+    public void updateCompletedList() {
         for (Task task : uncompletedList) {
-            completedTask(task);
+            updateTaskStatus(task);
         }
     }
 }
