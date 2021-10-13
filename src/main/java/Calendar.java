@@ -66,6 +66,8 @@ public class Calendar {
         return name;
     }
 
+    public Event[] getEvents() { return events.clone(); }
+
 }
 
 interface GapFinder {
