@@ -101,10 +101,16 @@ interface GapFinder {
     public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
 }
 
-record TimeFrame(LocalDateTime start, LocalDateTime end) implements Comparable<TimeFrame> {
+class TimeFrame implements Comparable<TimeFrame> {
+    public final LocalDateTime start;
+    public final LocalDateTime end;
+    public TimeFrame(LocalDateTime start, LocalDateTime end) {
+         this.start = start;
+         this.end = end;
+    }
     @Override
     public int compareTo(TimeFrame o) {
-        return this.start().compareTo(o.start());
+        return this.start.compareTo(o.start);
     }
 }
 
@@ -119,9 +125,9 @@ class SortAndSearch implements GapFinder {
         for (TimeFrame t : timeFramesToIgnore) {
             first = second;
             second = t;
-            if (first != null && first.end().plus(taskDuration).isBefore(second.start()))
-                return first.end();
+            if (first != null && first.end.plus(taskDuration).isBefore(second.start))
+                return first.end;
         }
-        return second == null ? LocalDateTime.now().plus(taskDuration) : second.end();
+        return second == null ? LocalDateTime.now().plus(taskDuration) : second.end;
     }
 }
