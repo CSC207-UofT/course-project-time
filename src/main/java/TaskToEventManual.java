@@ -20,7 +20,7 @@ public class TaskToEventManual implements TaskToEvent {
             userSuggestedTime = getUserSuggestedTime();
             validTime = calendar.checkAvailability(userSuggestedTime);
         }
-        return Event(task, userSuggestedTime, userSuggestedTime.toLocalTime().plus(task.getTimeNeeded()));
+        return new Event(task, userSuggestedTime, userSuggestedTime.toLocalTime().plus(task.getTimeNeeded()));
     }
 
     /**
