@@ -4,6 +4,6 @@ Implements TaskToEvent
 Responsibilities:
     - Uses the available times from the Schedule to convert a Task to Event
 Collaborators:
-    - Schedule
+    - Calendar
     - Task
     - Event
