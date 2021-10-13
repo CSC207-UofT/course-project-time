@@ -6,6 +6,11 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * An Event stores the name of the event, the start time
+ * and end time of the event, tags, the corresponding task,
+ * and the dates of event.
+ */
 public class Event {
 
     private String eventName;

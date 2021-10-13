@@ -7,7 +7,8 @@ import java.util.List;
 
 /**
  * A Task stores the name of the task, whether it is completed,
- * and subtasks (optional)
+ * the time needed to complete the task (optional), the deadline
+ * of the class (optional), and subtasks (optional)
  */
 public class Task {
 
