@@ -2,8 +2,8 @@ Class name: TaskToEventAuto
 Implements TaskToEvent
 
 Responsibilities:
-* Uses the available times from the Schedule to convert a Task to Event
+    - Uses the available times from the Schedule to convert a Task to Event
 Collaborators:
-* Schedule
-* Task
-* Event
+    - Schedule
+    - Task
+    - Event

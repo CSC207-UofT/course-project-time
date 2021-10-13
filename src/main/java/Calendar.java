@@ -24,6 +24,16 @@ public class Calendar {
         this.name = name;
         this.events = events;
         this.gapFinder = gapFinder;
+
+        for(Event event : this.events)
+        {
+            MainTask task = new MainTask(event.getEventName());
+            for(Task subtask : event.getSubTasks())
+            {
+                task.addSubTask(subtask);
+            }
+            todoList.addSubtask(task);
+        }
     }
 
     /**
