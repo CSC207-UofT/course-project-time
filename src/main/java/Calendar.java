@@ -16,6 +16,8 @@ public class Calendar {
     private final Event[] events;
     private final GapFinder gapFinder;
 
+    private TodoList todoList;
+
     public Calendar(String name, Event[] events) {
         this(name, events, new SortAndSearch());
     }
@@ -24,7 +26,18 @@ public class Calendar {
         this.name = name;
         this.events = events;
         this.gapFinder = gapFinder;
+
+        for(Event event : this.events)
+        {
+            MainTask task = new MainTask(event.getEventName());
+            for(Task subtask : event.getSubTasks())
+            {
+                task.addSubTask(subtask);
+            }
+            todoList.addSubtask(task);
+        }
     }
+
 
     /**
      * Finds a gap of time for a task with the given duration.
@@ -78,7 +91,7 @@ interface GapFinder {
      *
      * @return a time of the given duration that does not overlap any of the times to ignore.
      */
-    public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
+    LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
 }
 
 record TimeFrame(LocalDateTime start, LocalDateTime end) implements Comparable<TimeFrame> {
