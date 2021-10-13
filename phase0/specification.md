@@ -1,19 +1,16 @@
 ## Specification
 
-- Switch between Functionalities 
-  - Schedule Making
-    - Input your work/school schedule
-    - Input tasks into the todo list 
-  - Todo List 
-    - Stores different tasks 
-    - Check tasks off the todo list 
-  - Calendar 
-    - schedule 
-      - subclasses
-        - ‘fixed’ schedule 
-        - generated schedule 
-      - stores events 
-        - mark event as completed. if not, suggest another time for it 
-- Be able to transfer data across Functionalities
-schedule maker takes tasks from the todo list, then makes a schedule ensuring no time conflict from the calendar, then stores the generated schedule into the calendar 
-- notification system
+This application helps users manage their time and schedule.
+There is a **todo-list** which stores all the **tasks** that the user wants to
+complete. Each task stores the task name, deadline, the duration needed for the task, along with a number of sub-tasks.
+The todo-list allows the user to indicate if the tasks are completed.
+
+Another function that the application has is a **calendar** that manages the schedule of the user. 
+The calendar stores all **events**, where events store a specific time of
+occurrence, along with the associated task. The user would be able to indicate if the event is 
+one-time or repeated.
+
+The application helps the user to auto-schedule a task into an event.
+Given a task in the todo-list, the application will find a suitable time
+from the calendar and suggest it to the user. Upon confirmation with the user, 
+an event will be scheduled for the user to complete the task.
