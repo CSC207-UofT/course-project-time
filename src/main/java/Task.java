@@ -1,6 +1,9 @@
 package main.java;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Task stores the name of the task, whether it is completed,
@@ -10,12 +13,34 @@ public class Task {
 
     private String taskName;
     private boolean completed;
-    private ArrayList<Task> subTasks;
+    private Duration timeNeeded;
+    private LocalDateTime deadline;
+    private List<String> subTasks;
 
+    /**
+     * Construct a task with task name
+     * @param taskName name of the task
+     */
     public Task(String taskName) {
         this.taskName = taskName;
         this.completed = false;
-        this.subTasks = new ArrayList<Task>();
+        this.timeNeeded = null;
+        this.deadline = null;
+        this.subTasks = new ArrayList<String>();
+    }
+
+    /**
+     * Construct a task with task name, time needed, and deadline
+     * @param taskName name of the task
+     * @param timeNeeded time needed to complete the task
+     * @param deadline deadline of the task
+     */
+    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline) {
+        this.taskName = taskName;
+        this.completed = false;
+        this.timeNeeded = timeNeeded;
+        this.deadline = deadline;
+        this.subTasks = new ArrayList<String>();
     }
 
     public void setTaskName(String newName) {
@@ -26,12 +51,24 @@ public class Task {
         this.completed = completed;
     }
 
+    public void setTimeNeeded(Duration timeNeeded) {
+        this.timeNeeded = timeNeeded;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setSubTasks(List<String> subTasks) {
+        this.subTasks = subTasks;
+    }
+
     /**
      * Add a subtask to subTasks.
      *
      * @param subTask the task that will be added
      */
-    public void addSubTask(Task subTask) {
+    public void addSubTask(String subTask) {
         this.subTasks.add(subTask);
     }
 
@@ -42,7 +79,7 @@ public class Task {
      * @return true iff subTask is in subTask and is removed successfully
      *
      */
-    public boolean removeSubTask(Task subTask) {
+    public boolean removeSubTask(String subTask) {
         if (this.subTasks.contains(subTask)) {
             this.subTasks.remove(subTask);
             return true;
@@ -59,7 +96,15 @@ public class Task {
         return this.completed;
     }
 
-    public ArrayList<Task> getSubTasks() {
+    public Duration getTimeNeeded() {
+        return this.timeNeeded;
+    }
+
+    public LocalDateTime getDeadline() {
+        return this.deadline;
+    }
+
+    public List<String> getSubTasks() {
         return this.subTasks;
     }
 
