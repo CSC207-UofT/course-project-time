@@ -16,8 +16,8 @@ public class EventGetter implements GetEvent {
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
-    public List<HashMap<String, String>> getEvents()
-    {
+    @Override
+    public List<HashMap<String, String>> getEvents() {
         List<HashMap<String, String>> event_data = new ArrayList<>();
         for(Event event : calendar.getEvents()) {
             event_data.add(getEvent(event));
@@ -26,8 +26,7 @@ public class EventGetter implements GetEvent {
         return event_data;
     }
 
-    private HashMap<String, String> getEvent(Event event)
-    {
+    private HashMap<String, String> getEvent(Event event) {
         String event_name = event.getEventName();
         String event_start = event.getStartTime().toString();
         String event_end = event.getEndTime().toString();

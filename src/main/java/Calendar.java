@@ -14,12 +14,12 @@ import java.util.List;
 public class Calendar {
 
     private final String name;
-    private final Event[] events;
+    private final Event[] events;  // todo change to list
     private final GapFinder gapFinder;
     private final TodoList todoList;
 
     public Calendar(String name) {
-        this(name, new Event[100]);
+        this(name, new Event[0]);  // todo this is 0 else there will be null pointer exception
     }
 
     public Calendar(String name, Event[] events) {
