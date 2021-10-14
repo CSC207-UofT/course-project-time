@@ -1,2 +1,5 @@
-package main.java;public interface TaskToEvent {
+package main.java;
+
+public interface TaskToEvent {
+    public Event createEventFromTask(Task task, Calendar calendar);
 }
