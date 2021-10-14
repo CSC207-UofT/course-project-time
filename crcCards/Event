@@ -1,0 +1,11 @@
+Class: Event
+
+Responsibility:
+    - Store the start time and end time of the event
+    - Store the tags of the event (optional)
+    - Store the corresponding task of the event
+    - Store the date of the event if it's a one-time event,
+      or dates of the event if it's a repeated event
+
+Collaborator:
+    - Task
