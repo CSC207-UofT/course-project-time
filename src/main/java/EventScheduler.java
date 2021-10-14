@@ -9,7 +9,6 @@ import java.util.List;
 public class EventScheduler {
     private ArrayList<Event> eventlst;
     private TaskToEvent converter;
-    private TodoList todolst;
     private GapFinder gapFinder;
 
     public EventScheduler(TaskToEvent obj, GapFinder gapFinder){
@@ -26,12 +25,14 @@ public class EventScheduler {
         this.eventlst.remove(event);
     }
 
+    /**  IS THIS NECESSARY????????????????
     public void addTaskToTodoList(){
         for(Event evt: this.eventlst){
             this.todolst.addTask(evt.getTask());
         }
 
     }
+     **/
 
     public void toDoListToEvents(TodoList toDoList){
         for(Task task: toDoList.getUncompletedTasks()) {
