@@ -7,7 +7,7 @@ with no events. The user chooses an action from the following:
 * Create a new task
 * Create a new event
 * Auto-schedule a task
-* Manually schedulue a task
+* Manually schedule a task
 
 If the user chooses to view all events or tasks, the list of events or tasks
 will be printed on the console, along with some of their details.
