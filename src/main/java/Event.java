@@ -13,7 +13,6 @@ import java.util.Set;
  */
 public class Event {
 
-    private String eventName;
     private LocalTime startTime;
     private LocalTime endTime;
     private Set<String> tags;
@@ -27,7 +26,7 @@ public class Event {
      * @param endTime the end time the event
      */
     public Event(Task task, LocalDateTime startTime, LocalTime endTime) {
-        this.eventName = task.getTaskName();
+        this.task = task;
         this.startTime = startTime.toLocalTime();
         this.endTime = endTime;
         this.tags = new HashSet<String>();
@@ -46,7 +45,6 @@ public class Event {
      */
     public Event(String eventName, LocalTime startTime, LocalTime endTime,
                  HashSet<String> tags, LocalDate date) {
-        this.eventName = eventName;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
@@ -56,7 +54,7 @@ public class Event {
     }
 
     public void setEventName(String newName) {
-        this.eventName = newName;
+        this.task.setTaskName(newName);
     }
 
     public void setStartTime(LocalTime startTime) {
@@ -85,7 +83,7 @@ public class Event {
     }
 
     public String getEventName() {
-        return this.eventName;
+        return this.task.getTaskName();
     }
 
     public LocalTime getStartTime() {

@@ -31,7 +31,7 @@ public class Calendar {
         for(Event event : this.events)
         {
             Task task = new Task(event.getEventName());
-            todoList.addSubtask(task);
+            todoList.addTask(task);
         }
     }
 
