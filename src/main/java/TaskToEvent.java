@@ -1,2 +1,3 @@
-package main.java;public interface TaskToEvent {
+package main.java;
+public interface TaskToEvent {
 }
