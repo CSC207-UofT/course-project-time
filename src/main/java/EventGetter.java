@@ -1,6 +1,5 @@
 package main.java;
 
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +19,7 @@ public class EventGetter implements GetEvent {
     public List<HashMap<String, String>> getEvents()
     {
         List<HashMap<String, String>> event_data = new ArrayList<>();
-        for(Event event : calendar.getEvents())
-        {
+        for(Event event : calendar.getEvents()) {
             event_data.add(getEvent(event));
         }
 

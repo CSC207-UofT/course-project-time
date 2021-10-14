@@ -52,19 +52,26 @@ public class ApplicationDriver {
                 System.out.println("Bye!");
                 return;
             case "1":
-                ...
+                List<HashMap<String, String>> allEventsData = controller.getEvents();
+                for (HashMap<String, String> eventData : allEventsData) {
+                    String output = "Event: " + "event name = "
+                                        + eventData.get("name")
+                                        + "start time = " + eventData.get("start")
+                                        + "end time = " + eventData.get("end");
+                    System.out.println(output);
+                }
                 break;
             case "2":
                 ...
                 break;
             case "3":
-                ...
+                handleCreateTask();
                 break;
             case "4":
                 ...
                 break;
             case "5":
-                ...
+                System.out.println("Not yet implemented");
                 break;
             case "6":
                 ...
