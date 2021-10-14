@@ -18,6 +18,10 @@ public class Calendar {
     private final GapFinder gapFinder;
     private final TodoList todoList;
 
+    public Calendar(String name) {
+        this(name, new Event[100]);
+    }
+
     public Calendar(String name, Event[] events) {
         this(name, events, new SortAndSearch());
     }
