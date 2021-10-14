@@ -72,8 +72,12 @@ public class ApplicationDriver {
         }
     }
 
-    public static void main(String[] args)
-    {
-        menuQuery();
+    public static void main(String[] args) {
+        for(String key: queryMenu.keySet()) {
+            System.out.println(key + "- " + queryMenu.get(key));
+        }
+
+        String input = getQueryInput();
+        handleQueryInput(input);
     }
 }
