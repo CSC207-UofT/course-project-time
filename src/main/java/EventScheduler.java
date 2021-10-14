@@ -26,12 +26,19 @@ public class EventScheduler {
         this.eventlst.remove(event);
     }
 
-    public void AddTaskToTodoList(){
+    public void addTaskToTodoList(){
         for(Event evt: this.eventlst){
             this.todolst.addTask(evt.getTask());
         }
 
     }
+
+    public void toDoListToEvents(TodoList toDoList){
+        for(Task task: toDoList.getUncompletedTasks()) {
+            eventlst.add(converter.createEventFromTask(task, getCalendar(), this));
+        }
+    }
+
     public Calendar getCalendar(){
         Event[] calendarEvent = new Event[this.eventlst.size()];
         for(int i = 0; i < calendarEvent.length; i++){
