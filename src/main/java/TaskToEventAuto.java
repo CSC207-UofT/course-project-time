@@ -13,18 +13,18 @@ public class TaskToEventAuto implements TaskToEvent {
      *          depending on the available times
      */
     @Override
-    public Event createEventFromTask(Task task, Calendar calendar) {
+    public Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler) {
         // if we have different schedules then the available time we get from for example the school schedule might be scheduled time in the family schedule
         // potentially add a tag to events that will store the "schedule"
 
         List<LocalDateTime> suggestedTimes = new ArrayList<>();
-        LocalDateTime availableTime = calendar.getAvailableTime(suggestedTimes, task.getTimeNeeded());
+        LocalDateTime availableTime = eventScheduler.getAvailableTime(suggestedTimes, task.getTimeNeeded(), calendar);
         boolean scheduled = confirmTimeWithUser(availableTime);
 
         suggestedTimes.add(availableTime);
 
         while (!scheduled) {
-            availableTime = calendar.getAvailableTime(suggestedTimes, task.getTimeNeeded());
+            availableTime = eventScheduler.getAvailableTime(suggestedTimes, task.getTimeNeeded(), calendar);
             scheduled = confirmTimeWithUser(availableTime);
             suggestedTimes.add(availableTime);
         }

@@ -35,47 +35,6 @@ public class Calendar {
         }
     }
 
-    /**
-     * Finds a gap of time for a task with the given duration.
-     * The search heuristic is defined by the GapFinder when constructed.
-     *
-     * @param timesToIgnore times to ignore even if they are valid time slots.
-     * @param taskDuration the amount of available time to look for.
-     *
-     * @return a time available in the calendar for at least the given duration
-     */
-    public LocalDateTime getAvailableTime(List<LocalDateTime> timesToIgnore, Duration taskDuration) {
-        List<TimeFrame> timeFramesToIgnore = new ArrayList<>();
-
-        for (LocalDateTime time : timesToIgnore)
-            timeFramesToIgnore.add(new TimeFrame(time, time.plus(taskDuration)));
-        for (Event evt : events) {
-            for (LocalDate date : evt.getDates()) {
-                LocalDateTime startTime = evt.getStartTime().atDate(date);
-                LocalDateTime endTime = evt.getEndTime().atDate(date);
-                timeFramesToIgnore.add(new TimeFrame(startTime, endTime));
-            }
-        }
-
-        return gapFinder.findTimeGap(timeFramesToIgnore, taskDuration);
-    }
-
-    /**
-     * @param targetTime the time to check availability for
-     *
-     * @return whether the targetTime overlaps with any of the current events.
-     */
-    public boolean checkAvailability(LocalDateTime targetTime) {
-        for (Event evt : events) {
-            for (LocalDate date : evt.getDates()) {
-                LocalDateTime startTime = evt.getStartTime().atDate(date);
-                LocalDateTime endTime = evt.getEndTime().atDate(date);
-                if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime))
-                    return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * @return the name of this calendar. The name has no functional purpose.
