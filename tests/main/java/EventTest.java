@@ -40,7 +40,7 @@ class EventTest {
 
     @Test
     void getEndTime() {
-        assertEquals(LocalTime.of(16, 0), event.getEndTime());
+        assertEquals(endTime, event.getEndTime());
     }
 
     @Test

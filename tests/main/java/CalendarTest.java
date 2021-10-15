@@ -14,22 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CalendarTest {
     List<LocalDateTime> timesToIgnore;
-    LocalDateTime startDate;
-    LocalTime endTime;
     Duration taskDuration;
-    Task task;
-    Event event;
     Calendar calendar;
 
     @BeforeEach
     void setUp() {
         timesToIgnore = new ArrayList<>();
         timesToIgnore.add(LocalDateTime.of(2021, 10, 14, 12, 0, 0));
-        startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
-        endTime = LocalTime.of(16, 0);
+        LocalDateTime startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
+        LocalTime endTime = LocalTime.of(16, 0);
         taskDuration = Duration.ofHours(2);
-        task = new Task("Math Homework");
-        event = new Event(task, startDate, endTime);
+        Task task = new Task("Math Homework");
+        Event event = new Event(task, startDate, endTime);
         Event[] eventlst = {event};
         calendar = new Calendar("New Calendar", eventlst);
     }
