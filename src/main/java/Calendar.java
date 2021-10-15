@@ -17,6 +17,10 @@ public class Calendar {
     private final Event[] events;
     private final TodoList todoList;
 
+    public Calendar(String name) {
+        this(name, new Event[0]);  // todo this is 0 else there will be null pointer exception
+    }
+
     public Calendar(String name, Event[] events) {
         this.name = name;
         this.events = events;

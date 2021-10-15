@@ -31,6 +31,11 @@ public class TodoList{
         }
     }
 
+    public List<Task> getTasks()
+    {
+        return uncompletedList;
+    }
+
 
     public void addTask(Task task){
         if(task.getCompleted()){

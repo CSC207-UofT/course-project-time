@@ -1,0 +1,8 @@
+Class: EventGetter
+Clean Architecture Layer: Use Case (Application Business Rules)
+
+Responsibilities:
+    - Get the nessecary event data from a calendar for displaying purposes
+
+Collaborator:
+    - Calendar
