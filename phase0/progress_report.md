@@ -9,16 +9,16 @@ an events to help users organize their time.
 ### CRC model
 Our CRC model consists of: 
 
-3 Entity classes: **Task**, **Event** and **Calendar**.
+3 Entity classes: `Task`, `Event` and `Calendar`.
 
-8 Use Case classes: **TodoList**, **EventScheduler**, **EventGetter**, **TaskGetter**, **EventAdder**, **TaskAdder**, 
-**TaskToEventManual** and **TaskToEventAuto**
+8 Use Case classes: `TodoList`, `EventScheduler`, `EventGetter`, `TaskGetter`, `EventAdder`, `TaskAdder`, 
+`TaskToEventManual` and `TaskToEventAuto`
 
-4 Controllers: **MainController**, **EventController**, **TaskController**, **TaskEventConsoleController**
+4 Controllers: `MainController`, `EventController`, `TaskController`, `TaskEventConsoleController`
 
-User Interface: **ApplicationDriver**
+User Interface: `ApplicationDriver`
 
-4 interfaces: **GetEvent**, **TaskToEvent**, **TaskEventAutoController**, **TaskEventManualController**
+4 interfaces: `GetEvent`, `TaskToEvent`, `TaskEventAutoController`, `TaskEventManualController`
 
 
 
@@ -34,9 +34,9 @@ The user will be able to:
 CRC cards were created by the whole team.
 
 #### Emily
-* Worked on **TaskToEvent** interface and classes with Valerie
-* Created **EventScheduler** from Tahseen's **CalendarBuilder** that we decided to remove and replace with 
-**EventScheduler**, **EventScheduler** also uses some methods from Craig's **Calendar** class
+* Worked on `TaskToEvent` interface and classes with Valerie
+* Created `EventScheduler` from Tahseen's `CalendarBuilder` that we decided to remove and replace with 
+`EventScheduler`, `EventScheduler` also uses some methods from Craig's `Calendar` class
 * Contributed to progress report and specification
 
 
@@ -54,7 +54,7 @@ CRC cards were created by the whole team.
 
 #### Future Plans
 * creating a notification system that will notify the user when their task is about to start
-* the ability to reschedule an event if the user misses it, both automatically and manually (similar to the TaskToEvent 
+* the ability to reschedule an event if the user misses it, both automatically and manually (similar to the `TaskToEvent`
 classes)
 * Manually create an event from task
 * Store data externally (most likely in a json file)
@@ -64,7 +64,7 @@ classes)
 
 Our group had difficulty with the instantiation of entities and their storage in 
 memory. We do not have a database for our program, and we had trouble deciding a clean way of 
-creating a Calendar object that is accessible to multiple use cases.
+creating a `Calendar` object that is accessible to multiple use cases.
 We wanted to avoid storing instances of entities in Controllers, since 
 that would make the Controller dependent on the entity, thereby
 violating the dependency rule. We also did not want individual use cases
@@ -79,5 +79,5 @@ our calendar and todolist in a single use case, that other use cases can access.
 This method is likely to change, especially once we begin storing data in the 
 data layer of our application.
 
-Currently, both **Task** and **TodoList** are tracking the completion status of tasks and we aren't sure yet which one 
+Currently, both `Task` and `TodoList` are tracking the completion status of tasks and we aren't sure yet which one 
 should be responsible for it.
