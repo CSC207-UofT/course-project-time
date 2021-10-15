@@ -138,16 +138,18 @@ public class ApplicationDriver {
         Integer durationResponse = input.nextInt();
         Duration taskDuration = Duration.ofMinutes(durationResponse);
 
-        String format = "yyyy-MM-dd HH:mm";
+        String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         System.out.println("Input deadline for task in (" + format + ") (24 hour time):");
         String deadlineResponse = input.next(); // TODO exception handling
         LocalDateTime taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
 
-        System.out.print("Enter subtasks for task, separated by space: ");
+        System.out.print("Enter any subtasks for task, separated by a space: ");
         String subtaskResponse = input.nextLine();  // todo exception handling
+
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
+
 
         return controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
     }
