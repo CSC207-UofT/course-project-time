@@ -7,11 +7,57 @@ to store all events. The application also enables auto-scheduling of tasks
 an events to help users organize their time.
 
 ### CRC model
+Our CRC model consists of: 
+
+3 Entity classes: **Task**, **Event** and **Calendar**.
+
+8 Use Case classes: **TodoList**, **EventScheduler**, **EventGetter**, **TaskGetter**, **EventAdder**, **TaskAdder**, 
+**TaskToEventManual** and **TaskToEventAuto**
+
+4 Controllers: **MainController**, **EventController**, **TaskController**, **TaskEventConsoleController**
+
+User Interface: **ApplicationDriver**
+
+4 interfaces: **GetEvent**, **TaskToEvent**, **TaskEventAutoController**, **TaskEventManualController**
+
+
 
 ### Scenario Walk-through
+The user will be able to: 
+* View their events
+* View all tasks
+* Create a new task
+* Auto-schedule a task (turns it into an event)
+* Manually schedule a task (turns it into an event)
 
 ### What each member has been working on and future plans
+CRC cards were created by the whole team.
 
+#### Emily
+* Worked on **TaskToEvent** interface and classes with Valerie
+* Created **EventScheduler** from Tahseen's **CalendarBuilder** that we decided to remove and replace with 
+**EventScheduler**, **EventScheduler** also uses some methods from Craig's **Calendar** class
+* Contributed to progress report and specification
+
+
+#### Alexander
+
+#### Craig
+
+#### Junru
+
+#### Valerie
+
+#### Tahseen
+
+#### Jenci
+
+#### Future Plans
+* creating a notification system that will notify the user when their task is about to start
+* the ability to reschedule an event if the user misses it, both automatically and manually (similar to the TaskToEvent 
+classes)
+* Manually create an event from task
+* Store data externally (most likely in a json file)
 ### What has worked well so far with our design
 
 ### What we are struggling with
@@ -32,3 +78,6 @@ factory was unnecessary for our skeleton project. Ultimately We decided to store
 our calendar and todolist in a single use case, that other use cases can access. 
 This method is likely to change, especially once we begin storing data in the 
 data layer of our application.
+
+Currently, both **Task** and **TodoList** are tracking the completion status of tasks and we aren't sure yet which one 
+should be responsible for it.
