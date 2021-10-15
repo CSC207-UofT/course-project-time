@@ -5,16 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TaskGetter {
-    TodoList todoList;
+    private TodoList todoList;
 
-    // TODO add a way to access the elements of a todo list
+    public List<HashMap<String, String>> getTasks() {
+        List<HashMap<String, String>> task_data = new ArrayList<>();
+        for(Task task : todoList.getTasks()) {
+            task_data.add(getTask(task));
+        }
 
-    private HashMap<String, String> getTasks(Task task)
-    {
-        String task_name = task.getTaskName();
-        HashMap<String, String> task_data = new HashMap<>();
-        task_data.put("name", task_name);
         return task_data;
+    }
 
+    private HashMap<String, String> getTask(Task task)
+    {
+        HashMap<String, String> task_data = new HashMap<>();
+        task_data.put("name", task.getTaskName());
+        task_data.put("deadline", task.getDeadline().toString());
+
+        return task_data;
     }
 }
