@@ -19,12 +19,12 @@ public class TaskToEventManual implements TaskToEvent {
      * @return an Event scheduled at a user suggested time
      */
     @Override
-    public Event createEventFromTask(Task task, Calendar calendar) {
+    public Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler) {
         LocalDateTime userSuggestedTime = getUserSuggestedTime();
-        boolean validTime = calendar.checkAvailability(userSuggestedTime);
+        boolean validTime = eventScheduler.checkAvailability(userSuggestedTime, calendar, task.getTimeNeeded());
         while (!validTime) {
             userSuggestedTime = getUserSuggestedTime();
-            validTime = calendar.checkAvailability(userSuggestedTime);
+            validTime = eventScheduler.checkAvailability(userSuggestedTime, calendar, task.getTimeNeeded());
         }
         return new Event(task, userSuggestedTime, userSuggestedTime.toLocalTime().plus(task.getTimeNeeded()));
     }
