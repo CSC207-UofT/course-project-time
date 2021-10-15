@@ -27,8 +27,7 @@ public class TaskToEventAuto implements TaskToEvent {
             suggestedTimes.add(availableTime);
         }
 
-        Event event = new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded()));
-        return event;
+        return new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded()));
     }
 
     /**

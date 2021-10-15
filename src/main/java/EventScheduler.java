@@ -18,7 +18,7 @@ public class EventScheduler {
         this.gapFinder = gapFinder;
     }
 
-    public void addEvents(Event event){
+    public void addEvent(Event event){
         this.eventList.add(event);
     }
 
@@ -27,7 +27,7 @@ public class EventScheduler {
      * @param event event to be removed
      * @return if the event has been removed
      */
-    public boolean removeEvents(Event event){
+    public boolean removeEvent(Event event){
         if (this.eventList.contains(event)) {
             this.eventList.remove(event);
             return true;
@@ -48,10 +48,10 @@ public class EventScheduler {
     }
 
     /**
-     * Converts a todoList of tasks into events and adds them to the eventList
+     * Converts the uncompleted tasks in a todoList into events and adds them to the eventList
      * @param todoList  the todoList of tasks to be converted
      */
-    public void toDoListToEvents(TodoList todoList){
+    public void uncompletedTasksToEvents(TodoList todoList){
         for(Task task: todoList.getUncompletedList()) {
             eventList.add(converter.createEventFromTask(task, getCalendar(), this));
         }
