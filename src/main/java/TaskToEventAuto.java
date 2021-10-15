@@ -14,10 +14,11 @@ public class TaskToEventAuto implements TaskToEvent {
      */
     @Override
     public Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler) {
-        // if we have different schedules then the available time we get from for example the school schedule might be scheduled time in the family schedule
-        // potentially add a tag to events that will store the "schedule"
 
         List<LocalDateTime> suggestedTimes = new ArrayList<>();
+        if (task.getTimeNeeded() == null) {
+            //TODO prompt user with something like "input time needed:"
+        }
         LocalDateTime availableTime = eventScheduler.getAvailableTime(suggestedTimes, task.getTimeNeeded(), calendar);
         boolean scheduled = confirmTimeWithUser(availableTime);
 

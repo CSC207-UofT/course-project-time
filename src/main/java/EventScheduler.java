@@ -7,43 +7,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventScheduler {
-    private ArrayList<Event> eventlst;
+    private ArrayList<Event> eventList;
     private TaskToEvent converter;
+    private TodoList todoList;
     private GapFinder gapFinder;
 
     public EventScheduler(TaskToEvent obj, GapFinder gapFinder){
-        this.eventlst = new ArrayList<>();
+        this.eventList = new ArrayList<>();
         this.converter = obj;
         this.gapFinder = gapFinder;
     }
 
     public void addEvents(Event event){
-        this.eventlst.add(event);
+        this.eventList.add(event);
     }
 
-    public void removeEvents(Event event){
-        this.eventlst.remove(event);
+    public boolean removeEvents(Event event){
+        if (this.eventList.contains(event)) {
+            this.eventList.remove(event);
+            return true;
+        }
+        return false;
     }
 
-    /**  IS THIS NECESSARY????????????????
     public void addTaskToTodoList(){
-        for(Event evt: this.eventlst){
-            this.todolst.addTask(evt.getTask());
+        for(Event evt: this.eventList){
+            this.todoList.addTask(evt.getTask());
         }
 
     }
-     **/
 
     public void toDoListToEvents(TodoList toDoList){
         for(Task task: toDoList.getUncompletedTasks()) {
-            eventlst.add(converter.createEventFromTask(task, getCalendar(), this));
+            eventList.add(converter.createEventFromTask(task, getCalendar(), this));
         }
     }
 
     public Calendar getCalendar(){
-        Event[] calendarEvent = new Event[this.eventlst.size()];
+        Event[] calendarEvent = new Event[this.eventList.size()];
         for(int i = 0; i < calendarEvent.length; i++){
-            calendarEvent[i] = this.eventlst.get(i);
+            calendarEvent[i] = this.eventList.get(i);
         }
         return new Calendar("calendar", calendarEvent);
     }
@@ -77,16 +80,21 @@ public class EventScheduler {
     /**
      * @param targetTime    the time to check availability for
      * @param calendar      the calendar that has all the previously created events
+     * @param timeNeeded    the amount of time to check availability for
      *
      * @return whether the targetTime overlaps with any of the current events.
      */
-    public boolean checkAvailability(LocalDateTime targetTime, Calendar calendar) {
+    public boolean checkAvailability(LocalDateTime targetTime, Calendar calendar, Duration timeNeeded) {
         for (Event evt : calendar.getEvents()) {
             for (LocalDate date : evt.getDates()) {
                 LocalDateTime startTime = evt.getStartTime().atDate(date);
                 LocalDateTime endTime = evt.getEndTime().atDate(date);
-                if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime))
+                if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime)) {
                     return false;
+                }
+                else if (targetTime.plus(timeNeeded).isAfter(startTime)) {
+                    return false;
+                }
             }
         }
         return true;
