@@ -1,8 +1,6 @@
 package main.java;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 public class TaskToEventManual implements TaskToEvent {
 
