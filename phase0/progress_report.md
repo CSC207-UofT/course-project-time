@@ -9,16 +9,17 @@ an events to help users organize their time.
 ### CRC model
 Our CRC model consists of: 
 
-3 Entity classes: `Task`, `Event` and `Calendar`.
+**3 Entity** classes: `Task`, `Event` and `Calendar`.
 
-8 Use Case classes: `TodoList`, `EventScheduler`, `EventGetter`, `TaskGetter`, `EventAdder`, `TaskAdder`, 
+**8 Use Case** classes: `TodoList`, `EventScheduler`, `EventGetter`, `TaskGetter`, `EventAdder`, `TaskAdder`, 
 `TaskToEventManual` and `TaskToEventAuto`
 
-4 Controllers: `MainController`, `EventController`, `TaskController`, `TaskEventConsoleController`
+**4 Controllers**: `MainController`, `EventController`, `TaskController`, `TaskEventConsoleController`
 
-User Interface: `ApplicationDriver`
 
-4 interfaces: `GetEvent`, `TaskToEvent`, `TaskEventAutoController`, `TaskEventManualController`
+**4 interfaces**: `GetEvent`, `TaskToEvent`, `TaskEventAutoController`, `TaskEventManualController`
+
+**User Interface**: `ApplicationDriver`
 
 
 
@@ -27,6 +28,7 @@ The user will be able to:
 * View their events
 * View all tasks
 * Create a new task
+* Create a new event
 * Auto-schedule a task (turns it into an event)
 * Manually schedule a task (turns it into an event)
 
@@ -45,6 +47,9 @@ CRC cards were created by the whole team.
 #### Craig
 
 #### Junru
+* Created `Task` and `Event` classes
+* Created `TaskAdder` and `EventAdder` classes
+* Added and refactored methods in other classes relating to the above four classes
 
 #### Valerie
 
