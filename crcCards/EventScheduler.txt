@@ -1,0 +1,11 @@
+Class: EventScheduler
+
+Responsibilities:
+    - Methods that add/remove events that the calendar will contain
+    - Convert a TodoList into a list of events
+    - Create a calendar using the added events
+
+Collaborators:
+    - Calendar
+    - Task
+    - TodoList
