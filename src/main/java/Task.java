@@ -1,5 +1,6 @@
 package main.java;
 
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,6 +25,19 @@ public class Task {
      */
     public Task(String taskName) {
         this(taskName, null, null);
+    }
+
+    /**
+     * Construct a task with task name and time needed
+     * @param taskName name of the task
+     * @param timeNeeded time needed to complete the task
+     */
+    public Task(String taskName, Duration timeNeeded) {
+        this.taskName = taskName;
+        this.completed = false;
+        this.timeNeeded = timeNeeded;
+        this.deadline = null;
+        this.subTasks = new ArrayList<String>();
     }
 
     /**
