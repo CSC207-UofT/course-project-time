@@ -1,5 +1,6 @@
 package main.java;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -48,7 +49,8 @@ public class Event {
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
-        this.task = new Task(eventName);
+        Duration timeNeeded = Duration.between(startTime, endTime);
+        this.task = new Task(eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
     }
