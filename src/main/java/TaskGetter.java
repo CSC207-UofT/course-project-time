@@ -7,6 +7,11 @@ import java.util.List;
 public class TaskGetter {
     private TodoList todoList;
 
+    public TaskGetter(ManageTodoData data)
+    {
+        this.todoList = data.getTodoList();
+    }
+
     public List<HashMap<String, String>> getTasks() {
         List<HashMap<String, String>> task_data = new ArrayList<>();
         for(Task task : todoList.getTasks()) {

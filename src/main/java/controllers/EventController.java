@@ -1,17 +1,14 @@
 package main.java.controllers;
 
 import main.java.*;
-import main.java.Calendar;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
 public class EventController {
 
-    private static Calendar calendar = new Calendar("calendar");
-    private static final GetEvent eventGetter = new EventGetter(calendar);
+    private ManageCalendarData data = new ManageCalendarData();
     // TODO: need an eventAdder
 
     /**
@@ -19,6 +16,7 @@ public class EventController {
      * and their corresponding values
      */
     public List<HashMap<String, String>> getEvents() {
+        GetEvent eventGetter = new EventGetter(data);
         return eventGetter.getEvents();
     }
 
