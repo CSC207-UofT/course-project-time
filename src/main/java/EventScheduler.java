@@ -22,6 +22,11 @@ public class EventScheduler {
         this.eventList.add(event);
     }
 
+    /**
+     *
+     * @param event event to be removed
+     * @return      return if the event has been removed
+     */
     public boolean removeEvents(Event event){
         if (this.eventList.contains(event)) {
             this.eventList.remove(event);
@@ -34,15 +39,22 @@ public class EventScheduler {
         for(Event evt: this.eventList){
             this.todoList.addTask(evt.getTask());
         }
-
     }
 
-    public void toDoListToEvents(TodoList toDoList){
-        for(Task task: toDoList.getUncompletedTasks()) {
+    /**
+     * Converts a todoList of tasks into events and adds them to the eventList
+     * @param todoList  the todoList of tasks to be converted
+     */
+    public void toDoListToEvents(TodoList todoList){
+        for(Task task: todoList.getUncompletedTasks()) {
             eventList.add(converter.createEventFromTask(task, getCalendar(), this));
         }
     }
 
+    /**
+     *
+     * @return a calendar with the current list of events
+     */
     public Calendar getCalendar(){
         Event[] calendarEvent = new Event[this.eventList.size()];
         for(int i = 0; i < calendarEvent.length; i++){
