@@ -46,4 +46,10 @@ public class TodoList{
         }
     }
 
+    public List<Task> getUncompletedList(){
+        return this.uncompletedList;
+    }
+
+    public List<Task> getCompletedList() { return this.completedList; }
+
 }

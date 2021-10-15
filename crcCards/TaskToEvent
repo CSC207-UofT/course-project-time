@@ -6,3 +6,4 @@ Responsibility:
 Collaborator:
     - Task
     - Event
+    - EventScheduler

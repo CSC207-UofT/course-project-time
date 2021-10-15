@@ -2,8 +2,10 @@ Class name: TaskToEventAuto
 Implements TaskToEvent
 
 Responsibilities:
-    - Uses the available times from the Schedule to convert a Task to Event
+    - Finds an available time in the Calendar using EventScheduler and confirms it with the user
+    - Converts the Task into an Event with the available time
+
 Collaborators:
-    - Calendar
     - Task
     - Event
+    - EventScheduler

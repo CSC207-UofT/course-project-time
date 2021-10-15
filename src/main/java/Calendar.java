@@ -14,8 +14,7 @@ import java.util.List;
 public class Calendar {
 
     private final String name;
-    private final Event[] events;  // todo change to list
-    private final GapFinder gapFinder;
+    private final Event[] events;
     private final TodoList todoList;
 
     public Calendar(String name) {
@@ -23,13 +22,8 @@ public class Calendar {
     }
 
     public Calendar(String name, Event[] events) {
-        this(name, events, new SortAndSearch());
-    }
-
-    public Calendar(String name, Event[] events, GapFinder gapFinder) {
         this.name = name;
         this.events = events;
-        this.gapFinder = gapFinder;
         this.todoList = new TodoList();
 
         for(Event event : this.events)
@@ -39,47 +33,6 @@ public class Calendar {
         }
     }
 
-    /**
-     * Finds a gap of time for a task with the given duration.
-     * The search heuristic is defined by the GapFinder when constructed.
-     *
-     * @param timesToIgnore times to ignore even if they are valid time slots.
-     * @param taskDuration the amount of available time to look for.
-     *
-     * @return a time available in the calendar for at least the given duration
-     */
-    public LocalDateTime getAvailableTime(List<LocalDateTime> timesToIgnore, Duration taskDuration) {
-        List<TimeFrame> timeFramesToIgnore = new ArrayList<>();
-
-        for (LocalDateTime time : timesToIgnore)
-            timeFramesToIgnore.add(new TimeFrame(time, time.plus(taskDuration)));
-        for (Event evt : events) {
-            for (LocalDate date : evt.getDates()) {
-                LocalDateTime startTime = evt.getStartTime().atDate(date);
-                LocalDateTime endTime = evt.getEndTime().atDate(date);
-                timeFramesToIgnore.add(new TimeFrame(startTime, endTime));
-            }
-        }
-
-        return gapFinder.findTimeGap(timeFramesToIgnore, taskDuration);
-    }
-
-    /**
-     * @param targetTime the time to check availability for
-     *
-     * @return whether the targetTime overlaps with any of the current events.
-     */
-    public boolean checkAvailability(LocalDateTime targetTime) {
-        for (Event evt : events) {
-            for (LocalDate date : evt.getDates()) {
-                LocalDateTime startTime = evt.getStartTime().atDate(date);
-                LocalDateTime endTime = evt.getEndTime().atDate(date);
-                if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime))
-                    return false;
-            }
-        }
-        return true;
-    }
 
     /**
      * @return the name of this calendar. The name has no functional purpose.
