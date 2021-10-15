@@ -35,9 +35,15 @@ public class EventScheduler {
         return false;
     }
 
+    /**
+     * Adding the tasks within the eventList to the todoList
+     */
     public void addTaskToTodoList(){
         for(Event evt: this.eventList){
-            this.todoList.addTask(evt.getTask());
+            if (!this.todoList.getUncompletedList().contains(evt.getTask()) &&
+                    !this.todoList.getCompletedList().contains(evt.getTask())) {
+                this.todoList.addTask(evt.getTask());
+            }
         }
     }
 
@@ -46,7 +52,7 @@ public class EventScheduler {
      * @param todoList  the todoList of tasks to be converted
      */
     public void toDoListToEvents(TodoList todoList){
-        for(Task task: todoList.getUncompletedTasks()) {
+        for(Task task: todoList.getUncompletedList()) {
             eventList.add(converter.createEventFromTask(task, getCalendar(), this));
         }
     }
