@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 public class TaskToEventManual implements TaskToEvent {
 
+    private TaskEventManualController timeAsker;
+
+    public TaskToEventManual(TaskEventManualController timeAsker) {
+        this.timeAsker = timeAsker;
+    }
+
     /**
      *
      * @param task      the task that needs to be converted into an event
@@ -28,13 +34,6 @@ public class TaskToEventManual implements TaskToEvent {
      * @return the time suggested by the user as a LocalDateTime instance
      */
     private LocalDateTime getUserSuggestedTime() {
-        String format = "yyyy-MM-dd HH:mm";
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Input time for task in (" + format + ") (24 hour time):");
-        String response = scanner.next(); //TODO exception handling
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        LocalDateTime dateTime = LocalDateTime.parse(response, formatter);
-        scanner.close();
-        return dateTime;
+        return timeAsker.getUserSuggestedTime();
     }
 }
