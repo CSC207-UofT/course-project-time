@@ -14,9 +14,6 @@ public class TaskToEventManual implements TaskToEvent {
      */
     @Override
     public Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler) {
-        if (task.getTimeNeeded() == null) {
-            //TODO prompt user with something like "input time needed:"
-        }
         LocalDateTime userSuggestedTime = getUserSuggestedTime();
         boolean validTime = eventScheduler.checkAvailability(userSuggestedTime, calendar, task.getTimeNeeded());
         while (!validTime) {

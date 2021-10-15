@@ -16,9 +16,6 @@ public class TaskToEventAuto implements TaskToEvent {
     public Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler) {
 
         List<LocalDateTime> suggestedTimes = new ArrayList<>();
-        if (task.getTimeNeeded() == null) {
-            //TODO prompt user with something like "input time needed:"
-        }
         LocalDateTime availableTime = eventScheduler.getAvailableTime(suggestedTimes, task.getTimeNeeded(), calendar);
         boolean scheduled = confirmTimeWithUser(availableTime);
 
