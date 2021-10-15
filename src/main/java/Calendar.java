@@ -1,13 +1,5 @@
 package main.java;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-
 /**
  * Immutable Entity storing many events and some methods to query them.
  */
