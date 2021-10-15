@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -80,8 +81,20 @@ public class Event {
         }
     }
 
+    /**
+     * Add a repeated date to dates
+     * @param date the repeated date
+     */
     public void addRepeatedDate(LocalDate date) {
         this.dates.add(date);
+    }
+
+    /**
+     * Add a list of repeated dates to dates
+     * @param dates list of repeated dates
+     */
+    public void addRepeatedDates(List<LocalDate> dates) {
+        this.dates.addAll(dates);
     }
 
     public String getEventName() {
