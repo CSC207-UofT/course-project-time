@@ -9,7 +9,6 @@ import java.util.List;
 public class EventScheduler {
     private ArrayList<Event> eventList;
     private TaskToEvent converter;
-    private TodoList todoList;
     private GapFinder gapFinder;
 
     public EventScheduler(TaskToEvent obj, GapFinder gapFinder){
@@ -36,24 +35,19 @@ public class EventScheduler {
     }
 
     /**
-     * Adding the tasks within the eventList to the todoList
-     */
-    public void addTaskToTodoList(){
-        for(Event evt: this.eventList){
-            if (!this.todoList.getUncompletedList().contains(evt.getTask()) &&
-                    !this.todoList.getCompletedList().contains(evt.getTask())) {
-                this.todoList.addTask(evt.getTask());
-            }
-        }
-    }
-
-    /**
-     * Converts the uncompleted tasks in a todoList into events and adds them to the eventList
+     * Converts the uncompleted tasks in a todoList into events and adds them to the eventList if the task has not
+     * already been added
      * @param todoList  the todoList of tasks to be converted
      */
     public void uncompletedTasksToEvents(TodoList todoList){
+        List<Task> alreadyConvertedTasks = new ArrayList<>() {};
+        for (Event event : eventList) {
+            alreadyConvertedTasks.add(event.getTask());
+        }
         for(Task task: todoList.getUncompletedList()) {
-            eventList.add(converter.createEventFromTask(task, getCalendar(), this));
+            if (!alreadyConvertedTasks.contains(task)) {
+                eventList.add(converter.createEventFromTask(task, getCalendar(), this));
+            }
         }
     }
 
