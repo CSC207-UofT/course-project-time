@@ -41,4 +41,8 @@ public class TodoList{
         }
     }
 
+    public boolean isTaskinList(Task task){
+        return completedList.contains(task) || uncompletedList.contains(task);
+    }
+
 }
