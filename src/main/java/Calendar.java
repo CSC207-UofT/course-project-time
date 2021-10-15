@@ -15,17 +15,11 @@ public class Calendar {
 
     private final String name;
     private final Event[] events;
-    private final GapFinder gapFinder;
     private final TodoList todoList;
 
     public Calendar(String name, Event[] events) {
-        this(name, events, new SortAndSearch());
-    }
-
-    public Calendar(String name, Event[] events, GapFinder gapFinder) {
         this.name = name;
         this.events = events;
-        this.gapFinder = gapFinder;
         this.todoList = new TodoList();
 
         for(Event event : this.events)

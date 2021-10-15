@@ -12,7 +12,7 @@ public class EventScheduler {
     private GapFinder gapFinder;
 
     public EventScheduler(TaskToEvent obj, GapFinder gapFinder){
-        this.eventlst = new ArrayList<Event>();
+        this.eventlst = new ArrayList<>();
         this.converter = obj;
         this.gapFinder = gapFinder;
     }
