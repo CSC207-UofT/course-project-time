@@ -25,7 +25,7 @@ public class EventScheduler {
     /**
      *
      * @param event event to be removed
-     * @return      return if the event has been removed
+     * @return if the event has been removed
      */
     public boolean removeEvents(Event event){
         if (this.eventList.contains(event)) {
