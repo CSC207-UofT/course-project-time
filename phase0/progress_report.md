@@ -62,6 +62,9 @@ CRC cards were created by the whole team.
 #### Tahseen
 
 #### Jenci
+* Created `TodoList` class
+* Created `EventController`, `MainController`, and `TaskController` classes
+* Created `ApplicationDriver` and made the CLI ready to use
 
 #### Future Plans
 * creating a notification system that will notify the user when their task is about to start
