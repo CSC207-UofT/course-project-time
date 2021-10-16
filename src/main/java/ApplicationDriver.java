@@ -61,9 +61,9 @@ public class ApplicationDriver {
                 List<HashMap<String, String>> allEventsData = controller.getEvents();
                 for (HashMap<String, String> eventData : allEventsData) {
                     String output = "Event: " + "event name = "
-                                        + eventData.get("name")
-                                        + "start time = " + eventData.get("start")
-                                        + "end time = " + eventData.get("end");
+                                        + eventData.get("name") + "\n"
+                                        + "start time = " + eventData.get("start") + "\n"
+                                        + "end time = " + eventData.get("end") + "\n";
                     System.out.println(output);
                 }
                 break;

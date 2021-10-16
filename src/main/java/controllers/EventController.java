@@ -31,7 +31,7 @@ public class EventController {
         {
             eventAdder.addEvent(eventName, LocalDateTime.of(dates, startTime), LocalDateTime.of(dates, endTime), data);
         }
-        return false;  // todo add body
+        return true;  // todo add body
     }
 
 
