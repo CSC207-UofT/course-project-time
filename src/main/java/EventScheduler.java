@@ -3,6 +3,7 @@ package main.java;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,28 @@ public class EventScheduler {
         this.gapFinder = gapFinder;
     }
 
-    public void addEvent(Event event){
+
+    /**
+     * @param event the event that will be added
+     * @return false if the event has conflict with the calendar;
+     *         return true if the event is added successfully
+     */
+    public boolean addEvent(Event event){
+        LocalTime startTime = event.getStartTime();
+        Calendar calendar = this.getCalendar();
+        Duration timeNeeded = event.getTask().getTimeNeeded();
+        // check whether the event has conflict with the calendar
+        for (LocalDate date : event.getDates()) {
+            LocalDateTime targetTime = LocalDateTime.of(date, startTime);
+            if (!this.checkAvailability(targetTime, calendar, timeNeeded)) {
+                // the event has conflict with the calendar
+                return false;
+            }
+        }
+        // the event has no conflict with the calendar
+        // add the event to the eventList and return true
         this.eventList.add(event);
+        return true;
     }
 
     /**
