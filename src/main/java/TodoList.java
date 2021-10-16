@@ -46,6 +46,10 @@ public class TodoList{
         }
     }
 
+    public boolean isTaskInList(Task task){
+        return completedList.contains(task) || uncompletedList.contains(task);
+    }
+
     public List<Task> getUncompletedList(){
         return this.uncompletedList;
     }

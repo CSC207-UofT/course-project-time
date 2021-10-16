@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class ApplicationDriver {
@@ -105,10 +106,23 @@ public class ApplicationDriver {
      */
     private boolean confirmTimeWithUser(LocalDateTime time) {
         boolean scheduled;
+        boolean run = true;
+        int response = 0;
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Suggested time: " + time);
-        System.out.println("Type 0 for yes, 1 for no");
-        int response = scanner.nextInt(); //TODO exception handling
+
+        do {
+            try {
+                System.out.println("Suggested time: " + time);
+                System.out.println("Type 0 for yes, 1 for no");
+                response = scanner.nextInt();
+                run = false;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input, please try again");
+            }
+
+        }while(run);
+
         scheduled = response == 0;
         scanner.close();
         return scheduled;
@@ -118,29 +132,72 @@ public class ApplicationDriver {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter event name: ");
         String eventName = input.nextLine();
+        boolean run = true;
 
         String timeFormat = "HH:mm";
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormat);
 
-        System.out.print("Enter start time for event in (" + timeFormat + ") (24 hour time): ");
-        String startTimeResponse = input.next(); // TODO exception handling
-        LocalTime eventStartTime = LocalTime.parse(startTimeResponse, timeFormatter);
+        LocalTime eventStartTime = null;
+        LocalTime eventEndTime = null;
+        LocalDate eventDate = null;
+        HashSet<String> eventTags = null;
 
-        System.out.print("Enter end time for event in (" + timeFormat + ") (24 hour time): ");
-        String endTimeResponse = input.next(); // todo exception handling
-        LocalTime eventEndTime = LocalTime.parse(endTimeResponse, timeFormatter);
+        do {
+            try {
+                System.out.print("Enter start time for event in (" + timeFormat + ") (24 hour time): ");
+                String startTimeResponse = input.next();
+                eventStartTime = LocalTime.parse(startTimeResponse, timeFormatter);
 
-        String dateFormat = "yyyy-MM-dd";
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
+                run = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input, please try again");
+            }
+        }while(run);
 
-        System.out.print("Enter date for event in (" + dateFormat + ")");
-        String dateResponse = input.next();  // todo exception handling
-        LocalDate eventDate = LocalDate.parse(dateResponse, dateFormatter);
+        run = true;
+        do {
+            try {
+                System.out.print("Enter end time for event in (" + timeFormat + ") (24 hour time): ");
+                String endTimeResponse = input.next();
+                eventEndTime = LocalTime.parse(endTimeResponse, timeFormatter);
 
-        System.out.print("Enter tags for event, separated by space: ");
-        String tagResponse = input.nextLine(); // todo exception handling
-        String[] tagArray = tagResponse.split(" ");
-        HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
+                run = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input, please try again");
+            }
+        }while(run);
+
+
+        run = true;
+        do {
+            try {
+                String dateFormat = "yyyy-MM-dd";
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
+
+                System.out.print("Enter date for event in (" + dateFormat + ")");
+                String dateResponse = input.next();
+                eventDate = LocalDate.parse(dateResponse, dateFormatter);
+
+                run = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input, please try again");
+            }
+        }while(run);
+
+
+        run = true;
+        do {
+            try {
+                System.out.print("Enter tags for event, separated by space: ");
+                String tagResponse = input.nextLine();
+                String[] tagArray = tagResponse.split(" ");
+                eventTags = new HashSet<>(Arrays.asList(tagArray));
+
+                run = false;
+            } catch (Exception e) {
+                System.out.println("Invalid input, please try again");
+            }
+        }while(run);
 
         return controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
     }
@@ -149,19 +206,39 @@ public class ApplicationDriver {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter task name: ");
         String taskName = input.nextLine();
+        Duration taskDuration = null;
+        LocalDateTime taskDeadline = null;
 
-        System.out.print("Enter approximate duration needed in minutes");
-        int durationResponse = Integer.parseInt(input.nextLine());
-        Duration taskDuration = Duration.ofMinutes(durationResponse);
+        boolean run = true;
 
-        String format = "yyyy/MM/dd-HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        System.out.println("Input deadline for task in (" + format + ") (24 hour time):");
-        String deadlineResponse = input.nextLine(); // TODO exception handling
-        LocalDateTime taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
+        do {
+            try{
+                System.out.print("Enter approximate duration needed in minutes");
+                int durationResponse = Integer.parseInt(input.nextLine());
+                taskDuration = Duration.ofMinutes(durationResponse);
+                run = false;
+            } catch (Exception e) {
+                System.out.println("Invalid input, please try again");
+            }
+        }while(run);
+
+        run = true;
+        do {
+            try{
+                String format = "yyyy/MM/dd-HH:mm";
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+                System.out.println("Input deadline for task in (" + format + ") (24 hour time):");
+                String deadlineResponse = input.nextLine();
+                taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
+                run = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid input, please try again");
+            }
+        }while(run);
+
 
         System.out.print("Enter any subtasks for task, separated by a space: ");
-        String subtaskResponse = input.nextLine();  // todo exception handling
+        String subtaskResponse = input.nextLine();
 
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));

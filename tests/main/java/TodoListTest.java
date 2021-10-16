@@ -23,6 +23,6 @@ class TodoListTest {
     @Test
     void addTask() {
         todoList.addTask(task);
-        assertTrue(todoList.isTaskinList(task));
+        assertTrue(todoList.isTaskInList(task));
     }
 }
