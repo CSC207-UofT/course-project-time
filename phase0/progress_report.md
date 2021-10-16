@@ -44,9 +44,9 @@ CRC cards were created by the whole team.
 
 #### Alexander
 * Created basic command line interface
-* Created 'EventGetter' and 'TaskGetter' classes
-* Created 'AccessCalendarData' and 'AccessTodoData' classes
-* Refactored EventScheduler to store calendar data in AccessCalendarData'
+* Created `EventGetter` and `TaskGetter` classes
+* Created `AccessCalendarData` and `AccessTodoData` classes
+* Refactored `EventScheduler` to store calendar data in `AccessCalendarData`
 * Refactored use case classes to access data from the accessor use cases.
 
 
