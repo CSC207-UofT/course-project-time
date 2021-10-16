@@ -4,7 +4,7 @@
 This application help users manage their time and schedule by providing
 two main functionalities: a todo-list to store all the tasks and a calender 
 to store all events. The application also enables auto-scheduling of tasks
-an events to help users organize their time.
+an events to help users organize their time. Users can input tasks into the todo list, along with their deadline and anticipated duration. The user may also attach a time to the task, and place it in the calendar as an event. The program also offers to complete this process automatically. The process by which the 
 
 ### CRC model
 Our CRC model consists of: 
@@ -43,6 +43,12 @@ CRC cards were created by the whole team.
 
 
 #### Alexander
+* Created basic command line interface
+* Created 'EventGetter' and 'TaskGetter' classes
+* Created 'AccessCalendarData' and 'AccessTodoData' classes
+* Refactored EventScheduler to store calendar data in AccessCalendarData'
+* Refactored use case classes to access data from the accessor use cases.
+
 
 #### Craig
 
@@ -63,6 +69,8 @@ CRC cards were created by the whole team.
 classes)
 * Manually create an event from task
 * Store data externally (most likely in a json file)
+* Ability to save data to an ics file
+* Add a visual user interface
 ### What has worked well so far with our design
 
 ### What we are struggling with
