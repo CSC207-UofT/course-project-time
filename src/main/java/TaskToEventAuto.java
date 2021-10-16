@@ -2,9 +2,15 @@ package main.java;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class TaskToEventAuto implements TaskToEvent {
+
+    private TaskEventAutoController timeConfirmer;
+
+    public TaskToEventAuto(TaskEventAutoController timeConfirmer) {
+        this.timeConfirmer = timeConfirmer;
+    }
+
     /**
      *
      * @param task      the task that needs to be converted into an event
@@ -36,16 +42,7 @@ public class TaskToEventAuto implements TaskToEvent {
      * @return  a boolean indicating if the user agrees with the suggested time
      */
     private boolean confirmTimeWithUser(LocalDateTime time) {
-        boolean scheduled;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Suggested time: " + time);
-        System.out.println("Type 0 for yes, 1 for no");
-        int response = scanner.nextInt(); //TODO exception handling
-        System.out.println("Type 0 for yes, 1 for no");
-        response = scanner.nextInt();
-        scheduled = response == 0;
-        scanner.close();
-        return scheduled;
+        return timeConfirmer.confirmTimeWithUser(time);
     }
 }
 
