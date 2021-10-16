@@ -1,0 +1,11 @@
+Class: AccessCalendarData
+
+Responsibilities:
+    - Provide access to the calendar for other use cases
+    - Allow use cases to edit the calendar's events
+
+Collaborators:
+    - Calendar
+    - EventScheduler
+    - EventAdder
+    - EventGetter

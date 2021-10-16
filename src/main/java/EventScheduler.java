@@ -14,9 +14,9 @@ public class EventScheduler {
 //    private TaskToEvent converter;
     private GapFinder gapFinder;
 
-    public EventScheduler(GapFinder gapFinder){
+    public EventScheduler(){
 //        this.converter = obj;
-        this.gapFinder = gapFinder;
+        this.gapFinder = new SortAndSearch();
     }
 
 
@@ -24,14 +24,14 @@ public class EventScheduler {
      * @return false if the event has conflict with the calendar;
      *         return true if the event is added successfully
      */
-    public boolean isAvailable(LocalTime startTime, Duration timeNeeded, LocalDate date, ManageCalendarData calendarData) {
+    public boolean isAvailable(LocalTime startTime, Duration timeNeeded, LocalDate date, AccessCalendarData calendarData) {
         // check whether the event has conflict with the calendar
         LocalDateTime targetTime = LocalDateTime.of(date, startTime);
         return this.checkAvailability(targetTime, calendarData.getCalendar(), timeNeeded);
             // the event has conflict with the calendar
     }
 
-    public boolean isAvailableRepeated(LocalTime startTime, Duration timeNeeded, Set<LocalDate> dates, ManageCalendarData calendarData){
+    public boolean isAvailableRepeated(LocalTime startTime, Duration timeNeeded, Set<LocalDate> dates, AccessCalendarData calendarData){
         // check whether the event has conflict with the calendar
         for (LocalDate date : dates) {
             LocalDateTime targetTime = LocalDateTime.of(date, startTime);
@@ -48,7 +48,7 @@ public class EventScheduler {
      * Converts the uncompleted tasks in a todoList into events and adds them to the eventList if the task has not
      * already been added
      */
-    public void uncompletedTasksToEvents(ManageTodoData todoData, ManageCalendarData calendarData){
+    public void uncompletedTasksToEvents(AccessTodoData todoData, AccessCalendarData calendarData){
         List<Task> alreadyConvertedTasks = new ArrayList<>() {};
         for (Event event : eventList) {
             alreadyConvertedTasks.add(event.getTask());
@@ -58,8 +58,10 @@ public class EventScheduler {
             if (!alreadyConvertedTasks.contains(task)) {
 
                 // TODO implement this method, now that event scheduler doesn't store events
-//                Event new_event = new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded()));
-//                calendarData.addEvent(converter.createEventFromTask(task, calendarData.getCalendar(), this));
+                // Event new_event = new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded()));
+                // calendarData.addEvent(converter.createEventFromTask(task, calendarData.getCalendar(), this));
+
+
             }
         }
     }
@@ -125,7 +127,7 @@ interface GapFinder {
      *
      * @return a time of the given duration that does not overlap any of the times to ignore.
      */
-    public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
+    LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
 }
 
 class TimeFrame implements Comparable<TimeFrame> {

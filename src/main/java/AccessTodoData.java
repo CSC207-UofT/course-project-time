@@ -1,12 +1,12 @@
 package main.java;
 
-public class ManageTodoData {
+public class AccessTodoData {
     private Calendar calendar;
     private TodoList todoList;
     /*
     Initalizes the cTodolist for the project, with a sample task
      */
-    public ManageTodoData()
+    public AccessTodoData()
     {
         todoList = new TodoList();
         todoList.addTask(new Task("Finish CSC207 Phase 0"));

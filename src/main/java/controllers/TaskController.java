@@ -1,17 +1,16 @@
 package main.java.controllers;
 
-import main.java.ManageTodoData;
+import main.java.AccessTodoData;
 import main.java.TaskAdder;
 import main.java.TaskGetter;
 import java.time.LocalDateTime;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class TaskController {
-    private ManageTodoData todoData = new ManageTodoData();
+    private AccessTodoData todoData = new AccessTodoData();
     private TaskGetter taskGetter = new TaskGetter();
     private TaskAdder taskAdder = new TaskAdder();
 

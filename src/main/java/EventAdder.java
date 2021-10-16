@@ -18,7 +18,7 @@ public class EventAdder {
      */
     public boolean addEvent(String eventName, LocalDateTime startTime,
                             LocalDateTime endTime,
-                            ManageCalendarData calendarData) {
+                            AccessCalendarData calendarData) {
         Duration timeNeeded = Duration.between(startTime, endTime);
         Task task = new Task(eventName, timeNeeded);
         Event event = new Event(task, startTime, endTime.toLocalTime());

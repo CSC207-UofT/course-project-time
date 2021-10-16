@@ -39,17 +39,3 @@ public class Calendar {
     public ArrayList<Event> getEvents() { return events; }
 
 }
-
-class TimeFrame implements Comparable<TimeFrame> {
-    public final LocalDateTime start;
-    public final LocalDateTime end;
-    public TimeFrame(LocalDateTime start, LocalDateTime end) {
-         this.start = start;
-         this.end = end;
-    }
-    @Override
-    public int compareTo(TimeFrame o) {
-        return this.start.compareTo(o.start);
-    }
-}
-

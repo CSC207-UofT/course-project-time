@@ -3,7 +3,7 @@ package main.java;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageCalendarData {
+public class AccessCalendarData {
 
     private Calendar calendar;
     private TodoList todoList;
@@ -12,7 +12,7 @@ public class ManageCalendarData {
     Initalizes the calendar and Todolist for the project,
     and loads a sample sleep schedule.
      */
-    public ManageCalendarData()
+    public AccessCalendarData()
     {
         // A sample sleep schedule could be added here
         ArrayList<Event> events = new ArrayList<>();

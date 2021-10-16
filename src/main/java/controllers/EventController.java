@@ -10,28 +10,27 @@ import java.util.*;
 
 public class EventController {
 
-    private ManageCalendarData data = new ManageCalendarData();
+    private AccessCalendarData calendarData = new AccessCalendarData();
     private EventAdder eventAdder = new EventAdder();
-    private GapFinder gapFinder = new SortAndSearch();
-    private EventScheduler eventScheduler = new EventScheduler(gapFinder);
+    private EventScheduler eventScheduler = new EventScheduler();
 
     /**
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
     public List<HashMap<String, String>> getEvents() {
-        GetEvent eventGetter = new EventGetter(data);
+        GetEvent eventGetter = new EventGetter(calendarData);
         return eventGetter.getEvents();
     }
 
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate dates) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, data))
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData))
         {
-            eventAdder.addEvent(eventName, LocalDateTime.of(dates, startTime), LocalDateTime.of(dates, endTime), data);
+            eventAdder.addEvent(eventName, LocalDateTime.of(dates, startTime), LocalDateTime.of(dates, endTime), calendarData);
         }
-        return true;  // todo add body
+        return true;
     }
 
 
