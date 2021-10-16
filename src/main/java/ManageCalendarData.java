@@ -15,7 +15,7 @@ public class ManageCalendarData {
     public ManageCalendarData()
     {
         // A sample sleep schedule could be added here
-        Event[] events = new Event[0];
+        ArrayList<Event> events = new ArrayList<>();
         calendar = new Calendar("My Calendar", events);
         todoList = new TodoList();
     }
@@ -23,6 +23,16 @@ public class ManageCalendarData {
     public Calendar getCalendar() {
         return calendar;
     }
+
+    /**
+     *
+     * @param event an event to add to the calendar
+     */
+    public void addEvent(Event event)
+    {
+        calendar.getEvents().add(event);
+    }
+
 
     public TodoList getTodoList() {
         return todoList;

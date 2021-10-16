@@ -98,6 +98,22 @@ public class ApplicationDriver {
         return true;
     }
 
+    /**
+     * prints the time to the user and receives user input
+     * @param time an available time for the event
+     * @return  a boolean indicating if the user agrees with the suggested time
+     */
+    private boolean confirmTimeWithUser(LocalDateTime time) {
+        boolean scheduled;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Suggested time: " + time);
+        System.out.println("Type 0 for yes, 1 for no");
+        int response = scanner.nextInt(); //TODO exception handling
+        scheduled = response == 0;
+        scanner.close();
+        return scheduled;
+    }
+
     private static boolean handleCreateEvent() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter event name: ");
@@ -135,13 +151,13 @@ public class ApplicationDriver {
         String taskName = input.nextLine();
 
         System.out.print("Enter approximate duration needed in minutes");
-        Integer durationResponse = input.nextInt();
+        int durationResponse = Integer.parseInt(input.nextLine());
         Duration taskDuration = Duration.ofMinutes(durationResponse);
 
         String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         System.out.println("Input deadline for task in (" + format + ") (24 hour time):");
-        String deadlineResponse = input.next(); // TODO exception handling
+        String deadlineResponse = input.nextLine(); // TODO exception handling
         LocalDateTime taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
 
         System.out.print("Enter any subtasks for task, separated by a space: ");

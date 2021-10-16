@@ -1,7 +1,6 @@
 package main.java;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +13,10 @@ import java.util.List;
 public class Calendar {
 
     private final String name;
-    private final Event[] events;
-    private final TodoList todoList;
+    private ArrayList<Event> events;
+    private TodoList todoList;
 
-    public Calendar(String name, Event[] events) {
+    public Calendar(String name, ArrayList<Event> events) {
         this.name = name;
         this.events = events;
         this.todoList = new TodoList();
@@ -37,21 +36,8 @@ public class Calendar {
         return name;
     }
 
-    public Event[] getEvents() { return events.clone(); }
+    public ArrayList<Event> getEvents() { return events; }
 
-}
-
-interface GapFinder {
-
-    /**
-     * Find a gap of time for the given duration.
-     *
-     * @param timeFramesToIgnore the time frames to ignore when searching, even if they are valid.
-     * @param taskDuration the duration of time to search for.
-     *
-     * @return a time of the given duration that does not overlap any of the times to ignore.
-     */
-    public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
 }
 
 class TimeFrame implements Comparable<TimeFrame> {
@@ -67,20 +53,3 @@ class TimeFrame implements Comparable<TimeFrame> {
     }
 }
 
-/**
- * Sorts times to search for the earliest available gap.
- * Assumes that times do not overlap.
- */
-class SortAndSearch implements GapFinder {
-    public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration) {
-        Collections.sort(timeFramesToIgnore);
-        TimeFrame first, second = null;
-        for (TimeFrame t : timeFramesToIgnore) {
-            first = second;
-            second = t;
-            if (first != null && first.end.plus(taskDuration).isBefore(second.start))
-                return first.end;
-        }
-        return second == null ? LocalDateTime.now().plus(taskDuration) : second.end;
-    }
-}

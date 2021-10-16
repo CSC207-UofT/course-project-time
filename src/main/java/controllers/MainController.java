@@ -41,7 +41,11 @@ public class MainController {
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate date) {
-        return eventController.createEvent(eventName, startTime, endTime, tags, date);
+        if(eventController.createEvent(eventName, startTime, endTime, tags, date))
+        {
+            taskController.createTask(eventName, Duration.between(startTime, endTime));
+        }
+        return true;
     }
 
     public boolean createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
