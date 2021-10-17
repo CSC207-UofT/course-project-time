@@ -1,0 +1,11 @@
+Class: EventController
+
+Responsibility:
+    - Stores an instance of Calendar
+    - Returns a list of event data in a map format (to be viewed by the user) by calling methods in EventGetter
+    - Creates an Event and adds it to the Calendar by calling methods in EventAdder
+
+Collaborators:
+    - Calendar
+    - EventGetter
+    - EventAdder

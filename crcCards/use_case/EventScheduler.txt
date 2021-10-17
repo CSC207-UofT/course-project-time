@@ -1,0 +1,14 @@
+Class: EventScheduler
+
+Responsibilities:
+    - Convert all uncompleted tasks in a TodoList into a list of events, using the TaskToEvent converter
+    - Find an available time for a task to be scheduled as an event
+    - Check if a time is available to schedule an event
+
+Collaborators:
+    - Calendar
+    - Task
+    - TodoList
+    - TaskToEvent
+    - Event
+   

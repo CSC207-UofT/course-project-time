@@ -1,0 +1,8 @@
+Class: EventAdder
+
+Responsibilities:
+    - Methods that add events that the calendar will contain
+
+Collaborators:
+    - Calendar
+

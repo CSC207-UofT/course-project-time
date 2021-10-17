@@ -1,4 +1,5 @@
-package main.java;
+package main.java.entity;
+
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -23,9 +24,18 @@ public class Task {
      * @param taskName name of the task
      */
     public Task(String taskName) {
+        this(taskName, null, null);
+    }
+
+    /**
+     * Construct a task with task name and time needed
+     * @param taskName name of the task
+     * @param timeNeeded time needed to complete the task
+     */
+    public Task(String taskName, Duration timeNeeded) {
         this.taskName = taskName;
         this.completed = false;
-        this.timeNeeded = null;
+        this.timeNeeded = timeNeeded;
         this.deadline = null;
         this.subTasks = new ArrayList<String>();
     }
@@ -37,11 +47,22 @@ public class Task {
      * @param deadline deadline of the task
      */
     public Task(String taskName, Duration timeNeeded, LocalDateTime deadline) {
+        this(taskName, timeNeeded, deadline, new ArrayList<>());
+    }
+
+    /**
+     * Construct a task with task name, time needed, and deadline
+     * @param taskName name of the task
+     * @param timeNeeded time needed to complete the task
+     * @param deadline deadline of the task
+     * @param subTasks list of subtasks
+     */
+    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
         this.taskName = taskName;
         this.completed = false;
         this.timeNeeded = timeNeeded;
         this.deadline = deadline;
-        this.subTasks = new ArrayList<String>();
+        this.subTasks = new ArrayList<>(subTasks);
     }
 
     public void setTaskName(String newName) {

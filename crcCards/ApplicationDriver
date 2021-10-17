@@ -1,0 +1,11 @@
+Class: ApplicationDriver
+
+Responsibility:
+    - Stores an instance of a MainController
+    - Displays query selection and prompts the user for input (current stage)
+    - Retrieves input from the user
+    - Parses the input it receives
+    - Calls methods in the MainController to perform necessary actions
+
+Collaborator:
+    - MainController

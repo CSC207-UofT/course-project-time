@@ -1,9 +1,11 @@
-package main.java;
+package main.java.entity;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,7 +50,8 @@ public class Event {
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
-        this.task = new Task(eventName);
+        Duration timeNeeded = Duration.between(startTime, endTime);
+        this.task = new Task(eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
     }
@@ -78,8 +81,20 @@ public class Event {
         }
     }
 
+    /**
+     * Add a repeated date to dates
+     * @param date the repeated date
+     */
     public void addRepeatedDate(LocalDate date) {
         this.dates.add(date);
+    }
+
+    /**
+     * Add a list of repeated dates to dates
+     * @param dates list of repeated dates
+     */
+    public void addRepeatedDates(List<LocalDate> dates) {
+        this.dates.addAll(dates);
     }
 
     public String getEventName() {

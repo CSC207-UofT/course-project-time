@@ -1,0 +1,9 @@
+Class: MainController
+
+Responsibility:
+    - Delegates requests to specific controllers
+
+Collaborators:
+    - EventController
+    - TaskController
+    - TaskEventConsoleController

@@ -1,4 +1,6 @@
-package main.java;
+package main.java.entity;
+
+import main.java.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,11 @@ public class TodoList{
         }
     }
 
+    public List<Task> getTasks()
+    {
+        return uncompletedList;
+    }
+
 
     public void addTask(Task task){
         if(task.getCompleted()){
@@ -44,5 +51,11 @@ public class TodoList{
     public boolean isTaskinList(Task task){
         return completedList.contains(task) || uncompletedList.contains(task);
     }
+
+    public List<Task> getUncompletedList(){
+        return this.uncompletedList;
+    }
+
+    public List<Task> getCompletedList() { return this.completedList; }
 
 }
