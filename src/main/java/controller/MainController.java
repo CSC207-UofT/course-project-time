@@ -29,7 +29,7 @@ public class MainController {
     }
 
     /**
-     *
+     * creates an event and adds it to the calendar
      * @param eventName name of the event to be created
      * @param startTime start time of the event
      * @param endTime   end time of the event
@@ -39,12 +39,11 @@ public class MainController {
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate date) {
-        if(eventController.createEvent(eventName, startTime, endTime, tags, date)) {
-            taskController.createTask(eventName, Duration.between(startTime, endTime));
-        }
-        return true;
+        return eventController.createEvent(eventName, startTime, endTime, tags, date);
     }
-
+    /**
+     * creates a task and adds it to the todolist
+     * */
     public boolean createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
         return taskController.createTask(taskName, timeNeeded, deadline, subTasks);
     }

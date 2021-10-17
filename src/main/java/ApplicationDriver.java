@@ -11,7 +11,7 @@ import java.util.*;
 
 public class ApplicationDriver {
 
-    static MainController controller = new MainController();
+    private static final MainController controller = new MainController();
 
     private static final Map<String, String> queryMenu = createdQueryMap();
 
@@ -22,7 +22,7 @@ public class ApplicationDriver {
     private static Map<String, String> createdQueryMap() {
         Map<String, String> queryMenu = new HashMap<>();
         queryMenu.put("0", "Quit");
-        queryMenu.put("1", "View my events");
+        queryMenu.put("1", "View all events");
         queryMenu.put("2", "View all tasks");
         queryMenu.put("3", "Create a new task");
         queryMenu.put("4", "Create a new event");
@@ -41,7 +41,7 @@ public class ApplicationDriver {
         String input = command_input.nextLine();
 
         while(!queryMenu.containsKey(input)) {
-            System.out.println("\" " + input +  " \" is not a valid input, try again");
+            System.out.println("\" " + input +  " \" is not a valid input, try again.");
             input = command_input.nextLine();
         }
 
@@ -54,31 +54,47 @@ public class ApplicationDriver {
      * @return whether to continue asking for inputs
      */
     private static boolean handleQueryInput(String input) {
+        System.out.println("###############");
         switch (input) {
             case "0":
                 return false;
             case "1":
                 List<HashMap<String, String>> allEventsData = controller.getEvents();
+                if (allEventsData.size() == 0) {
+                    System.out.println("No events have been created");
+                }
                 for (HashMap<String, String> eventData : allEventsData) {
-                    String output = "Event: " + "event name = "
-                                        + eventData.get("name") + "\n"
-                                        + "start time = " + eventData.get("start") + "\n"
-                                        + "end time = " + eventData.get("end") + "\n";
+                    String output = "Event: " + eventData.get("name") + ", "
+                                        + "start time = " + eventData.get("start") + ", "
+                                        + "end time = " + eventData.get("end") + ", "
+                                        + "tags = " + eventData.get("tags") + ", "
+                                        + "dates = " + eventData.get("dates");
                     System.out.println(output);
                 }
                 break;
             case "2":
-                List<HashMap<String, String>> allTasks = controller.getTasks();
-                for (HashMap<String, String> taskData : allTasks) {
-                    String output = "Task: " + taskData.get("name");
+                List<HashMap<String, String>> allTasksData = controller.getTasks();
+                if (allTasksData.size() == 0) {
+                    System.out.println("No tasks have been created");
+                }
+                for (HashMap<String, String> taskData : allTasksData) {
+                    String output = "Task: " + taskData.get("name") + ", "
+                                    + "deadline = " + taskData.get("deadline") + ", "
+                                    + "subtasks = " + taskData.get("subtasks") + ", "
+                                    + "completed = " + taskData.get("completed");
                     System.out.println(output);
                 }
                 break;
             case "3":
-                handleCreateTask();
+                boolean success = handleCreateTask();
+                if (success) {
+                    System.out.println("Task created");
+                } else {
+                    System.out.println("Failed to create task");
+                }
                 break;
             case "4":
-                boolean success = handleCreateEvent();
+                success = handleCreateEvent();
                 if (success) {
                     System.out.println("Event created");
                 } else {
@@ -86,10 +102,10 @@ public class ApplicationDriver {
                 }
                 break;
             case "5":
-                System.out.println("Not yet implemented");
+                System.out.println("Auto-scheduling is not yet implemented"); // TODO implement this functionality
                 break;
             case "6":
-                System.out.println("Not yet implemented");
+                System.out.println("Manual-scheduling is not yet implemented"); // TODO implement this functionality
                 break;
             default:
                 break;
@@ -103,7 +119,7 @@ public class ApplicationDriver {
      * @param time an available time for the event
      * @return  a boolean indicating if the user agrees with the suggested time
      */
-    private boolean confirmTimeWithUser(LocalDateTime time) {
+    private static boolean confirmTimeWithUser(LocalDateTime time) {
         boolean scheduled;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Suggested time: " + time);
@@ -114,6 +130,12 @@ public class ApplicationDriver {
         return scheduled;
     }
 
+    /**
+     * prompts the user for inputs needed to create a new event
+     * and passes the information to a controller to create the event
+     * in the database
+     * @return whether the event has been created
+     */
     private static boolean handleCreateEvent() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter event name: ");
@@ -123,21 +145,21 @@ public class ApplicationDriver {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormat);
 
         System.out.print("Enter start time for event in (" + timeFormat + ") (24 hour time): ");
-        String startTimeResponse = input.next(); // TODO exception handling
+        String startTimeResponse = input.nextLine(); // TODO exception handling
         LocalTime eventStartTime = LocalTime.parse(startTimeResponse, timeFormatter);
 
         System.out.print("Enter end time for event in (" + timeFormat + ") (24 hour time): ");
-        String endTimeResponse = input.next(); // todo exception handling
+        String endTimeResponse = input.nextLine(); // todo exception handling
         LocalTime eventEndTime = LocalTime.parse(endTimeResponse, timeFormatter);
 
         String dateFormat = "yyyy-MM-dd";
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
 
-        System.out.print("Enter date for event in (" + dateFormat + ")");
-        String dateResponse = input.next();  // todo exception handling
+        System.out.print("Enter date for event in (" + dateFormat + "): ");
+        String dateResponse = input.nextLine();  // todo exception handling
         LocalDate eventDate = LocalDate.parse(dateResponse, dateFormatter);
 
-        System.out.print("Enter tags for event, separated by space: ");
+        System.out.print("Enter tags for event, separated by space, or press enter if there are no tags: ");
         String tagResponse = input.nextLine(); // todo exception handling
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
@@ -145,38 +167,50 @@ public class ApplicationDriver {
         return controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
     }
 
+    /**
+     * prompts the user for inputs needed to create a new task
+     * and passes the information to a controller to create the task
+     * in the database
+     * @return whether the task has been created
+     */
     private static boolean handleCreateTask() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter task name: ");
         String taskName = input.nextLine();
 
-        System.out.print("Enter approximate duration needed in minutes");
+        System.out.print("Enter approximate duration needed in minutes: ");
         int durationResponse = Integer.parseInt(input.nextLine());
         Duration taskDuration = Duration.ofMinutes(durationResponse);
 
         String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        System.out.println("Input deadline for task in (" + format + ") (24 hour time):");
+        System.out.print("Input deadline for task in (" + format + ") (24 hour time), " +
+                            "or 'n' if there is no deadline: ");
         String deadlineResponse = input.nextLine(); // TODO exception handling
-        LocalDateTime taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
+        LocalDateTime taskDeadline;
+        if (Objects.equals(deadlineResponse, "n")) {
+            taskDeadline = null;
+        } else {
+            taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
+        }
 
-        System.out.print("Enter any subtasks for task, separated by a space: ");
-        String subtaskResponse = input.nextLine();  // todo exception handling
+        System.out.print("Enter any subtasks for task, separated by a space, or press enter if there are no subtasks: ");
+        String subtaskResponse = input.nextLine();  // TODO exception handling
 
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
-
 
         return controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
     }
 
     public static void main(String[] args) {
-        for(String key: queryMenu.keySet()) {
-            System.out.println(key + "- " + queryMenu.get(key));
-        }
-
         boolean askForInput;
         do {
+            System.out.println("\n###############");
+            for(String key: queryMenu.keySet()) {
+                System.out.println(key + "- " + queryMenu.get(key));
+            }
+
             String input = getQueryInput();
             askForInput = handleQueryInput(input);
             // if the above line returns true, then ask for input again

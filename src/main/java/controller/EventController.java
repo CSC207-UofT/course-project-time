@@ -23,16 +23,21 @@ public class EventController {
         return eventGetter.getEvents();
     }
 
+    /**
+     * checks whether the time period is available to schedule a new event
+     * and add the event if it is available
+     * @return whether the event has been created successfully
+     */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate dates) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData))
-        {
-            eventAdder.addEvent(eventName, LocalDateTime.of(dates, startTime), LocalDateTime.of(dates, endTime), calendarData);
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData)) {
+            return eventAdder.addEvent(eventName,
+                                        LocalDateTime.of(dates, startTime),
+                                        LocalDateTime.of(dates, endTime),
+                                        tags, dates, calendarData);
         }
-        return true;
+        return false;
     }
-
-
 
 }

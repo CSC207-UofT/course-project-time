@@ -33,11 +33,7 @@ public class Task {
      * @param timeNeeded time needed to complete the task
      */
     public Task(String taskName, Duration timeNeeded) {
-        this.taskName = taskName;
-        this.completed = false;
-        this.timeNeeded = timeNeeded;
-        this.deadline = null;
-        this.subTasks = new ArrayList<String>();
+        this(taskName, timeNeeded, null, new ArrayList<>());
     }
 
     /**

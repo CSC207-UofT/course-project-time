@@ -32,4 +32,7 @@ public class Calendar {
 
     public List<Event> getEvents() { return events; }
 
+    public TodoList getTodoList() {
+        return todoList;
+    }
 }

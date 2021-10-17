@@ -2,6 +2,7 @@ package main.java.use_case;
 
 import main.java.entity.Calendar;
 import main.java.entity.Event;
+import main.java.entity.Task;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -44,12 +45,12 @@ public class AccessCalendarData {
     }
 
     /**
-     *
+     * Adds an event to the calendar and the associated task to the todolist associated with the calendar
      * @param event an event to be added to the calendar
      */
-    public void addEvent(Event event)
-    {
+    public void addEvent(Event event) {
         calendar.getEvents().add(event);
+        calendar.getTodoList().addTask(event.getTask());
     }
 
 }
