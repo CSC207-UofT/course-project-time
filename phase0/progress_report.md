@@ -63,6 +63,10 @@ CRC cards were created by the whole team.
 * Created `ApplicationDriver` and made the CLI ready to use
 
 #### Tahseen
+* Worked on `TodoList` class
+* Created `CalendarBuilder` class which was removed later in the development of the project
+* Created tests for `Calendar` class, `Event` class, `Task` class, `TodoList` class, and `EventScheduler` class
+* Exception handling for `ApplicationDriver` class
 
 #### Jenci
 * Created `TodoList` class
