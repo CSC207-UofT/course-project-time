@@ -48,10 +48,9 @@ public class AccessCalendarData {
      * Adds an event to the calendar and the associated task to the todolist associated with the calendar
      * @param event an event to be added to the calendar
      */
-    public void addEvent(Event event, Task task)
-    {
+    public void addEvent(Event event) {
         calendar.getEvents().add(event);
-        calendar.getTodoList().addTask(task);
+        calendar.getTodoList().addTask(event.getTask());
     }
 
 }

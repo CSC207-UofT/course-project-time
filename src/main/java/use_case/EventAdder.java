@@ -25,7 +25,7 @@ public class EventAdder {
                             LocalDateTime endTime, HashSet<String> tags, LocalDate date,
                             AccessCalendarData calendarData) {
         Event event = new Event(eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
-        calendarData.addEvent(event, event.getTask());
+        calendarData.addEvent(event);
         return true; // TODO: return value should indicate success of data creation
     }
 
