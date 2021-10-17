@@ -16,7 +16,8 @@ public class EventGetter implements GetEvent {
 
     /**
      * Returns a list containing mappings of event attributes
-     * and their corresponding values
+     * and their corresponding values, with keys as "name", "start",
+     * "end", "tags", and "dates
      */
     @Override
     public List<HashMap<String, String>> getEvents() {
@@ -29,13 +30,12 @@ public class EventGetter implements GetEvent {
     }
 
     private HashMap<String, String> getEvent(Event event) {
-        String event_name = event.getEventName();
-        String event_start = event.getStartTime().toString();
-        String event_end = event.getEndTime().toString();
         HashMap<String, String> event_data = new HashMap<>();
-        event_data.put("name", event_name);
-        event_data.put("start", event_start);
-        event_data.put("end", event_end);
+        event_data.put("name", event.getEventName());
+        event_data.put("start", event.getStartTime().toString());
+        event_data.put("end", event.getEndTime().toString());
+        event_data.put("tags", event.getTags().toString());
+        event_data.put("dates", event.getDates().toString());
 
         return event_data;
 
