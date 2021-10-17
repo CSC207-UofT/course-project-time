@@ -1,0 +1,8 @@
+
+Class: TaskAdder
+
+Responsibilities:
+    - Creates a task
+
+Collaborators:
+    - Task
