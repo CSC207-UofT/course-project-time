@@ -51,6 +51,11 @@ CRC cards were created by the whole team.
 
 
 #### Craig
+* Created `Calendar` with Alexander
+* Created `TaskToEventConsoleController`, `TaskToEventAuto`, `TaskToEventManual` classes (may be removed later for better design choice)
+* Created `TaskEventAutoController` and `TaskEventManualController`
+* Simple refactoring
+* Revisited and planned higher level design choices
 
 #### Junru
 * Created `Task` and `Event` classes
