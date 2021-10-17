@@ -74,7 +74,19 @@ classes)
 * Store data externally (most likely in a json file)
 * Ability to save data to an ics file
 * Add a visual user interface
+
 ### What has worked well so far with our design
+
+When working on our project, we always communicate with each other to ensure that the
+goals for the next stage is clear for everyone and that we adhere to the design principles
+(i.e. SOLID and Clean Architecture). When implementing the classes, we strictly followed the
+dependency rule of the Clean Architecture by enforcing the classes to only depend on other
+classes of adjacent layers. One example is that when deciding where to temporarily store
+our entities (before implementing any type of long-term storage), we did not take the shortcut and
+store them inside the controllers; instead, we made use cases classes to store our entities.
+This can prevent dependency-related bugs to occur in the future when we
+make major changes to our existing code (e.g. introducing a long-term storage).
+
 
 ### What we are struggling with
 
