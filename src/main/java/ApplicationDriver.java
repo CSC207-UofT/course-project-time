@@ -22,7 +22,7 @@ public class ApplicationDriver {
     private static Map<String, String> createdQueryMap() {
         Map<String, String> queryMenu = new HashMap<>();
         queryMenu.put("0", "Quit");
-        queryMenu.put("1", "View my events");
+        queryMenu.put("1", "View all events");
         queryMenu.put("2", "View all tasks");
         queryMenu.put("3", "Create a new task");
         queryMenu.put("4", "Create a new event");
@@ -159,7 +159,7 @@ public class ApplicationDriver {
         String dateResponse = input.nextLine();  // todo exception handling
         LocalDate eventDate = LocalDate.parse(dateResponse, dateFormatter);
 
-        System.out.print("Enter tags for event, separated by space: ");
+        System.out.print("Enter tags for event, separated by space, or press enter if there are no tags: ");
         String tagResponse = input.nextLine(); // todo exception handling
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
@@ -194,7 +194,7 @@ public class ApplicationDriver {
             taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
         }
 
-        System.out.print("Enter any subtasks for task, separated by a space: ");
+        System.out.print("Enter any subtasks for task, separated by a space, or press enter if there are no subtasks: ");
         String subtaskResponse = input.nextLine();  // TODO exception handling
 
         String[] subtaskArray = subtaskResponse.split(" ");
