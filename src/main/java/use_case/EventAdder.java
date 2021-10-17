@@ -7,6 +7,7 @@ import main.java.entity.TodoList;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 public class EventAdder {
@@ -21,13 +22,11 @@ public class EventAdder {
      *         true if the event is created and added to calendar successfully
      */
     public boolean addEvent(String eventName, LocalDateTime startTime,
-                            LocalDateTime endTime,
+                            LocalDateTime endTime, HashSet<String> tags, LocalDate date,
                             AccessCalendarData calendarData) {
-        Duration timeNeeded = Duration.between(startTime, endTime);
-        Task task = new Task(eventName, timeNeeded);
-        Event event = new Event(task, startTime, endTime.toLocalTime());
-        calendarData.addEvent(event);
-        return true;
+        Event event = new Event(eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+        calendarData.addEvent(event, event.getTask());
+        return true; // TODO: return value should indicate success of data creation
     }
 
     /**

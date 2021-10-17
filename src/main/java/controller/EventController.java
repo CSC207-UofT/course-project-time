@@ -26,13 +26,13 @@ public class EventController {
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate dates) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData))
-        {
-            eventAdder.addEvent(eventName, LocalDateTime.of(dates, startTime), LocalDateTime.of(dates, endTime), calendarData);
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData)) {
+            return eventAdder.addEvent(eventName,
+                                        LocalDateTime.of(dates, startTime),
+                                        LocalDateTime.of(dates, endTime),
+                                        tags, dates, calendarData);
         }
-        return true;
+        return false;
     }
-
-
 
 }

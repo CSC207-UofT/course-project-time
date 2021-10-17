@@ -5,33 +5,22 @@ import main.java.use_case.AccessTodoData;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TaskAdder {
-
-
-    private AccessTodoData todoData;
     /**
-     * Create a new task without deadline and add it to the todoList
-     * @param todoData an instance of a todolist accessor
-     * @param taskName name of the task
-     * @param timeNeeded time needed to complete the task
+     * creates a task and adds it to the todolist in the todoData
+     * @param taskName      name of the task
+     * @param timeNeeded    time needed to complete the task
+     * @param deadline      deadline of the task
+     * @param subTasks      a list of subtasks for the task
+     * @param todoData      an instance of a todolist accessor
      */
-    public void addTaskWithoutDeadline(String taskName, Duration timeNeeded,
-                                       AccessTodoData todoData) {
-        Task task = new Task(taskName, timeNeeded);
+    public void addTask(String taskName, Duration timeNeeded,
+                        LocalDateTime deadline, List<String> subTasks,
+                        AccessTodoData todoData) {
+        Task task = new Task(taskName, timeNeeded, deadline, subTasks);
         todoData.getTodoList().addTask(task);
     }
 
-    /**
-     * Create a new task with deadline and add it to the todoList
-     * @param todoData an instance of a todolist accessor
-     * @param taskName name of the task
-     * @param timeNeeded time needed to complete the task
-     * @param deadline deadline of the task
-     */
-    public void addTaskWithDeadline(String taskName, Duration timeNeeded,
-                                    LocalDateTime deadline, AccessTodoData todoData) {
-        Task task = new Task(taskName, timeNeeded, deadline);
-        todoData.getTodoList().addTask(task);
-    }
 }
