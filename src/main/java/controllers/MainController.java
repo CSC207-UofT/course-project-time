@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MainController {
-    EventController eventController = new EventController();
-    TaskController taskController = new TaskController();
+    private final EventController eventController = new EventController();
+    private final TaskController taskController = new TaskController();
 
     /**
      * Return a list of events data in the format of a map, with keys as
@@ -39,8 +39,7 @@ public class MainController {
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate date) {
-        if(eventController.createEvent(eventName, startTime, endTime, tags, date))
-        {
+        if(eventController.createEvent(eventName, startTime, endTime, tags, date)) {
             taskController.createTask(eventName, Duration.between(startTime, endTime));
         }
         return true;

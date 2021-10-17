@@ -1,23 +1,31 @@
 package main.java;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class AccessCalendarData {
 
     private Calendar calendar;
-    private TodoList todoList;
 
     /*
-    Initalizes the calendar and Todolist for the project,
-    and loads a sample sleep schedule.
+    Initializes the calendar and loads a list of sample events (for phase0)
      */
-    public AccessCalendarData()
-    {
-        // A sample sleep schedule could be added here
+    public AccessCalendarData() {
         ArrayList<Event> events = new ArrayList<>();
+        events.add(new Event("Assignment 1",
+                            LocalTime.parse("08:00"),
+                            LocalTime.parse("09:00"),
+                            new HashSet<String>(),
+                            LocalDate.parse("2021-12-12")));
+        events.add(new Event("Assignment 2",
+                LocalTime.parse("08:00"),
+                LocalTime.parse("09:00"),
+                new HashSet<String>(),
+                LocalDate.parse("2021-12-15")));
         calendar = new Calendar("My Calendar", events);
-        todoList = new TodoList();
     }
 
     public Calendar getCalendar() {
@@ -26,20 +34,19 @@ public class AccessCalendarData {
 
     /**
      *
-     * @param event an event to add to the calendar
+     * @return a list of events in this calendar
+     */
+    public List<Event> getEvents() {
+        return calendar.getEvents();
+    }
+
+    /**
+     *
+     * @param event an event to be added to the calendar
      */
     public void addEvent(Event event)
     {
         calendar.getEvents().add(event);
     }
 
-
-    public TodoList getTodoList() {
-        return todoList;
-    }
-
-    public void updateCalendar(Calendar calendar)
-    {
-        this.calendar = calendar;
-    }
 }

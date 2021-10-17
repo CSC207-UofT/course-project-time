@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TaskController {
-    private AccessTodoData todoData = new AccessTodoData();
-    private TaskGetter taskGetter = new TaskGetter();
-    private TaskAdder taskAdder = new TaskAdder();
+    private final AccessTodoData todoData = new AccessTodoData();
+    private final TaskGetter taskGetter = new TaskGetter();
+    private final TaskAdder taskAdder = new TaskAdder();
 
     public List<HashMap<String, String>> getTasks() {
         return taskGetter.getTasks(todoData);

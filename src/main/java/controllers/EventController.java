@@ -10,9 +10,9 @@ import java.util.*;
 
 public class EventController {
 
-    private AccessCalendarData calendarData = new AccessCalendarData();
-    private EventAdder eventAdder = new EventAdder();
-    private EventScheduler eventScheduler = new EventScheduler();
+    private final AccessCalendarData calendarData = new AccessCalendarData();
+    private final EventAdder eventAdder = new EventAdder();
+    private final EventScheduler eventScheduler = new EventScheduler();
 
     /**
      * Returns a list containing mappings of event attributes
