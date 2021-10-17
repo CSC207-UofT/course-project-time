@@ -9,19 +9,37 @@ an events to help users organize their time. Users can input tasks into the todo
 ### CRC model
 Our CRC model consists of: 
 
-**3 Entity** classes: `Task`, `Event` and `Calendar`.
+**3 Entity** classes: 
+[`Task`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/entity/Task), 
+[`Event`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/entity/Event) 
+and [`Calendar`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/entity/Calendar).
 
-**8 Use Case** classes: `TodoList`, `EventScheduler`, `EventGetter`, `TaskGetter`, `EventAdder`, `TaskAdder`, 
-`TaskToEventManual` and `TaskToEventAuto`
+**8 Use Case** classes: 
+`TodoList`, [`EventScheduler`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/EventScheduler.txt), 
+[`EventGetter`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/EventGetter), 
+[`TaskGetter`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskGetter), 
+[`EventAdder`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/EventAdder), 
+`TaskAdder`, 
+[`TaskToEventManual`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskToEventManual)
+and [`TaskToEventAuto`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskToEventAuto)
 
-**4 Controllers**: `MainController`, `EventController`, `TaskController`, `TaskEventConsoleController`
+**4 Controllers**: 
+[`MainController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/MainController), 
+[`EventController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/EventController), 
+[`TaskController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskController), 
+`TaskEventConsoleController`
 
 
-**4 interfaces**: `GetEvent`, `TaskToEvent`, `TaskEventAutoController`, `TaskEventManualController`
+**4 interfaces**: 
+`GetEvent`, 
+`TaskToEvent`, 
+`TaskEventAutoController`, 
+`TaskEventManualController`
 
-**User Interface**: `ApplicationDriver`
+**User Interface**: 
+[`ApplicationDriver`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/ApplicationDriver)
 
-
+See the display of CRC model in [google doc](https://docs.google.com/document/d/1YTfGWKZDEcyUZQwhMmWOKlNjJ1-Js9C3Dfnd-Lw-5Y4/edit).
 
 ### Scenario Walk-through
 The user will be able to: 
