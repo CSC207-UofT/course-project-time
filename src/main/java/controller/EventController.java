@@ -1,12 +1,19 @@
 package main.java.controller;
 
-import main.java.use_case.*;
+
+import main.java.use_case.AccessCalendarData;
+import main.java.use_case.EventAdder;
+import main.java.use_case.EventScheduler;
+import main.java.use_case.GetEvent;
+import main.java.use_case.EventGetter;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
 
 public class EventController {
 

@@ -1,6 +1,5 @@
 package main.java.controller;
 
-import main.java.entity.Task;
 import main.java.use_case.AccessTodoData;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
