@@ -2,7 +2,7 @@
 
 ### Specification
 This application help users manage their time and schedule by providing
-two main functionalities: a todo-list to store all the tasks and a calender 
+two main functionalities: a todo-list to store all the tasks and a calendar 
 to store all events. The application also enables auto-scheduling of tasks
 an events to help users organize their time. Users can input tasks into the todo list, along with their deadline and anticipated duration. The user may also attach a time to the task, and place it in the calendar as an event. The program also offers to complete this process automatically. The process by which the 
 
@@ -58,6 +58,9 @@ CRC cards were created by the whole team.
 * Added and refactored methods in other classes relating to the above four classes
 
 #### Valerie
+* Worked on `TaskToEvent` interface and classes with Emily
+* Created `EventController`, `MainController`, and `TaskController` classes
+* Created `ApplicationDriver` and made the CLI ready to use
 
 #### Tahseen
 
@@ -101,11 +104,11 @@ outlines a potential solution for clean instantiation of entities
 on page 101 of Clean Architecture. The solution involves a factory that creates 
 and returns instantiated entities. Our main method could interact with the factory
 and these entities via interfaces. However, our skeleton program only involves 
-one calender and todo list and we decided that the implementation of a calendar 
+one calendar and todo list, and we decided that the implementation of a calendar 
 factory was unnecessary for our skeleton project. Ultimately We decided to store 
 our calendar and todolist in a single use case, that other use cases can access. 
 This method is likely to change, especially once we begin storing data in the 
 data layer of our application.
 
-Currently, both `Task` and `TodoList` are tracking the completion status of tasks and we aren't sure yet which one 
-should be responsible for it.
+Currently, both `Task` and `TodoList` are tracking the completion status of tasks,
+but we aren't sure yet which one should be responsible for it.

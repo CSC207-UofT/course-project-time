@@ -1,4 +1,6 @@
-package main.java;
+package main.java.entity;
+
+import main.java.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;

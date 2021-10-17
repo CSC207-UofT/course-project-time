@@ -1,4 +1,4 @@
-package main.java.controllers;
+package main.java.controller;
 
 import java.time.Duration;
 import java.time.LocalDate;

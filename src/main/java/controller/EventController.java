@@ -1,6 +1,6 @@
-package main.java.controllers;
+package main.java.controller;
 
-import main.java.*;
+import main.java.use_case.*;
 
 import java.time.Duration;
 import java.time.LocalDate;

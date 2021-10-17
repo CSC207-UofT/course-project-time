@@ -1,8 +1,8 @@
-package main.java.controllers;
+package main.java.controller;
 
-import main.java.AccessTodoData;
-import main.java.TaskAdder;
-import main.java.TaskGetter;
+import main.java.use_case.AccessTodoData;
+import main.java.use_case.TaskAdder;
+import main.java.use_case.TaskGetter;
 import java.time.LocalDateTime;
 
 import java.time.Duration;

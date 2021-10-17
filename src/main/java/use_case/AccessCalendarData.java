@@ -1,4 +1,7 @@
-package main.java;
+package main.java.use_case;
+
+import main.java.entity.Calendar;
+import main.java.entity.Event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

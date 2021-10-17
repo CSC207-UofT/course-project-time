@@ -1,6 +1,6 @@
 package main.java;
 
-import main.java.controllers.MainController;
+import main.java.controller.MainController;
 
 import java.time.Duration;
 import java.time.LocalDate;

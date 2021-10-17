@@ -1,4 +1,7 @@
-package main.java;
+package main.java.use_case;
+
+import main.java.entity.Task;
+import main.java.entity.TodoList;
 
 public class AccessTodoData {
     private TodoList todoList;
