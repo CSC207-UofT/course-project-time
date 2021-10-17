@@ -61,9 +61,9 @@ public class ApplicationDriver {
                 List<HashMap<String, String>> allEventsData = controller.getEvents();
                 for (HashMap<String, String> eventData : allEventsData) {
                     String output = "Event: " + "event name = "
-                                        + eventData.get("name")
-                                        + "start time = " + eventData.get("start")
-                                        + "end time = " + eventData.get("end");
+                                        + eventData.get("name") + "\n"
+                                        + "start time = " + eventData.get("start") + "\n"
+                                        + "end time = " + eventData.get("end") + "\n";
                     System.out.println(output);
                 }
                 break;
@@ -96,6 +96,22 @@ public class ApplicationDriver {
         }
         // if this line is reached, then we did not receive a 'quit' input
         return true;
+    }
+
+    /**
+     * prints the time to the user and receives user input
+     * @param time an available time for the event
+     * @return  a boolean indicating if the user agrees with the suggested time
+     */
+    private boolean confirmTimeWithUser(LocalDateTime time) {
+        boolean scheduled;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Suggested time: " + time);
+        System.out.println("Type 0 for yes, 1 for no");
+        int response = scanner.nextInt(); //TODO exception handling
+        scheduled = response == 0;
+        scanner.close();
+        return scheduled;
     }
 
     private static boolean handleCreateEvent() {
@@ -135,19 +151,21 @@ public class ApplicationDriver {
         String taskName = input.nextLine();
 
         System.out.print("Enter approximate duration needed in minutes");
-        Integer durationResponse = input.nextInt();
+        int durationResponse = Integer.parseInt(input.nextLine());
         Duration taskDuration = Duration.ofMinutes(durationResponse);
 
-        String format = "yyyy-MM-dd HH:mm";
+        String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         System.out.println("Input deadline for task in (" + format + ") (24 hour time):");
-        String deadlineResponse = input.next(); // TODO exception handling
+        String deadlineResponse = input.nextLine(); // TODO exception handling
         LocalDateTime taskDeadline = LocalDateTime.parse(deadlineResponse, formatter);
 
-        System.out.print("Enter subtasks for task, separated by space: ");
+        System.out.print("Enter any subtasks for task, separated by a space: ");
         String subtaskResponse = input.nextLine();  // todo exception handling
+
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
+
 
         return controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
     }

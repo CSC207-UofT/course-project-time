@@ -1,8 +1,8 @@
 package main.java.controllers;
 
 import main.java.*;
-import main.java.Calendar;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,22 +10,29 @@ import java.util.*;
 
 public class EventController {
 
-    private static Calendar calendar = new Calendar("calendar");
-    private static final GetEvent eventGetter = new EventGetter(calendar);
-    // TODO: need an eventAdder
+    private final AccessCalendarData calendarData = new AccessCalendarData();
+    private final EventAdder eventAdder = new EventAdder();
+    private final EventScheduler eventScheduler = new EventScheduler();
 
     /**
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
     public List<HashMap<String, String>> getEvents() {
+        GetEvent eventGetter = new EventGetter(calendarData);
         return eventGetter.getEvents();
     }
 
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate date) {
-        Event event = new Event(eventName, startTime, endTime, tags, date);
-        return false;  // todo add body
+                               HashSet<String> tags, LocalDate dates) {
+
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData))
+        {
+            eventAdder.addEvent(eventName, LocalDateTime.of(dates, startTime), LocalDateTime.of(dates, endTime), calendarData);
+        }
+        return true;
     }
+
+
 
 }

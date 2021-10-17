@@ -1,25 +1,22 @@
 package main.java;
 
+import java.util.List;
+
 /**
  * Immutable Entity storing many events and some methods to query them.
  */
 public class Calendar {
 
     private final String name;
-    private final Event[] events;
+    private final List<Event> events;
     private final TodoList todoList;
 
-    public Calendar(String name) {
-        this(name, new Event[0]);  // todo this is 0 else there will be null pointer exception
-    }
-
-    public Calendar(String name, Event[] events) {
+    public Calendar(String name, List<Event> events) {
         this.name = name;
         this.events = events;
         this.todoList = new TodoList();
 
-        for(Event event : this.events)
-        {
+        for(Event event : this.events) {
             Task task = new Task(event.getEventName());
             todoList.addTask(task);
         }
@@ -27,12 +24,12 @@ public class Calendar {
 
 
     /**
-     * @return the name of this calendar. The name has no functional purpose.
+     * @return the name of this calendar
      */
     public String getName() {
         return name;
     }
 
-    public Event[] getEvents() { return events.clone(); }
+    public List<Event> getEvents() { return events; }
 
 }

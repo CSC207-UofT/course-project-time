@@ -1,8 +1,5 @@
 package main.java.controllers;
 
-import main.java.Event;
-import main.java.Task;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MainController {
-    EventController eventController = new EventController();
-    TaskController taskController = new TaskController();
+    private final EventController eventController = new EventController();
+    private final TaskController taskController = new TaskController();
 
     /**
      * Return a list of events data in the format of a map, with keys as
@@ -42,7 +39,10 @@ public class MainController {
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate date) {
-        return eventController.createEvent(eventName, startTime, endTime, tags, date);
+        if(eventController.createEvent(eventName, startTime, endTime, tags, date)) {
+            taskController.createTask(eventName, Duration.between(startTime, endTime));
+        }
+        return true;
     }
 
     public boolean createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {

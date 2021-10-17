@@ -7,83 +7,65 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class EventScheduler {
     private ArrayList<Event> eventList;
-    private TaskToEvent converter;
+//    private TaskToEvent converter;
     private GapFinder gapFinder;
 
-    public EventScheduler(TaskToEvent obj, GapFinder gapFinder){
-        this.eventList = new ArrayList<>();
-        this.converter = obj;
-        this.gapFinder = gapFinder;
+    public EventScheduler(){
+//        this.converter = obj;
+        this.gapFinder = new SortAndSearch();
     }
 
 
     /**
-     * @param event the event that will be added
      * @return false if the event has conflict with the calendar;
      *         return true if the event is added successfully
      */
-    public boolean addEvent(Event event){
-        LocalTime startTime = event.getStartTime();
-        Calendar calendar = this.getCalendar();
-        Duration timeNeeded = event.getTask().getTimeNeeded();
+    public boolean isAvailable(LocalTime startTime, Duration timeNeeded, LocalDate date, AccessCalendarData calendarData) {
         // check whether the event has conflict with the calendar
-        for (LocalDate date : event.getDates()) {
+        LocalDateTime targetTime = LocalDateTime.of(date, startTime);
+        return this.checkAvailability(targetTime, calendarData.getCalendar(), timeNeeded);
+            // the event has conflict with the calendar
+    }
+
+    public boolean isAvailableRepeated(LocalTime startTime, Duration timeNeeded, Set<LocalDate> dates, AccessCalendarData calendarData){
+        // check whether the event has conflict with the calendar
+        for (LocalDate date : dates) {
             LocalDateTime targetTime = LocalDateTime.of(date, startTime);
-            if (!this.checkAvailability(targetTime, calendar, timeNeeded)) {
+            if (!this.checkAvailability(targetTime, calendarData.getCalendar(), timeNeeded)) {
                 // the event has conflict with the calendar
                 return false;
             }
         }
-        // the event has no conflict with the calendar
-        // add the event to the eventList and return true
-        this.eventList.add(event);
-        return true;
-    }
 
-    /**
-     *
-     * @param event event to be removed
-     * @return if the event has been removed
-     */
-    public boolean removeEvent(Event event){
-        if (this.eventList.contains(event)) {
-            this.eventList.remove(event);
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
      * Converts the uncompleted tasks in a todoList into events and adds them to the eventList if the task has not
      * already been added
-     * @param todoList  the todoList of tasks to be converted
      */
-    public void uncompletedTasksToEvents(TodoList todoList){
+    public void uncompletedTasksToEvents(AccessTodoData todoData, AccessCalendarData calendarData){
         List<Task> alreadyConvertedTasks = new ArrayList<>() {};
         for (Event event : eventList) {
             alreadyConvertedTasks.add(event.getTask());
         }
-        for(Task task: todoList.getUncompletedList()) {
+
+        for(Task task: todoData.getTodoList().getUncompletedList()) {
             if (!alreadyConvertedTasks.contains(task)) {
-                eventList.add(converter.createEventFromTask(task, getCalendar(), this));
+
+                // TODO implement this method, now that event scheduler doesn't store events
+                // Event new_event = new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded()));
+                // calendarData.addEvent(converter.createEventFromTask(task, calendarData.getCalendar(), this));
+
+
             }
         }
     }
 
-    /**
-     *
-     * @return a calendar with the current list of events
-     */
-    public Calendar getCalendar(){
-        Event[] calendarEvent = new Event[this.eventList.size()];
-        for(int i = 0; i < calendarEvent.length; i++){
-            calendarEvent[i] = this.eventList.get(i);
-        }
-        return new Calendar("calendar", calendarEvent);
-    }
 
     /**
      * Finds a gap of time for a task with the given duration.
@@ -145,7 +127,7 @@ interface GapFinder {
      *
      * @return a time of the given duration that does not overlap any of the times to ignore.
      */
-    public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
+    LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration);
 }
 
 class TimeFrame implements Comparable<TimeFrame> {

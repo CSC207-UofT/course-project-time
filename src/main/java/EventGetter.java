@@ -7,9 +7,9 @@ import java.util.List;
 public class EventGetter implements GetEvent {
     Calendar calendar;
 
-    public EventGetter(Calendar cal)
+    public EventGetter(AccessCalendarData data)
     {
-        this.calendar = cal;
+        this.calendar = data.getCalendar();
     }
 
     /**

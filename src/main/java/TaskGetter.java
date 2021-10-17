@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TaskGetter {
-    private TodoList todoList;
 
-    public List<HashMap<String, String>> getTasks() {
+
+    public List<HashMap<String, String>> getTasks(AccessTodoData todoData) {
+        TodoList todoList = todoData.getTodoList();
         List<HashMap<String, String>> task_data = new ArrayList<>();
         for(Task task : todoList.getTasks()) {
             task_data.add(getTask(task));
@@ -20,7 +21,12 @@ public class TaskGetter {
     {
         HashMap<String, String> task_data = new HashMap<>();
         task_data.put("name", task.getTaskName());
-        task_data.put("deadline", task.getDeadline().toString());
+        if(task.getDeadline() != null)
+        {
+            task_data.put("deadline", task.getDeadline().toString());
+        } else {
+            task_data.put("deadline", "NO DEADLINE");
+        }
 
         return task_data;
     }
