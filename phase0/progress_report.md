@@ -1,12 +1,12 @@
-## Progress Report
+# Progress Report
 
-### Specification
+## Specification
 This application help users manage their time and schedule by providing
 two main functionalities: a todo-list to store all the tasks and a calendar 
 to store all events. The application also enables auto-scheduling of tasks
 an events to help users organize their time. Users can input tasks into the todo list, along with their deadline and anticipated duration. The user may also attach a time to the task, and place it in the calendar as an event. The program also offers to complete this process automatically. The process by which the 
 
-### CRC model
+## CRC model
 Our CRC model consists of: 
 
 **4 Entity** classes: 
@@ -41,7 +41,7 @@ Our CRC model consists of:
 
 See the display of CRC model in [this](https://docs.google.com/document/d/1YTfGWKZDEcyUZQwhMmWOKlNjJ1-Js9C3Dfnd-Lw-5Y4/edit) google doc.
 
-### Scenario Walk-through
+## Scenario Walk-through
 The user will be able to: 
 * View their events
 * View all tasks
@@ -50,7 +50,7 @@ The user will be able to:
 * Auto-schedule a task (turns it into an event)
 * Manually schedule a task (turns it into an event)
 
-### What each member has been working on and future plans
+## Contribution of Group Members
 CRC cards were created by the whole team.
 
 #### Emily
@@ -96,7 +96,7 @@ CRC cards were created by the whole team.
 * Created `EventController`, `MainController`, and `TaskController` classes
 * Created `ApplicationDriver` and made the CLI ready to use
 
-#### Future Plans
+## Future Plans
 * creating a notification system that will notify the user when their task is about to start
 * the ability to reschedule an event if the user misses it, both automatically and manually (similar to the `TaskToEvent`
 classes)
@@ -105,7 +105,7 @@ classes)
 * Ability to save data to an ics file
 * Add a visual user interface
 
-### What has worked well so far with our design
+## What Has Worked Well
 
 When working on our project, we always communicate with each other to ensure that the
 goals for the next stage is clear for everyone and that we adhere to the design principles
@@ -118,7 +118,7 @@ This can prevent dependency-related bugs to occur in the future when we
 make major changes to our existing code (e.g. introducing a long-term storage).
 
 
-### What we are struggling with
+## What we are struggling with
 
 Our group had difficulty with the instantiation of entities and their storage in 
 memory. We do not have a database for our program, and we had trouble deciding a clean way of 
@@ -137,5 +137,6 @@ our calendar and todolist in a single use case, that other use cases can access.
 This method is likely to change, especially once we begin storing data in the 
 data layer of our application.
 
+## Questions for the TA
 Currently, both `Task` and `TodoList` are tracking the completion status of tasks,
 but we aren't sure yet which one should be responsible for it.
