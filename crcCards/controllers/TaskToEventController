@@ -1,5 +1,5 @@
-Class: TaskEventConsoleController
-Implements TaskEventAutoController and TaskEventManualController
+Class: TaskToEventController
+Implements TaskToEventAutoController and TaskToEventManualController
 
 Responsibility:
     - Provides a method to confirm a suggested time with the user when scheduling a task
@@ -7,5 +7,5 @@ Responsibility:
 
 
 Collaborators:
-    - TaskEventAutoController
-    - TaskEventManualController
+    - TaskToEventAutoController
+    - TaskToEventManualController

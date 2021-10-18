@@ -1,6 +1,7 @@
 package main.java;
 
 import main.java.controller.MainController;
+import main.java.entity.Task;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -73,17 +74,7 @@ public class ApplicationDriver {
                 }
                 break;
             case "2":
-                List<HashMap<String, String>> allTasksData = controller.getTasks();
-                if (allTasksData.size() == 0) {
-                    System.out.println("No tasks have been created");
-                }
-                for (HashMap<String, String> taskData : allTasksData) {
-                    String output = "Task: " + taskData.get("name") + ", "
-                                    + "deadline = " + taskData.get("deadline") + ", "
-                                    + "subtasks = " + taskData.get("subtasks") + ", "
-                                    + "completed = " + taskData.get("completed");
-                    System.out.println(output);
-                }
+                printTasks();
                 break;
             case "3":
                 boolean success = handleCreateTask();
@@ -102,10 +93,38 @@ public class ApplicationDriver {
                 }
                 break;
             case "5":
-                System.out.println("Auto-scheduling is not yet implemented"); // TODO implement this functionality
+                printTasks();
+                Task task = chooseTask();
+                success = controller.suggestTimeToUser(task);
+                if (success) {
+                    System.out.println("Event created from task");
+                } else {
+                    // todo use exceptions in the future to track reason of failure
+                    System.out.println("Failed to create event from task");
+                }
                 break;
             case "6":
-                System.out.println("Manual-scheduling is not yet implemented"); // TODO implement this functionality
+                printTasks();
+                Task taskManual = chooseTask();
+                LocalDateTime userSuggestedTime;
+                boolean timeAvailable;
+
+                do {
+                    userSuggestedTime = inputTime();
+                    timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                    if (!timeAvailable) {
+                        System.out.println("Time not available, please retry.");
+                    }
+                } while (!timeAvailable);
+
+                success = controller.createEvent(taskManual.getTaskName(), userSuggestedTime.toLocalTime(),
+                        userSuggestedTime.toLocalTime().plus(taskManual.getTimeNeeded()), new HashSet<>(), userSuggestedTime.toLocalDate());
+
+                if (success) {
+                    System.out.println("Event created from task");
+                } else {
+                    System.out.println("Failed to create event from task");
+                }
                 break;
             default:
                 break;
@@ -186,6 +205,59 @@ public class ApplicationDriver {
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
 
         return controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
+    }
+
+    /**
+     * Print all tasks
+     */
+    private static void printTasks() {
+        List<HashMap<String, String>> allTasksData = controller.getTasks();
+        if (allTasksData.size() == 0) {
+            System.out.println("No tasks have been created");
+        }
+        for (HashMap<String, String> taskData : allTasksData) {
+            String output = "Task: " + taskData.get("name") + ", "
+                    + "deadline = " + taskData.get("deadline") + ", "
+                    + "subtasks = " + taskData.get("subtasks") + ", "
+                    + "completed = " + taskData.get("completed");
+            System.out.println(output);
+        }
+    }
+
+    /**
+     * Prompts the user to choose a Task among the list of Tasks
+     * @return the chosen Task
+     */
+    private static Task chooseTask() {
+        List<HashMap<String, String>> allTasks = controller.getTasks();
+        List<String> taskNames = new ArrayList<>();
+        for (HashMap<String, String> task : allTasks) {
+            taskNames.add(task.get("name"));
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        String chosen;
+
+        // todo in the future lift the assumption where names are unique
+        do {
+            System.out.print("Please choose a task by typing its name (case-sensitive): ");
+            chosen = scanner.nextLine();
+        } while (!taskNames.contains(chosen));
+
+        return controller.getTaskByName(chosen);
+    }
+
+    /**
+     * Prompts the user to input a time
+     * @return the time the user inputted
+     */
+    private static LocalDateTime inputTime() {
+        String format = "yyyy/MM/dd-HH:mm";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input your desired time in (" + format + ") (24 hour time)");
+        String timeString = scanner.nextLine();
+        return LocalDateTime.parse(timeString, formatter);
     }
 
     public static void main(String[] args) {

@@ -1,11 +1,7 @@
-Class name: TaskToEventAuto
-Implements TaskToEvent
+Interface: TaskToEventAuto
 
 Responsibilities:
-    - Finds an available time in the Calendar using EventScheduler and confirms it with the user
-    - Converts the Task into an Event with the available time
+    - Finds an available time in the Calendar using EventScheduler
 
 Collaborators:
-    - Task
-    - Event
-    - EventScheduler
+NA

@@ -1,5 +1,7 @@
 package main.java.controller;
 
+import main.java.entity.Task;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.List;
 public class MainController {
     private final EventController eventController = new EventController();
     private final TaskController taskController = new TaskController();
+    private final TaskToEventController taskToEventController = new TaskToEventController(eventController);
 
     /**
      * Return a list of events data in the format of a map, with keys as
@@ -29,6 +32,15 @@ public class MainController {
     }
 
     /**
+     * Gets a Task by its name
+     * @param name name of Task
+     * @return Task with given name
+     */
+    public Task getTaskByName(String name) {
+        return taskController.getTaskByName(name);
+    }
+
+    /**
      * creates an event and adds it to the calendar
      * @param eventName name of the event to be created
      * @param startTime start time of the event
@@ -43,9 +55,28 @@ public class MainController {
     }
     /**
      * creates a task and adds it to the todolist
-     * */
+     */
     public boolean createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
         return taskController.createTask(taskName, timeNeeded, deadline, subTasks);
+    }
+
+    /**
+     * Suggest a time to the user until the user is agrees with the time
+     * @param task the task to be scheduled to event
+     * @return whether the task is successfully scheduled to event
+     */
+    public boolean suggestTimeToUser(Task task) {
+        return taskToEventController.suggestTimeToUser(task);
+    }
+
+    /**
+     * Check whether the time suggested by the user is available
+     * @param task the task to be scheduled to event
+     * @param userSuggestedTime the time suggested by the user
+     * @return whether the task is successfully scheduled to event
+     */
+    public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
+        return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 
 }

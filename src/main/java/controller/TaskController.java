@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import main.java.entity.Task;
 import main.java.use_case.AccessTodoData;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
@@ -33,4 +34,12 @@ public class TaskController {
         return true; // TODO: return value should indicate success of data creation
     }
 
+    /**
+     * Gets a Task by its name
+     * @param name name of Task
+     * @return Task with given name
+     */
+    public Task getTaskByName(String name) {
+        return taskGetter.getTaskByName(name, todoData);
+    }
 }

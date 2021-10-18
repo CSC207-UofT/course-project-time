@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class EventScheduler {
     private ArrayList<Event> eventList;
-//    private TaskToEvent converter;
+//    private TaskToEventAuto converter;
     private GapFinder gapFinder;
 
     public EventScheduler(){
@@ -111,9 +111,15 @@ public class EventScheduler {
                 LocalDateTime endTime = evt.getEndTime().atDate(date);
                 if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime)) {
                     return false;
-                }
-                else if (targetTime.plus(timeNeeded).isAfter(startTime)) {
+                } else if (targetTime.plus(timeNeeded).isAfter(startTime) && targetTime.plus(timeNeeded).isBefore(endTime)) {
                     return false;
+                } else if (targetTime.plus(timeNeeded.dividedBy(2)).isAfter(startTime) && targetTime.plus(timeNeeded.dividedBy(2)).isBefore(endTime)) {
+                    // deals with the edge case where the new event completely overlaps a current event
+                    return false;
+                } else if (startTime.isAfter(targetTime) && startTime.isBefore(targetTime.plus(timeNeeded))) {
+                    return false;
+                } else if (endTime.isAfter(targetTime) && endTime.isBefore(targetTime.plus(timeNeeded))) {
+                    return false
                 }
             }
         }
@@ -152,14 +158,14 @@ class TimeFrame implements Comparable<TimeFrame> {
  * Assumes that times do not overlap.
  */
 class SortAndSearch implements GapFinder {
+    @Override
     public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration) {
         Collections.sort(timeFramesToIgnore);
         TimeFrame first, second = null;
         for (TimeFrame t : timeFramesToIgnore) {
             first = second;
             second = t;
-            if (first != null && first.end.plus(taskDuration).isBefore(second.start))
-                return first.end;
+            if (first != null && first.end.plus(taskDuration).isBefore(second.start)) return first.end;
         }
         return second == null ? LocalDateTime.now().plus(taskDuration) : second.end;
     }
