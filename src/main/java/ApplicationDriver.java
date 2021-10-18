@@ -105,8 +105,22 @@ public class ApplicationDriver {
             case "6":
                 printTasks();
                 Task taskManual = chooseTask();
-                LocalDateTime userSuggestedTime = inputTime();
-                controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                LocalDateTime userSuggestedTime;
+                boolean timeAvailable;
+
+                do {
+                    userSuggestedTime = inputTime();
+                    timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                } while (!timeAvailable);
+
+                success = controller.createEvent(taskManual.getTaskName(), userSuggestedTime.toLocalTime(),
+                        userSuggestedTime.toLocalTime().plus(taskManual.getTimeNeeded()), new HashSet<>(), userSuggestedTime.toLocalDate());
+
+                if (success) {
+                    System.out.println("Event created from task");
+                } else {
+                    System.out.println("Failed to create event from task");
+                }
                 break;
             default:
                 break;

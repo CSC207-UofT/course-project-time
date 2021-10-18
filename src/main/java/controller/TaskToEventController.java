@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
-    private final TaskToEvent taskToEventAuto = new TaskToEvent();
+    private final TaskToEvent taskToEvent = new TaskToEvent();
 
     protected final EventController eventController;
 
@@ -31,7 +31,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
         Scanner scanner = new Scanner(System.in);
 
         do {
-            suggestedTime = taskToEventAuto.getAvailableTime(
+            suggestedTime = taskToEvent.getAvailableTime(
                     task, eventController.calendarData.getCalendar(), eventController.eventScheduler, unwantedTimes
             );
             System.out.println("Suggested time: " + suggestedTime);
@@ -52,6 +52,6 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      */
     @Override
     public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
-        return false;
+        return taskToEvent.checkTimeAvailability(task, eventController.calendarData, eventController.eventScheduler, userSuggestedTime);
     }
 }

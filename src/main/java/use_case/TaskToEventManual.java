@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 
 public interface TaskToEventManual {
 
-    boolean checkTimeAvailability(Task task, Calendar calendar, EventScheduler eventScheduler, LocalDateTime userSuggestedTime);
+    boolean checkTimeAvailability(Task task, AccessCalendarData accessCalendarData, EventScheduler eventScheduler, LocalDateTime userSuggestedTime);
 }

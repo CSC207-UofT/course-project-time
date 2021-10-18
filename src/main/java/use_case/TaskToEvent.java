@@ -24,14 +24,14 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
     /**
      * Checks the availability of a given time
      * @param task the Task to be scheduled
-     * @param calendar the Calendar where the Task is to be scheduled
+     * @param accessCalendarData the Calendar where the Task is to be scheduled
      * @param eventScheduler what will be used for this scheduling
      * @param userSuggestedTime times that the user suggested
      * @return whether the time suggested by the user is available
      */
     @Override
-    public boolean checkTimeAvailability(Task task, Calendar calendar, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
-        return false;
+    public boolean checkTimeAvailability(Task task, AccessCalendarData accessCalendarData, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
+        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), task.getTimeNeeded(), userSuggestedTime.toLocalDate(), accessCalendarData);
     }
 }
 
