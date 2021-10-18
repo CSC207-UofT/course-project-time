@@ -42,4 +42,14 @@ public class TaskGetter {
 
         return task_data;
     }
+
+    public Task getTaskByName(String name, AccessTodoData accessTodoData) {
+        List<Task> allTasks = accessTodoData.getTodoList().getTasks();
+        for (Task task : allTasks) {
+            if (task.getTaskName().equals(name)) {
+                return task;
+            }
+        }
+        return null;
+    }
 }

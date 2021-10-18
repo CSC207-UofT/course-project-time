@@ -4,6 +4,10 @@ import main.java.entity.Calendar;
 import main.java.entity.Event;
 import main.java.entity.Task;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface TaskToEvent {
-    Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler);
+
+    LocalDateTime getAvailableTime(Task task, Calendar calendar, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes);
 }

@@ -152,6 +152,7 @@ class TimeFrame implements Comparable<TimeFrame> {
  * Assumes that times do not overlap.
  */
 class SortAndSearch implements GapFinder {
+    @Override
     public LocalDateTime findTimeGap(List<TimeFrame> timeFramesToIgnore, Duration taskDuration) {
         Collections.sort(timeFramesToIgnore);
         TimeFrame first, second = null;

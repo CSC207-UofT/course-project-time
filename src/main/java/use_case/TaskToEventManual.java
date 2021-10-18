@@ -7,7 +7,7 @@ import main.java.entity.Task;
 
 import java.time.LocalDateTime;
 
-public class TaskToEventManual implements TaskToEvent {
+public class TaskToEventManual {
 
     private TaskEventManualController timeAsker;
 
@@ -21,7 +21,6 @@ public class TaskToEventManual implements TaskToEvent {
      * @param calendar  the calendar that contains the user's available times
      * @return an Event scheduled at a user suggested time
      */
-    @Override
     public Event createEventFromTask(Task task, Calendar calendar, EventScheduler eventScheduler) {
         LocalDateTime userSuggestedTime = getUserSuggestedTime();
         boolean validTime = eventScheduler.checkAvailability(userSuggestedTime, calendar, task.getTimeNeeded());
