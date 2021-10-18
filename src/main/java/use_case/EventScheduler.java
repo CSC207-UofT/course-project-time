@@ -53,7 +53,7 @@ public class EventScheduler {
      * already been added
      */
     public void uncompletedTasksToEvents(AccessTodoData todoData, AccessCalendarData calendarData){
-        List<Task> alreadyConvertedTasks = new ArrayList<>() {};
+        List<Task> alreadyConvertedTasks = new ArrayList<>();
         for (Event event : eventList) {
             alreadyConvertedTasks.add(event.getTask());
         }

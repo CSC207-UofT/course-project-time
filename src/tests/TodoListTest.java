@@ -1,5 +1,7 @@
-package main.java;
+package tests;
 
+import main.java.entity.Task;
+import main.java.entity.TodoList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
