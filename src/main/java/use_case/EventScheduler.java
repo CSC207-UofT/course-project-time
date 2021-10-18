@@ -114,7 +114,12 @@ public class EventScheduler {
                 } else if (targetTime.plus(timeNeeded).isAfter(startTime) && targetTime.plus(timeNeeded).isBefore(endTime)) {
                     return false;
                 } else if (targetTime.plus(timeNeeded.dividedBy(2)).isAfter(startTime) && targetTime.plus(timeNeeded.dividedBy(2)).isBefore(endTime)) {
+                    // deals with the edge case where the new event completely overlaps a current event
                     return false;
+                } else if (startTime.isAfter(targetTime) && startTime.isBefore(targetTime.plus(timeNeeded))) {
+                    return false;
+                } else if (endTime.isAfter(targetTime) && endTime.isBefore(targetTime.plus(timeNeeded))) {
+                    return false
                 }
             }
         }
