@@ -32,9 +32,9 @@ Our CRC model consists of:
 [`MainController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/MainController), 
 [`EventController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/EventController), 
 [`TaskController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskController),
-[`TaskEventConsoleController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventConsoleController),
-[`TaskEventAutoController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventAutoController),
-[`TaskEventManualController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventManualController).
+[`TaskToEventController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskToEventController),
+[`TaskToEventAutoController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskToEventAutoController),
+[`TaskToEventManualController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskToEventManualController).
 
 **User Interface**: 
 [`ApplicationDriver`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/ApplicationDriver)
@@ -71,7 +71,7 @@ CRC cards were created by the whole team.
 #### Craig
 * Created `Calendar` with Alexander
 * Created `TaskToEventConsoleController`, `TaskToEventAuto`, `TaskToEventManual` classes (may be removed later for better design choice)
-* Created `TaskEventAutoController` and `TaskEventManualController`
+* Created `TaskToEventAutoController` and `TaskToEventManualController`
 * Simple refactoring
 * Revisited and planned higher level design choices
 
