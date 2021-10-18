@@ -15,23 +15,27 @@ Our CRC model consists of:
 [`TodoList`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/entity/TodoList),
 [`Calendar`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/entity/Calendar).
 
-**10 Use Case** classes: 
+**11 Use Case** classes: 
 [`AccessCalendarData`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/AccessCalendarData),
 [`AccessTodoData`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/AccessTodoData),
 [`EventAdder`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/EventAdder), 
 [`EventGetter`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/EventGetter), 
 [`EventScheduler`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/EventScheduler), 
+[`GetEvent`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/GetEvent),
 [`TaskAdder`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskAdder), 
 [`TaskGetter`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskGetter), 
 [`TaskToEvent`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskToEvent),
 [`TaskToEventAuto`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskToEventAuto),
 [`TaskToEventManual`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/use_case/TaskToEventManual).
 
-**4 Controllers**: 
+**6 Controllers**: 
 [`MainController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/MainController), 
 `TaskEventConsoleController`,
 [`EventController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/EventController), 
-[`TaskController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskController).
+[`TaskController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskController),
+[`TaskEventConsoleController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventConsoleController),
+[`TaskEventAutoController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventAutoController),
+[`TaskEventManualController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventManualController).
 
 
 **4 interfaces**: 
