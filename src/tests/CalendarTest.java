@@ -29,25 +29,13 @@ class CalendarTest {
         taskDuration = Duration.ofHours(2);
         Task task = new Task("Math Homework");
         Event event = new Event(task, startDate, endTime);
-        Event[] eventlst = {event};
+        List<Event> eventlst = new ArrayList<>();
+        eventlst.add(event);
         calendar = new Calendar("New Calendar", eventlst);
     }
 
     @AfterEach
     void tearDown() {
-    }
-
-    @Test
-    void getAvailableTime() {
-        LocalDateTime expectedDateTime = LocalDateTime.of(2021, 10, 14, 16, 0, 0);
-        assertEquals(expectedDateTime, calendar.getAvailableTime(timesToIgnore, taskDuration));
-
-    }
-
-    @Test
-    void checkAvailability() {
-        LocalDateTime targetTime = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
-        assertTrue(calendar.checkAvailability(targetTime));
     }
 
     @Test
