@@ -39,7 +39,7 @@ Our CRC model consists of:
 **User Interface**: 
 [`ApplicationDriver`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/ApplicationDriver)
 
-See the display of CRC model in [this](https://docs.google.com/document/d/1YTfGWKZDEcyUZQwhMmWOKlNjJ1-Js9C3Dfnd-Lw-5Y4/edit) google doc.
+<!---(google doc crc card outdated) See the display of CRC model in [this](https://docs.google.com/document/d/1YTfGWKZDEcyUZQwhMmWOKlNjJ1-Js9C3Dfnd-Lw-5Y4/edit) google doc.) -->
 
 ## Scenario Walk-through
 The user will be able to: 
