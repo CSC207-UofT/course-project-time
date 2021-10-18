@@ -114,21 +114,6 @@ public class ApplicationDriver {
         return true;
     }
 
-    /**
-     * prints the time to the user and receives user input
-     * @param time an available time for the event
-     * @return  a boolean indicating if the user agrees with the suggested time
-     */
-    private static boolean confirmTimeWithUser(LocalDateTime time) {
-        boolean scheduled;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Suggested time: " + time);
-        System.out.println("Type 0 for yes, 1 for no");
-        int response = scanner.nextInt(); //TODO exception handling
-        scheduled = response == 0;
-        scanner.close();
-        return scheduled;
-    }
 
     /**
      * prompts the user for inputs needed to create a new event
