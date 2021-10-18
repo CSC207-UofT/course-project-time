@@ -111,6 +111,9 @@ public class ApplicationDriver {
                 do {
                     userSuggestedTime = inputTime();
                     timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                    if (!timeAvailable) {
+                        System.out.println("Time not available, please retry.");
+                    }
                 } while (!timeAvailable);
 
                 success = controller.createEvent(taskManual.getTaskName(), userSuggestedTime.toLocalTime(),
@@ -234,6 +237,7 @@ public class ApplicationDriver {
         Scanner scanner = new Scanner(System.in);
         String chosen;
 
+        // todo in the future lift the assumption where names are unique
         do {
             System.out.print("Please choose a task by typing its name (case-sensitive): ");
             chosen = scanner.nextLine();

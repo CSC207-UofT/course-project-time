@@ -40,7 +40,7 @@ public class EventController {
      * @return whether the creation succeeded
      */
     public boolean createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
-        LocalTime endTime = startDateTime.plus(duration.toSeconds(), ChronoUnit.SECONDS).toLocalTime();
+        LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
         return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<String>(), startDateTime.toLocalDate());
     }
 
