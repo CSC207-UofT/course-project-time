@@ -1,6 +1,12 @@
-## Replace this README.md!
+## Phase0 Things to Note
 
-This is a standard README.md file for you to replace. You'll want to include your own content here!
+For phase 0, run ApplicationDriver.java, and you will be prompted for inputs to 
+interact with our application. Note that several tasks and events have been created 
+so that viewing all events and tasks will print something.
 
-MD (Markdown) files use [Markdown formatting](https://guides.github.com/features/mastering-markdown/): 
-these look very much like .txt files, so you can write them in a very similar way.
+Our program prints a prompt indicating that there are six actions for users to choose from, 
+but note that we have only implemented the first four. The rest are in progress!
+
+See the phase0 folder for files related to phase0 submission and crcCards folder for our
+crc model. You can also view the crc cards more easily on 
+[this](https://docs.google.com/document/d/1YTfGWKZDEcyUZQwhMmWOKlNjJ1-Js9C3Dfnd-Lw-5Y4/edit) google doc!
