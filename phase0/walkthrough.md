@@ -8,8 +8,8 @@ the user can perform:
 * View all tasks
 * Create a new task
 * Create a new event
-* Auto-schedule a task
-* Manually schedule a task
+* Auto-schedule a task (not implemented in phase0)
+* Manually schedule a task (not implemented in phase0)
 
 The user inputs the selected action in the command line. In order to execute the action,
 the ApplicationDriver calls methods provided in the MainController.
