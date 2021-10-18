@@ -1,11 +1,7 @@
-Class name: TaskToEventManual
-Implements TaskToEvent
+Interface: TaskToEventManual
 
 Responsibilities:
-    - Creates an Event from the Task with a specific time specified by the user
-    - Uses EventScheduler to check if the time is available
+    - Checks the availability of a specific time specified by the user to be turned into an Event
 
 Collaborators:
-    - Task
-    - Event
-    - EventScheduler
+NA

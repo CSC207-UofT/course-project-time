@@ -1,17 +1,15 @@
 package main.java.controller;
 
 import main.java.entity.Task;
-import main.java.use_case.TaskToEventAuto;
+import main.java.use_case.TaskToEvent;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
-    private final TaskToEventAuto taskToEventAuto = new TaskToEventAuto();
-//    private final TaskToEventManual taskToEventManual = new TaskToEventManual();
+    private final TaskToEvent taskToEventAuto = new TaskToEvent();
 
     protected final EventController eventController;
 
@@ -46,15 +44,14 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
         return eventController.createEvent(task.getTaskName(), suggestedTime, task.getTimeNeeded());
     }
 
+    /**
+     * Check whether the time suggested by the user is available
+     * @param task the task to be scheduled to event
+     * @param userSuggestedTime the time suggested by the user
+     * @return whether the task is successfully scheduled to event
+     */
     @Override
-    public LocalDateTime getUserSuggestedTime() {
-        String format = "yyyy-MM-dd HH:mm";
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Input time for task in (" + format + ") (24 hour time):");
-        String response = scanner.next(); //TODO exception handling
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        LocalDateTime dateTime = LocalDateTime.parse(response, formatter);
-        scanner.close();
-        return dateTime;
+    public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
+        return false;
     }
 }

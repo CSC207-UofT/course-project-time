@@ -61,10 +61,22 @@ public class MainController {
     }
 
     /**
-     * calls taskToEventController.suggestTimeToUser
+     * Suggest a time to the user until the user is agrees with the time
+     * @param task the task to be scheduled to event
+     * @return whether the task is successfully scheduled to event
      */
     public boolean suggestTimeToUser(Task task) {
         return taskToEventController.suggestTimeToUser(task);
+    }
+
+    /**
+     * Check whether the time suggested by the user is available
+     * @param task the task to be scheduled to event
+     * @param userSuggestedTime the time suggested by the user
+     * @return whether the task is successfully scheduled to event
+     */
+    public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
+        return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 
 }

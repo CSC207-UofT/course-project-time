@@ -1,9 +1,13 @@
-Interface: TaskToEvent
+Class: TaskToEvent
+    - Implements TaskToEventAuto, TaskToEventManual
 
 Responsibility:
-    - Given Task, create an Event and add schedule it
+    - Obtains the available time for auto-scheduling
+    - Checks whether the user-inputted time is available for manual-scheduling
 
 Collaborator:
     - Task
-    - Event
+    - Calendar
     - EventScheduler
+    - TaskToEventAuto
+    - TaskToEventManual

@@ -1,8 +1,10 @@
 package main.java.controller;
 
+import main.java.entity.Task;
+
 import java.time.LocalDateTime;
 
 public interface TaskToEventManualController {
-    LocalDateTime getUserSuggestedTime();
+    boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime);
 }
 

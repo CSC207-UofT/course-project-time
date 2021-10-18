@@ -103,7 +103,10 @@ public class ApplicationDriver {
                 }
                 break;
             case "6":
-                System.out.println("Manual-scheduling is not yet implemented"); // TODO implement this functionality
+                printTasks();
+                Task taskManual = chooseTask();
+                LocalDateTime userSuggestedTime = inputTime();
+                controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
                 break;
             default:
                 break;
@@ -238,6 +241,19 @@ public class ApplicationDriver {
         } while (!taskNames.contains(chosen));
 
         return controller.getTaskByName(chosen);
+    }
+
+    /**
+     * Prompts the user to input a time
+     * @return the time the user inputted
+     */
+    private static LocalDateTime inputTime() {
+        String format = "yyyy/MM/dd-HH:mm";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input your desired time in (" + format + ") (24 hour time)");
+        String timeString = scanner.nextLine();
+        return LocalDateTime.parse(timeString, formatter);
     }
 
     public static void main(String[] args) {
