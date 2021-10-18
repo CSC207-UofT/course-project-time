@@ -1,11 +1,8 @@
 package main.java.use_case;
-import main.java.controller.TaskEventAutoController;
 import main.java.entity.Calendar;
-import main.java.entity.Event;
 import main.java.entity.Task;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TaskToEventAuto implements TaskToEvent {

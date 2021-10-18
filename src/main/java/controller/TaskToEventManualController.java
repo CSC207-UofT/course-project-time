@@ -2,7 +2,7 @@ package main.java.controller;
 
 import java.time.LocalDateTime;
 
-public interface TaskEventManualController {
+public interface TaskToEventManualController {
     LocalDateTime getUserSuggestedTime();
 }
 

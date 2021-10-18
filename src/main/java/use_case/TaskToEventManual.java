@@ -1,6 +1,6 @@
 package main.java.use_case;
 
-import main.java.controller.TaskEventManualController;
+import main.java.controller.TaskToEventManualController;
 import main.java.entity.Calendar;
 import main.java.entity.Event;
 import main.java.entity.Task;
@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 
 public class TaskToEventManual {
 
-    private TaskEventManualController timeAsker;
+    private TaskToEventManualController timeAsker;
 
-    public TaskToEventManual(TaskEventManualController timeAsker) {
+    public TaskToEventManual(TaskToEventManualController timeAsker) {
         this.timeAsker = timeAsker;
     }
 

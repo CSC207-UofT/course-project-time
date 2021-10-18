@@ -13,7 +13,7 @@ import java.util.List;
 public class MainController {
     private final EventController eventController = new EventController();
     private final TaskController taskController = new TaskController();
-    private final TaskToEventConsoleController taskToEventConsoleController = new TaskToEventConsoleController(eventController);
+    private final TaskToEventController taskToEventController = new TaskToEventController(eventController);
 
     /**
      * Return a list of events data in the format of a map, with keys as
@@ -61,10 +61,10 @@ public class MainController {
     }
 
     /**
-     * calls taskToEventConsoleController.suggestTimeToUser
+     * calls taskToEventController.suggestTimeToUser
      */
     public boolean suggestTimeToUser(Task task) {
-        return taskToEventConsoleController.suggestTimeToUser(task);
+        return taskToEventController.suggestTimeToUser(task);
     }
 
 }

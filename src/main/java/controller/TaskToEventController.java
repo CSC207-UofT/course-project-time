@@ -2,23 +2,20 @@ package main.java.controller;
 
 import main.java.entity.Task;
 import main.java.use_case.TaskToEventAuto;
-import main.java.use_case.TaskToEventManual;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TaskToEventConsoleController implements TaskEventAutoController, TaskEventManualController {
+public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
     private final TaskToEventAuto taskToEventAuto = new TaskToEventAuto();
 //    private final TaskToEventManual taskToEventManual = new TaskToEventManual();
 
     protected final EventController eventController;
 
-    public TaskToEventConsoleController(EventController eventController) {
+    public TaskToEventController(EventController eventController) {
         this.eventController = eventController;
     }
 
