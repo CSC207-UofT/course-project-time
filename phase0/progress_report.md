@@ -30,19 +30,11 @@ Our CRC model consists of:
 
 **6 Controllers**: 
 [`MainController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/MainController), 
-`TaskEventConsoleController`,
 [`EventController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/EventController), 
 [`TaskController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskController),
 [`TaskEventConsoleController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventConsoleController),
 [`TaskEventAutoController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventAutoController),
 [`TaskEventManualController`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/controllers/TaskEventManualController).
-
-
-**4 interfaces**: 
-`GetEvent`, 
-`TaskToEvent`, 
-`TaskEventAutoController`, 
-`TaskEventManualController`
 
 **User Interface**: 
 [`ApplicationDriver`](https://github.com/CSC207-UofT/course-project-time/blob/main/crcCards/ApplicationDriver)
