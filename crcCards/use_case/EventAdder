@@ -1,8 +1,11 @@
 Class: EventAdder
 
 Responsibilities:
-    - Methods that add events that the calendar will contain
+    - Creates an event and add it to calendar, and adds the corresponding task to todoList
 
 Collaborators:
-    - Calendar
-
+    - Task
+    - Event
+    - EventScheduler
+    - TodoList
+    - AccessCalendarData

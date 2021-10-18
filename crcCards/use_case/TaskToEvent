@@ -1,7 +1,7 @@
 Interface: TaskToEvent
 
 Responsibility:
-    - Given Task, create an Event
+    - Given Task, create an Event and add schedule it
 
 Collaborator:
     - Task

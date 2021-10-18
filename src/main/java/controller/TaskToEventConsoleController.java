@@ -1,4 +1,7 @@
-package main.java.use_case;
+package main.java.controller;
+
+import main.java.use_case.TaskEventAutoController;
+import main.java.use_case.TaskEventManualController;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

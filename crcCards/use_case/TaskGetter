@@ -2,8 +2,9 @@ Class: TaskGetter
 Clean Architecture Layer: Use Case (Application Business Rules)
 
 Responsibilities:
-    - Get the nessecary task data from a TodoList for displaying purposes
+    - Retrieves and return organized task information from the todolist
 
 Collaborator:
-    - Calendar
+    - Task
     - TodoList
+    - AccessTodoData

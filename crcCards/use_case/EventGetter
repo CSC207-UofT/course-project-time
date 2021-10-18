@@ -1,8 +1,10 @@
 Class: EventGetter
-Clean Architecture Layer: Use Case (Application Business Rules)
+Implements GetEvent
 
 Responsibilities:
-    - Get the nessecary event data from a calendar for displaying purposes
+    - Provides a method to retrieves and organize event information from a Calendar
 
 Collaborator:
+    - Event
     - Calendar
+    - AccessCalendarData

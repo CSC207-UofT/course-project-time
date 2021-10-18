@@ -1,0 +1,7 @@
+Interface: TaskEventAutoController
+
+Responsibility:
+    - Specifies a method to confirm a suggested time with the user when scheduling a task
+
+Collaborators:
+NA

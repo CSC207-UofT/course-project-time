@@ -1,7 +1,8 @@
 Class: TodoList
 
 Responsibility:
-    - Stores tasks (uncompleted and completed)
+    - Stores all completed tasks and uncompleted tasks
+    - Able to add a completed or uncompleted task
 
 Collaborator:
     - Task

@@ -1,13 +1,9 @@
 Class: AccessTodoData
 
 Responsibilities:
-    - Provide access to the Todo list for other use cases
-    - Allow use cases to edit the TodoList
+    - Stores a Todolist
+    - Provides a getter for the todolist
 
 Collaborators:
     - Task
-    - TaskGetter
-    - TaskController
-    - TaskAdder
-    - TaskGetter
     - TodoList

@@ -2,7 +2,9 @@
 Class: TaskAdder
 
 Responsibilities:
-    - Creates a task
+    - Creates a task and adds it to the TodoList
 
 Collaborators:
     - Task
+    - TodoList
+    - AccessTodoData

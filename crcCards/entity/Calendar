@@ -1,11 +1,11 @@
 Class: Calendar
 
 Responsibilities:
-    - Stores multiple Event objects
-    - Performs queries on the stored Events such as
-        - finding an available time gap
-        - finding whether a time is unavailable
-    - Stores the name of the Calendar
+    - Stores the name of the calendar
+    - Stores a list of events
+    - Stores a todolist that contains all the tasks that are in this calendar
+
 
 Collaborator:
     - Event
+    - TodoList

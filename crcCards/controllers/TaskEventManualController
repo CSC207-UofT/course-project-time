@@ -1,0 +1,7 @@
+Interface: TaskEventManualController
+
+Responsibility:
+    - Specifies a method to get user to suggest a time to schedule a task
+
+Collaborators:
+NA

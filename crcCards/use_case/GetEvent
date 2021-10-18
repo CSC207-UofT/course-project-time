@@ -1,0 +1,7 @@
+Interface: GetEvent
+
+Responsibility:
+    - Specifies a method to retrieves and organize event information from a Calendar
+
+Collaborators:
+NA
