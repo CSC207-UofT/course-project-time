@@ -119,7 +119,7 @@ public class EventScheduler {
                 } else if (startTime.isAfter(targetTime) && startTime.isBefore(targetTime.plus(timeNeeded))) {
                     return false;
                 } else if (endTime.isAfter(targetTime) && endTime.isBefore(targetTime.plus(timeNeeded))) {
-                    return false
+                    return false;
                 }
             }
         }
