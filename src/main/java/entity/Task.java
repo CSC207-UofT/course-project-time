@@ -24,7 +24,7 @@ public class Task {
      * @param taskName name of the task
      */
     public Task(String taskName) {
-        this(taskName, null, null);
+        this(taskName, Duration.ofHours(1), null);
     }
 
     /**

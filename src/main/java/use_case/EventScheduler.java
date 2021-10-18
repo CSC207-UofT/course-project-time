@@ -3,6 +3,7 @@ package main.java.use_case;
 import main.java.entity.Calendar;
 import main.java.entity.Event;
 import main.java.entity.Task;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -112,7 +113,7 @@ public class EventScheduler {
                 if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime)) {
                     return false;
                 }
-                else if (targetTime.plus(timeNeeded).isAfter(startTime)) {
+                else if (targetTime.plus(timeNeeded).isAfter(startTime) && targetTime.plus(timeNeeded).isBefore(endTime)) {
                     return false;
                 }
             }
@@ -159,8 +160,9 @@ class SortAndSearch implements GapFinder {
         for (TimeFrame t : timeFramesToIgnore) {
             first = second;
             second = t;
-            if (first != null && first.end.plus(taskDuration).isBefore(second.start))
+            if (first != null && first.end.plus(taskDuration).isBefore(second.start)) {
                 return first.end;
+            }
         }
         return second == null ? LocalDateTime.now().plus(taskDuration) : second.end;
     }

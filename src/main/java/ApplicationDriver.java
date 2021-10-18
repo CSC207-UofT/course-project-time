@@ -96,6 +96,11 @@ public class ApplicationDriver {
                 printTasks();
                 Task task = chooseTask();
                 success = controller.suggestTimeToUser(task);
+                if (success) {
+                    System.out.println("Event created from task");
+                } else {
+                    System.out.println("Failed to create event from task");
+                }
                 break;
             case "6":
                 System.out.println("Manual-scheduling is not yet implemented"); // TODO implement this functionality
