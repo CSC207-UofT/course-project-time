@@ -99,6 +99,7 @@ public class ApplicationDriver {
                 if (success) {
                     System.out.println("Event created from task");
                 } else {
+                    // todo use exceptions in the future to track reason of failure
                     System.out.println("Failed to create event from task");
                 }
                 break;

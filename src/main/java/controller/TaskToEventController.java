@@ -18,7 +18,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
     }
 
     /**
-     * Suggest a time to the user until the user is agrees with the time
+     * Suggest a time to the user until the user agrees with the time
      * @param task the task to be scheduled to event
      * @return whether the task is successfully scheduled to event
      */

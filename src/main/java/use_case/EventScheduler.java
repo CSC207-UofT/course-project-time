@@ -111,8 +111,9 @@ public class EventScheduler {
                 LocalDateTime endTime = evt.getEndTime().atDate(date);
                 if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime)) {
                     return false;
-                }
-                else if (targetTime.plus(timeNeeded).isAfter(startTime) && targetTime.plus(timeNeeded).isBefore(endTime)) {
+                } else if (targetTime.plus(timeNeeded).isAfter(startTime) && targetTime.plus(timeNeeded).isBefore(endTime)) {
+                    return false;
+                } else if (targetTime.plus(timeNeeded.dividedBy(2)).isAfter(startTime) && targetTime.plus(timeNeeded.dividedBy(2)).isBefore(endTime)) {
                     return false;
                 }
             }
