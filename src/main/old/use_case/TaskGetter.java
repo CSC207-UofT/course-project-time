@@ -1,7 +1,7 @@
-package main.java.use_case;
+package main.old.use_case;
 
-import main.java.entity.Task;
-import main.java.entity.TodoList;
+import main.old.entity.Task;
+import main.old.entity.TodoList;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
-package main.java.controller;
+package main.old.controller;
 
-import main.java.entity.Task;
-import main.java.use_case.TaskToEvent;
+import main.old.entity.Task;
+import main.old.use_case.TaskToEvent;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

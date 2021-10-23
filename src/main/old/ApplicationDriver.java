@@ -1,7 +1,7 @@
-package main.java;
+package main.old;
 
-import main.java.controller.MainController;
-import main.java.entity.Task;
+import main.old.controller.MainController;
+import main.old.entity.Task;
 
 import java.time.Duration;
 import java.time.LocalDate;

@@ -1,11 +1,11 @@
-package main.java.controller;
+package main.old.controller;
 
 
-import main.java.use_case.AccessCalendarData;
-import main.java.use_case.EventAdder;
-import main.java.use_case.EventScheduler;
-import main.java.use_case.GetEvent;
-import main.java.use_case.EventGetter;
+import main.old.use_case.AccessCalendarData;
+import main.old.use_case.EventAdder;
+import main.old.use_case.EventScheduler;
+import main.old.use_case.GetEvent;
+import main.old.use_case.EventGetter;
 
 import java.time.Duration;
 import java.time.LocalDate;

@@ -1,7 +1,7 @@
-package main.java.use_case;
+package main.old.use_case;
 
-import main.java.entity.Calendar;
-import main.java.entity.Event;
+import main.old.entity.Calendar;
+import main.old.entity.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
