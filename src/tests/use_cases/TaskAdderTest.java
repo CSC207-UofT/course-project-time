@@ -2,6 +2,8 @@ package tests.use_cases;
 
 import main.java.entity_accessors.NewTaskData;
 import main.java.entity_accessors.TaskManager;
+import main.java.use_cases.TaskAdder;
+import main.java.use_cases.TaskCreationBoundary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import tests.TestClassesBuilder;
@@ -14,20 +16,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskAdderTest {
 
-    NewTaskData newTaskData;
+    TaskCreationBoundary taskAdder;
+    List<NewTaskData> addedDataBuffer;
 
     @BeforeEach
     void setUp() {
-        newTaskData = TestClassesBuilder.createNewTaskData();
+        addedDataBuffer = new ArrayList<>();
+
+        TaskManager mockManager = new MockTestManager(addedDataBuffer);
+        taskAdder = new TaskAdder(mockManager);
     }
 
     @Test
     void addTask() {
-        List<NewTaskData> dataBuffer = new ArrayList<>();
-        TaskManager mockManager = new MockTestManager(dataBuffer);
-        mockManager.addTask(newTaskData);
 
-        NewTaskData addedTask = dataBuffer.get(0);
+        NewTaskData newTaskData = TestClassesBuilder.createNewTaskData();
+        taskAdder.createNewTask(newTaskData);
+        NewTaskData addedTask = addedDataBuffer.get(0);
+
         assertEquals(newTaskData.taskName, addedTask.taskName);
         assertEquals(newTaskData.deadline, addedTask.deadline);
         assertEquals(newTaskData.timeNeeded, addedTask.timeNeeded);
