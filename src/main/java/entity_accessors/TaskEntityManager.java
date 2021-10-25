@@ -23,4 +23,12 @@ public class TaskEntityManager implements TaskManager {
             return true;
         }
     }
+
+    @Override
+    public Map<Integer, TaskReader> getTaskReaders() {
+        Map<Integer, TaskReader> readerMap = new HashMap<>();
+        for (Map.Entry<Integer, Task> e : taskMap.entrySet())
+            readerMap.put(e.getKey(), new TaskEntityReader(e.getValue()));
+        return readerMap;
+    }
 }
