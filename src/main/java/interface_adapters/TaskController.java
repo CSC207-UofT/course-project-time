@@ -12,9 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TaskController {
-    private final AccessTodoData todoData = new AccessTodoData();
-    private final TaskGetter taskGetter = new TaskGetter();
-    private final TaskAdder taskAdder = new TaskAdder();
+    private final AccessTodoData todoData;
+    private final TaskGetter taskGetter;
+    private final TaskAdder taskAdder;
+
+    public TaskController(AccessTodoData todoData, TaskGetter taskGetter, TaskAdder taskAdder) {
+        this.todoData = todoData;
+        this.taskGetter = taskGetter;
+        this.taskAdder = taskAdder;
+    }
 
     /**
      * @return a list of tasks organized in map format, with
