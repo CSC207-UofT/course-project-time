@@ -1,6 +1,6 @@
 package main.java;
 
-import main.java.controller.MainController;
+import main.java.interface_adapters.MainController;
 import main.java.entity.Task;
 
 import java.time.Duration;
