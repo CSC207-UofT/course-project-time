@@ -11,9 +11,15 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MainController {
-    private final EventController eventController = new EventController();
-    private final TaskController taskController = new TaskController();
-    private final TaskToEventController taskToEventController = new TaskToEventController(eventController);
+    private final EventController eventController;
+    private final TaskController taskController;
+    private final TaskToEventController taskToEventController;
+
+    public MainController() {
+        eventController = new EventController();
+        taskController = new TaskController();
+        taskToEventController = new TaskToEventController(eventController);
+    }
 
     /**
      * Return a list of events data in the format of a map, with keys as
