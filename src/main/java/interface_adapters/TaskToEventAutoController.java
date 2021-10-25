@@ -1,8 +1,6 @@
-package main.java.controller;
+package main.java.interface_adapters;
 
 import main.java.entity.Task;
-
-import java.time.LocalDateTime;
 
 public interface TaskToEventAutoController {
 

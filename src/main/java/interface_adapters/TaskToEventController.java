@@ -1,4 +1,4 @@
-package main.java.controller;
+package main.java.interface_adapters;
 
 import main.java.entity.Task;
 import main.java.use_case.TaskToEvent;
