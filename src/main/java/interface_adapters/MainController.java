@@ -1,6 +1,10 @@
 package main.java.interface_adapters;
 
 import main.java.entity.Task;
+import main.java.entity_gateway.TodoListEntityManager;
+import main.java.use_case.AccessTodoData;
+import main.java.use_case.TaskAdder;
+import main.java.use_case.TaskGetter;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -17,7 +21,12 @@ public class MainController {
 
     public MainController() {
         eventController = new EventController();
-        taskController = new TaskController();
+
+        AccessTodoData accessTodoData = new AccessTodoData();
+        TaskGetter taskGetter = new TaskGetter();
+        TaskAdder taskAdder = new TaskAdder(new TodoListEntityManager());
+        taskController = new TaskController(accessTodoData, taskGetter, taskAdder);
+
         taskToEventController = new TaskToEventController(eventController);
     }
 
