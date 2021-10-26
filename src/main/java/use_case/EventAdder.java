@@ -42,14 +42,14 @@ public class EventAdder {
      *         true if the event is created and added to calendar successfully
      */
     // TODO implement make this method add to ManageCalendarData
-    public boolean addRepeatedEvents(long id, String eventName, LocalDateTime startTime,
-                                     LocalDateTime endTime, List<LocalDate> dates,
-                                     TodoList todoList, EventScheduler eventScheduler) {
-        Duration timeNeeded = Duration.between(startTime, endTime);
-        Task task = new Task(eventName, timeNeeded);
-        todoList.addTask(task);
-        Event event = new Event(id, task, startTime, endTime.toLocalTime());
-        event.addRepeatedDates(dates);
-        return true;
-    }
+//    public boolean addRepeatedEvents(long id, String eventName, LocalDateTime startTime,
+//                                     LocalDateTime endTime, List<LocalDate> dates,
+//                                     TodoList todoList, EventScheduler eventScheduler) {
+//        Duration timeNeeded = Duration.between(startTime, endTime);
+//        Task task = new Task(id, eventName, timeNeeded);  // todo ? why is a task created in EventAdder? should it be passed in instead?
+//        todoList.addTask(task);
+//        Event event = new Event(id, task, startTime, endTime.toLocalTime());
+//        event.addRepeatedDates(dates);
+//        return true;
+//    }
 }

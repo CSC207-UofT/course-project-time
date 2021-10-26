@@ -17,7 +17,7 @@ public class MainController {
     private final Snowflake snowflake = new Snowflake(1, 1, 0);
 
     private final EventController eventController = new EventController(snowflake);
-    private final TaskController taskController = new TaskController();
+    private final TaskController taskController = new TaskController(snowflake);
     private final TaskToEventController taskToEventController = new TaskToEventController(eventController);
 
     /**

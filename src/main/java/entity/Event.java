@@ -56,7 +56,7 @@ public class Event {
         this.endTime = endTime;
         this.tags = tags;
         Duration timeNeeded = Duration.between(startTime, endTime);
-        this.task = new Task(eventName, timeNeeded);
+        this.task = new Task(id, eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
     }

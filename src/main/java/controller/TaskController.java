@@ -2,6 +2,7 @@ package main.java.controller;
 
 import main.java.entity.Task;
 import main.java.use_case.AccessTodoData;
+import main.java.use_case.Snowflake;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
 import java.time.LocalDateTime;
@@ -12,9 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TaskController {
+
     private final AccessTodoData todoData = new AccessTodoData();
     private final TaskGetter taskGetter = new TaskGetter();
     private final TaskAdder taskAdder = new TaskAdder();
+
+    private final Snowflake snowflake;
+
+    public TaskController(Snowflake snowflake) {
+        this.snowflake = snowflake;
+    }
 
     /**
      * @return a list of tasks organized in map format, with
@@ -30,7 +38,7 @@ public class TaskController {
 
     public boolean createTask(String taskName, Duration timeNeeded,
                               LocalDateTime deadline, List<String> subTasks) {
-        taskAdder.addTask(taskName, timeNeeded, deadline, subTasks, todoData);
+        taskAdder.addTask(snowflake.nextId(), taskName, timeNeeded, deadline, subTasks, todoData);
         return true; // TODO: return value should indicate success of data creation
     }
 

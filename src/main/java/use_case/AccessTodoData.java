@@ -11,7 +11,7 @@ public class AccessTodoData {
      */
     public AccessTodoData() {
         todoList = new TodoList();
-        todoList.addTask(new Task("Finish CSC207 Phase 0"));
+        todoList.addTask(new Task(10, "Finish CSC207 Phase 0"));
     }
 
     public TodoList getTodoList() {

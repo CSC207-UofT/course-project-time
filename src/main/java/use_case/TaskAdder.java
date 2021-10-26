@@ -15,10 +15,10 @@ public class TaskAdder {
      * @param subTasks      a list of subtasks for the task
      * @param todoData      an instance of a todolist accessor
      */
-    public void addTask(String taskName, Duration timeNeeded,
+    public void addTask(long id, String taskName, Duration timeNeeded,
                         LocalDateTime deadline, List<String> subTasks,
                         AccessTodoData todoData) {
-        Task task = new Task(taskName, timeNeeded, deadline, subTasks);
+        Task task = new Task(id, taskName, timeNeeded, deadline, subTasks);
         todoData.getTodoList().addTask(task);
     }
 

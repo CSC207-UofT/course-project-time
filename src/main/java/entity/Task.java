@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class Task {
 
+    private long id;
     private String taskName;
     private boolean completed;
     private Duration timeNeeded;
@@ -25,8 +26,8 @@ public class Task {
      * Construct a task with task name
      * @param taskName name of the task
      */
-    public Task(String taskName) {
-        this(taskName, DEFAULT_DURATION, null);
+    public Task(long id, String taskName) {
+        this(id, taskName, DEFAULT_DURATION, null);
     }
 
     /**
@@ -34,8 +35,8 @@ public class Task {
      * @param taskName name of the task
      * @param timeNeeded time needed to complete the task
      */
-    public Task(String taskName, Duration timeNeeded) {
-        this(taskName, timeNeeded, null, new ArrayList<>());
+    public Task(long id, String taskName, Duration timeNeeded) {
+        this(id, taskName, timeNeeded, null, new ArrayList<>());
     }
 
     /**
@@ -44,8 +45,8 @@ public class Task {
      * @param timeNeeded time needed to complete the task
      * @param deadline deadline of the task
      */
-    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline) {
-        this(taskName, timeNeeded, deadline, new ArrayList<>());
+    public Task(long id, String taskName, Duration timeNeeded, LocalDateTime deadline) {
+        this(id, taskName, timeNeeded, deadline, new ArrayList<>());
     }
 
     /**
@@ -55,7 +56,8 @@ public class Task {
      * @param deadline deadline of the task
      * @param subTasks list of subtasks
      */
-    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+    public Task(long id, String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+        this.id = id;
         this.taskName = taskName;
         this.completed = false;
         this.timeNeeded = timeNeeded;
@@ -106,6 +108,10 @@ public class Task {
         } else {
             return false;
         }
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getTaskName() {
