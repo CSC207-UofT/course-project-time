@@ -46,7 +46,7 @@ public class Event {
      * @param date the date time of the event
      */
     public Event(String eventName, LocalTime startTime, LocalTime endTime,
-                 HashSet<String> tags, LocalDate date) {
+                 Set<String> tags, LocalDate date) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
