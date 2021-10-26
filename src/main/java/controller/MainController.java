@@ -1,6 +1,7 @@
 package main.java.controller;
 
 import main.java.entity.Task;
+import main.java.use_case.Snowflake;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -11,7 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MainController {
-    private final EventController eventController = new EventController();
+    // creates an instance of Snowflake that generates unique IDs
+    // this instance will be passed into the sub-controllers
+    private final Snowflake snowflake = new Snowflake(1, 1, 0);
+
+    private final EventController eventController = new EventController(snowflake);
     private final TaskController taskController = new TaskController();
     private final TaskToEventController taskToEventController = new TaskToEventController(eventController);
 

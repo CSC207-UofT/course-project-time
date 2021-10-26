@@ -18,12 +18,12 @@ public class AccessCalendarData {
      */
     public AccessCalendarData() {
         ArrayList<Event> events = new ArrayList<>();
-        events.add(new Event("Assignment 1",
+        events.add(new Event(1, "Assignment 1",
                             LocalTime.parse("08:00"),
                             LocalTime.parse("09:00"),
                             new HashSet<String>(),
                             LocalDate.parse("2021-12-12")));
-        events.add(new Event("Assignment 2",
+        events.add(new Event(2, "Assignment 2",
                 LocalTime.parse("08:00"),
                 LocalTime.parse("09:00"),
                 new HashSet<String>(),

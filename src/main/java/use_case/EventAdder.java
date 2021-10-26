@@ -21,10 +21,10 @@ public class EventAdder {
      * @return false if the event has conflict with calendar;
      *         true if the event is created and added to calendar successfully
      */
-    public boolean addEvent(String eventName, LocalDateTime startTime,
+    public boolean addEvent(long id, String eventName, LocalDateTime startTime,
                             LocalDateTime endTime, HashSet<String> tags, LocalDate date,
                             AccessCalendarData calendarData) {
-        Event event = new Event(eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+        Event event = new Event(id, eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         calendarData.addEvent(event);
         return true; // TODO: return value should indicate success of data creation
     }
@@ -42,13 +42,13 @@ public class EventAdder {
      *         true if the event is created and added to calendar successfully
      */
     // TODO implement make this method add to ManageCalendarData
-    public boolean addRepeatedEvents(String eventName, LocalDateTime startTime,
+    public boolean addRepeatedEvents(long id, String eventName, LocalDateTime startTime,
                                      LocalDateTime endTime, List<LocalDate> dates,
                                      TodoList todoList, EventScheduler eventScheduler) {
         Duration timeNeeded = Duration.between(startTime, endTime);
         Task task = new Task(eventName, timeNeeded);
         todoList.addTask(task);
-        Event event = new Event(task, startTime, endTime.toLocalTime());
+        Event event = new Event(id, task, startTime, endTime.toLocalTime());
         event.addRepeatedDates(dates);
         return true;
     }

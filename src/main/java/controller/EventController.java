@@ -1,11 +1,7 @@
 package main.java.controller;
 
 
-import main.java.use_case.AccessCalendarData;
-import main.java.use_case.EventAdder;
-import main.java.use_case.EventScheduler;
-import main.java.use_case.GetEvent;
-import main.java.use_case.EventGetter;
+import main.java.use_case.*;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -21,6 +17,12 @@ public class EventController {
     protected final AccessCalendarData calendarData = new AccessCalendarData();
     protected final EventAdder eventAdder = new EventAdder();
     protected final EventScheduler eventScheduler = new EventScheduler();
+
+    private final Snowflake snowflake;
+
+    public EventController(Snowflake snowflake) {
+        this.snowflake = snowflake;
+    }
 
     /**
      * Returns a list containing mappings of event attributes
@@ -59,7 +61,7 @@ public class EventController {
                                HashSet<String> tags, LocalDate dates) {
 
         if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData)) {
-            return eventAdder.addEvent(eventName,
+            return eventAdder.addEvent(snowflake.nextId(), eventName,
                                         LocalDateTime.of(dates, startTime),
                                         LocalDateTime.of(dates, endTime),
                                         tags, dates, calendarData);
