@@ -2,13 +2,25 @@ package main.java.use_case;
 
 import main.java.entity.Task;
 import main.java.entity.TodoList;
+import main.java.entity_gateway.TaskReader;
+import main.java.entity_gateway.TodoListManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class TaskGetter {
+public class TaskGetter implements TodoListDisplayBoundary {
+
+    private final TodoListManager todoListManager;
+    private final TodoListOutputBoundary taskPresenter;
+
+    public TaskGetter(TodoListManager todoListManager, TodoListOutputBoundary taskPresenter) {
+        this.todoListManager = todoListManager;
+        this.taskPresenter = taskPresenter;
+    }
+
     /**
      * @param todoData (stores a todolist which stores a list of tasks)
      * @return a list of tasks organized in map format, with
@@ -51,5 +63,12 @@ public class TaskGetter {
             }
         }
         return null;
+    }
+
+    @Override
+    public void presentAllTodoLists() {
+        Map<Integer, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
+        TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
+        taskPresenter.presentTasks(todoListInfo);
     }
 }
