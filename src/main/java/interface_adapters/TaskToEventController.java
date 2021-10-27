@@ -2,6 +2,9 @@ package main.java.interface_adapters;
 
 import main.java.entity.Task;
 import main.java.use_case.TaskToEvent;
+import main.java.use_case.EventFromTaskCreatorBoundary;
+import main.java.use_case.EventFromTaskId;
+import main.java.use_case.EventFromTaskModel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,12 +12,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
+
     private final TaskToEvent taskToEvent = new TaskToEvent();
+    private final EventFromTaskCreatorBoundary eventFromTaskCreatorBoundary;
 
     protected final EventController eventController;
 
-    public TaskToEventController(EventController eventController) {
+    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary) {
+        this.eventFromTaskCreatorBoundary = eventFromTaskBoundary;
         this.eventController = eventController;
+    }
+
+    public boolean createEventFromTask(int taskId, LocalDateTime startTime) {
+        EventFromTaskModel eventData = new EventFromTaskId(taskId, startTime);
+        return eventFromTaskCreatorBoundary.createEventFromTask(eventData);
     }
 
     /**
