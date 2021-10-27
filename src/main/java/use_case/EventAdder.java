@@ -3,6 +3,7 @@ package main.java.use_case;
 import main.java.entity.Event;
 import main.java.entity.Task;
 import main.java.entity.TodoList;
+import main.java.entity_gateway.CalendarManager;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -10,7 +11,14 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
-public class EventAdder {
+public class EventAdder implements CalendarEventCreationBoundary {
+
+    private final CalendarManager calendarManager;
+
+    public EventAdder(CalendarManager calendarManager) {
+        this.calendarManager = calendarManager;
+    }
+
 
     /**
      * Create a new event and add it to the calendar
@@ -28,6 +36,11 @@ public class EventAdder {
         calendarData.addEvent(event);
         return true; // TODO: return value should indicate success of data creation
     }
+
+    public boolean addEvent(CalendarEventModel eventData) {
+        return calendarManager.addEvent(eventData);
+    }
+
 
     /**
      * Create a repeated event and add it to the calendar
