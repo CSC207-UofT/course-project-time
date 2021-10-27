@@ -2,6 +2,7 @@ package main.java.interface_adapters;
 
 import main.java.entity.Task;
 import main.java.use_case.AccessTodoData;
+import main.java.use_case.NewTodoListTaskData;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class TaskController {
 
     public boolean createTask(String taskName, Duration timeNeeded,
                               LocalDateTime deadline, List<String> subTasks) {
-        taskAdder.addTask(taskName, timeNeeded, deadline, subTasks, todoData);
+        taskAdder.addTask(new NewTodoListTaskData(0, taskName, timeNeeded, deadline, subTasks));
         return true; // TODO: return value should indicate success of data creation
     }
 

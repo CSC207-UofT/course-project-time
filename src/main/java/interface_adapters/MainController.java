@@ -32,7 +32,7 @@ public class MainController {
 
         AccessTodoData accessTodoData = new AccessTodoData();
         TaskGetter taskGetter = new TaskGetter(todoListManager, todoListPresenter);
-        TaskAdder taskAdder = new TaskAdder();
+        TaskAdder taskAdder = new TaskAdder(todoListManager);
         taskController = new TaskController(accessTodoData, taskGetter, taskAdder);
 
         taskToEventController = new TaskToEventController(eventController);
@@ -100,6 +100,29 @@ public class MainController {
      */
     public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
+    }
+    
+    private class TempTodoListManager implements TodoListManager {
+
+        @Override
+        public int addTask(TodoListTaskCreationModel taskData) {
+            return 0;
+        }
+
+        @Override
+        public int createTodoList() {
+            return 0;
+        }
+
+        @Override
+        public TaskReader getTask(int todoListId, int taskId) {
+            return null;
+        }
+
+        @Override
+        public Map<Integer, List<TaskReader>> getAllTasks() {
+            return null;
+        }
     }
 
     private class TempTodoListManager implements TodoListManager {
