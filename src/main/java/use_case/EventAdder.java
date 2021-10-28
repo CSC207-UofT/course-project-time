@@ -19,24 +19,6 @@ public class EventAdder implements CalendarEventCreationBoundary {
         this.calendarManager = calendarManager;
     }
 
-
-    /**
-     * Create a new event and add it to the calendar
-     * Add the corresponding task to the todoList
-     * @param eventName the name of the event
-     * @param startTime the start time of the event
-     * @param endTime the end time of the event
-     * @return false if the event has conflict with calendar;
-     *         true if the event is created and added to calendar successfully
-     */
-    public boolean addEvent(String eventName, LocalDateTime startTime,
-                            LocalDateTime endTime, HashSet<String> tags, LocalDate date,
-                            AccessCalendarData calendarData) {
-        Event event = new Event(eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
-        calendarData.addEvent(event);
-        return true; // TODO: return value should indicate success of data creation
-    }
-
     public boolean addEvent(CalendarEventModel eventData) {
         return calendarManager.addEvent(eventData);
     }

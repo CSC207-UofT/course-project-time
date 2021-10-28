@@ -43,7 +43,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
 
         do {
             suggestedTime = taskToEvent.getAvailableTime(
-                    task, eventController.calendarData.getCalendar(), eventController.eventScheduler, unwantedTimes
+                    task, eventController.eventScheduler, unwantedTimes
             );
             System.out.println("Suggested time: " + suggestedTime);
             System.out.print("Type 'y' for yes, anything else for no: ");
@@ -63,6 +63,6 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      */
     @Override
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
-        return taskToEvent.checkTimeAvailability(task, eventController.calendarData, eventController.eventScheduler, userSuggestedTime);
+        return taskToEvent.checkTimeAvailability(task, eventController.eventScheduler, userSuggestedTime);
     }
 }

@@ -1,10 +1,9 @@
 package main.java.interface_adapters;
 
 
-import main.java.use_case.AccessCalendarData;
+import main.java.use_case.CalendarEventData;
 import main.java.use_case.EventAdder;
 import main.java.use_case.EventScheduler;
-import main.java.use_case.GetEvent;
 import main.java.use_case.EventGetter;
 
 import java.time.Duration;
@@ -18,13 +17,11 @@ import java.util.List;
 
 public class EventController {
 
-    protected final AccessCalendarData calendarData;
     protected final EventAdder eventAdder;
     protected final EventScheduler eventScheduler;
     protected final EventGetter eventGetter;
 
-    public EventController(AccessCalendarData calendarData, EventAdder eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
-        this.calendarData = calendarData;
+    public EventController(EventAdder eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
@@ -65,11 +62,11 @@ public class EventController {
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate dates) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData)) {
-            return eventAdder.addEvent(eventName,
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
+            return eventAdder.addEvent(new CalendarEventData(eventName,
                                         LocalDateTime.of(dates, startTime),
                                         LocalDateTime.of(dates, endTime),
-                                        tags, dates, calendarData);
+                                        tags, dates));
         }
         return false;
     }
