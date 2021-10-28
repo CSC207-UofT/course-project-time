@@ -1,16 +1,17 @@
 package main.java.use_case;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Set;
 
 public interface EventInfo {
     String getName();
 
-    LocalDateTime getStartTime();
+    LocalTime getStartTime();
 
-    LocalDateTime getEndTime();
+    LocalTime getEndTime();
 
     Set<String> getTags();
 
-    LocalDateTime getDates();
+    Set<LocalDate> getDates();
 }

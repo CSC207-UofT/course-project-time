@@ -1,5 +1,7 @@
 package main.java.entity_gateway;
 
+import main.java.entity.Task;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,13 +12,19 @@ public class TasktoTaskReader implements TaskReader{
     Duration duration;
     LocalDateTime deadline;
     List<String> subtasks;
+    boolean completed;
 
-    public TasktoTaskReader(int id, String name, Duration duration, LocalDateTime deadline, List<String> subtasks){
+    public TasktoTaskReader(int id, String name, Duration duration, LocalDateTime deadline, List<String> subtasks, boolean completed){
         this.id = id;
         this.name = name;
         this.duration = duration;
         this.deadline = deadline;
         this.subtasks = subtasks;
+        this.completed = completed;
+    }
+
+    public TasktoTaskReader(Task task) {
+        this(task.getId(), task.getTaskName(), task.getTimeNeeded(), task.getDeadline(), task.getSubTasks(), task.getCompleted());
     }
 
     @Override
@@ -42,5 +50,10 @@ public class TasktoTaskReader implements TaskReader{
     @Override
     public List<String> getSubtasks() {
         return subtasks;
+    }
+
+    @Override
+    public boolean getCompleted() {
+        return completed;
     }
 }

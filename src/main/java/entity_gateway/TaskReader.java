@@ -16,4 +16,5 @@ public interface TaskReader {
 
     List<String> getSubtasks();
 
+    boolean getCompleted();
 }

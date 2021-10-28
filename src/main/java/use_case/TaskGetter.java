@@ -14,9 +14,9 @@ import java.util.Map;
 public class TaskGetter implements TodoListDisplayBoundary {
 
     private final TodoListManager todoListManager;
-    private final TodoListOutputBoundary taskPresenter;
+    private final TodoListPresenter taskPresenter;
 
-    public TaskGetter(TodoListManager todoListManager, TodoListOutputBoundary taskPresenter) {
+    public TaskGetter(TodoListManager todoListManager, TodoListPresenter taskPresenter) {
         this.todoListManager = todoListManager;
         this.taskPresenter = taskPresenter;
     }

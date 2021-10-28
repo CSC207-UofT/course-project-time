@@ -18,16 +18,23 @@ import java.util.List;
 
 public class EventController {
 
-    protected final AccessCalendarData calendarData = new AccessCalendarData();
-    protected final EventAdder eventAdder = new EventAdder();
-    protected final EventScheduler eventScheduler = new EventScheduler();
+    protected final AccessCalendarData calendarData;
+    protected final EventAdder eventAdder;
+    protected final EventScheduler eventScheduler;
+    protected final EventGetter eventGetter;
+
+    public EventController(AccessCalendarData calendarData, EventAdder eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
+        this.calendarData = calendarData;
+        this.eventAdder = eventAdder;
+        this.eventScheduler = eventScheduler;
+        this.eventGetter = eventGetter;
+    }
 
     /**
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
     public List<HashMap<String, String>> getEvents() {
-        GetEvent eventGetter = new EventGetter(calendarData);
         return eventGetter.getEvents();
     }
 

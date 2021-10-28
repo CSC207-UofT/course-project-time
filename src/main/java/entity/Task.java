@@ -66,6 +66,10 @@ public class Task {
         this.id = id;
     }
 
+    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+        this(taskName, timeNeeded, deadline, subTasks, 0);
+    }
+
     public void setTaskName(String newName) {
         this.taskName = newName;
     }
@@ -129,6 +133,10 @@ public class Task {
 
     public List<String> getSubTasks() {
         return this.subTasks;
+    }
+
+    public int getId() {
+        return this.id;
     }
 
 }

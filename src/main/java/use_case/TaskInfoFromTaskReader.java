@@ -38,4 +38,9 @@ public class TaskInfoFromTaskReader implements TaskInfo {
     public List<String> getSubtasks() {
         return taskReader.getSubtasks();
     }
+
+    @Override
+    public boolean getCompleted() {
+        return taskReader.getCompleted();
+    }
 }

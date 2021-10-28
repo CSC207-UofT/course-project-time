@@ -1,14 +1,21 @@
 package main.java.interface_adapters;
 
 import main.java.entity.Task;
-import main.java.entity_gateway.TaskReader;
+import main.java.entity_gateway.CalendarManager;
+import main.java.entity_gateway.EventEntityManager;
+import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
+import main.java.use_case.AccessCalendarData;
 import main.java.use_case.AccessTodoData;
+import main.java.use_case.CalendarEventPresenter;
+import main.java.use_case.EventAdder;
+import main.java.use_case.EventFromTaskCreator;
+import main.java.use_case.EventFromTaskCreatorBoundary;
+import main.java.use_case.EventGetter;
+import main.java.use_case.EventScheduler;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
-import main.java.use_case.TodoListOutputBoundary;
-import main.java.use_case.TodoListTaskCreationModel;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.TodoListPresenter;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -17,7 +24,6 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 public class MainController {
     private final EventController eventController;
@@ -25,17 +31,27 @@ public class MainController {
     private final TaskToEventController taskToEventController;
 
     public MainController() {
-        eventController = new EventController();
 
-        TodoListOutputBoundary todoListPresenter = new TempTodoListPresenter();
-        TodoListManager todoListManager = new TempTodoListManager();
+        AccessCalendarData calendarData = new AccessCalendarData();
+        CalendarManager calendarManager = new EventEntityManager();
+        EventAdder eventAdder = new EventAdder(calendarManager);
 
+        EventScheduler eventScheduler = new EventScheduler();
+
+        CalendarEventPresenter eventPresenter = new EventPresenter();
+        EventGetter eventGetter = new EventGetter(calendarData, calendarManager, eventPresenter);
+
+        eventController = new EventController(calendarData, eventAdder, eventScheduler, eventGetter);
+
+        TodoListPresenter taskPresenter = new TaskPresenter();
+        TodoListManager todoListManager = new TodoEntityManager();
         AccessTodoData accessTodoData = new AccessTodoData();
-        TaskGetter taskGetter = new TaskGetter(todoListManager, todoListPresenter);
+        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TaskAdder taskAdder = new TaskAdder(todoListManager);
         taskController = new TaskController(accessTodoData, taskGetter, taskAdder);
 
-        taskToEventController = new TaskToEventController(eventController);
+        EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
+        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
     }
 
     /**
@@ -100,60 +116,6 @@ public class MainController {
      */
     public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
-    }
-    
-    private class TempTodoListManager implements TodoListManager {
-
-        @Override
-        public int addTask(TodoListTaskCreationModel taskData) {
-            return 0;
-        }
-
-        @Override
-        public int createTodoList() {
-            return 0;
-        }
-
-        @Override
-        public TaskReader getTask(int todoListId, int taskId) {
-            return null;
-        }
-
-        @Override
-        public Map<Integer, List<TaskReader>> getAllTasks() {
-            return null;
-        }
-    }
-
-    private class TempTodoListManager implements TodoListManager {
-
-        @Override
-        public int addTask(TodoListTaskCreationModel taskData) {
-            return 0;
-        }
-
-        @Override
-        public int createTodoList() {
-            return 0;
-        }
-
-        @Override
-        public TaskReader getTask(int todoListId, int taskId) {
-            return null;
-        }
-
-        @Override
-        public Map<Integer, List<TaskReader>> getAllTasks() {
-            return null;
-        }
-    }
-
-    private class TempTodoListPresenter implements TodoListOutputBoundary {
-
-        @Override
-        public void presentTasks(TodoListsInfo todoListInfo) {
-
-        }
     }
 
 }
