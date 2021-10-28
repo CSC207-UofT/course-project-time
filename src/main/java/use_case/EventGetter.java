@@ -15,8 +15,7 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     private final CalendarManager calendarManager;
     private final CalendarEventPresenter eventPresenter;
 
-    public EventGetter(AccessCalendarData data, CalendarManager calendarManager, CalendarEventPresenter eventPresenter) {
-        this.calendar = data.getCalendar();
+    public EventGetter(CalendarManager calendarManager, CalendarEventPresenter eventPresenter) {
         this.calendarManager = calendarManager;
         this.eventPresenter = eventPresenter;
     }
