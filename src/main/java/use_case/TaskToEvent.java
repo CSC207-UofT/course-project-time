@@ -1,6 +1,5 @@
 package main.java.use_case;
 import main.java.entity.Calendar;
-import main.java.entity.Task;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,8 +14,8 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
      * @return the time outputted by the eventScheduler
      */
     @Override
-    public LocalDateTime getAvailableTime(Task task, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
-        return eventScheduler.getAvailableTime(unwantedTimes, task.getTimeNeeded());
+    public LocalDateTime getAvailableTime(TaskInfo task, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
+        return eventScheduler.getAvailableTime(unwantedTimes, task.getDuration());
     }
 
 
@@ -28,8 +27,8 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
      * @return whether the time suggested by the user is available
      */
     @Override
-    public boolean checkTimeAvailability(Task task, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
-        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), task.getTimeNeeded(), userSuggestedTime.toLocalDate());
+    public boolean checkTimeAvailability(TaskInfo task, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
+        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), task.getDuration(), userSuggestedTime.toLocalDate());
     }
 }
 

@@ -1,6 +1,6 @@
 package main.java.interface_adapters;
 
-import main.java.entity.Task;
+import main.java.use_case.TaskInfo;
 import main.java.use_case.TaskToEvent;
 import main.java.use_case.EventFromTaskCreatorBoundary;
 import main.java.use_case.EventFromTaskId;
@@ -34,7 +34,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      * @return whether the task is successfully scheduled to event
      */
     @Override
-    public boolean suggestTimeToUser(Task task) {
+    public boolean suggestTimeToUser(TaskInfo task) {
         List<LocalDateTime> unwantedTimes = new ArrayList<>();
 
         String response;
@@ -52,7 +52,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
             unwantedTimes.add(suggestedTime);
         } while (!"y".equals(response));
 
-        return eventController.createEvent(task.getTaskName(), suggestedTime, task.getTimeNeeded());
+        return eventController.createEvent(task.getName(), suggestedTime, task.getDuration());
     }
 
     /**
@@ -62,7 +62,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      * @return whether the task is successfully scheduled to event
      */
     @Override
-    public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
+    public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
         return taskToEvent.checkTimeAvailability(task, eventController.eventScheduler, userSuggestedTime);
     }
 }
