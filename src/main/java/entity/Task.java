@@ -18,6 +18,7 @@ public class Task {
     private Duration timeNeeded;
     private LocalDateTime deadline;
     private List<String> subTasks;
+    private int id;
 
     private static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
@@ -35,7 +36,7 @@ public class Task {
      * @param timeNeeded time needed to complete the task
      */
     public Task(String taskName, Duration timeNeeded) {
-        this(taskName, timeNeeded, null, new ArrayList<>());
+        this(taskName, timeNeeded, null, new ArrayList<>(), 0);
     }
 
     /**
@@ -45,7 +46,7 @@ public class Task {
      * @param deadline deadline of the task
      */
     public Task(String taskName, Duration timeNeeded, LocalDateTime deadline) {
-        this(taskName, timeNeeded, deadline, new ArrayList<>());
+        this(taskName, timeNeeded, deadline, new ArrayList<>(), 0);
     }
 
     /**
@@ -54,13 +55,15 @@ public class Task {
      * @param timeNeeded time needed to complete the task
      * @param deadline deadline of the task
      * @param subTasks list of subtasks
+     * @param id differentiate different tasks
      */
-    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks, int id) {
         this.taskName = taskName;
         this.completed = false;
         this.timeNeeded = timeNeeded;
         this.deadline = deadline;
         this.subTasks = new ArrayList<>(subTasks);
+        this.id = id;
     }
 
     public void setTaskName(String newName) {
