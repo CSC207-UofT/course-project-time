@@ -21,19 +21,9 @@ public class TaskGetter implements TodoListDisplayBoundary {
         this.taskPresenter = taskPresenter;
     }
 
-    /**
-     * @param todoData (stores a todolist which stores a list of tasks)
-     * @return a list of tasks organized in map format, with
-     * "name", "deadline", "subtasks", and "completed" as keys
-     */
-    public List<HashMap<String, String>> getTasks(AccessTodoData todoData) {
-        TodoList todoList = todoData.getTodoList();
-        List<HashMap<String, String>> task_data = new ArrayList<>();
-        for(Task task : todoList.getTasks()) {
-            task_data.add(getTask(task));
-        }
-
-        return task_data;
+    public TodoListsInfo getTasks() {
+        Map<Integer, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
+        return new  TodoListInfoFromTaskReaders(taskReaders);
     }
 
     /**
@@ -55,13 +45,14 @@ public class TaskGetter implements TodoListDisplayBoundary {
         return task_data;
     }
 
-    public Task getTaskByName(String name, AccessTodoData accessTodoData) {
-        List<Task> allTasks = accessTodoData.getTodoList().getTasks();
-        for (Task task : allTasks) {
-            if (task.getTaskName().equals(name)) {
-                return task;
+    public TaskInfo getTaskByName(String name) {
+        Map<Integer, List<TaskReader>> taskMap = todoListManager.getAllTasks();
+        for (List<TaskReader> todoListTasks : taskMap.values())
+            for (TaskReader tr : todoListTasks) {
+                if (tr.getName().equals(name)) {
+                    return new TaskInfoFromTaskReader(tr);
+                }
             }
-        }
         return null;
     }
 

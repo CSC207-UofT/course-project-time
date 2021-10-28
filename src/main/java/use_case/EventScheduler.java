@@ -48,28 +48,6 @@ public class EventScheduler {
         return true;
     }
 
-    /**
-     * Converts the uncompleted tasks in a todoList into events and adds them to the eventList if the task has not
-     * already been added
-     */
-    public void uncompletedTasksToEvents(AccessTodoData todoData, AccessCalendarData calendarData){
-        List<Task> alreadyConvertedTasks = new ArrayList<>();
-        for (Event event : eventList) {
-            alreadyConvertedTasks.add(event.getTask());
-        }
-
-        for(Task task: todoData.getTodoList().getUncompletedList()) {
-            if (!alreadyConvertedTasks.contains(task)) {
-
-                // TODO implement this method, now that event scheduler doesn't store events
-                // Event new_event = new Event(task, availableTime, availableTime.toLocalTime().plus(task.getTimeNeeded()));
-                // calendarData.addEvent(converter.createEventFromTask(task, calendarData.getCalendar(), this));
-
-
-            }
-        }
-    }
-
 
     /**
      * Finds a gap of time for a task with the given duration.

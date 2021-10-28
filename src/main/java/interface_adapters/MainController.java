@@ -1,12 +1,10 @@
 package main.java.interface_adapters;
 
-import main.java.entity.Task;
 import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventEntityManager;
 import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
 import main.java.use_case.AccessCalendarData;
-import main.java.use_case.AccessTodoData;
 import main.java.use_case.CalendarEventPresenter;
 import main.java.use_case.EventAdder;
 import main.java.use_case.EventFromTaskCreator;
@@ -15,7 +13,9 @@ import main.java.use_case.EventGetter;
 import main.java.use_case.EventScheduler;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
+import main.java.use_case.TaskInfo;
 import main.java.use_case.TodoListPresenter;
+import main.java.use_case.TodoListsInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -45,10 +45,9 @@ public class MainController {
 
         TodoListPresenter taskPresenter = new TaskPresenter();
         TodoListManager todoListManager = new TodoEntityManager();
-        AccessTodoData accessTodoData = new AccessTodoData();
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TaskAdder taskAdder = new TaskAdder(todoListManager);
-        taskController = new TaskController(accessTodoData, taskGetter, taskAdder);
+        taskController = new TaskController( taskGetter, taskAdder);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
@@ -66,16 +65,16 @@ public class MainController {
      * Return a list of tasks data in the format of a map, with keys as
      * "name"
      */
-    public List<HashMap<String, String>> getTasks() {
+    public TodoListsInfo getTasks() {
         return taskController.getTasks();
     }
 
     /**
      * Gets a Task by its name
      * @param name name of Task
-     * @return Task with given name
+     * @return TaskInfo with given name
      */
-    public Task getTaskByName(String name) {
+    public TaskInfo getTaskByName(String name) {
         return taskController.getTaskByName(name);
     }
 
@@ -104,7 +103,7 @@ public class MainController {
      * @param task the task to be scheduled to event
      * @return whether the task is successfully scheduled to event
      */
-    public boolean suggestTimeToUser(Task task) {
+    public boolean suggestTimeToUser(TaskInfo task) {
         return taskToEventController.suggestTimeToUser(task);
     }
 
@@ -114,7 +113,7 @@ public class MainController {
      * @param userSuggestedTime the time suggested by the user
      * @return whether the task is successfully scheduled to event
      */
-    public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
+    public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 

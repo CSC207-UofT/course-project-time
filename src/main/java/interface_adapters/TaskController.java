@@ -1,24 +1,22 @@
 package main.java.interface_adapters;
 
-import main.java.entity.Task;
-import main.java.use_case.AccessTodoData;
 import main.java.use_case.NewTodoListTaskData;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
+import main.java.use_case.TaskInfo;
+import main.java.use_case.TodoListsInfo;
+
 import java.time.LocalDateTime;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class TaskController {
-    private final AccessTodoData todoData;
     private final TaskGetter taskGetter;
     private final TaskAdder taskAdder;
 
-    public TaskController(AccessTodoData todoData, TaskGetter taskGetter, TaskAdder taskAdder) {
-        this.todoData = todoData;
+    public TaskController(TaskGetter taskGetter, TaskAdder taskAdder) {
         this.taskGetter = taskGetter;
         this.taskAdder = taskAdder;
     }
@@ -27,8 +25,8 @@ public class TaskController {
      * @return a list of tasks organized in map format, with
      * "name", "deadline", "subtasks", and "completed" as keys
      */
-    public List<HashMap<String, String>> getTasks() {
-        return taskGetter.getTasks(todoData);
+    public TodoListsInfo getTasks() {
+        return taskGetter.getTasks();
     }
 
     public boolean createTask(String taskName, Duration timeNeeded) {
@@ -44,9 +42,9 @@ public class TaskController {
     /**
      * Gets a Task by its name
      * @param name name of Task
-     * @return Task with given name
+     * @return TaskInfo with given name
      */
-    public Task getTaskByName(String name) {
-        return taskGetter.getTaskByName(name, todoData);
+    public TaskInfo getTaskByName(String name) {
+        return taskGetter.getTaskByName(name);
     }
 }

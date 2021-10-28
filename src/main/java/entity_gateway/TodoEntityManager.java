@@ -2,13 +2,12 @@ package main.java.entity_gateway;
 
 import main.java.entity.Task;
 import main.java.entity.TodoList;
-import main.java.use_case.TodoListInfoFromTaskReaders;
 import main.java.use_case.TodoListTaskCreationModel;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,12 +45,21 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public TaskReader getTask(int todoListId, int taskId) {
+    public TaskReader getTask(int todoListId, int taskId){
+        for (Task t : taskArrayList)
+            if (t.getId() == taskId)
+                return new TasktoTaskReader(t);
         return null;
     }
 
     @Override
     public Map<Integer, List<TaskReader>> getAllTasks() {
-        return null;
+        Map<Integer, List<TaskReader>> taskMap = new HashMap<>();
+        List<TaskReader> todoListTaskReaders = new ArrayList<>();
+        for (Task t : taskArrayList)
+            todoListTaskReaders.add(new TasktoTaskReader(t));
+        // 0 because there is one todolist
+        taskMap.put(0, todoListTaskReaders);
+        return taskMap;
     }
 }

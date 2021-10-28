@@ -1,8 +1,8 @@
 package main.java.interface_adapters;
 
-import main.java.entity.Task;
+import main.java.use_case.TaskInfo;
 
 public interface TaskToEventAutoController {
 
-    boolean suggestTimeToUser(Task task);
+    boolean suggestTimeToUser(TaskInfo task);
 }
