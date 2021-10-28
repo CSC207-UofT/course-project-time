@@ -5,7 +5,6 @@ import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventEntityManager;
 import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
-import main.java.use_case.AccessCalendarData;
 import main.java.use_case.AccessTodoData;
 import main.java.use_case.CalendarEventPresenter;
 import main.java.use_case.EventAdder;
@@ -32,16 +31,14 @@ public class MainController {
 
     public MainController() {
 
-        AccessCalendarData calendarData = new AccessCalendarData();
         CalendarManager calendarManager = new EventEntityManager();
         EventAdder eventAdder = new EventAdder(calendarManager);
-
-        EventScheduler eventScheduler = new EventScheduler();
+        EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
         CalendarEventPresenter eventPresenter = new EventPresenter();
-        EventGetter eventGetter = new EventGetter(calendarData, calendarManager, eventPresenter);
+        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
 
-        eventController = new EventController(calendarData, eventAdder, eventScheduler, eventGetter);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter);
 
         TodoListPresenter taskPresenter = new TaskPresenter();
         TodoListManager todoListManager = new TodoEntityManager();
