@@ -10,4 +10,5 @@ public interface CalendarEventModel {
     public LocalDateTime getEndTime();
     public Set<String> getTags();
     public LocalDate getDate();
+
 }
