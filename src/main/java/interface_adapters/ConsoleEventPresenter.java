@@ -5,7 +5,7 @@ import main.java.use_case.EventInfo;
 
 import java.util.List;
 
-public class EventPresenter implements CalendarEventPresenter {
+public class ConsoleEventPresenter implements CalendarEventPresenter {
 
     @Override
     public void presentEvents(List<EventInfo> eventInfos) {

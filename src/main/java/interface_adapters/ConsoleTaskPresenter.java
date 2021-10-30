@@ -6,7 +6,7 @@ import main.java.use_case.TodoListsInfo;
 
 import java.util.List;
 
-public class TaskPresenter implements TodoListPresenter {
+public class ConsoleTaskPresenter implements TodoListPresenter {
 
     @Override
     public void presentTasks(TodoListsInfo todoListInfo) {

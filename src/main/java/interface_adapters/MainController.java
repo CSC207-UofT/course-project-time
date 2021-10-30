@@ -35,12 +35,12 @@ public class MainController {
         EventAdder eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
-        CalendarEventPresenter eventPresenter = new EventPresenter();
+        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
 
         eventController = new EventController(eventAdder, eventScheduler, eventGetter);
 
-        TodoListPresenter taskPresenter = new TaskPresenter();
+        TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
         TodoListManager todoListManager = new TodoEntityManager();
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TaskAdder taskAdder = new TaskAdder(todoListManager);
