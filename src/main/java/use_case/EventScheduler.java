@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 
 public class EventScheduler {
-    private ArrayList<Event> eventList;
 //    private TaskToEventAuto converter;
     private GapFinder gapFinder;
     private CalendarManager calendarManager;
