@@ -4,6 +4,7 @@ import main.java.use_case.NewTodoListTaskData;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
 import main.java.use_case.TaskInfo;
+import main.java.use_case.TodoListTaskCreationBoundary;
 import main.java.use_case.TodoListsInfo;
 
 import java.time.LocalDateTime;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class TaskController {
     private final TaskGetter taskGetter;
-    private final TaskAdder taskAdder;
+    private final TodoListTaskCreationBoundary taskAdder;
 
-    public TaskController(TaskGetter taskGetter, TaskAdder taskAdder) {
+    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder) {
         this.taskGetter = taskGetter;
         this.taskAdder = taskAdder;
     }

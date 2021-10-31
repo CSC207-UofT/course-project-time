@@ -14,6 +14,7 @@ import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
 import main.java.use_case.TaskInfo;
 import main.java.use_case.TodoListPresenter;
+import main.java.use_case.TodoListTaskCreationBoundary;
 import main.java.use_case.TodoListsInfo;
 
 import java.time.Duration;
@@ -43,7 +44,7 @@ public class MainController {
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
         TodoListManager todoListManager = new TodoEntityManager();
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
-        TaskAdder taskAdder = new TaskAdder(todoListManager);
+        TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         taskController = new TaskController( taskGetter, taskAdder);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
