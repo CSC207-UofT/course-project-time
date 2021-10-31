@@ -1,6 +1,7 @@
 package main.java.interface_adapters;
 
 
+import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventData;
 import main.java.use_case.EventAdder;
 import main.java.use_case.EventScheduler;
@@ -17,11 +18,11 @@ import java.util.List;
 
 public class EventController {
 
-    protected final EventAdder eventAdder;
+    protected final CalendarEventCreationBoundary eventAdder;
     protected final EventScheduler eventScheduler;
     protected final EventGetter eventGetter;
 
-    public EventController(EventAdder eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
+    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
