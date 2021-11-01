@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TasktoTaskReader implements TaskReader{
+public class TaskToTaskReader implements TaskReader{
     int id;
     String name;
     Duration duration;
@@ -14,7 +14,7 @@ public class TasktoTaskReader implements TaskReader{
     List<String> subtasks;
     boolean completed;
 
-    public TasktoTaskReader(int id, String name, Duration duration, LocalDateTime deadline, List<String> subtasks, boolean completed){
+    public TaskToTaskReader(int id, String name, Duration duration, LocalDateTime deadline, List<String> subtasks, boolean completed){
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -23,7 +23,7 @@ public class TasktoTaskReader implements TaskReader{
         this.completed = completed;
     }
 
-    public TasktoTaskReader(Task task) {
+    public TaskToTaskReader(Task task) {
         this(task.getId(), task.getTaskName(), task.getTimeNeeded(), task.getDeadline(), task.getSubTasks(), task.getCompleted());
     }
 

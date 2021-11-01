@@ -6,10 +6,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
 
-public class EventtoEventReader implements EventReader{
+public class EventToEventReader implements EventReader{
     private final Event event;
 
-    public EventtoEventReader(Event event){
+    public EventToEventReader(Event event){
         this.event = event;
     }
 

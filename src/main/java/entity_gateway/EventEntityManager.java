@@ -35,7 +35,7 @@ public class EventEntityManager implements CalendarManager{
         List<EventReader> eventReaderList = new ArrayList<>();
 
         for(Event event: eventList){
-            EventReader eventReader = new EventtoEventReader(event);
+            EventReader eventReader = new EventToEventReader(event);
             eventReaderList.add(eventReader);
         }
         return eventReaderList;

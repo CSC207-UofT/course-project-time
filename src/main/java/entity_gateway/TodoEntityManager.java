@@ -48,7 +48,7 @@ public class TodoEntityManager implements TodoListManager{
     public TaskReader getTask(int todoListId, int taskId){
         for (Task t : taskArrayList)
             if (t.getId() == taskId)
-                return new TasktoTaskReader(t);
+                return new TaskToTaskReader(t);
         return null;
     }
 
@@ -57,7 +57,7 @@ public class TodoEntityManager implements TodoListManager{
         Map<Integer, List<TaskReader>> taskMap = new HashMap<>();
         List<TaskReader> todoListTaskReaders = new ArrayList<>();
         for (Task t : taskArrayList)
-            todoListTaskReaders.add(new TasktoTaskReader(t));
+            todoListTaskReaders.add(new TaskToTaskReader(t));
         // 0 because there is one todolist
         taskMap.put(0, todoListTaskReaders);
         return taskMap;
