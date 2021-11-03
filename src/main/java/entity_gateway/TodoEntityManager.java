@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TodoEntityManager implements TodoListManager{
-    private final ArrayList<Task> taskArrayList;
+    private final List<Task> taskArrayList;
     TodoList todoList;
     int taskCounter;
     int todoCounter;
