@@ -1,4 +1,4 @@
 package main.java.use_case.notification;
 
-public interface NotificationObserver {
+public class NotificationObserver implements INotificationObserver {
 }
