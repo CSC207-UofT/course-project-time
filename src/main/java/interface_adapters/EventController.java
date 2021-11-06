@@ -1,10 +1,10 @@
-package main.java.controller;
+package main.java.interface_adapters;
 
 
-import main.java.use_case.AccessCalendarData;
+import main.java.use_case.CalendarEventCreationBoundary;
+import main.java.use_case.CalendarEventData;
 import main.java.use_case.EventAdder;
 import main.java.use_case.EventScheduler;
-import main.java.use_case.GetEvent;
 import main.java.use_case.EventGetter;
 
 import java.time.Duration;
@@ -18,16 +18,21 @@ import java.util.List;
 
 public class EventController {
 
-    protected final AccessCalendarData calendarData = new AccessCalendarData();
-    protected final EventAdder eventAdder = new EventAdder();
-    protected final EventScheduler eventScheduler = new EventScheduler();
+    protected final CalendarEventCreationBoundary eventAdder;
+    protected final EventScheduler eventScheduler;
+    protected final EventGetter eventGetter;
+
+    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
+        this.eventAdder = eventAdder;
+        this.eventScheduler = eventScheduler;
+        this.eventGetter = eventGetter;
+    }
 
     /**
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
     public List<HashMap<String, String>> getEvents() {
-        GetEvent eventGetter = new EventGetter(calendarData);
         return eventGetter.getEvents();
     }
 
@@ -58,11 +63,11 @@ public class EventController {
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate dates) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData)) {
-            return eventAdder.addEvent(eventName,
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
+            return eventAdder.addEvent(new CalendarEventData(eventName,
                                         LocalDateTime.of(dates, startTime),
                                         LocalDateTime.of(dates, endTime),
-                                        tags, dates, calendarData);
+                                        tags, dates));
         }
         return false;
     }

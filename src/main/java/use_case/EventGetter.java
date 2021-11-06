@@ -2,16 +2,22 @@ package main.java.use_case;
 
 import main.java.entity.Calendar;
 import main.java.entity.Event;
+import main.java.entity_gateway.CalendarManager;
+import main.java.entity_gateway.EventReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EventGetter implements GetEvent {
+public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     Calendar calendar;
 
-    public EventGetter(AccessCalendarData data) {
-        this.calendar = data.getCalendar();
+    private final CalendarManager calendarManager;
+    private final CalendarEventPresenter eventPresenter;
+
+    public EventGetter(CalendarManager calendarManager, CalendarEventPresenter eventPresenter) {
+        this.calendarManager = calendarManager;
+        this.eventPresenter = eventPresenter;
     }
 
     /**
@@ -39,5 +45,14 @@ public class EventGetter implements GetEvent {
 
         return event_data;
 
+    }
+
+    @Override
+    public void presentCalendar() {
+        List<EventReader> calendarEvents = calendarManager.getAllEvents();
+        List<EventInfo> eventInfos = new ArrayList<>();
+        for (EventReader er : calendarEvents)
+            eventInfos.add(new EventInfoFromReader(er));
+        eventPresenter.presentEvents(eventInfos);
     }
 }
