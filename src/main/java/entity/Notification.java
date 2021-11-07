@@ -1,8 +1,10 @@
 package main.java.entity;
 
+import main.java.constants.Type;
+
 import java.time.LocalDateTime;
 
-public abstract class Notification {
+public class Notification {
 
     private Type type;
     private int associatedId;
