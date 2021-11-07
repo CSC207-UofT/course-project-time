@@ -1,4 +1,4 @@
-package main.java.entity;
+package main.java.constants;
 
 public enum Type {
     Event,
