@@ -53,6 +53,14 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
+    public TaskReader getTask(int taskId) {
+        for (Task t : taskArrayList)
+            if (t.getId() == taskId)
+                return new TaskToTaskReader(t);
+        return null;
+    }
+
+    @Override
     public Map<Integer, List<TaskReader>> getAllTasks() {
         Map<Integer, List<TaskReader>> taskMap = new HashMap<>();
         List<TaskReader> todoListTaskReaders = new ArrayList<>();
