@@ -52,6 +52,7 @@ public class TodoEntityManager implements TodoListManager{
         return null;
     }
 
+    // added this method during notification system code implementation due to convenience
     @Override
     public TaskReader getTask(int taskId) {
         for (Task t : taskArrayList)
@@ -69,5 +70,14 @@ public class TodoEntityManager implements TodoListManager{
         // 0 because there is one todolist
         taskMap.put(0, todoListTaskReaders);
         return taskMap;
+    }
+
+    // added this method during notification system code implementation due to convenience
+    @Override
+    public List<TaskReader> getAllTasksInList() {
+        List<TaskReader> todoListTaskReaders = new ArrayList<>();
+        for (Task t : taskArrayList)
+            todoListTaskReaders.add(new TaskToTaskReader(t));
+        return todoListTaskReaders;
     }
 }

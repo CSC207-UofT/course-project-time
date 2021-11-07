@@ -17,4 +17,6 @@ public interface TodoListManager {
 
     Map<Integer, List<TaskReader>> getAllTasks();
 
+    List<TaskReader> getAllTasksInList();
+
 }

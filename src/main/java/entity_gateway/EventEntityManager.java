@@ -30,6 +30,7 @@ public class EventEntityManager implements CalendarManager{
         return eventList.contains(event);
     }
 
+    // added this method during notification system code implementation due to convenience
     @Override
     public EventToEventReader getEvent(int id) {
         for(Event event: eventList){
