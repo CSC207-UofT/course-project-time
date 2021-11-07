@@ -1,28 +1,28 @@
 package main.java.use_case.notification;
 
-import main.java.constants.Type;
+import main.java.constants.NotificationType;
 
 import java.time.Duration;
 
 public class NotificationCreationBoundary {
-    private final Type type;
+    private final NotificationType notificationType;
     private final int idOfAssociatedObject;
     private final Duration notificationDurationInAdvance;
 
-    public NotificationCreationBoundary(Type type, int idOfAssociatedObject, Duration notificationDurationInAdvance) {
-        this.type = type;
+    public NotificationCreationBoundary(NotificationType notificationType, int idOfAssociatedObject, Duration notificationDurationInAdvance) {
+        this.notificationType = notificationType;
         this.idOfAssociatedObject = idOfAssociatedObject;
         this.notificationDurationInAdvance = notificationDurationInAdvance;
     }
 
     public NotificationCreationBoundary(int idOfAssociatedObject, Duration notificationDurationInAdvance) {
-        this.type = null;
+        this.notificationType = null;
         this.idOfAssociatedObject = idOfAssociatedObject;
         this.notificationDurationInAdvance = notificationDurationInAdvance;
     }
 
-    public Type getType() {
-        return type;
+    public NotificationType getType() {
+        return notificationType;
     }
 
     public int getIdOfAssociatedObject() {

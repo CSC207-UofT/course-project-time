@@ -1,6 +1,6 @@
 package main.java.constants;
 
-public enum Type {
+public enum NotificationType {
     Event,
     Task
 }

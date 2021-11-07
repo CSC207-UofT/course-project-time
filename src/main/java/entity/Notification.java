@@ -1,19 +1,23 @@
 package main.java.entity;
 
-import main.java.constants.Type;
+import main.java.constants.NotificationType;
 
 import java.time.LocalDateTime;
 
 public class Notification {
 
-    private Type type;
-    private int associatedId;
-    private LocalDateTime notificationTime;
+    private final NotificationType notificationType;
+    private final int associatedId;
+    private final LocalDateTime notificationTime;
 
-    public Notification(Type type, int associatedId, LocalDateTime notificationTime) {
-        this.type = type;
+    public Notification(NotificationType notificationType, int associatedId, LocalDateTime notificationTime) {
+        this.notificationType = notificationType;
         this.associatedId = associatedId;
         this.notificationTime = notificationTime;
+    }
+
+    public NotificationType getNotificationType() {
+        return notificationType;
     }
 
     public int getAssociatedId() {

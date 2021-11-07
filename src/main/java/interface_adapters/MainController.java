@@ -1,9 +1,8 @@
 package main.java.interface_adapters;
 
-import main.java.entity_gateway.CalendarManager;
-import main.java.entity_gateway.EventEntityManager;
-import main.java.entity_gateway.TodoEntityManager;
-import main.java.entity_gateway.TodoListManager;
+import main.java.constants.NotificationType;
+import main.java.entity_gateway.*;
+import main.java.interface_adapters.notification.NotificationController;
 import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventPresenter;
 import main.java.use_case.EventAdder;
@@ -17,11 +16,14 @@ import main.java.use_case.TaskInfo;
 import main.java.use_case.TodoListPresenter;
 import main.java.use_case.TodoListTaskCreationBoundary;
 import main.java.use_case.TodoListsInfo;
+import main.java.use_case.notification.NotificationObserver;
+import main.java.use_case.notification.NotificationTracker;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +32,7 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
+    private final NotificationController notificationController;
 
     public MainController() {
 
@@ -50,6 +53,17 @@ public class MainController {
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
+
+        List<NotificationObserver> notificationObservers = new ArrayList<>();
+        notificationObservers.add(new NotificationObserver());
+        NotificationTracker notificationTracker = new NotificationTracker(notificationObservers);
+        notificationController = new NotificationController(notificationTracker, calendarManager, todoListManager);
+
+        // TODO: what to do with the return value of this method?
+        if (!notificationController.populateTrackerWithNotifications()) {
+            System.out.println("Notifications not populated successfully.");
+        }
+        notificationController.startTrackingNotifications();
     }
 
     /**
@@ -114,6 +128,18 @@ public class MainController {
      */
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
+    }
+
+    public boolean createNotification(NotificationType notificationType, int idOfAssociatedObject, Duration notifDurationInAdvance) {
+        return notificationController.createNotifications(notificationType, idOfAssociatedObject, notifDurationInAdvance);
+    }
+
+    public boolean deleteNotification(int idOfAssociatedObject, Duration notifDurationInAdvance) {
+        return notificationController.deleteNotification(idOfAssociatedObject, notifDurationInAdvance);
+    }
+
+    public boolean deleteNotifications(int idOfAssociatedObject) {
+        return notificationController.deleteNotifications(idOfAssociatedObject);
     }
 
 }
