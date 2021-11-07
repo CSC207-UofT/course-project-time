@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public class Event {
 
+    private  int id;
     private LocalTime startTime;
     private LocalTime endTime;
     private Set<String> tags;

@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class Task {
 
+    private int id;
     private String taskName;
     private boolean completed;
     private Duration timeNeeded;
     private LocalDateTime deadline;
     private List<String> subTasks;
-    private int id;
 
     private static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
