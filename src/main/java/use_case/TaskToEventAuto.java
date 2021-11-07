@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface TaskToEventAuto {
 
-    LocalDateTime getAvailableTime(TaskInfo task, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes);
+    LocalDateTime getAvailableTime(TaskInfo taskInfo, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes);
 }
