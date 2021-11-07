@@ -8,13 +8,12 @@ import java.util.List;
 
 public class NotificationTracker implements INotificationTracker, Runnable{
 
-    private List<NotificationObserver> observerList;
-    private List<Notification> notificationList;
+    private final List<NotificationObserver> observerList;
+    private final List<Notification> notificationList;
 
-    public NotificationTracker(List<NotificationObserver> observers, List<Notification> notifications) {
+    public NotificationTracker(List<NotificationObserver> observers) {
         this.observerList = observers;
-        this.notificationList = new ArrayList<Notification>();
-        addNotifications(notifications);
+        this.notificationList = new ArrayList<>();
     }
 
     public boolean addNotifications(List<Notification> unsortedNotifications) {
@@ -26,6 +25,7 @@ public class NotificationTracker implements INotificationTracker, Runnable{
         return true;
     }
 
+    // TODO: should this method be private?
     public boolean addNotification(Notification newNotification) {
         LocalDateTime newNotificationTime = newNotification.getNotificationTime();
         for (int i = 0; i < notificationList.size(); i++) {
