@@ -15,7 +15,8 @@ import java.util.Set;
  */
 public class Event {
 
-    private  int id;
+    // TODO: make id final
+    private int id;
     private LocalTime startTime;
     private LocalTime endTime;
     private Set<String> tags;
@@ -35,6 +36,8 @@ public class Event {
         this.tags = new HashSet<String>();
         this.dates = new HashSet<LocalDate>();
         this.dates.add(startTime.toLocalDate());
+        // TODO: update the id creation
+        this.id = 0;
     }
 
     /**
@@ -120,6 +123,10 @@ public class Event {
 
     public Set<LocalDate> getDates() {
         return this.dates;
+    }
+
+    public int getId() {
+        return id;
     }
 
 }
