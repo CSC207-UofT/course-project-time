@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Task {
 
-    private int id;
+    private final int id;
     private String taskName;
     private boolean completed;
     private Duration timeNeeded;
