@@ -21,7 +21,7 @@ public class NotificationEntityManager implements NotificationManager {
 
     @Override
     public int addNotification(NotificationCreationBoundary notifBoundary) {
-        Notification notification;
+        Notification notification = null;
         this.counter += 1;
         if (notifBoundary instanceof EventNotificationCreationBoundary) {
             notification = new EventNotification(this.counter,
@@ -32,6 +32,7 @@ public class NotificationEntityManager implements NotificationManager {
                     ((TaskNotificationCreationBoundary) notifBoundary).getTaskId(),
                     ((TaskNotificationCreationBoundary) notifBoundary).getNotificationDurationInAdvance());
         }
+        this.notificationList.add(notification);
         return this.counter;
     }
 
@@ -55,11 +56,8 @@ public class NotificationEntityManager implements NotificationManager {
 
     @Override
     public boolean deleteNotification(int notifId) {
-        for (Notification notif: notificationList) {
-            if (notif.getId() == notifId) {
-                return true;
-            }
-        }
-        return false;
+        notificationList.removeIf(notif -> notif.getId() == notifId);
+        // TODO: make return value reflect whether or not item has successfully been deleted
+        return true;
     }
 }
