@@ -13,6 +13,8 @@ public interface TodoListManager {
 
     TaskReader getTask(int todoListId, int taskId);
 
+    TaskReader getTask(int taskId);
+
     Map<Integer, List<TaskReader>> getAllTasks();
 
 }

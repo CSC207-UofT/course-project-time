@@ -8,6 +8,8 @@ public interface CalendarManager {
 
     boolean addEvent(CalendarEventModel eventData);
 
+    EventToEventReader getEvent(int id);
+
     List<EventReader> getAllEvents();
 
 }

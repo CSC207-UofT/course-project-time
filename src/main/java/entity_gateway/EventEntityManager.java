@@ -31,6 +31,16 @@ public class EventEntityManager implements CalendarManager{
     }
 
     @Override
+    public EventToEventReader getEvent(int id) {
+        for(Event event: eventList){
+            if (event.getId() == id) {
+                return new EventToEventReader(event);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<EventReader> getAllEvents() {
         List<EventReader> eventReaderList = new ArrayList<>();
 
