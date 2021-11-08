@@ -20,6 +20,10 @@ public class Notification {
         return notificationType;
     }
 
+    public NotificationType getType() {
+        return notificationType;
+    }
+
     public int getAssociatedId() {
         return associatedId;
     }

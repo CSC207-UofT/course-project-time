@@ -7,7 +7,8 @@ public abstract class NotificationBaseDecorator implements Notifier {
         this.notifier = notifier;
     }
 
-    public void sendMessage(String message) {
+    public boolean sendMessage(String message) {
         this.notifier.sendMessage(message);
+        return false;
     }
 }

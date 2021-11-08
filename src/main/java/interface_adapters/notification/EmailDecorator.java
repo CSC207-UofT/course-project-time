@@ -6,8 +6,9 @@ public class EmailDecorator extends NotificationBaseDecorator {
     }
 
     @Override
-    public void sendMessage(String message) {
+    public boolean sendMessage(String message) {
         // TODO: change this to send email in phase 2
         this.notifier.sendMessage(message);
+        return false;
     }
 }
