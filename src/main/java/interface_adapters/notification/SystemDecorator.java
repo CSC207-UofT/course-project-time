@@ -6,8 +6,9 @@ public class SystemDecorator extends NotificationBaseDecorator {
     }
 
     @Override
-    public void sendMessage(String message) {
+    public boolean sendMessage(String message) {
         // TODO: change this to sending out notifications in application
         this.notifier.sendMessage(message);
+        return false;
     }
 }
