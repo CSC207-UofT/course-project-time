@@ -25,9 +25,9 @@ import java.util.Set;
  */
 public class NotificationObserver implements INotificationObserver {
 
-    private NotificationSender sender;
-    private CalendarManager calendarManager;
-    private TodoListManager todoListManager;
+    private final NotificationSender sender;
+    private final CalendarManager calendarManager;
+    private final TodoListManager todoListManager;
 
     public NotificationObserver(NotificationSender sender, CalendarManager calendarManager,
                                 TodoListManager todoListManager) {
@@ -59,7 +59,7 @@ public class NotificationObserver implements INotificationObserver {
      * Search for information of a task using the task id,
      * and generate message text for this task:
      *
-     * "You have an upcoming event <taskName> due on <duedate> at <dueTime>."
+     * "You have an upcoming event <taskName> due on <dueDate> at <dueTime>."
      *
      * @param taskId the id of the task
      * @return string of message text for the task
@@ -69,8 +69,7 @@ public class NotificationObserver implements INotificationObserver {
         String taskName = taskReader.getName();
         LocalDate dueDate = taskReader.getDeadline().toLocalDate();
         LocalTime dueTime = taskReader.getDeadline().toLocalTime();
-        String message = "You have a task " + taskName + " due on " + dueDate + " at " + dueTime + ".";
-        return message;
+        return "You have a task " + taskName + " due on " + dueDate + " at " + dueTime + ".";
     }
 
     /**
@@ -91,9 +90,8 @@ public class NotificationObserver implements INotificationObserver {
         Set<Duration> notificationTimes = eventReader.getNotificationTimes();
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDate date = searchEventDate(notificationTimes, dates, currentDateTime);
-        String message = "You have an upcoming event " + eventName +
+        return "You have an upcoming event " + eventName +
                 " from " + startTime + " to " + endTime + " on " + date + ".";
-        return message;
 
     }
 
