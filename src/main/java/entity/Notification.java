@@ -4,6 +4,12 @@ import main.java.constants.NotificationType;
 
 import java.time.LocalDateTime;
 
+/**
+ * A Notification stores the information of one-time notification
+ * - notificationType: The type of notification, which decide the format of notification message
+ * - associatedId: the id related to the notification target, which decides the content of notification
+ * - notificationTime: the time to send this notification
+ */
 public class Notification {
 
     private final NotificationType notificationType;
@@ -17,10 +23,6 @@ public class Notification {
     }
 
     public NotificationType getNotificationType() {
-        return notificationType;
-    }
-
-    public NotificationType getType() {
         return notificationType;
     }
 
