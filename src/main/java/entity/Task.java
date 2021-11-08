@@ -12,6 +12,10 @@ import java.util.Set;
  * A Task stores the name of the task, whether it is completed,
  * the time needed to complete the task (optional), the deadline
  * of the class (optional), and subtasks (optional)
+ *
+ * - timeNeeded: the time duration needed to complete the task
+ * - notificationTimes: a set of times in Duration presenting how long in advance
+ *                      to send the event remainder notification
  */
 public class Task {
 

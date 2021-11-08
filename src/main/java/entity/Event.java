@@ -9,9 +9,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * An Event stores the name of the event, the start time
- * and end time of the event, tags, the corresponding task,
- * and the dates of event.
+ * An Event stores the unique id, the name of the event, the start time
+ * and end time of the event, tags, the associated task,
+ * and the dates of event, and the notification times of the event.
+ *
+ * - dates: a set of LocalDate representing the recurring dates
+ * - notificationTimes: a set of times in Duration presenting how long in advance
+ *                      to send the event remainder notification
  */
 public class Event {
 
