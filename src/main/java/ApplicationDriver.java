@@ -1,8 +1,6 @@
 package main.java;
 
-import main.java.entity.TodoList;
 import main.java.interface_adapters.MainController;
-import main.java.entity.Task;
 import main.java.use_case.TaskInfo;
 import main.java.use_case.TodoListsInfo;
 
@@ -11,7 +9,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class ApplicationDriver {
 

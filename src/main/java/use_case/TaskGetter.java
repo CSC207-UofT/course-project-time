@@ -1,11 +1,9 @@
 package main.java.use_case;
 
 import main.java.entity.Task;
-import main.java.entity.TodoList;
 import main.java.entity_gateway.TaskReader;
 import main.java.entity_gateway.TodoListManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

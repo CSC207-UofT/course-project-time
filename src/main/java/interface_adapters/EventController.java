@@ -3,7 +3,6 @@ package main.java.interface_adapters;
 
 import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventData;
-import main.java.use_case.EventAdder;
 import main.java.use_case.EventScheduler;
 import main.java.use_case.EventGetter;
 
