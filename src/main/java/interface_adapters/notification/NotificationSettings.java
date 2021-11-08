@@ -3,7 +3,19 @@ package main.java.interface_adapters.notification;
 public class NotificationSettings {
     private boolean emailEnabled;
     private boolean systemEnabled;
-    private String message;
+
+    public NotificationSettings() {
+        this.emailEnabled = false;
+        this.systemEnabled = true;
+    }
+
+    public void setEmailEnabled(boolean emailEnabled) {
+        this.emailEnabled = emailEnabled;
+    }
+
+    public void setSystemEnabled(boolean systemEnabled) {
+        this.systemEnabled = systemEnabled;
+    }
 
     public boolean isEmailEnabled() {
         return emailEnabled;
@@ -13,7 +25,4 @@ public class NotificationSettings {
         return systemEnabled;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }
