@@ -114,5 +114,6 @@ public class NotificationObserver implements INotificationObserver {
                 }
             }
         }
+        return currentDateTime.toLocalDate();
     }
 }
