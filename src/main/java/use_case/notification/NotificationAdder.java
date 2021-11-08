@@ -56,7 +56,7 @@ public class NotificationAdder {
     }
 
     /**
-     * Goes through all events, tasks, etc to find existing notifications. Add these notifications
+     * Goes through all events, tasks, etc. to find existing notifications. Add these notifications
      * to the NotificationTracker. Should only be called once at runtime.
      * @return whether the notifications are populated successfully
      */
