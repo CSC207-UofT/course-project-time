@@ -82,16 +82,14 @@ public class NotificationTracker implements INotificationTracker, Runnable{
     /**
      * update the coming notification to all observers in the observerList
      * @param notification the coming notification that needs to be sent out
-     * @return true if all observers send out the notification successfully
      */
     @Override
-    public boolean updateAll(Notification notification) {
+    public void updateAll(Notification notification) {
         for (NotificationObserver observer : observerList) {
             if (!observer.update(notification)) {
-                return false;
+                return;
             }
         }
-        return true;
     }
 
     /**
