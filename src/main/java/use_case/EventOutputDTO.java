@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
 
-public interface EventInfo {
+public interface EventOutputDTO {
     String getName();
 
     LocalTime getStartTime();

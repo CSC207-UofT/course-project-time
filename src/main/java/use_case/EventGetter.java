@@ -50,9 +50,9 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     @Override
     public void presentCalendar() {
         List<EventReader> calendarEvents = calendarManager.getAllEvents();
-        List<EventInfo> eventInfos = new ArrayList<>();
+        List<EventOutputDTO> eventOutputDTOs = new ArrayList<>();
         for (EventReader er : calendarEvents)
-            eventInfos.add(new EventInfoFromReader(er));
-        eventPresenter.presentEvents(eventInfos);
+            eventOutputDTOs.add(new EventOutputDTOFromReader(er));
+        eventPresenter.presentEvents(eventOutputDTOs);
     }
 }

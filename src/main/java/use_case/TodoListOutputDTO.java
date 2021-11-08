@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface TodoListsInfo {
+public interface TodoListOutputDTO {
     String getName(int todoListId, int taskId);
 
     LocalDateTime getDeadline(int todoListId, int taskId);
@@ -13,5 +13,5 @@ public interface TodoListsInfo {
 
     List<String> getSubtasks(int todoListId, int taskId);
 
-    List<TaskInfo> getAllTasks();
+    List<TaskOutputDTO> getAllTasks();
 }

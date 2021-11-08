@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
 
-public class EventInfoFromReader implements EventInfo {
+public class EventOutputDTOFromReader implements EventOutputDTO {
 
     private final EventReader eventReader;
 
-    public EventInfoFromReader(EventReader eventReader) {
+    public EventOutputDTOFromReader(EventReader eventReader) {
         this.eventReader = eventReader;
     }
 

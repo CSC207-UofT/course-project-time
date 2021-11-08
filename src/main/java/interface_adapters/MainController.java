@@ -13,10 +13,10 @@ import main.java.use_case.EventGetter;
 import main.java.use_case.EventScheduler;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
-import main.java.use_case.TaskInfo;
+import main.java.use_case.TaskOutputDTO;
 import main.java.use_case.TodoListPresenter;
 import main.java.use_case.TodoListTaskCreationBoundary;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.TodoListOutputDTO;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -64,7 +64,7 @@ public class MainController {
      * Return a list of tasks data in the format of a map, with keys as
      * "name"
      */
-    public TodoListsInfo getTasks() {
+    public TodoListOutputDTO getTasks() {
         return taskController.getTasks();
     }
 
@@ -73,7 +73,7 @@ public class MainController {
      * @param name name of Task
      * @return TaskInfo with given name
      */
-    public TaskInfo getTaskByName(String name) {
+    public TaskOutputDTO getTaskByName(String name) {
         return taskController.getTaskByName(name);
     }
 
@@ -102,7 +102,7 @@ public class MainController {
      * @param task the task to be scheduled to event
      * @return whether the task is successfully scheduled to event
      */
-    public boolean suggestTimeToUser(TaskInfo task) {
+    public boolean suggestTimeToUser(TaskOutputDTO task) {
         return taskToEventController.suggestTimeToUser(task);
     }
 
@@ -112,7 +112,7 @@ public class MainController {
      * @param userSuggestedTime the time suggested by the user
      * @return whether the task is successfully scheduled to event
      */
-    public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
+    public boolean checkUserSuggestedTime(TaskOutputDTO task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 

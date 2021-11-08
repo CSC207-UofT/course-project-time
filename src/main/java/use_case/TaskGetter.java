@@ -1,11 +1,9 @@
 package main.java.use_case;
 
 import main.java.entity.Task;
-import main.java.entity.TodoList;
 import main.java.entity_gateway.TaskReader;
 import main.java.entity_gateway.TodoListManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +19,7 @@ public class TaskGetter implements TodoListDisplayBoundary {
         this.taskPresenter = taskPresenter;
     }
 
-    public TodoListsInfo getTasks() {
+    public TodoListOutputDTO getTasks() {
         Map<Integer, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
         return new  TodoListInfoFromTaskReaders(taskReaders);
     }
@@ -45,7 +43,7 @@ public class TaskGetter implements TodoListDisplayBoundary {
         return task_data;
     }
 
-    public TaskInfo getTaskByName(String name) {
+    public TaskOutputDTO getTaskByName(String name) {
         Map<Integer, List<TaskReader>> taskMap = todoListManager.getAllTasks();
         for (List<TaskReader> todoListTasks : taskMap.values())
             for (TaskReader tr : todoListTasks) {
@@ -59,7 +57,7 @@ public class TaskGetter implements TodoListDisplayBoundary {
     @Override
     public void presentAllTodoLists() {
         Map<Integer, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
-        TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
+        TodoListOutputDTO todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
         taskPresenter.presentTasks(todoListInfo);
     }
 }

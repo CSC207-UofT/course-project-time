@@ -6,7 +6,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TaskInfoFromTaskReader implements TaskInfo {
+public class TaskInfoFromTaskReader implements TaskOutputDTO {
 
     private TaskReader taskReader;
 

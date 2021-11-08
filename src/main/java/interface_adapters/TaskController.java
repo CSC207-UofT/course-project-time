@@ -1,11 +1,10 @@
 package main.java.interface_adapters;
 
 import main.java.use_case.NewTodoListTaskData;
-import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
-import main.java.use_case.TaskInfo;
+import main.java.use_case.TaskOutputDTO;
 import main.java.use_case.TodoListTaskCreationBoundary;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.TodoListOutputDTO;
 
 import java.time.LocalDateTime;
 
@@ -26,7 +25,7 @@ public class TaskController {
      * @return a list of tasks organized in map format, with
      * "name", "deadline", "subtasks", and "completed" as keys
      */
-    public TodoListsInfo getTasks() {
+    public TodoListOutputDTO getTasks() {
         return taskGetter.getTasks();
     }
 
@@ -45,7 +44,7 @@ public class TaskController {
      * @param name name of Task
      * @return TaskInfo with given name
      */
-    public TaskInfo getTaskByName(String name) {
+    public TaskOutputDTO getTaskByName(String name) {
         return taskGetter.getTaskByName(name);
     }
 }

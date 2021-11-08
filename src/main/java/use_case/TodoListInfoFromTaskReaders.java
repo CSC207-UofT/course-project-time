@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TodoListInfoFromTaskReaders implements TodoListsInfo {
+public class TodoListInfoFromTaskReaders implements TodoListOutputDTO {
 
     private final Map<Integer, Map<Integer, TaskReader>> taskMap;
     private final List<TaskReader> taskReaders;
@@ -65,10 +65,10 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
     }
 
     @Override
-    public List<TaskInfo> getAllTasks() {
-        List<TaskInfo> taskInfos = new ArrayList<>();
+    public List<TaskOutputDTO> getAllTasks() {
+        List<TaskOutputDTO> taskOutputDTOs = new ArrayList<>();
         for (TaskReader tr : taskReaders)
-            taskInfos.add(new TaskInfoFromTaskReader(tr));
-        return taskInfos;
+            taskOutputDTOs.add(new TaskInfoFromTaskReader(tr));
+        return taskOutputDTOs;
     }
 }

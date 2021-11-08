@@ -1,20 +1,20 @@
 package main.java.interface_adapters;
 
-import main.java.use_case.TaskInfo;
+import main.java.use_case.TaskOutputDTO;
 import main.java.use_case.TodoListPresenter;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.TodoListOutputDTO;
 
 import java.util.List;
 
 public class ConsoleTaskPresenter implements TodoListPresenter {
 
     @Override
-    public void presentTasks(TodoListsInfo todoListInfo) {
-        List<TaskInfo> tasks = todoListInfo.getAllTasks();
+    public void presentTasks(TodoListOutputDTO todoListInfo) {
+        List<TaskOutputDTO> tasks = todoListInfo.getAllTasks();
         if (tasks.size() == 0) {
             System.out.println("No tasks have been created");
         }
-        for (TaskInfo ti : tasks) {
+        for (TaskOutputDTO ti : tasks) {
 
             String name = ti.getName();
             String deadline = ti.getDeadline().toString();

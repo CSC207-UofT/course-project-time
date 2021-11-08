@@ -1,10 +1,8 @@
 package main.java;
 
-import main.java.entity.TodoList;
 import main.java.interface_adapters.MainController;
-import main.java.entity.Task;
-import main.java.use_case.TaskInfo;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.TaskOutputDTO;
+import main.java.use_case.TodoListOutputDTO;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -97,7 +95,7 @@ public class ApplicationDriver {
                 break;
             case "5":
                 printTasks();
-                TaskInfo task = chooseTask();
+                TaskOutputDTO task = chooseTask();
                 success = controller.suggestTimeToUser(task);
                 if (success) {
                     System.out.println("Event created from task");
@@ -108,7 +106,7 @@ public class ApplicationDriver {
                 break;
             case "6":
                 printTasks();
-                TaskInfo taskManual = chooseTask();
+                TaskOutputDTO taskManual = chooseTask();
                 LocalDateTime userSuggestedTime;
                 boolean timeAvailable;
 
@@ -214,12 +212,12 @@ public class ApplicationDriver {
      * Print all tasks
      */
     private static void printTasks() {
-        TodoListsInfo todoListsInfo = controller.getTasks();
-        List<TaskInfo> allTasksData = todoListsInfo.getAllTasks();
+        TodoListOutputDTO todoListsInfo = controller.getTasks();
+        List<TaskOutputDTO> allTasksData = todoListsInfo.getAllTasks();
         if (allTasksData.size() == 0) {
             System.out.println("No tasks have been created");
         }
-        for (TaskInfo ti : allTasksData) {
+        for (TaskOutputDTO ti : allTasksData) {
 
             String name = ti.getName();
             String deadline = ti.getDeadline().toString();
@@ -238,11 +236,11 @@ public class ApplicationDriver {
      * Prompts the user to choose a Task among the list of Tasks
      * @return the chosen Task
      */
-    private static TaskInfo chooseTask() {
-        TodoListsInfo todoListsInfo = controller.getTasks();
-        List<TaskInfo> taskInfos = todoListsInfo.getAllTasks();
+    private static TaskOutputDTO chooseTask() {
+        TodoListOutputDTO todoListsInfo = controller.getTasks();
+        List<TaskOutputDTO> taskOutputDTOs = todoListsInfo.getAllTasks();
         List<String> taskNames = new ArrayList<>();
-        for (TaskInfo ti: taskInfos) {
+        for (TaskOutputDTO ti: taskOutputDTOs) {
             taskNames.add(ti.getName());
         }
 
