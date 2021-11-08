@@ -4,7 +4,9 @@ package main.java.entity;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A Task stores the name of the task, whether it is completed,
@@ -19,6 +21,7 @@ public class Task {
     private Duration timeNeeded;
     private LocalDateTime deadline;
     private List<String> subTasks;
+    private Set<Duration> notificationTimes;
 
     private static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
@@ -64,6 +67,7 @@ public class Task {
         this.deadline = deadline;
         this.subTasks = new ArrayList<>(subTasks);
         this.id = id;
+        this.notificationTimes = new HashSet<Duration>();
     }
 
     public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
@@ -115,6 +119,14 @@ public class Task {
         }
     }
 
+    public void addNotificationTime(Duration durationInAdvance) {
+        this.notificationTimes.add(durationInAdvance);
+    }
+
+    public void removeNotificationTime(Duration durationInAdvance) {
+        this.notificationTimes.remove(durationInAdvance);
+    }
+
     public String getTaskName() {
         return this.taskName;
     }
@@ -139,4 +151,7 @@ public class Task {
         return this.id;
     }
 
+    public Set<Duration> getNotificationTimes() {
+        return notificationTimes;
+    }
 }

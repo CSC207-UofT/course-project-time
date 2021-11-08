@@ -2,6 +2,7 @@ package main.java.entity_gateway;
 
 import main.java.entity.Event;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
@@ -41,5 +42,10 @@ public class EventToEventReader implements EventReader{
     @Override
     public Set<LocalDate> getDates() {
         return event.getDates();
+    }
+
+    @Override
+    public Set<Duration> getNotificationTimes() {
+        return event.getNotificationTimes();
     }
 }

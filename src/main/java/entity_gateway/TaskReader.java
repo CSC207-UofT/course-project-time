@@ -3,6 +3,7 @@ package main.java.entity_gateway;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskReader {
 
@@ -17,4 +18,6 @@ public interface TaskReader {
     List<String> getSubtasks();
 
     boolean getCompleted();
+
+    Set<Duration> getNotificationTimes();
 }
