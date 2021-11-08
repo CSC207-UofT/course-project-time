@@ -3,6 +3,8 @@ package main.java.interface_adapters;
 import main.java.constants.NotificationType;
 import main.java.entity_gateway.*;
 import main.java.interface_adapters.notification.NotificationController;
+import main.java.interface_adapters.notification.NotificationPresenter;
+import main.java.interface_adapters.notification.NotificationSettings;
 import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventPresenter;
 import main.java.use_case.EventAdder;
@@ -54,10 +56,13 @@ public class MainController {
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
 
+        NotificationSettings notificationSettings = new NotificationSettings();
+        NotificationPresenter notificationPresenter = new NotificationPresenter(notificationSettings);
+        NotificationObserver notificationObserver = new NotificationObserver(notificationPresenter, calendarManager, todoListManager);
         List<NotificationObserver> notificationObservers = new ArrayList<>();
-        notificationObservers.add(new NotificationObserver());
+        notificationObservers.add(notificationObserver);
         NotificationTracker notificationTracker = new NotificationTracker(notificationObservers);
-        notificationController = new NotificationController(notificationTracker, calendarManager, todoListManager);
+        this.notificationController = new NotificationController(notificationTracker, calendarManager, todoListManager, notificationPresenter);
 
         // TODO: what to do with the return value of this method?
         if (!notificationController.populateTrackerWithNotifications()) {

@@ -11,13 +11,16 @@ public class NotificationController {
     private final NotificationAdder notificationAdder;
     private final NotificationRemover notificationRemover;
     private final NotificationTracker notificationTracker;
+    private NotificationPresenter notificationPresenter;
 
     public NotificationController(NotificationTracker notificationTracker,
                                   CalendarManager calendarManager,
-                                  TodoListManager todoListManager) {
+                                  TodoListManager todoListManager,
+                                  NotificationPresenter notificationPresenter) {
         this.notificationAdder = new NotificationAdder(notificationTracker, calendarManager, todoListManager);
         this.notificationRemover = new NotificationRemover(notificationTracker, calendarManager, todoListManager);
         this.notificationTracker = notificationTracker;
+        this.notificationPresenter = notificationPresenter;
     }
 
     /**
@@ -69,6 +72,10 @@ public class NotificationController {
      */
     public boolean deleteNotifications(int idOfAssociatedObject) {
         return this.notificationRemover.deleteNotifications(idOfAssociatedObject);
+    }
+
+    public void setNotificationSettings(NotificationSettings notificationSettings) {
+        this.notificationPresenter.resetNotification(notificationSettings);
     }
 
 }

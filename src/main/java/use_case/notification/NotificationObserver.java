@@ -106,6 +106,7 @@ public class NotificationObserver implements INotificationObserver {
      */
     private LocalDate searchEventDate(Set<Duration> durations,
                                       Set<LocalDate> dates, LocalDateTime currentDateTime) {
+        // TODO: return something out of for loop or use exception
         for (Duration notificationTime : durations) {
             for (LocalDate date : dates) {
                 if (currentDateTime.plus(notificationTime).toLocalDate().equals(date)) {
@@ -113,6 +114,5 @@ public class NotificationObserver implements INotificationObserver {
                 }
             }
         }
-
     }
 }
