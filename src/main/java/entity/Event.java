@@ -22,6 +22,7 @@ public class Event {
     private Set<String> tags;
     private Task task;
     private Set<LocalDate> dates;
+    private Set<Duration> notificationTimes;
 
     /**
      * Construct an event based on a task.
@@ -38,6 +39,7 @@ public class Event {
         this.dates.add(startTime.toLocalDate());
         // TODO: update the id creation
         this.id = 0;
+        this.notificationTimes = new HashSet<Duration>();
     }
 
     /**
@@ -58,6 +60,7 @@ public class Event {
         this.task = new Task(eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
+        this.notificationTimes = new HashSet<Duration>();
     }
 
     public void setEventName(String newName) {
@@ -83,6 +86,14 @@ public class Event {
         } else {
             return false;
         }
+    }
+
+    public void addNotificationTime(Duration durationInAdvance) {
+        this.notificationTimes.add(durationInAdvance);
+    }
+
+    public void removeNotificationTime(Duration durationInAdvance) {
+        this.notificationTimes.remove(durationInAdvance);
     }
 
     /**
@@ -127,6 +138,10 @@ public class Event {
 
     public int getId() {
         return id;
+    }
+
+    public Set<Duration> getNotificationTimes() {
+        return notificationTimes;
     }
 
 }

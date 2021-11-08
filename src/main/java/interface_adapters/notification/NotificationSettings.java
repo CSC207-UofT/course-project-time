@@ -1,6 +1,6 @@
-package main.java.use_case.notification;
+package main.java.interface_adapters.notification;
 
-public class NotificationSendingBoundary {
+public class NotificationSettings {
     private boolean emailEnabled;
     private boolean systemEnabled;
     private String message;
