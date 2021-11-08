@@ -74,7 +74,7 @@ public class NotificationController {
         return this.notificationRemover.deleteNotifications(idOfAssociatedObject);
     }
 
-    public void setNotificationSettings(NotificationSettings notificationSettings) {
+    public void updateNotificationSettings(NotificationSettings notificationSettings) {
         this.notificationPresenter.resetNotification(notificationSettings);
     }
 
