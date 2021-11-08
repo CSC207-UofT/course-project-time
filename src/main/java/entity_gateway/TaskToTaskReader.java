@@ -7,53 +7,40 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class TaskToTaskReader implements TaskReader{
-    int id;
-    String name;
-    Duration duration;
-    LocalDateTime deadline;
-    List<String> subtasks;
-    boolean completed;
 
-    public TaskToTaskReader(int id, String name, Duration duration, LocalDateTime deadline, List<String> subtasks, boolean completed){
-        this.id = id;
-        this.name = name;
-        this.duration = duration;
-        this.deadline = deadline;
-        this.subtasks = subtasks;
-        this.completed = completed;
-    }
+    private final Task task;
 
     public TaskToTaskReader(Task task) {
-        this(task.getId(), task.getTaskName(), task.getTimeNeeded(), task.getDeadline(), task.getSubTasks(), task.getCompleted());
+        this.task = task;
     }
 
     @Override
     public int getId() {
-        return id;
+        return task.getId();
     }
 
     @Override
     public String getName() {
-        return name;
+        return task.getTaskName();
     }
 
     @Override
     public Duration getDuration() {
-        return duration;
+        return task.getTimeNeeded();
     }
 
     @Override
     public LocalDateTime getDeadline() {
-        return deadline;
+        return task.getDeadline();
     }
 
     @Override
     public List<String> getSubtasks() {
-        return subtasks;
+        return task.getSubTasks();
     }
 
     @Override
     public boolean getCompleted() {
-        return completed;
+        return task.getCompleted();
     }
 }
