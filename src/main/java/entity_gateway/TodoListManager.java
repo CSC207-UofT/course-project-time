@@ -1,13 +1,13 @@
 package main.java.entity_gateway;
 
-import main.java.use_case.TodoListTaskCreationModel;
+import main.java.use_case.TodoListTaskCreationDTO;
 
 import java.util.List;
 import java.util.Map;
 
 public interface TodoListManager {
 
-    int addTask(TodoListTaskCreationModel taskData);
+    int addTask(TodoListTaskCreationDTO taskData);
 
     int createTodoList();
 

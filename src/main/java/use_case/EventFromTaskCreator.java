@@ -1,6 +1,5 @@
 package main.java.use_case;
 
-import main.java.entity.TodoList;
 import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.TaskReader;
 import main.java.entity_gateway.TodoListManager;
@@ -15,9 +14,9 @@ public class EventFromTaskCreator implements EventFromTaskCreatorBoundary {
         this.calendarManager = calendarManager;
     }
 
-    public boolean createEventFromTask(EventFromTaskModel eventData) {
+    public boolean createEventFromTask(EventFromTaskDTO eventData) {
         TaskReader tr = todoListManager.getTask(0, eventData.getTaskId());
-        CalendarEventModel eventModel = new CalendarEventData(tr.getName(), eventData.getStartTime(), eventData.getStartTime().plus(tr.getDuration()), eventData.getTags(), eventData.getDates());
+        CalendarEventCreationDTO eventModel = new CalendarEventData(tr.getName(), eventData.getStartTime(), eventData.getStartTime().plus(tr.getDuration()), eventData.getTags(), eventData.getDates());
         calendarManager.addEvent(eventModel);
         return true;
     }

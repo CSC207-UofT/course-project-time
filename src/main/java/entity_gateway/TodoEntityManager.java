@@ -2,7 +2,7 @@ package main.java.entity_gateway;
 
 import main.java.entity.Task;
 import main.java.entity.TodoList;
-import main.java.use_case.TodoListTaskCreationModel;
+import main.java.use_case.TodoListTaskCreationDTO;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public int addTask(TodoListTaskCreationModel taskData) {
+    public int addTask(TodoListTaskCreationDTO taskData) {
         String name = taskData.getName();
         Duration duration = taskData.getDuration();
         LocalDateTime deadline = taskData.getDeadline();

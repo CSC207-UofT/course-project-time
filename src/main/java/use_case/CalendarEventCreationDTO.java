@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public interface CalendarEventModel {
+public interface CalendarEventCreationDTO {
     public String getName();
     public LocalDateTime getStartTime();
     public LocalDateTime getEndTime();

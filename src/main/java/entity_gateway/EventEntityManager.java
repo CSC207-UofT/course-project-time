@@ -1,7 +1,7 @@
 package main.java.entity_gateway;
 
 import main.java.entity.Event;
-import main.java.use_case.CalendarEventModel;
+import main.java.use_case.CalendarEventCreationDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ public class EventEntityManager implements CalendarManager{
 
 
     @Override
-    public boolean addEvent(CalendarEventModel eventData) {
+    public boolean addEvent(CalendarEventCreationDTO eventData) {
         String name = eventData.getName();
         LocalDateTime startTime = eventData.getStartTime();
         LocalDateTime endTime = eventData.getEndTime();

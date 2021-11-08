@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewTodoListTaskData implements TodoListTaskCreationModel {
+public class NewTodoListTaskData implements TodoListTaskCreationDTO {
 
     private final int todoListId;
     private final String taskName;

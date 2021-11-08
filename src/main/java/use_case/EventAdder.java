@@ -11,7 +11,7 @@ public class EventAdder implements CalendarEventCreationBoundary {
         this.calendarManager = calendarManager;
     }
 
-    public boolean addEvent(CalendarEventModel eventData) {
+    public boolean addEvent(CalendarEventCreationDTO eventData) {
         return calendarManager.addEvent(eventData);
     }
 

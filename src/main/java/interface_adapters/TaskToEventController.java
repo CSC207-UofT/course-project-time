@@ -4,7 +4,7 @@ import main.java.use_case.TaskOutputDTO;
 import main.java.use_case.TaskToEvent;
 import main.java.use_case.EventFromTaskCreatorBoundary;
 import main.java.use_case.EventFromTaskId;
-import main.java.use_case.EventFromTaskModel;
+import main.java.use_case.EventFromTaskDTO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
     }
 
     public boolean createEventFromTask(int taskId, LocalDateTime startTime) {
-        EventFromTaskModel eventData = new EventFromTaskId(taskId, startTime);
+        EventFromTaskDTO eventData = new EventFromTaskId(taskId, startTime);
         return eventFromTaskCreatorBoundary.createEventFromTask(eventData);
     }
 

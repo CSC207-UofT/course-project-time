@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public interface EventFromTaskModel {
+public interface EventFromTaskDTO {
 
     int getTaskId();
 

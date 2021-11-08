@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EventFromTaskId implements EventFromTaskModel {
+public class EventFromTaskId implements EventFromTaskDTO {
 
     private final int taskId;
     private final LocalDateTime startTime;

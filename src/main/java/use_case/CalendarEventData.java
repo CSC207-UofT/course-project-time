@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public class CalendarEventData implements CalendarEventModel {
+public class CalendarEventData implements CalendarEventCreationDTO {
 
     private final String eventName;
     private final LocalDateTime startTime;
