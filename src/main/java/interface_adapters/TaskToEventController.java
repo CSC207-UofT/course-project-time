@@ -1,10 +1,10 @@
 package main.java.interface_adapters;
 
-import main.java.use_case.TaskInfo;
-import main.java.use_case.TaskToEvent;
 import main.java.use_case.EventFromTaskCreatorBoundary;
 import main.java.use_case.EventFromTaskId;
 import main.java.use_case.EventFromTaskModel;
+import main.java.use_case.TaskInfo;
+import main.java.use_case.TaskToEvent;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

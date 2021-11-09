@@ -1,6 +1,5 @@
 package main.java.use_case;
 
-import main.java.entity.Event;
 import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventReader;
 

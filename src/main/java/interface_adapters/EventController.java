@@ -3,17 +3,16 @@ package main.java.interface_adapters;
 
 import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventData;
-import main.java.use_case.EventAdder;
-import main.java.use_case.EventScheduler;
 import main.java.use_case.EventGetter;
+import main.java.use_case.EventScheduler;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class EventController {
