@@ -1,7 +1,10 @@
 package main.java;
 
-import main.java.controller.MainController;
+import main.java.entity.TodoList;
+import main.java.interface_adapters.MainController;
 import main.java.entity.Task;
+import main.java.use_case.TaskInfo;
+import main.java.use_case.TodoListsInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -94,7 +97,7 @@ public class ApplicationDriver {
                 break;
             case "5":
                 printTasks();
-                Task task = chooseTask();
+                TaskInfo task = chooseTask();
                 success = controller.suggestTimeToUser(task);
                 if (success) {
                     System.out.println("Event created from task");
@@ -105,7 +108,7 @@ public class ApplicationDriver {
                 break;
             case "6":
                 printTasks();
-                Task taskManual = chooseTask();
+                TaskInfo taskManual = chooseTask();
                 LocalDateTime userSuggestedTime;
                 boolean timeAvailable;
 
@@ -117,8 +120,8 @@ public class ApplicationDriver {
                     }
                 } while (!timeAvailable);
 
-                success = controller.createEvent(taskManual.getTaskName(), userSuggestedTime.toLocalTime(),
-                        userSuggestedTime.toLocalTime().plus(taskManual.getTimeNeeded()), new HashSet<>(), userSuggestedTime.toLocalDate());
+                success = controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
+                        userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
 
                 if (success) {
                     System.out.println("Event created from task");
@@ -211,15 +214,22 @@ public class ApplicationDriver {
      * Print all tasks
      */
     private static void printTasks() {
-        List<HashMap<String, String>> allTasksData = controller.getTasks();
+        TodoListsInfo todoListsInfo = controller.getTasks();
+        List<TaskInfo> allTasksData = todoListsInfo.getAllTasks();
         if (allTasksData.size() == 0) {
             System.out.println("No tasks have been created");
         }
-        for (HashMap<String, String> taskData : allTasksData) {
-            String output = "Task: " + taskData.get("name") + ", "
-                    + "deadline = " + taskData.get("deadline") + ", "
-                    + "subtasks = " + taskData.get("subtasks") + ", "
-                    + "completed = " + taskData.get("completed");
+        for (TaskInfo ti : allTasksData) {
+
+            String name = ti.getName();
+            String deadline = ti.getDeadline().toString();
+            String subtasks = ti.getSubtasks().toString();
+            boolean completed = ti.getCompleted();
+
+            String output = "Task: " + name + ", "
+                    + "deadline = " + deadline + ", "
+                    + "subtasks = " + subtasks + ", "
+                    + "completed = " + completed;
             System.out.println(output);
         }
     }
@@ -228,11 +238,12 @@ public class ApplicationDriver {
      * Prompts the user to choose a Task among the list of Tasks
      * @return the chosen Task
      */
-    private static Task chooseTask() {
-        List<HashMap<String, String>> allTasks = controller.getTasks();
+    private static TaskInfo chooseTask() {
+        TodoListsInfo todoListsInfo = controller.getTasks();
+        List<TaskInfo> taskInfos = todoListsInfo.getAllTasks();
         List<String> taskNames = new ArrayList<>();
-        for (HashMap<String, String> task : allTasks) {
-            taskNames.add(task.get("name"));
+        for (TaskInfo ti: taskInfos) {
+            taskNames.add(ti.getName());
         }
 
         Scanner scanner = new Scanner(System.in);

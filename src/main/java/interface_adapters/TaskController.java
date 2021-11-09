@@ -1,27 +1,33 @@
-package main.java.controller;
+package main.java.interface_adapters;
 
-import main.java.entity.Task;
-import main.java.use_case.AccessTodoData;
+import main.java.use_case.NewTodoListTaskData;
 import main.java.use_case.TaskAdder;
 import main.java.use_case.TaskGetter;
+import main.java.use_case.TaskInfo;
+import main.java.use_case.TodoListTaskCreationBoundary;
+import main.java.use_case.TodoListsInfo;
+
 import java.time.LocalDateTime;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class TaskController {
-    private final AccessTodoData todoData = new AccessTodoData();
-    private final TaskGetter taskGetter = new TaskGetter();
-    private final TaskAdder taskAdder = new TaskAdder();
+    private final TaskGetter taskGetter;
+    private final TodoListTaskCreationBoundary taskAdder;
+
+    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder) {
+        this.taskGetter = taskGetter;
+        this.taskAdder = taskAdder;
+    }
 
     /**
      * @return a list of tasks organized in map format, with
      * "name", "deadline", "subtasks", and "completed" as keys
      */
-    public List<HashMap<String, String>> getTasks() {
-        return taskGetter.getTasks(todoData);
+    public TodoListsInfo getTasks() {
+        return taskGetter.getTasks();
     }
 
     public boolean createTask(String taskName, Duration timeNeeded) {
@@ -30,16 +36,16 @@ public class TaskController {
 
     public boolean createTask(String taskName, Duration timeNeeded,
                               LocalDateTime deadline, List<String> subTasks) {
-        taskAdder.addTask(taskName, timeNeeded, deadline, subTasks, todoData);
+        taskAdder.addTask(new NewTodoListTaskData(0, taskName, timeNeeded, deadline, subTasks));
         return true; // TODO: return value should indicate success of data creation
     }
 
     /**
      * Gets a Task by its name
      * @param name name of Task
-     * @return Task with given name
+     * @return TaskInfo with given name
      */
-    public Task getTaskByName(String name) {
-        return taskGetter.getTaskByName(name, todoData);
+    public TaskInfo getTaskByName(String name) {
+        return taskGetter.getTaskByName(name);
     }
 }
