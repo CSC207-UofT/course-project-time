@@ -8,27 +8,27 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
 
     /**
      * Gets an available time slot given task, calendar, and an eventScheduler
-     * @param task the Task to be scheduled
+     * @param taskInfo the Task to be scheduled
      * @param eventScheduler what will be used for this scheduling
      * @param unwantedTimes times that the user does not want
      * @return the time outputted by the eventScheduler
      */
     @Override
-    public LocalDateTime getAvailableTime(TaskInfo task, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
-        return eventScheduler.getAvailableTime(unwantedTimes, task.getDuration());
+    public LocalDateTime getAvailableTime(TaskInfo taskInfo, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
+        return eventScheduler.getAvailableTime(unwantedTimes, taskInfo.getDuration());
     }
 
 
     /**
      * Checks the availability of a given time
-     * @param task the Task to be scheduled
+     * @param taskInfo the Task to be scheduled
      * @param eventScheduler what will be used for this scheduling
      * @param userSuggestedTime times that the user suggested
      * @return whether the time suggested by the user is available
      */
     @Override
-    public boolean checkTimeAvailability(TaskInfo task, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
-        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), task.getDuration(), userSuggestedTime.toLocalDate());
+    public boolean checkTimeAvailability(TaskInfo taskInfo, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
+        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), taskInfo.getDuration(), userSuggestedTime.toLocalDate());
     }
 }
 
