@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
+public class EventGetter implements CalendarEventDisplayBoundary {
     Calendar calendar;
 
     private final CalendarManager calendarManager;
@@ -18,21 +18,6 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     public EventGetter(CalendarManager calendarManager, CalendarEventPresenter eventPresenter) {
         this.calendarManager = calendarManager;
         this.eventPresenter = eventPresenter;
-    }
-
-    /**
-     * Returns a list containing mappings of event attributes
-     * and their corresponding values, with keys as "name", "start",
-     * "end", "tags", and "dates
-     */
-    @Override
-    public List<HashMap<String, String>> getEvents() {
-        List<HashMap<String, String>> event_data = new ArrayList<>();
-        for(Event event : calendar.getEvents()) {
-            event_data.add(getEvent(event));
-        }
-
-        return event_data;
     }
 
     private HashMap<String, String> getEvent(Event event) {

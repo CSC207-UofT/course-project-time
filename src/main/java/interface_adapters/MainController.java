@@ -5,6 +5,7 @@ import main.java.entity_gateway.EventEntityManager;
 import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
 import main.java.use_case.CalendarEventCreationBoundary;
+import main.java.use_case.CalendarEventDisplayBoundary;
 import main.java.use_case.CalendarEventPresenter;
 import main.java.use_case.EventAdder;
 import main.java.use_case.EventFromTaskCreator;
@@ -38,7 +39,7 @@ public class MainController {
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
-        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
+        CalendarEventDisplayBoundary eventGetter = new EventGetter(calendarManager, eventPresenter);
 
         eventController = new EventController(eventAdder, eventScheduler, eventGetter);
 
@@ -50,14 +51,6 @@ public class MainController {
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
-    }
-
-    /**
-     * Return a list of events data in the format of a map, with keys as
-     * "name", "start", and "end"
-     */
-    public List<HashMap<String, String>> getEvents() {
-        return eventController.getEvents();
     }
 
     /**
@@ -90,6 +83,12 @@ public class MainController {
                                HashSet<String> tags, LocalDate date) {
         return eventController.createEvent(eventName, startTime, endTime, tags, date);
     }
+
+
+    public void presentEvents() {
+        eventController.presentEvents();
+    }
+
     /**
      * creates a task and adds it to the todolist
      */

@@ -3,6 +3,7 @@ package main.java.interface_adapters;
 
 import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventData;
+import main.java.use_case.CalendarEventDisplayBoundary;
 import main.java.use_case.EventAdder;
 import main.java.use_case.EventScheduler;
 import main.java.use_case.EventGetter;
@@ -20,20 +21,12 @@ public class EventController {
 
     protected final CalendarEventCreationBoundary eventAdder;
     protected final EventScheduler eventScheduler;
-    protected final EventGetter eventGetter;
+    protected final CalendarEventDisplayBoundary eventGetter;
 
-    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
+    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, CalendarEventDisplayBoundary eventGetter) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
-    }
-
-    /**
-     * Returns a list containing mappings of event attributes
-     * and their corresponding values
-     */
-    public List<HashMap<String, String>> getEvents() {
-        return eventGetter.getEvents();
     }
 
     /**
@@ -70,6 +63,10 @@ public class EventController {
                                         tags, dates));
         }
         return false;
+    }
+
+    public void presentEvents() {
+        eventGetter.presentCalendar();
     }
 
 }

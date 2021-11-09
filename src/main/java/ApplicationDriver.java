@@ -63,18 +63,7 @@ public class ApplicationDriver {
             case "0":
                 return false;
             case "1":
-                List<HashMap<String, String>> allEventsData = controller.getEvents();
-                if (allEventsData.size() == 0) {
-                    System.out.println("No events have been created");
-                }
-                for (HashMap<String, String> eventData : allEventsData) {
-                    String output = "Event: " + eventData.get("name") + ", "
-                                        + "start time = " + eventData.get("start") + ", "
-                                        + "end time = " + eventData.get("end") + ", "
-                                        + "tags = " + eventData.get("tags") + ", "
-                                        + "dates = " + eventData.get("dates");
-                    System.out.println(output);
-                }
+                controller.presentEvents();
                 break;
             case "2":
                 printTasks();
