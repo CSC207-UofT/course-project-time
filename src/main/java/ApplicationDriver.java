@@ -32,6 +32,7 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
+        queryMenu.put("7", "Pomodoro Timer");
         return queryMenu;
     }
 
@@ -129,6 +130,8 @@ public class ApplicationDriver {
                     System.out.println("Failed to create event from task");
                 }
                 break;
+            case "7":
+                inputPomodoroTime();
             default:
                 break;
         }
@@ -269,6 +272,29 @@ public class ApplicationDriver {
         System.out.print("Input your desired time in (" + format + ") (24 hour time)");
         String timeString = scanner.nextLine();
         return LocalDateTime.parse(timeString, formatter);
+    }
+
+    /**
+     * Prompts users for their desired work and break intervals
+     * @return the time intervals the user inputted
+     */
+    private static int[] inputPomodoroTime() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input your desired work and break intervals in (work, break) (minutes) or 0 for default " +
+                "intervals");
+        //todo handle exceptions when user doesn't input in desired format
+        String intervals = scanner.nextLine();
+        if (Integer.parseInt(intervals) == 0) {
+            return new int[] {25, 5};
+        }
+        else {
+            String[] intervalsSplitString =  intervals.split(",");
+            int[] intervalsSplit = new int[2];
+            for (int i = 0; i < 2; i++){
+                intervalsSplit[i] = Integer.parseInt(intervalsSplitString[i]);
+            }
+            return intervalsSplit;
+        }
     }
 
     public static void main(String[] args) {

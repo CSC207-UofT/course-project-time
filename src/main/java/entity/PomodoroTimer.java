@@ -3,8 +3,7 @@ package main.java.entity;
 public class PomodoroTimer {
     private int workLength;
     private int breakLength;
-    private boolean isWorking = false;
-    private boolean isOnBreak = false;
+    private boolean canceled;
 
     /***
      *
@@ -14,13 +13,18 @@ public class PomodoroTimer {
     public PomodoroTimer(int workLength, int breakLength) {
         this.workLength = workLength;
         this.breakLength = breakLength;
+        this.canceled = false;
     }
 
-    /***
-     * default constructor if the user doesn't specify lengths of time
-     */
-    public PomodoroTimer() {
-        this.workLength = 25;
-        this.breakLength = 5;
+    public int getWorkLength() {
+        return this.workLength;
+    }
+
+    public int getBreakLength() {
+        return this.breakLength;
+    }
+
+    public boolean getCanceled() {
+        return this.canceled;
     }
 }
