@@ -49,7 +49,7 @@ public class MainController {
         taskController = new TaskController( taskGetter, taskAdder);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
-        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
+        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
     }
 
     /**

@@ -1,7 +1,7 @@
 package main.java.interface_adapters;
 
+import main.java.use_case.EventScheduler;
 import main.java.use_case.TaskInfo;
-import main.java.use_case.TaskToEvent;
 import main.java.use_case.EventFromTaskCreatorBoundary;
 import main.java.use_case.EventFromTaskId;
 import main.java.use_case.EventFromTaskModel;
@@ -13,12 +13,13 @@ import java.util.Scanner;
 
 public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
 
-    private final TaskToEvent taskToEvent = new TaskToEvent();
+    private final EventScheduler eventScheduler;
     private final EventFromTaskCreatorBoundary eventFromTaskCreatorBoundary;
 
     protected final EventController eventController;
 
-    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary) {
+    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary, EventScheduler eventScheduler) {
+        this.eventScheduler = eventScheduler;
         this.eventFromTaskCreatorBoundary = eventFromTaskBoundary;
         this.eventController = eventController;
     }
@@ -42,8 +43,8 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
         Scanner scanner = new Scanner(System.in);
 
         do {
-            suggestedTime = taskToEvent.getAvailableTime(
-                    task, eventController.eventScheduler, unwantedTimes
+            suggestedTime = eventScheduler.getAvailableTime(
+                    unwantedTimes, task.getDuration()
             );
             System.out.println("Suggested time: " + suggestedTime);
             System.out.print("Type 'y' for yes, anything else for no: ");
@@ -63,6 +64,6 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      */
     @Override
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
-        return taskToEvent.checkTimeAvailability(task, eventController.eventScheduler, userSuggestedTime);
+        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), task.getDuration(), userSuggestedTime.toLocalDate());
     }
 }
