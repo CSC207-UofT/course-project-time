@@ -4,20 +4,10 @@ import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventEntityManager;
 import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
-import main.java.use_case.CalendarEventCreationBoundary;
-import main.java.use_case.CalendarEventPresenter;
-import main.java.use_case.EventAdder;
-import main.java.use_case.EventFromTaskCreator;
-import main.java.use_case.EventFromTaskCreatorBoundary;
-import main.java.use_case.EventGetter;
-import main.java.use_case.EventScheduler;
-import main.java.use_case.TaskAdder;
-import main.java.use_case.TaskGetter;
-import main.java.use_case.TaskInfo;
-import main.java.use_case.TodoListPresenter;
-import main.java.use_case.TodoListTaskCreationBoundary;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,19 +24,28 @@ public class MainController {
     public MainController() {
 
         CalendarManager calendarManager = new EventEntityManager();
+
+        try {
+            calendarManager.loadEvents("eventData.json");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
+        EventSaver eventSaver = new EventSaver(calendarManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter, eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
         TodoListManager todoListManager = new TodoEntityManager();
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        taskController = new TaskController( taskGetter, taskAdder);
+        TaskSaver taskSaver = new TaskSaver(todoListManager);
+        taskController = new TaskController( taskGetter, taskAdder, taskSaver);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
@@ -89,6 +88,16 @@ public class MainController {
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate date) {
         return eventController.createEvent(eventName, startTime, endTime, tags, date);
+    }
+
+    public void saveData(String filename)
+    {
+        try {
+            eventController.saveEvents("EventData.json");
+            taskController.saveTodoList("TaskData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * creates a task and adds it to the todolist

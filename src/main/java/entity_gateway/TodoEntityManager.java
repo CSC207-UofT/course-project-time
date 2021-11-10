@@ -1,9 +1,16 @@
 package main.java.entity_gateway;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import main.java.entity.Calendar;
+import main.java.entity.Event;
 import main.java.entity.Task;
 import main.java.entity.TodoList;
 import main.java.use_case.TodoListTaskCreationModel;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,13 +19,14 @@ import java.util.List;
 import java.util.Map;
 
 public class TodoEntityManager implements TodoListManager{
-    private final List<Task> taskArrayList;
+    private final List<Task> taskArrayList= new ArrayList<>();
     TodoList todoList;
     int taskCounter;
     int todoCounter;
 
-    public TodoEntityManager(){
-        taskArrayList = new ArrayList<>();
+    private Gson gson = new Gson();
+
+    public TodoEntityManager() {
         taskCounter = 0;
         todoCounter = 0;
     }
@@ -61,5 +69,28 @@ public class TodoEntityManager implements TodoListManager{
         // 0 because there is one todolist
         taskMap.put(0, todoListTaskReaders);
         return taskMap;
+    }
+
+    @Override
+    public void loadTodo(String filePath) throws FileNotFoundException {
+        if (new File(filePath).exists()) {
+            JsonReader reader = new JsonReader(new FileReader(filePath));
+
+            Type listType = new TypeToken<List<Task>>() {}.getType();
+            List<Task> tasks = gson.fromJson(reader, listType);
+
+            this.taskArrayList.addAll(tasks);
+        }
+    }
+
+    @Override
+    public void saveTodo(String filename) throws IOException {
+        FileWriter fw = new FileWriter(filename);
+        String cal_json = gson.toJson(this.taskArrayList);
+
+        if(cal_json != null)
+        {
+            fw.write(cal_json);
+        }
     }
 }

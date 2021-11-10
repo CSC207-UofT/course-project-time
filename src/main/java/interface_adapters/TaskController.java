@@ -1,12 +1,8 @@
 package main.java.interface_adapters;
 
-import main.java.use_case.NewTodoListTaskData;
-import main.java.use_case.TaskAdder;
-import main.java.use_case.TaskGetter;
-import main.java.use_case.TaskInfo;
-import main.java.use_case.TodoListTaskCreationBoundary;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import java.time.Duration;
@@ -16,10 +12,12 @@ import java.util.List;
 public class TaskController {
     private final TaskGetter taskGetter;
     private final TodoListTaskCreationBoundary taskAdder;
+    private final TaskSaver taskSaver;
 
-    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder) {
+    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver) {
         this.taskGetter = taskGetter;
         this.taskAdder = taskAdder;
+        this.taskSaver = taskSaver;
     }
 
     /**
@@ -47,5 +45,9 @@ public class TaskController {
      */
     public TaskInfo getTaskByName(String name) {
         return taskGetter.getTaskByName(name);
+    }
+
+    public void saveTodoList(String filename) throws IOException {
+        taskSaver.save(filename);
     }
 }

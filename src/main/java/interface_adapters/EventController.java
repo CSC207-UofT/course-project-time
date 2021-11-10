@@ -1,12 +1,11 @@
 package main.java.interface_adapters;
 
 
-import main.java.use_case.CalendarEventCreationBoundary;
-import main.java.use_case.CalendarEventData;
-import main.java.use_case.EventAdder;
-import main.java.use_case.EventScheduler;
-import main.java.use_case.EventGetter;
+import main.java.entity.Event;
+import main.java.entity_gateway.EventEntityManager;
+import main.java.use_case.*;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,11 +20,13 @@ public class EventController {
     protected final CalendarEventCreationBoundary eventAdder;
     protected final EventScheduler eventScheduler;
     protected final EventGetter eventGetter;
+    protected final EventSaver eventSaver;
 
-    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter) {
+    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter, EventSaver eventSaver) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
+        this.eventSaver = eventSaver;
     }
 
     /**
@@ -47,7 +48,7 @@ public class EventController {
     public boolean createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
         // todo use exceptions to ensure that duration won't last until the next day
         LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
-        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<String>(), startDateTime.toLocalDate());
+        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
     }
 
     /**
@@ -68,8 +69,12 @@ public class EventController {
                                         LocalDateTime.of(dates, startTime),
                                         LocalDateTime.of(dates, endTime),
                                         tags, dates));
+
         }
         return false;
     }
 
+    public void saveEvents(String filename) throws IOException {
+        this.eventSaver.SaveEventData(filename);
+    }
 }

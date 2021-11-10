@@ -32,6 +32,7 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
+        queryMenu.put("7", "Save my Data");
         return queryMenu;
     }
 
@@ -129,6 +130,10 @@ public class ApplicationDriver {
                     System.out.println("Failed to create event from task");
                 }
                 break;
+
+            case "7":
+                controller.saveData("");
+
             default:
                 break;
         }
@@ -273,6 +278,12 @@ public class ApplicationDriver {
 
     public static void main(String[] args) {
         boolean askForInput;
+
+        LocalTime start = LocalTime.parse("12:15:45");
+        LocalTime end = LocalTime.parse("13:15:45");
+        LocalDate date = LocalDate.parse("2002-06-04");
+
+        controller.createEvent("pain", start, end, new HashSet<>(), date);
         do {
             System.out.println("\n###############");
             for(String key: queryMenu.keySet()) {
