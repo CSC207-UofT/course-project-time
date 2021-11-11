@@ -21,12 +21,16 @@ public class MainController {
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
 
+
     public MainController() {
 
         CalendarManager calendarManager = new EventEntityManager();
+        TodoListManager todoListManager = new TodoEntityManager();
 
         try {
-            calendarManager.loadEvents("eventData.json");
+            calendarManager.loadEvents("EventData.json");
+            todoListManager.loadTodo("TaskData.json");
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -41,7 +45,6 @@ public class MainController {
         eventController = new EventController(eventAdder, eventScheduler, eventGetter, eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
-        TodoListManager todoListManager = new TodoEntityManager();
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         TaskSaver taskSaver = new TaskSaver(todoListManager);
@@ -90,7 +93,7 @@ public class MainController {
         return eventController.createEvent(eventName, startTime, endTime, tags, date);
     }
 
-    public void saveData(String filename)
+    public void saveData()
     {
         try {
             eventController.saveEvents("EventData.json");

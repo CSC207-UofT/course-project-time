@@ -30,6 +30,12 @@ public class EventEntityManager implements CalendarManager{
         fw.close();
     }
 
+    /**
+     * Loads event data from specified json file, gson code based on examples from
+     * //www.baeldung.com/gson-list
+     * @param filePath The location of the json file contining event data
+     * @throws FileNotFoundException if the specified file cannot be accessed
+     */
     public void loadEvents(String filePath) throws FileNotFoundException {
         if(new File(filePath).exists())
         {

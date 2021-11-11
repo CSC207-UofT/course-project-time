@@ -132,7 +132,7 @@ public class ApplicationDriver {
                 break;
 
             case "7":
-                controller.saveData("");
+                controller.saveData();
 
             default:
                 break;
@@ -279,11 +279,6 @@ public class ApplicationDriver {
     public static void main(String[] args) {
         boolean askForInput;
 
-        LocalTime start = LocalTime.parse("12:15:45");
-        LocalTime end = LocalTime.parse("13:15:45");
-        LocalDate date = LocalDate.parse("2002-06-04");
-
-        controller.createEvent("pain", start, end, new HashSet<>(), date);
         do {
             System.out.println("\n###############");
             for(String key: queryMenu.keySet()) {
@@ -296,5 +291,6 @@ public class ApplicationDriver {
         } while (askForInput);
 
         System.out.println("Bye!");
+
     }
 }

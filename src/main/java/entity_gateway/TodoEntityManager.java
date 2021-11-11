@@ -3,8 +3,6 @@ package main.java.entity_gateway;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import main.java.entity.Calendar;
-import main.java.entity.Event;
 import main.java.entity.Task;
 import main.java.entity.TodoList;
 import main.java.use_case.TodoListTaskCreationModel;
@@ -71,6 +69,12 @@ public class TodoEntityManager implements TodoListManager{
         return taskMap;
     }
 
+    /**
+     * Stores todolist data from an external json file, gson usaged based on
+     * code from https://www.baeldung.com/gson-list
+     * @param filePath The path of the file containing the todoList
+     * @throws FileNotFoundException if the specified file cannot be accessed
+     */
     @Override
     public void loadTodo(String filePath) throws FileNotFoundException {
         if (new File(filePath).exists()) {
@@ -79,7 +83,10 @@ public class TodoEntityManager implements TodoListManager{
             Type listType = new TypeToken<List<Task>>() {}.getType();
             List<Task> tasks = gson.fromJson(reader, listType);
 
-            this.taskArrayList.addAll(tasks);
+            if(tasks != null)
+            {
+                this.taskArrayList.addAll(tasks);
+            }
         }
     }
 
@@ -87,10 +94,10 @@ public class TodoEntityManager implements TodoListManager{
     public void saveTodo(String filename) throws IOException {
         FileWriter fw = new FileWriter(filename);
         String cal_json = gson.toJson(this.taskArrayList);
-
         if(cal_json != null)
         {
             fw.write(cal_json);
         }
+        fw.close();
     }
 }
