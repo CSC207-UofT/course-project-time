@@ -21,6 +21,7 @@ public class MainController {
     private final Snowflake snowflake;
 
     public MainController() {
+
         snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
@@ -36,7 +37,7 @@ public class MainController {
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        taskController = new TaskController(taskGetter, taskAdder, snowflake);
+        taskController = new TaskController( taskGetter, taskAdder);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);

@@ -1,4 +1,4 @@
-package main.java.controller;
+package main.java.interface_adapters;
 
 
 import main.java.use_case.*;
@@ -14,13 +14,16 @@ import java.util.List;
 
 public class EventController {
 
-    protected final AccessCalendarData calendarData = new AccessCalendarData();
-    protected final EventAdder eventAdder = new EventAdder();
-    protected final EventScheduler eventScheduler = new EventScheduler();
+    protected final CalendarEventCreationBoundary eventAdder;
+    protected final EventScheduler eventScheduler;
+    protected final EventGetter eventGetter;
+    protected final Snowflake snowflake;
 
-    private final Snowflake snowflake;
-
-    public EventController(Snowflake snowflake) {
+    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler,
+                           EventGetter eventGetter, Snowflake snowflake) {
+        this.eventAdder = eventAdder;
+        this.eventScheduler = eventScheduler;
+        this.eventGetter = eventGetter;
         this.snowflake = snowflake;
     }
 
@@ -29,7 +32,6 @@ public class EventController {
      * and their corresponding values
      */
     public List<HashMap<String, String>> getEvents() {
-        GetEvent eventGetter = new EventGetter(calendarData);
         return eventGetter.getEvents();
     }
 
@@ -60,11 +62,11 @@ public class EventController {
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate dates) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates, calendarData)) {
-            return eventAdder.addEvent(snowflake.nextId(), eventName,
-                                        LocalDateTime.of(dates, startTime),
-                                        LocalDateTime.of(dates, endTime),
-                                        tags, dates, calendarData);
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
+            return eventAdder.addEvent(new CalendarEventData(eventName,
+                    LocalDateTime.of(dates, startTime),
+                    LocalDateTime.of(dates, endTime),
+                    tags, dates));
         }
         return false;
     }
