@@ -1,7 +1,10 @@
-package main.java.controller;
+package main.java.interface_adapters;
 
-import main.java.entity.Task;
-import main.java.use_case.Snowflake;
+import main.java.entity_gateway.CalendarManager;
+import main.java.entity_gateway.EventEntityManager;
+import main.java.entity_gateway.TodoEntityManager;
+import main.java.entity_gateway.TodoListManager;
+import main.java.use_case.*;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -12,13 +15,32 @@ import java.util.HashSet;
 import java.util.List;
 
 public class MainController {
-    // creates an instance of Snowflake that generates unique IDs
-    // this instance will be passed into the sub-controllers
-    private final Snowflake snowflake = new Snowflake(1, 1, 0);
+    private final EventController eventController;
+    private final TaskController taskController;
+    private final TaskToEventController taskToEventController;
+    private final Snowflake snowflake;
 
-    private final EventController eventController = new EventController(snowflake);
-    private final TaskController taskController = new TaskController(snowflake);
-    private final TaskToEventController taskToEventController = new TaskToEventController(eventController);
+    public MainController() {
+        snowflake = new Snowflake(0, 0, 0);
+
+        CalendarManager calendarManager = new EventEntityManager(snowflake);
+        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
+        EventScheduler eventScheduler = new EventScheduler(calendarManager);
+
+        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
+        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
+
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter, snowflake);
+
+        TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
+        TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
+        TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
+        taskController = new TaskController(taskGetter, taskAdder, snowflake);
+
+        EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
+        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
+    }
 
     /**
      * Return a list of events data in the format of a map, with keys as
@@ -32,16 +54,16 @@ public class MainController {
      * Return a list of tasks data in the format of a map, with keys as
      * "name"
      */
-    public List<HashMap<String, String>> getTasks() {
+    public TodoListsInfo getTasks() {
         return taskController.getTasks();
     }
 
     /**
      * Gets a Task by its name
      * @param name name of Task
-     * @return Task with given name
+     * @return TaskInfo with given name
      */
-    public Task getTaskByName(String name) {
+    public TaskInfo getTaskByName(String name) {
         return taskController.getTaskByName(name);
     }
 
@@ -70,7 +92,7 @@ public class MainController {
      * @param task the task to be scheduled to event
      * @return whether the task is successfully scheduled to event
      */
-    public boolean suggestTimeToUser(Task task) {
+    public boolean suggestTimeToUser(TaskInfo task) {
         return taskToEventController.suggestTimeToUser(task);
     }
 
@@ -80,7 +102,7 @@ public class MainController {
      * @param userSuggestedTime the time suggested by the user
      * @return whether the task is successfully scheduled to event
      */
-    public boolean checkUserSuggestedTime(Task task, LocalDateTime userSuggestedTime) {
+    public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 
