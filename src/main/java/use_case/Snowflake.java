@@ -21,10 +21,10 @@ public class Snowflake {
     // bit shifting for each id
     private final long workerIdShift = sequenceBits;
     private final long dataCenterIdShift = sequenceBits + workerIdBits;
-    private final long timestampShift = sequenceBits + workerIdBits + datacenterIdBits;
+    private final long timestampMilliShift = sequenceBits + workerIdBits + datacenterIdBits;
 
-    private final long initialTimeStamp = 1288834974657L;
-    private long lastTimestamp = -1L;
+    private final long initialTimeStampMilli = 1288834974657L;
+    private long lastTimestampMilli = -1L;
 
     public Snowflake(long workerId, long datacenterId, long sequence) {
         if (workerId > maxWorkerId || workerId < 0) {
@@ -48,7 +48,7 @@ public class Snowflake {
         return datacenterId;
     }
 
-    public long getTimestamp() {
+    public long getTimestampMilli() {
         return System.currentTimeMillis();
     }
 
@@ -57,39 +57,39 @@ public class Snowflake {
      * @return the next ID
      */
     public synchronized long nextId() {
-        long timestamp = getTimestamp();
+        long timestampMilli = getTimestampMilli();
 
         // check if clock has not moved backwards
-        if (timestamp < lastTimestamp) {
+        if (timestampMilli < lastTimestampMilli) {
             throw new RuntimeException(String.format(
-                    "Clock moved backwards. Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
+                    "Clock moved backwards. Refusing to generate id for %d milliseconds", lastTimestampMilli - timestampMilli));
         }
 
-        // check if last timestamp equals the current timestamp
-        if (lastTimestamp == timestamp) {
+        // check if last timestampMilli equals the current timestampMilli
+        if (lastTimestampMilli == timestampMilli) {
             // if so, increase <sequence>
             sequence = (sequence + 1) & maxSequenceBits;
             // if <sequence> has been looped to 0 after too many increments, wail until the next millisecond
             if (sequence == 0) {
-                waitUntilNextMillisecond(lastTimestamp);
+                waitUntilNextMillisecond(lastTimestampMilli);
             }
         } else {
             // if not, reset sequence to 0
             sequence = 0;
         }
 
-        // update the previous timestamp
-        lastTimestamp = timestamp;
+        // update the previous timestampMilli
+        lastTimestampMilli = timestampMilli;
 
-        return ((timestamp - initialTimeStamp) << timestampShift) | (datacenterId << dataCenterIdShift) |
+        return ((timestampMilli - initialTimeStampMilli) << timestampMilliShift) | (datacenterId << dataCenterIdShift) |
                 (workerId << workerIdShift) | sequence;
     }
 
-    private long waitUntilNextMillisecond(long lastTimestamp) {
-        long timestamp = getTimestamp();
-        while (timestamp <= lastTimestamp) {
-            timestamp = getTimestamp();
+    private long waitUntilNextMillisecond(long lastTimestampMilli) {
+        long timestampMilli = getTimestampMilli();
+        while (timestampMilli <= lastTimestampMilli) {
+            timestampMilli = getTimestampMilli();
         }
-        return timestamp;
+        return timestampMilli;
     }
 }
