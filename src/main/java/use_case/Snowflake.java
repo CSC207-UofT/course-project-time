@@ -13,7 +13,6 @@ public class Snowflake {
     private final long datacenterIdBits = 5L;  // 5 bits for data center id
     private final long sequenceBits = 12L;  // 12 bits for serial number
 
-    // maximum values for the IDs
     private final long maxWorkerId = ~(-1L << workerIdBits);
     private final long maxDatacenterId = ~(-1L << datacenterIdBits);
     private final long maxSequenceBits = ~(-1L << sequenceBits);
@@ -65,20 +64,21 @@ public class Snowflake {
                     "Clock moved backwards. Refusing to generate id for %d milliseconds", lastTimestampMilli - timestampMilli));
         }
 
-        // check if last timestampMilli equals the current timestampMilli
         if (lastTimestampMilli == timestampMilli) {
-            // if so, increase <sequence>
+            // maxSequenceBits, in binary, is 01111...1
+            // if sequence <= maxSequenceBits, then sequence is increased by 1
+            // if sequence == maxSequenceBits + 1, then it becomes 10000...0 and the
+            // bitwise AND operation makes it 0
             sequence = (sequence + 1) & maxSequenceBits;
             // if <sequence> has been looped to 0 after too many increments, wail until the next millisecond
+            // because not waiting results in the generation of non-unique ids
             if (sequence == 0) {
                 waitUntilNextMillisecond(lastTimestampMilli);
             }
         } else {
-            // if not, reset sequence to 0
             sequence = 0;
         }
 
-        // update the previous timestampMilli
         lastTimestampMilli = timestampMilli;
 
         return ((timestampMilli - initialTimeStampMilli) << timestampMilliShift) | (datacenterId << dataCenterIdShift) |
