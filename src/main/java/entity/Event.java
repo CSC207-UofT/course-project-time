@@ -18,9 +18,8 @@ import java.util.Set;
  *                      to send the event remainder notification
  */
 public class Event {
-
-    // TODO: make id final
-    private int id;
+    
+    private final int id;
     private LocalTime startTime;
     private LocalTime endTime;
     private Set<String> tags;
@@ -65,6 +64,8 @@ public class Event {
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
         this.notificationTimes = new HashSet<Duration>();
+        // TODO: update the id creation
+        id = 0;
     }
 
     public void setEventName(String newName) {
