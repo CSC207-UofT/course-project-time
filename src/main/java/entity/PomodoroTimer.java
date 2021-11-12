@@ -27,4 +27,8 @@ public class PomodoroTimer {
     public boolean getCanceled() {
         return this.canceled;
     }
+
+    public void setCanceled(boolean isCanceled) {
+        this.canceled = isCanceled;
+    }
 }
