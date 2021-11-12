@@ -23,9 +23,18 @@ public class Snowflake {
     private final long dataCenterIdShift = sequenceBits + workerIdBits;
     private final long timestampMilliShift = sequenceBits + workerIdBits + datacenterIdBits;
 
-    private final long initialTimeStampMilli = 1288834974657L;
-    private long lastTimestampMilli = -1L;
+    private final long initialTimeStampMilli = 1288834974657L;  // choice could be arbitrary
+    private long lastTimestampMilli = -1L;  // since we do not have a previous timestamp, initialize it to -1
 
+    /**
+     * Initialize the Snowflake class for unique ID generation
+     * Since this algorithm can be used for large-scale server-based projects, we will just have
+     * arbitrary choices for *workerId* and *datacenterId*
+     * Also since we will only instantiate one of this class, *sequence* can be set to 0
+     * @param workerId ID assigned to device
+     * @param datacenterId ID assigned to the server used by the device
+     * @param sequence The number of IDs generated in the current millisecond
+     */
     public Snowflake(long workerId, long datacenterId, long sequence) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(
