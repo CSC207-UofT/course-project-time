@@ -1,6 +1,5 @@
 package main.java.use_case;
 
-import main.java.entity.Event;
 import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventReader;
 
@@ -13,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class EventScheduler {
+public class EventScheduler implements CalendarAnalyzer {
     private GapFinder gapFinder;
     private CalendarManager calendarManager;
 

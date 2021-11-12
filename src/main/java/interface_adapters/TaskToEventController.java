@@ -1,6 +1,6 @@
 package main.java.interface_adapters;
 
-import main.java.use_case.EventScheduler;
+import main.java.use_case.CalendarAnalyzer;
 import main.java.use_case.TaskInfo;
 import main.java.use_case.EventFromTaskCreatorBoundary;
 import main.java.use_case.EventFromTaskId;
@@ -13,12 +13,12 @@ import java.util.Scanner;
 
 public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
 
-    private final EventScheduler eventScheduler;
+    private final CalendarAnalyzer eventScheduler;
     private final EventFromTaskCreatorBoundary eventFromTaskCreatorBoundary;
 
     protected final EventController eventController;
 
-    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary, EventScheduler eventScheduler) {
+    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary, CalendarAnalyzer eventScheduler) {
         this.eventScheduler = eventScheduler;
         this.eventFromTaskCreatorBoundary = eventFromTaskBoundary;
         this.eventController = eventController;

@@ -4,6 +4,7 @@ import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventEntityManager;
 import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
+import main.java.use_case.CalendarAnalyzer;
 import main.java.use_case.CalendarEventCreationBoundary;
 import main.java.use_case.CalendarEventPresenter;
 import main.java.use_case.EventAdder;
@@ -35,7 +36,7 @@ public class MainController {
 
         CalendarManager calendarManager = new EventEntityManager();
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
-        EventScheduler eventScheduler = new EventScheduler(calendarManager);
+        CalendarAnalyzer eventScheduler = new EventScheduler(calendarManager);
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
