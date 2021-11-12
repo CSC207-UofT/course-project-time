@@ -12,10 +12,6 @@ import java.util.Set;
  * An Event stores the unique id, the name of the event, the start time
  * and end time of the event, tags, the associated task,
  * and the dates of event, and the notification times of the event.
- *
- * - dates: a set of LocalDate representing the recurring dates
- * - notificationTimes: a set of times in Duration presenting how long in advance
- *                      to send the event remainder notification
  */
 public class Event {
     
@@ -93,6 +89,10 @@ public class Event {
         }
     }
 
+    /**
+     * Add a duration to notification times.
+     * @param durationInAdvance a duration representing how long in advance to send the notification
+     */
     public void addNotificationTime(Duration durationInAdvance) {
         this.notificationTimes.add(durationInAdvance);
     }
