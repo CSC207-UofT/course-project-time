@@ -4,7 +4,7 @@ import main.java.entity_gateway.TaskReader;
 import main.java.entity_gateway.TodoListManager;
 import main.java.use_case.TaskGetter;
 import main.java.use_case.TodoListDisplayBoundary;
-import main.java.use_case.TodoListOutputBoundary;
+import main.java.use_case.TodoListPresenter;
 import main.java.use_case.TodoListsInfo;
 import main.java.use_case.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ public class TaskGetterTest {
     void testTaskPresenting() {
         TodoListManager todoListManager = new MockTodoListManager();
         List<TodoListsInfo> buffer = new ArrayList<>();
-        TodoListOutputBoundary todoListPresenter = new MockTodoListPresenter(buffer);
+        TodoListPresenter todoListPresenter = new MockTodoListPresenter(buffer);
 
         TodoListTaskCreationModel taskData = new MockTaskData(TODOLIST_ID);
         todoListManager.addTask(taskData);
@@ -106,9 +106,14 @@ public class TaskGetterTest {
         public List<String> getSubtasks() {
             return taskData.getSubtasks();
         }
+
+        @Override
+        public boolean getCompleted() {
+            return false;
+        }
     }
 
-    private class MockTodoListPresenter implements TodoListOutputBoundary {
+    private class MockTodoListPresenter implements TodoListPresenter {
 
         private final List<TodoListsInfo> presenterBuffer;
 
