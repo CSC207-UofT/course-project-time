@@ -2,7 +2,8 @@ package main.java.use_case;
 
 /**
  * Revised from Twitter's snowflake algorithm for generating unique IDs
- * Github: https://github.com/twitter-archive/snowflake
+ * Github: https://github.com/twitter-archive/snowflake/blob/b3f6a3c6ca8e1b6847baa6ff42bf72201e2c2231/
+ *         src/main/scala/com/twitter/service/snowflake/IdWorker.scala
  */
 public class Snowflake {
     private long workerId;
