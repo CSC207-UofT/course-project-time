@@ -27,7 +27,7 @@ public class NotificationController {
      * Starts tracking if there are notifications to be sent.
      * Should only be called once at runtime.
      */
-    public void startTrackingNotifications() {
+    public synchronized void startTrackingNotifications() {
         Thread thread = new Thread(this.notificationTracker);
         thread.start();
     }
