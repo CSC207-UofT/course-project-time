@@ -2,7 +2,7 @@ package main.java.use_case.notification;
 
 import main.java.entity.Notification;
 
-public interface INotificationTracker {
+public interface NotificationTrackerInterface {
 
     void updateAll(Notification notification);
 

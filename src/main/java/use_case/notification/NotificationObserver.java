@@ -18,12 +18,8 @@ import java.util.Set;
  * processing notification command from NotificationTracker.
  * NotificationObserver will organize the message format based
  * on the NotificationType of notifications.
- *
- * - sender: responsible for sending the message text to the user on several platforms
- * - calendarManager: used for searching events based on event ids
- * - todoListManager: used for searching tasks based on task ids
  */
-public class NotificationObserver implements INotificationObserver {
+public class NotificationObserver implements NotificationObserverInterface {
 
     private final NotificationSender sender;
     private final CalendarManager calendarManager;

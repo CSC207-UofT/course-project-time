@@ -8,14 +8,12 @@ import java.util.List;
 
 /**
  * Runnable NotificationTracker that track the upcoming notifications
- *
- * - observerList: the observers that observe and handle new notifications
- * - notificationList: a list of notification that will be sent to user,
- *                     sorted based on the notification time, from earlier to later
  */
-public class NotificationTracker implements INotificationTracker, Runnable{
+public class NotificationTracker implements NotificationTrackerInterface, Runnable{
 
     private final List<NotificationObserver> observerList;
+
+    // a sorted list based on notification time
     private final List<Notification> notificationList;
 
     public NotificationTracker(List<NotificationObserver> observers) {
