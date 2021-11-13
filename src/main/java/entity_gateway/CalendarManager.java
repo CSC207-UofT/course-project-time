@@ -12,7 +12,7 @@ public interface CalendarManager {
 
     List<EventReader> getAllEvents();
 
-    void loadEvents(String filePath) throws FileNotFoundException;
+    void loadEvents(String filePath) throws IOException;
 
     void saveEvents(String savePath) throws IOException;
 

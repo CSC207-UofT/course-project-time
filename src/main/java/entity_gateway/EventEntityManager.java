@@ -38,8 +38,9 @@ public class EventEntityManager implements CalendarManager{
      * @param filePath The location of the json file contining event data
      * @throws FileNotFoundException if the specified file cannot be accessed
      */
-    public void loadEvents(String filePath) throws FileNotFoundException {
-        if(new File(filePath).exists())
+    public void loadEvents(String filePath) throws IOException {
+        File file = new File(filePath);
+        if(file.isFile())
         {
             JsonReader reader = new JsonReader(new FileReader(filePath));
             Type listType = new TypeToken<List<Event>>(){}.getType();
@@ -49,6 +50,7 @@ public class EventEntityManager implements CalendarManager{
             {
                 this.eventList.addAll(events);
             }
+            reader.close();
         }
     }
 

@@ -36,8 +36,7 @@ public class MainController {
         try {
             calendarManager.loadEvents("EventData.json");
             todoListManager.loadTodo("TaskData.json");
-
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
