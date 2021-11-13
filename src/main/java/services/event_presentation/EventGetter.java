@@ -2,8 +2,6 @@ package main.java.services.event_presentation;
 
 import main.java.data_gateway.CalendarManager;
 import main.java.data_gateway.EventReader;
-import main.java.entity.Calendar;
-import main.java.entity.Event;
 import main.java.services.event_creation.EventInfoFromReader;
 
 import java.util.ArrayList;
@@ -11,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
-    Calendar calendar;
 
     private final CalendarManager calendarManager;
     private final CalendarEventPresenter eventPresenter;
@@ -29,20 +26,20 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     @Override
     public List<HashMap<String, String>> getEvents() {
         List<HashMap<String, String>> event_data = new ArrayList<>();
-        for(Event event : calendar.getEvents()) {
-            event_data.add(getEvent(event));
+        for(EventReader eventReader : this.calendarManager.getAllEvents()) {
+            event_data.add(getEvent(eventReader));
         }
 
         return event_data;
     }
 
-    private HashMap<String, String> getEvent(Event event) {
+    private HashMap<String, String> getEvent(EventReader eventReader) {
         HashMap<String, String> event_data = new HashMap<>();
-        event_data.put("name", event.getEventName());
-        event_data.put("start", event.getStartTime().toString());
-        event_data.put("end", event.getEndTime().toString());
-        event_data.put("tags", event.getTags().toString());
-        event_data.put("dates", event.getDates().toString());
+        event_data.put("name", eventReader.getName());
+        event_data.put("start", eventReader.getStartTime().toString());
+        event_data.put("end", eventReader.getEndTime().toString());
+        event_data.put("tags", eventReader.getTags().toString());
+        event_data.put("dates", eventReader.getDates().toString());
 
         return event_data;
 

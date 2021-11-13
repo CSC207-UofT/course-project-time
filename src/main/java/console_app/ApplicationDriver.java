@@ -1,7 +1,6 @@
 package main.java.console_app;
 
 import main.java.services.task_presentation.TaskInfo;
-import main.java.services.task_presentation.TodoListsInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,9 +19,13 @@ import java.util.Scanner;
 
 public class ApplicationDriver {
 
-    private static final MainController controller = new MainController();
+    private final MainController controller;
 
     private static final Map<String, String> queryMenu = createdQueryMap();
+
+    public ApplicationDriver() {
+        this.controller = new MainController(this);
+    }
 
     /**
      * Creates a mapping of query and input by user
@@ -46,12 +49,12 @@ public class ApplicationDriver {
      */
     private static String getQueryInput() {
         System.out.print("Please enter your input: ");
-        Scanner command_input = new Scanner(System.in);
-        String input = command_input.nextLine();
+        Scanner commandInput = new Scanner(System.in);
+        String input = commandInput.nextLine();
 
         while(!queryMenu.containsKey(input)) {
             System.out.println("\" " + input +  " \" is not a valid input, try again.");
-            input = command_input.nextLine();
+            input = commandInput.nextLine();
         }
 
         return input;
@@ -62,27 +65,16 @@ public class ApplicationDriver {
      * @param input string that correspond to a key in queryMenu
      * @return whether to continue asking for inputs
      */
-    private static boolean handleQueryInput(String input) {
+    private boolean handleQueryInput(String input) {
         System.out.println("###############");
         switch (input) {
             case "0":
                 return false;
             case "1":
-                List<HashMap<String, String>> allEventsData = controller.getEvents();
-                if (allEventsData.size() == 0) {
-                    System.out.println("No events have been created");
-                }
-                for (HashMap<String, String> eventData : allEventsData) {
-                    String output = "Event: " + eventData.get("name") + ", "
-                                        + "start time = " + eventData.get("start") + ", "
-                                        + "end time = " + eventData.get("end") + ", "
-                                        + "tags = " + eventData.get("tags") + ", "
-                                        + "dates = " + eventData.get("dates");
-                    System.out.println(output);
-                }
+                this.controller.getEvents();
                 break;
             case "2":
-                printTasks();
+                this.controller.getTasks();
                 break;
             case "3":
                 boolean success = handleCreateTask();
@@ -101,9 +93,9 @@ public class ApplicationDriver {
                 }
                 break;
             case "5":
-                printTasks();
+                // TODO: print tasks for user to select
                 TaskInfo task = chooseTask();
-                success = controller.suggestTimeToUser(task);
+                success = this.controller.suggestTimeToUser(task);
                 if (success) {
                     System.out.println("Event created from task");
                 } else {
@@ -112,20 +104,20 @@ public class ApplicationDriver {
                 }
                 break;
             case "6":
-                printTasks();
+                // TODO: print tasks for user to select
                 TaskInfo taskManual = chooseTask();
                 LocalDateTime userSuggestedTime;
                 boolean timeAvailable;
 
                 do {
                     userSuggestedTime = inputTime();
-                    timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                    timeAvailable = this.controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
                     if (!timeAvailable) {
                         System.out.println("Time not available, please retry.");
                     }
                 } while (!timeAvailable);
 
-                success = controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
+                success = this.controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
                         userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
 
                 if (success) {
@@ -148,7 +140,7 @@ public class ApplicationDriver {
      * in the database
      * @return whether the event has been created
      */
-    private static boolean handleCreateEvent() {
+    private boolean handleCreateEvent() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter event name: ");
         String eventName = input.nextLine();
@@ -176,7 +168,7 @@ public class ApplicationDriver {
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
 
-        return controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
+        return this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
     }
 
     /**
@@ -185,7 +177,7 @@ public class ApplicationDriver {
      * in the database
      * @return whether the task has been created
      */
-    private static boolean handleCreateTask() {
+    private boolean handleCreateTask() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter task name: ");
         String taskName = input.nextLine();
@@ -212,39 +204,39 @@ public class ApplicationDriver {
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
 
-        return controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
+        return this.controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
     }
 
     /**
-     * Print all tasks
+     * Displays tasks on the console
+     * @param taskInfo the list of tasks' information to be displayed
      */
-    private static void printTasks() {
-        TodoListsInfo todoListsInfo = controller.getTasks();
-        List<TaskInfo> allTasksData = todoListsInfo.getAllTasks();
-        if (allTasksData.size() == 0) {
+    public void printTasks(List<String> taskInfo) {
+        if (taskInfo.size() == 0) {
             System.out.println("No tasks have been created");
         }
-        for (TaskInfo ti : allTasksData) {
-
-            String name = ti.getName();
-            String deadline = ti.getDeadline().toString();
-            String subtasks = ti.getSubtasks().toString();
-            boolean completed = ti.getCompleted();
-
-            String output = "Task: " + name + ", "
-                    + "deadline = " + deadline + ", "
-                    + "subtasks = " + subtasks + ", "
-                    + "completed = " + completed;
-            System.out.println(output);
+        for (String task : taskInfo) {
+            System.out.println(task);
         }
+    }
+
+    /**
+     * Displays events on the console
+     * @param eventInfo the list of events' information to be displayed
+     */
+    public void printEvents(List<String> eventInfo) {
+        for (String event : eventInfo) {
+            System.out.println(event);
+        }
+
     }
 
     /**
      * Prompts the user to choose a Task among the list of Tasks
      * @return the chosen Task
      */
-    private static TaskInfo chooseTask() {
-        TodoListsInfo todoListsInfo = controller.getTasks();
+    private TaskInfo chooseTask() {
+        this.controller.getTasks();
         List<TaskInfo> taskInfos = todoListsInfo.getAllTasks();
         List<String> taskNames = new ArrayList<>();
         for (TaskInfo ti: taskInfos) {
@@ -260,7 +252,7 @@ public class ApplicationDriver {
             chosen = scanner.nextLine();
         } while (!taskNames.contains(chosen));
 
-        return controller.getTaskByName(chosen);
+        return this.controller.getTaskByName(chosen);
     }
 
     /**
@@ -277,6 +269,8 @@ public class ApplicationDriver {
     }
 
     public static void main(String[] args) {
+        ApplicationDriver applicationDriver = new ApplicationDriver();
+
         boolean askForInput;
         do {
             System.out.println("\n###############");
@@ -285,7 +279,7 @@ public class ApplicationDriver {
             }
 
             String input = getQueryInput();
-            askForInput = handleQueryInput(input);
+            askForInput = applicationDriver.handleQueryInput(input);
             // if the above line returns true, then ask for input again
         } while (askForInput);
 

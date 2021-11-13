@@ -23,8 +23,8 @@ public class TaskController {
      * @return a list of tasks organized in map format, with
      * "name", "deadline", "subtasks", and "completed" as keys
      */
-    public TodoListsInfo getTasks() {
-        return taskGetter.getTasks();
+    public void getTasks() {
+        taskGetter.getTasks();
     }
 
     public boolean createTask(String taskName, Duration timeNeeded) {

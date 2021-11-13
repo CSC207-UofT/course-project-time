@@ -1,14 +1,22 @@
 package main.java.console_app.event_adapters;
 
+import main.java.console_app.ApplicationDriver;
 import main.java.services.event_presentation.CalendarEventPresenter;
 import main.java.services.event_presentation.EventInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConsoleEventPresenter implements CalendarEventPresenter {
+    private final ApplicationDriver applicationDriver;
+
+    public ConsoleEventPresenter(ApplicationDriver applicationDriver) {
+        this.applicationDriver = applicationDriver;
+    }
 
     @Override
     public void presentEvents(List<EventInfo> eventInfos) {
+        List<String> eventFormattedInfo = new ArrayList<>();
         if (eventInfos.size() == 0) {
             System.out.println("No events have been created");
         }
@@ -25,7 +33,8 @@ public class ConsoleEventPresenter implements CalendarEventPresenter {
                     + "end time = " + endTime + ", "
                     + "tags = " + tags + ", "
                     + "dates = " + dates;
-            System.out.println(output);
+            eventFormattedInfo.add(output);
         }
+        this.applicationDriver.printEvents(eventFormattedInfo);
     }
 }

@@ -22,7 +22,6 @@ import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_presentation.TaskGetter;
 import main.java.services.task_presentation.TaskInfo;
 import main.java.services.task_presentation.TodoListPresenter;
-import main.java.services.task_presentation.TodoListsInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -38,7 +37,7 @@ public class MainController {
     private final TaskToEventController taskToEventController;
     private final Snowflake snowflake;
 
-    public MainController() {
+    public MainController(ApplicationDriver applicationDriver) {
 
         snowflake = new Snowflake(0, 0, 0);
 
@@ -46,16 +45,16 @@ public class MainController {
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
-        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
+        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
 
         eventController = new EventController(eventAdder, eventScheduler, eventGetter, snowflake);
 
-        TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
+        TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        taskController = new TaskController( taskGetter, taskAdder);
+        taskController = new TaskController(taskGetter, taskAdder);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
@@ -73,8 +72,8 @@ public class MainController {
      * Return a list of tasks data in the format of a map, with keys as
      * "name"
      */
-    public TodoListsInfo getTasks() {
-        return taskController.getTasks();
+    public void getTasks() {
+        taskController.getTasks();
     }
 
     /**
