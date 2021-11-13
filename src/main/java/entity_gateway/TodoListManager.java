@@ -17,7 +17,7 @@ public interface TodoListManager {
 
     Map<Long, List<TaskReader>> getAllTasks();
 
-    void loadTodo(String filepath) throws FileNotFoundException;
+    void loadTodo(String filepath) throws IOException;
 
     void saveTodo(String filepath) throws IOException;
 

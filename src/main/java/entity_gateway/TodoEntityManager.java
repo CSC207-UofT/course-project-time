@@ -79,8 +79,9 @@ public class TodoEntityManager implements TodoListManager{
      * @throws FileNotFoundException if the specified file cannot be accessed
      */
     @Override
-    public void loadTodo(String filePath) throws FileNotFoundException {
-        if (new File(filePath).exists()) {
+    public void loadTodo(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.exists()) {
             JsonReader reader = new JsonReader(new FileReader(filePath));
 
             Type listType = new TypeToken<List<Task>>() {}.getType();
@@ -90,6 +91,7 @@ public class TodoEntityManager implements TodoListManager{
             {
                 this.taskArrayList.addAll(tasks);
             }
+            reader.close();
         }
     }
 
