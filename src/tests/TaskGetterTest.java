@@ -5,8 +5,8 @@ import main.java.entity_gateway.TodoListManager;
 import main.java.use_case.TaskGetter;
 import main.java.use_case.TodoListDisplayBoundary;
 import main.java.use_case.TodoListPresenter;
-import main.java.use_case.TodoListsInfo;
 import main.java.use_case.TodoListTaskCreationModel;
+import main.java.use_case.TodoListsInfo;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskGetterTest {
 
