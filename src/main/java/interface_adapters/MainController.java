@@ -25,8 +25,13 @@ public class MainController {
 
     public MainController() {
 
-        CalendarManager calendarManager = new EventEntityManager();
-        TodoListManager todoListManager = new TodoEntityManager();
+
+        snowflake = new Snowflake(0, 0, 0);
+
+        CalendarManager calendarManager = new EventEntityManager(snowflake);
+        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
+        EventScheduler eventScheduler = new EventScheduler(calendarManager);
+        TodoEntityManager todoListManager = new TodoEntityManager(snowflake);
 
         try {
             calendarManager.loadEvents("EventData.json");
@@ -36,12 +41,6 @@ public class MainController {
             e.printStackTrace();
         }
 
-        snowflake = new Snowflake(0, 0, 0);
-
-        CalendarManager calendarManager = new EventEntityManager(snowflake);
-        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
-        EventScheduler eventScheduler = new EventScheduler(calendarManager);
-
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
@@ -49,7 +48,6 @@ public class MainController {
         eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, snowflake);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
-        TodoListManager todoListManager = new TodoEntityManager(snowflake);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         TaskSaver taskSaver = new TaskSaver(todoListManager);
