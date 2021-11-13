@@ -5,22 +5,24 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import main.java.entity.Event;
 import main.java.use_case.CalendarEventModel;
+import main.java.use_case.Snowflake;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class EventEntityManager implements CalendarManager{
     private final ArrayList<Event> eventList;
     private final Gson gson = new Gson();
+    private final Snowflake snowflake;
 
-    public EventEntityManager()
-    {
+    public EventEntityManager(Snowflake snowflake){
         this.eventList = new ArrayList<>();
+        this.snowflake = snowflake;
     }
 
     public void saveEvents(String savePath) throws IOException {
@@ -55,10 +57,10 @@ public class EventEntityManager implements CalendarManager{
         String name = eventData.getName();
         LocalDateTime startTime = eventData.getStartTime();
         LocalDateTime endTime = eventData.getEndTime();
-        Set<String> tags = eventData.getTags();
+        HashSet<String> tags = eventData.getTags();
         LocalDate date = eventData.getDate();
 
-        Event event = new Event(name, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+        Event event = new Event(snowflake.nextId(), name, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         eventList.add(event);
         return eventList.contains(event);
     }

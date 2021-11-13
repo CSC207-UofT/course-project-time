@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TaskInfo {
 
-    int getId();
+    long getId();
 
     String getName();
 

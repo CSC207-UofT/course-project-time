@@ -1,6 +1,7 @@
 package main.java.interface_adapters;
 
 
+import main.java.use_case.*;
 import main.java.entity.Event;
 import main.java.entity_gateway.EventEntityManager;
 import main.java.use_case.*;
@@ -21,12 +22,14 @@ public class EventController {
     protected final EventScheduler eventScheduler;
     protected final EventGetter eventGetter;
     protected final EventSaver eventSaver;
+    private final Snowflake snowflake;
 
-    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter, EventSaver eventSaver) {
+    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler, EventGetter eventGetter, EventSaver eventSaver, Snowflake snowflake) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
         this.eventSaver = eventSaver;
+        this.snowflake = snowflake;
     }
 
     /**
@@ -66,10 +69,9 @@ public class EventController {
 
         if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
             return eventAdder.addEvent(new CalendarEventData(eventName,
-                                        LocalDateTime.of(dates, startTime),
-                                        LocalDateTime.of(dates, endTime),
-                                        tags, dates));
-
+                    LocalDateTime.of(dates, startTime),
+                    LocalDateTime.of(dates, endTime),
+                    tags, dates));
         }
         return false;
     }

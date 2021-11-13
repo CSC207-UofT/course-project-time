@@ -105,6 +105,11 @@ public class TaskAdderTest {
         public List<String> getSubtasks() {
             return taskData.getSubtasks();
         }
+
+        @Override
+        public boolean getCompleted() {
+            return false;
+        }
     }
 
 }

@@ -20,6 +20,7 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
+    private final Snowflake snowflake;
 
 
     public MainController() {
@@ -35,6 +36,9 @@ public class MainController {
             e.printStackTrace();
         }
 
+        snowflake = new Snowflake(0, 0, 0);
+
+        CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
@@ -42,16 +46,17 @@ public class MainController {
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter, eventSaver);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, snowflake);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
+        TodoListManager todoListManager = new TodoEntityManager(snowflake);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         TaskSaver taskSaver = new TaskSaver(todoListManager);
         taskController = new TaskController( taskGetter, taskAdder, taskSaver);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
-        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
+        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
     }
 
     /**

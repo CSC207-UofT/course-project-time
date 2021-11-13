@@ -22,7 +22,7 @@ public class TaskGetter implements TodoListDisplayBoundary {
     }
 
     public TodoListsInfo getTasks() {
-        Map<Integer, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
+        Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
         return new  TodoListInfoFromTaskReaders(taskReaders);
     }
 
@@ -46,7 +46,7 @@ public class TaskGetter implements TodoListDisplayBoundary {
     }
 
     public TaskInfo getTaskByName(String name) {
-        Map<Integer, List<TaskReader>> taskMap = todoListManager.getAllTasks();
+        Map<Long, List<TaskReader>> taskMap = todoListManager.getAllTasks();
         for (List<TaskReader> todoListTasks : taskMap.values())
             for (TaskReader tr : todoListTasks) {
                 if (tr.getName().equals(name)) {
@@ -58,7 +58,7 @@ public class TaskGetter implements TodoListDisplayBoundary {
 
     @Override
     public void presentAllTodoLists() {
-        Map<Integer, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
+        Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
         TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
         taskPresenter.presentTasks(todoListInfo);
     }
