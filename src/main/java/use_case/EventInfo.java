@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public interface EventInfo {
+    Long getId();
+
     String getName();
 
     LocalTime getStartTime();
