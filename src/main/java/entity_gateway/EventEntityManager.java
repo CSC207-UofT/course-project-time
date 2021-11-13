@@ -1,6 +1,7 @@
 package main.java.entity_gateway;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import main.java.entity.Event;
@@ -15,14 +16,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+
 public class EventEntityManager implements CalendarManager{
     private final ArrayList<Event> eventList;
-    private final Gson gson = new Gson();
+    private final Gson gson;
     private final Snowflake snowflake;
 
     public EventEntityManager(Snowflake snowflake){
         this.eventList = new ArrayList<>();
         this.snowflake = snowflake;
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Event.class, new JsonEventAdapter());
+        gson = builder.create();
     }
 
     public void saveEvents(String savePath) throws IOException {

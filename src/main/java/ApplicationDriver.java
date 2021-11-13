@@ -227,7 +227,12 @@ public class ApplicationDriver {
         for (TaskInfo ti : allTasksData) {
 
             String name = ti.getName();
-            String deadline = ti.getDeadline().toString();
+            String deadline = "No Deadline";
+            if(ti.getDeadline() != null)
+            {
+                deadline = ti.getDeadline().toString();
+            }
+
             String subtasks = ti.getSubtasks().toString();
             boolean completed = ti.getCompleted();
 

@@ -1,6 +1,7 @@
 package main.java.entity_gateway;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import main.java.entity.Task;
@@ -24,12 +25,15 @@ public class TodoEntityManager implements TodoListManager{
     int todoCounter;
     private final Snowflake snowflake;
 
-    private Gson gson = new Gson();
+    private Gson gson;
 
     public TodoEntityManager(Snowflake snowflake){
         taskCounter = 0;
         todoCounter = 0;
         this.snowflake = snowflake;
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
+        gson = builder.create();
     }
 
     @Override
