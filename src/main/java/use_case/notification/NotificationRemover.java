@@ -24,25 +24,25 @@ public class NotificationRemover {
 
     /**
      * Deletes a notification, given the relevant information through boundary.
-     * @param boundary  contains relevant information about the notification to be deleted
+     * @param notificationData  contains relevant information about the notification to be deleted
      * @return whether the notification has been deleted successfully
      */
-    public boolean deleteNotification(NotificationCreationBoundary boundary) {
-        int id = boundary.getIdOfAssociatedObject();
-        if (boundary.getType() == NotificationType.Event) {
+    public boolean deleteNotification(NotificationCreationDTO notificationData) {
+        int id = notificationData.getIdOfAssociatedObject();
+        if (notificationData.getType() == NotificationType.Event) {
             EventReader eventReader = this.calendarManager.getEvent(id);
             for (LocalDate date : eventReader.getDates()) {
                 LocalDateTime notifDateTime = date.atTime(eventReader.getStartTime())
-                                                .plus(boundary.getNotificationDurationInAdvance());
+                                                .plus(notificationData.getNotificationDurationInAdvance());
                 if (!this.notificationTracker.deleteNotification(id, notifDateTime)) {
                     return false;
                 }
             }
             return true;
-        } else if (boundary.getType() == NotificationType.Task) {
+        } else if (notificationData.getType() == NotificationType.Task) {
             TaskReader taskReader = this.todoListManager.getTask(id);
             return this.notificationTracker.deleteNotification(id,
-                    taskReader.getDeadline().plus(boundary.getNotificationDurationInAdvance()));
+                    taskReader.getDeadline().plus(notificationData.getNotificationDurationInAdvance()));
         }
         return false;
     }

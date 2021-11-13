@@ -29,15 +29,15 @@ public class NotificationAdder {
 
     /**
      * Creates new notifications and add them to the notification tracker.
-     * @param notifBoundary object containing all necessary information to create a new notification
+     * @param notificationData object containing all necessary information to create a new notification
      * @return whether the notifications are created successfully
      */
-    public boolean createNotifications(NotificationCreationBoundary notifBoundary) {
+    public boolean createNotifications(NotificationCreationDTO notificationData) {
         List<Notification> notificationList = new ArrayList<>();
 
-        Duration duration = notifBoundary.getNotificationDurationInAdvance();
-        NotificationType notificationType = notifBoundary.getType();
-        int id = notifBoundary.getIdOfAssociatedObject();
+        Duration duration = notificationData.getNotificationDurationInAdvance();
+        NotificationType notificationType = notificationData.getType();
+        int id = notificationData.getIdOfAssociatedObject();
 
         if (notificationType == NotificationType.Task) {
             LocalDateTime datetime = this.todoListManager.getTask(id).getDeadline();

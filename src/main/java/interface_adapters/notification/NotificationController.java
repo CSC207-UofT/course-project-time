@@ -48,9 +48,12 @@ public class NotificationController {
      * @param notifDurationInAdvance    how long in advance this notification should be sent out
      * @return whether the notification has been created successfully
      */
-    public boolean createNotifications(NotificationType notificationType, int idOfAssociatedObject, Duration notifDurationInAdvance) {
-        NotificationCreationBoundary boundary = new NotificationCreationBoundary(notificationType, idOfAssociatedObject, notifDurationInAdvance);
-        return this.notificationAdder.createNotifications(boundary);
+    public boolean createNotifications(NotificationType notificationType,
+                                       int idOfAssociatedObject,
+                                       Duration notifDurationInAdvance) {
+        NotificationCreationDTO notificationCreationData = new NotificationCreationData(notificationType,
+                idOfAssociatedObject, notifDurationInAdvance);
+        return this.notificationAdder.createNotifications(notificationCreationData);
     }
 
     /**
@@ -60,8 +63,9 @@ public class NotificationController {
      * @return whether the notification has been deleted successfully
      */
     public boolean deleteNotification(int idOfAssociatedObject, Duration notifDurationInAdvance) {
-        NotificationCreationBoundary boundary = new NotificationCreationBoundary(idOfAssociatedObject, notifDurationInAdvance);
-        return this.notificationRemover.deleteNotification(boundary);
+        NotificationCreationDTO notificationCreationData = new NotificationCreationData(idOfAssociatedObject,
+                notifDurationInAdvance);
+        return this.notificationRemover.deleteNotification(notificationCreationData);
     }
 
     /**
