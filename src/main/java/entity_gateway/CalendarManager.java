@@ -2,6 +2,7 @@ package main.java.entity_gateway;
 
 import main.java.use_case.CalendarEventModel;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CalendarManager {
@@ -10,4 +11,5 @@ public interface CalendarManager {
 
     List<EventReader> getAllEvents();
 
+    boolean update(Long eventId, LocalDateTime startTime, LocalDateTime endTime);
 }
