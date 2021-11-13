@@ -11,11 +11,11 @@ public interface TodoListManager {
 
     int createTodoList();
 
-    TaskReader getTask(int todoListId, int taskId);
+    TaskReader getTask(long todoListId, long taskId);
 
-    TaskReader getTask(int taskId);
+    TaskReader getTask(long taskId);
 
-    Map<Integer, List<TaskReader>> getAllTasks();
+    Map<Long, List<TaskReader>> getAllTasks();
 
     List<TaskReader> getAllTasksInList();
 

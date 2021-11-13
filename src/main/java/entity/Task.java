@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class Task {
 
-    private final int id;
+    private long id;
     private String taskName;
     private boolean completed;
     private Duration timeNeeded;
@@ -33,8 +33,8 @@ public class Task {
      * Construct a task with task name
      * @param taskName name of the task
      */
-    public Task(String taskName) {
-        this(taskName, DEFAULT_DURATION, null);
+    public Task(long id, String taskName) {
+        this(id, taskName, DEFAULT_DURATION, null);
     }
 
     /**
@@ -42,8 +42,8 @@ public class Task {
      * @param taskName name of the task
      * @param timeNeeded time needed to complete the task
      */
-    public Task(String taskName, Duration timeNeeded) {
-        this(taskName, timeNeeded, null, new ArrayList<>(), 0);
+    public Task(long id, String taskName, Duration timeNeeded) {
+        this(id, taskName, timeNeeded, null, new ArrayList<>());
     }
 
     /**
@@ -52,8 +52,8 @@ public class Task {
      * @param timeNeeded time needed to complete the task
      * @param deadline deadline of the task
      */
-    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline) {
-        this(taskName, timeNeeded, deadline, new ArrayList<>(), 0);
+    public Task(long id, String taskName, Duration timeNeeded, LocalDateTime deadline) {
+        this(id, taskName, timeNeeded, deadline, new ArrayList<>());
     }
 
     /**
@@ -62,20 +62,15 @@ public class Task {
      * @param timeNeeded time needed to complete the task
      * @param deadline deadline of the task
      * @param subTasks list of subtasks
-     * @param id differentiate different tasks
      */
-    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks, int id) {
+    public Task(long id, String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+        this.id = id;
         this.taskName = taskName;
         this.completed = false;
         this.timeNeeded = timeNeeded;
         this.deadline = deadline;
         this.subTasks = new ArrayList<>(subTasks);
-        this.id = id;
         this.notificationTimes = new HashSet<Duration>();
-    }
-
-    public Task(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
-        this(taskName, timeNeeded, deadline, subTasks, 0);
     }
 
     public void setTaskName(String newName) {
@@ -131,6 +126,10 @@ public class Task {
         this.notificationTimes.remove(durationInAdvance);
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getTaskName() {
         return this.taskName;
     }
@@ -151,9 +150,6 @@ public class Task {
         return this.subTasks;
     }
 
-    public int getId() {
-        return this.id;
-    }
 
     public Set<Duration> getNotificationTimes() {
         return notificationTimes;

@@ -2,6 +2,7 @@ package main.java.entity_gateway;
 
 import main.java.entity.Task;
 import main.java.entity.TodoList;
+import main.java.use_case.Snowflake;
 import main.java.use_case.TodoListTaskCreationModel;
 
 import java.time.Duration;
@@ -16,11 +17,13 @@ public class TodoEntityManager implements TodoListManager{
     TodoList todoList;
     int taskCounter;
     int todoCounter;
+    private final Snowflake snowflake;
 
-    public TodoEntityManager(){
+    public TodoEntityManager(Snowflake snowflake){
         taskArrayList = new ArrayList<>();
         taskCounter = 0;
         todoCounter = 0;
+        this.snowflake = snowflake;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class TodoEntityManager implements TodoListManager{
         List<String> subtasks = taskData.getSubtasks();
 
         taskCounter++;
-        Task task = new Task(name, duration, deadline, subtasks, taskCounter);
+        Task task = new Task(snowflake.nextId(), name, duration, deadline, subtasks);
 
         taskArrayList.add(task);
         return taskCounter;
@@ -45,7 +48,7 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public TaskReader getTask(int todoListId, int taskId){
+    public TaskReader getTask(long todoListId, long taskId){
         for (Task t : taskArrayList)
             if (t.getId() == taskId)
                 return new TaskToTaskReader(t);
@@ -54,7 +57,7 @@ public class TodoEntityManager implements TodoListManager{
 
     // added this method during notification system code implementation due to convenience
     @Override
-    public TaskReader getTask(int taskId) {
+    public TaskReader getTask(long taskId) {
         for (Task t : taskArrayList)
             if (t.getId() == taskId)
                 return new TaskToTaskReader(t);
@@ -62,13 +65,13 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public Map<Integer, List<TaskReader>> getAllTasks() {
-        Map<Integer, List<TaskReader>> taskMap = new HashMap<>();
+    public Map<Long, List<TaskReader>> getAllTasks() {
+        Map<Long, List<TaskReader>> taskMap = new HashMap<>();
         List<TaskReader> todoListTaskReaders = new ArrayList<>();
         for (Task t : taskArrayList)
             todoListTaskReaders.add(new TaskToTaskReader(t));
         // 0 because there is one todolist
-        taskMap.put(0, todoListTaskReaders);
+        taskMap.put(0L, todoListTaskReaders);
         return taskMap;
     }
 

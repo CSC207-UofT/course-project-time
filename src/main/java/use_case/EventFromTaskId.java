@@ -9,13 +9,13 @@ public class EventFromTaskId implements EventFromTaskModel {
 
     private final int taskId;
     private final LocalDateTime startTime;
-    private final Set<String> tags;
+    private final HashSet<String> tags;
 
     public EventFromTaskId(int taskId, LocalDateTime startTime) {
         this(taskId, startTime, new HashSet<>());
     }
 
-    public EventFromTaskId(int taskId, LocalDateTime startTime, Set<String> tags) {
+    public EventFromTaskId(int taskId, LocalDateTime startTime, HashSet<String> tags) {
         this.taskId = taskId;
         this.startTime = startTime;
         this.tags = tags;
@@ -32,7 +32,7 @@ public class EventFromTaskId implements EventFromTaskModel {
     }
 
     @Override
-    public Set<String> getTags() {
+    public HashSet<String> getTags() {
         return tags;
     }
 

@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface TaskReader {
 
-    int getId();
+    long getId();
 
     String getName();
 

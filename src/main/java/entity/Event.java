@@ -14,8 +14,8 @@ import java.util.Set;
  * and the dates of event, and the notification times of the event.
  */
 public class Event {
-    
-    private final int id;
+
+    private long id;
     private LocalTime startTime;
     private LocalTime endTime;
     private Set<String> tags;
@@ -25,43 +25,43 @@ public class Event {
 
     /**
      * Construct an event based on a task.
+     * @param id unique id of event
      * @param task the main task that will be changed into an event
      * @param startTime the start time of the event
      * @param endTime the end time the event
      */
-    public Event(Task task, LocalDateTime startTime, LocalTime endTime) {
+    public Event(long id, Task task, LocalDateTime startTime, LocalTime endTime) {
+        this.id = id;
         this.task = task;
         this.startTime = startTime.toLocalTime();
         this.endTime = endTime;
         this.tags = new HashSet<String>();
         this.dates = new HashSet<LocalDate>();
         this.dates.add(startTime.toLocalDate());
-        // TODO: update the id creation
-        this.id = 0;
         this.notificationTimes = new HashSet<Duration>();
     }
 
     /**
      * Construct an event directly, with the event name, start time,
      * end time, and the date
+     * @param id unique id of event
      * @param eventName the name of the event
      * @param startTime the start time of the event (without date)
      * @param endTime the end time of the event (without date)
      * @param tags the tags of the event
      * @param date the date time of the event
      */
-    public Event(String eventName, LocalTime startTime, LocalTime endTime,
-                 Set<String> tags, LocalDate date) {
+    public Event(long id, String eventName, LocalTime startTime, LocalTime endTime,
+                 HashSet<String> tags, LocalDate date) {
+        this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
         Duration timeNeeded = Duration.between(startTime, endTime);
-        this.task = new Task(eventName, timeNeeded);
+        this.task = new Task(id, eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
         this.notificationTimes = new HashSet<Duration>();
-        // TODO: update the id creation
-        id = 0;
     }
 
     public void setEventName(String newName) {
@@ -117,6 +117,10 @@ public class Event {
         this.dates.addAll(dates);
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getEventName() {
         return this.task.getTaskName();
     }
@@ -141,9 +145,6 @@ public class Event {
         return this.dates;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public Set<Duration> getNotificationTimes() {
         return notificationTimes;

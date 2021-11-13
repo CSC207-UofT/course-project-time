@@ -2,6 +2,7 @@ package main.java.use_case;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class CalendarEventData implements CalendarEventModel {
@@ -9,10 +10,10 @@ public class CalendarEventData implements CalendarEventModel {
     private final String eventName;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
-    private final Set<String> tags;
+    private final HashSet<String> tags;
     private final LocalDate dates;
 
-    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate dates) {
+    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate dates) {
         this.eventName = eventName;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -36,7 +37,7 @@ public class CalendarEventData implements CalendarEventModel {
     }
 
     @Override
-    public Set<String> getTags() {
+    public HashSet<String> getTags() {
         return tags;
     }
 
