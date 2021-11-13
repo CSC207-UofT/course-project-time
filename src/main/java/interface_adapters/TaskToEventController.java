@@ -1,5 +1,6 @@
 package main.java.interface_adapters;
 
+import main.java.use_case.EventScheduler;
 import main.java.use_case.TaskInfo;
 import main.java.use_case.TaskToEvent;
 import main.java.use_case.EventFromTaskCreatorBoundary;
@@ -15,12 +16,14 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
 
     private final TaskToEvent taskToEvent = new TaskToEvent();
     private final EventFromTaskCreatorBoundary eventFromTaskCreatorBoundary;
+    private final EventScheduler eventScheduler;
 
     protected final EventController eventController;
 
-    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary) {
+    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary, EventScheduler eventScheduler) {
         this.eventFromTaskCreatorBoundary = eventFromTaskBoundary;
         this.eventController = eventController;
+        this.eventScheduler = eventScheduler;
     }
 
     public boolean createEventFromTask(int taskId, LocalDateTime startTime) {
@@ -43,7 +46,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
 
         do {
             suggestedTime = taskToEvent.getAvailableTime(
-                    task, eventController.eventScheduler, unwantedTimes
+                    task, eventScheduler, unwantedTimes
             );
             System.out.println("Suggested time: " + suggestedTime);
             System.out.print("Type 'y' for yes, anything else for no: ");
@@ -63,6 +66,6 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      */
     @Override
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
-        return taskToEvent.checkTimeAvailability(task, eventController.eventScheduler, userSuggestedTime);
+        return taskToEvent.checkTimeAvailability(task, eventScheduler, userSuggestedTime);
     }
 }
