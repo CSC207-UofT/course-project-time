@@ -2,7 +2,7 @@ package main.java.use_case;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.HashSet;
 
 public interface EventFromTaskModel {
 
@@ -10,7 +10,7 @@ public interface EventFromTaskModel {
 
     LocalDateTime getStartTime();
 
-    Set<String> getTags();
+    HashSet<String> getTags();
 
     LocalDate getDates();
 

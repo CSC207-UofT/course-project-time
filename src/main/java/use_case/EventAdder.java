@@ -2,7 +2,6 @@ package main.java.use_case;
 
 import main.java.entity_gateway.CalendarManager;
 
-
 public class EventAdder implements CalendarEventCreationBoundary {
 
     private final CalendarManager calendarManager;
@@ -11,6 +10,7 @@ public class EventAdder implements CalendarEventCreationBoundary {
         this.calendarManager = calendarManager;
     }
 
+    @Override
     public boolean addEvent(CalendarEventModel eventData) {
         return calendarManager.addEvent(eventData);
     }

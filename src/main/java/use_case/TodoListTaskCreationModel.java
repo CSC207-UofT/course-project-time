@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TodoListTaskCreationModel {
 
-    int getTodoListId();
+    long getTodoListId();
 
     String getName();
 

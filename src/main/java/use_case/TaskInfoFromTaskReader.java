@@ -15,7 +15,7 @@ public class TaskInfoFromTaskReader implements TaskInfo {
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return taskReader.getId();
     }
 

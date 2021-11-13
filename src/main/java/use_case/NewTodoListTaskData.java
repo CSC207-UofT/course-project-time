@@ -6,13 +6,13 @@ import java.util.List;
 
 public class NewTodoListTaskData implements TodoListTaskCreationModel {
 
-    private final int todoListId;
+    private final long todoListId;
     private final String taskName;
     private final Duration timeNeeded;
     private final LocalDateTime deadline;
     private final List<String> subtasks;
 
-    public NewTodoListTaskData(int todoListId, String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+    public NewTodoListTaskData(long todoListId, String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
         this.todoListId = todoListId;
         this.taskName = taskName;
         this.timeNeeded = timeNeeded;
@@ -21,7 +21,7 @@ public class NewTodoListTaskData implements TodoListTaskCreationModel {
     }
 
     @Override
-    public int getTodoListId() {
+    public long getTodoListId() {
         return todoListId;
     }
 

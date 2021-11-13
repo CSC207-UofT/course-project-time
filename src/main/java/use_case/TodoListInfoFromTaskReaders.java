@@ -11,28 +11,28 @@ import java.util.Map;
 
 public class TodoListInfoFromTaskReaders implements TodoListsInfo {
 
-    private final Map<Integer, Map<Integer, TaskReader>> taskMap;
+    private final Map<Long, Map<Long, TaskReader>> taskMap;
     private final List<TaskReader> taskReaders;
 
-    public TodoListInfoFromTaskReaders(Map<Integer, List<TaskReader>> taskReaders) {
+    public TodoListInfoFromTaskReaders(Map<Long, List<TaskReader>> taskReaders) {
         taskMap = convertInnerListToMap(taskReaders);
         this.taskReaders = flattenMap(taskReaders);
     }
 
-    private List<TaskReader> flattenMap(Map<Integer, List<TaskReader>> taskReaders) {
+    private List<TaskReader> flattenMap(Map<Long, List<TaskReader>> taskReaders) {
         List<TaskReader> readers = new ArrayList<>();
 
-        for (Map.Entry<Integer, List<TaskReader>> e : taskReaders.entrySet())
+        for (Map.Entry<Long, List<TaskReader>> e : taskReaders.entrySet())
             readers.addAll(e.getValue());
 
         return readers;
     }
 
-    private Map<Integer, Map<Integer, TaskReader>> convertInnerListToMap(Map<Integer, List<TaskReader>> readers) {
-        Map<Integer, Map<Integer, TaskReader>> map = new HashMap<>();
+    private Map<Long, Map<Long, TaskReader>> convertInnerListToMap(Map<Long, List<TaskReader>> readers) {
+        Map<Long, Map<Long, TaskReader>> map = new HashMap<>();
 
-        for (Map.Entry<Integer, List<TaskReader>> e : readers.entrySet()) {
-            Map<Integer, TaskReader> todoListMap = new HashMap<>();
+        for (Map.Entry<Long, List<TaskReader>> e : readers.entrySet()) {
+            Map<Long, TaskReader> todoListMap = new HashMap<>();
             for (TaskReader tr : e.getValue())
                 todoListMap.put(tr.getId(), tr);
             map.put(e.getKey(), todoListMap);

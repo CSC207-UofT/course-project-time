@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TaskReader {
 
-    int getId();
+    long getId();
 
     String getName();
 

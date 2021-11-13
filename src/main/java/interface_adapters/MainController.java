@@ -4,19 +4,7 @@ import main.java.entity_gateway.CalendarManager;
 import main.java.entity_gateway.EventEntityManager;
 import main.java.entity_gateway.TodoEntityManager;
 import main.java.entity_gateway.TodoListManager;
-import main.java.use_case.CalendarEventCreationBoundary;
-import main.java.use_case.CalendarEventPresenter;
-import main.java.use_case.EventAdder;
-import main.java.use_case.EventFromTaskCreator;
-import main.java.use_case.EventFromTaskCreatorBoundary;
-import main.java.use_case.EventGetter;
-import main.java.use_case.EventScheduler;
-import main.java.use_case.TaskAdder;
-import main.java.use_case.TaskGetter;
-import main.java.use_case.TaskInfo;
-import main.java.use_case.TodoListPresenter;
-import main.java.use_case.TodoListTaskCreationBoundary;
-import main.java.use_case.TodoListsInfo;
+import main.java.use_case.*;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -30,20 +18,23 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
+    private final Snowflake snowflake;
 
     public MainController() {
 
-        CalendarManager calendarManager = new EventEntityManager();
+        snowflake = new Snowflake(0, 0, 0);
+
+        CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter, snowflake);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
-        TodoListManager todoListManager = new TodoEntityManager();
+        TodoListManager todoListManager = new TodoEntityManager(snowflake);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         taskController = new TaskController( taskGetter, taskAdder);

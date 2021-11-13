@@ -15,7 +15,7 @@ public class TaskToTaskReader implements TaskReader{
     }
 
     @Override
-    public int getId() {
+    public long getId() {
         return task.getId();
     }
 
