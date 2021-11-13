@@ -5,6 +5,7 @@ import main.java.use_case.CalendarEventModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -39,5 +40,17 @@ public class EventEntityManager implements CalendarManager{
             eventReaderList.add(eventReader);
         }
         return eventReaderList;
+    }
+
+    @Override
+    public boolean update(String eventName, LocalDateTime startTime, LocalDateTime endTime) {
+        for(Event event: this.eventList){
+            if (event.getEventName().equals(eventName)){
+                event.setStartTime(startTime.toLocalTime());
+                event.setEndTime(endTime.toLocalTime());
+                return true;
+            }
+        }
+        return false;
     }
 }
