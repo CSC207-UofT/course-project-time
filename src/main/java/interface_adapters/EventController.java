@@ -14,10 +14,10 @@ import java.util.List;
 
 public class EventController {
 
-    protected final CalendarEventCreationBoundary eventAdder;
-    protected final EventScheduler eventScheduler;
-    protected final EventGetter eventGetter;
-    protected final Snowflake snowflake;
+    private final CalendarEventCreationBoundary eventAdder;
+    private final EventScheduler eventScheduler;
+    private final EventGetter eventGetter;
+    private final Snowflake snowflake;
 
     public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler,
                            EventGetter eventGetter, Snowflake snowflake) {
