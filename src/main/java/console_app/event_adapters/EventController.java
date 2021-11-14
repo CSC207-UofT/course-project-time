@@ -3,9 +3,11 @@ package main.java.console_app.event_adapters;
 
 import main.java.services.Snowflake;
 import main.java.services.event_creation.CalendarEventCreationBoundary;
+import main.java.services.event_creation.EventSaver;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.EventGetter;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,13 +23,15 @@ public class EventController {
     private final EventScheduler eventScheduler;
     private final EventGetter eventGetter;
     private final Snowflake snowflake;
+    private final EventSaver eventSaver;
 
     public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler,
-                           EventGetter eventGetter, Snowflake snowflake) {
+                           EventGetter eventGetter, EventSaver eventSaver, Snowflake snowflake) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
         this.snowflake = snowflake;
+        this.eventSaver = eventSaver;
     }
 
     /**
@@ -73,5 +77,10 @@ public class EventController {
         }
         return false;
     }
+
+    public void saveEvents(String filename) throws IOException {
+        this.eventSaver.saveEventData(filename);
+    }
+
 
 }

@@ -1,9 +1,11 @@
 package main.java.console_app.task_adapters;
 
+import main.java.services.task_creation.TaskSaver;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_presentation.TaskGetter;
 import main.java.services.task_presentation.TaskInfo;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,10 +15,12 @@ import java.util.Map;
 public class TaskController {
     private final TaskGetter taskGetter;
     private final TodoListTaskCreationBoundary taskAdder;
+    private final TaskSaver taskSaver;
 
-    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder) {
+    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver) {
         this.taskGetter = taskGetter;
         this.taskAdder = taskAdder;
+        this.taskSaver = taskSaver;
     }
 
     /**
@@ -52,5 +56,9 @@ public class TaskController {
      */
     public Map<Integer, Long> presentAllTasksForUserSelection() {
         return taskGetter.presentAllTasksForUserSelection();
+    }
+
+    public void saveTodoList(String filename) throws IOException {
+        taskSaver.save(filename);
     }
 }

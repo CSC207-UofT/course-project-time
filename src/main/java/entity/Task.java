@@ -20,7 +20,7 @@ public class Task {
     private LocalDateTime deadline;
     private List<String> subTasks;
 
-    private static final Duration DEFAULT_DURATION = Duration.ofHours(1);
+    public static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
     /**
      * Construct a task with task name

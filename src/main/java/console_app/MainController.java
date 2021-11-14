@@ -12,6 +12,7 @@ import main.java.data_gateway.TodoListManager;
 import main.java.services.Snowflake;
 import main.java.services.event_creation.CalendarEventCreationBoundary;
 import main.java.services.event_creation.EventAdder;
+import main.java.services.event_creation.EventSaver;
 import main.java.services.event_from_task_creation.EventFromTaskCreator;
 import main.java.services.event_from_task_creation.EventFromTaskCreatorBoundary;
 import main.java.services.event_from_task_creation.EventScheduler;
@@ -19,10 +20,12 @@ import main.java.services.event_presentation.CalendarEventPresenter;
 import main.java.services.event_presentation.EventGetter;
 import main.java.services.task_creation.TaskAdder;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
+import main.java.services.task_creation.TaskSaver;
 import main.java.services.task_presentation.TaskGetter;
 import main.java.services.task_presentation.TaskInfo;
 import main.java.services.task_presentation.TodoListPresenter;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,17 +47,26 @@ public class MainController {
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
+        TodoListManager todoListManager = new TodoEntityManager(snowflake);
+
+        try {
+            calendarManager.loadEvents("EventData.json");
+            todoListManager.loadTodo("TaskData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
+        EventSaver eventSaver = new EventSaver(calendarManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter, snowflake);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, snowflake);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TodoListManager todoListManager = new TodoEntityManager(snowflake);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        taskController = new TaskController(taskGetter, taskAdder);
+        TaskSaver taskSaver = new TaskSaver(todoListManager);
+        taskController = new TaskController(taskGetter, taskAdder, taskSaver);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
@@ -95,6 +107,16 @@ public class MainController {
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
                                HashSet<String> tags, LocalDate date) {
         return eventController.createEvent(eventName, startTime, endTime, tags, date);
+    }
+
+    public void saveData()
+    {
+        try {
+            eventController.saveEvents("EventData.json");
+            taskController.saveTodoList("TaskData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * creates a task and adds it to the todolist

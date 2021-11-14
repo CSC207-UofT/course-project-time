@@ -5,7 +5,6 @@ import main.java.data_gateway.EventReader;
 import main.java.services.event_creation.EventInfoFromReader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class EventGetter implements CalendarEventDisplayBoundary {
