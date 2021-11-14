@@ -13,7 +13,7 @@ class TodoListTest {
     TodoList todoList;
     @BeforeEach
     void setUp() {
-        task = new Task("Math Homework");
+        task = new Task(0, "Math Homework");
         todoList = new TodoList();
     }
 

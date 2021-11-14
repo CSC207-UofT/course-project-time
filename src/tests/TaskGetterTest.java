@@ -1,12 +1,12 @@
 package tests;
 
-import main.java.entity_gateway.TaskReader;
-import main.java.entity_gateway.TodoListManager;
-import main.java.use_case.TaskGetter;
-import main.java.use_case.TodoListDisplayBoundary;
-import main.java.use_case.TodoListPresenter;
-import main.java.use_case.TodoListTaskCreationModel;
-import main.java.use_case.TodoListsInfo;
+import main.java.data_gateway.TaskReader;
+import main.java.data_gateway.TodoListManager;
+import main.java.services.task_presentation.TaskGetter;
+import main.java.services.task_presentation.TodoListDisplayBoundary;
+import main.java.services.task_presentation.TodoListPresenter;
+import main.java.services.task_creation.TodoListTaskCreationModel;
+import main.java.services.task_presentation.TodoListsInfo;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskGetterTest {
 
@@ -56,17 +59,17 @@ public class TaskGetterTest {
         }
 
         @Override
-        public TaskReader getTask(int todoListId, int taskId) {
+        public TaskReader getTask(long todoListId, long taskId) {
             return null;
         }
 
         @Override
-        public Map<Integer, List<TaskReader>> getAllTasks() {
+        public Map<Long, List<TaskReader>> getAllTasks() {
             List<TaskReader> readers = new ArrayList<>();
             readers.add(new MockTaskReader(addedTask));
 
-            Map<Integer, List<TaskReader>> taskMap = new HashMap<>();
-            taskMap.put(TODOLIST_ID, readers);
+            Map<Long, List<TaskReader>> taskMap = new HashMap<>();
+            taskMap.put((long) TODOLIST_ID, readers);
             return taskMap;
         }
     }
@@ -80,7 +83,7 @@ public class TaskGetterTest {
         }
 
         @Override
-        public int getId() {
+        public long getId() {
             return TASK_ID;
         }
 
@@ -138,7 +141,7 @@ public class TaskGetterTest {
         }
 
         @Override
-        public int getTodoListId() {
+        public long getTodoListId() {
             return todoListId;
         }
 
