@@ -9,6 +9,7 @@ import main.java.services.task_creation.TodoListTaskCreationModel;
 import main.java.services.task_presentation.TodoListsInfo;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -71,6 +72,16 @@ public class TaskGetterTest {
             Map<Long, List<TaskReader>> taskMap = new HashMap<>();
             taskMap.put((long) TODOLIST_ID, readers);
             return taskMap;
+        }
+
+        @Override
+        public void loadTodo(String filepath) throws IOException {
+
+        }
+
+        @Override
+        public void saveTodo(String filepath) throws IOException {
+
         }
     }
 
