@@ -263,7 +263,7 @@ public class ApplicationDriver {
         String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Input your desired time in (" + format + ") (24 hour time)");
+        System.out.print("Input your desired time in (" + format + ") (24 hour time): ");
         String timeString = scanner.nextLine();
         return LocalDateTime.parse(timeString, formatter);
     }

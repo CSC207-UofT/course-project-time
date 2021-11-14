@@ -17,7 +17,7 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
      */
     @Override
     public LocalDateTime getAvailableTime(TaskInfo taskInfo, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
-        return eventScheduler.getAvailableTime(unwantedTimes, taskInfo.getDuration()).truncatedTo(ChronoUnit.SECONDS);
+        return eventScheduler.getAvailableTime(unwantedTimes, taskInfo.getDuration()).truncatedTo(ChronoUnit.MINUTES);
     }
 
 
