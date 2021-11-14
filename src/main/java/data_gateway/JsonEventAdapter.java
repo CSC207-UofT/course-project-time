@@ -55,13 +55,12 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
         Task task = null;
         Set<LocalDate> dates = new HashSet<>();
 
-
         int read_so_far = 0;
         jsonReader.beginObject();
         while (jsonReader.hasNext()) {
-            String name = jsonReader.nextName();
+            String tagName = jsonReader.nextName();
 
-            switch (name) {
+            switch (tagName) {
                 case "id":
                     id = jsonReader.nextLong();
                     read_so_far += 1;
