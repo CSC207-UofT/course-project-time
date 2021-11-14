@@ -20,6 +20,8 @@ public class PomodoroTimerTask extends TimerTask {
        timer.cancel();
        pomodoroTimer.setWorking(!pomodoroTimer.getIsWorking());
        this.switchNow = true;
+       System.out.println("REACHED END OF TIMER");
+
     }
 
     public boolean getSwitchNow() {

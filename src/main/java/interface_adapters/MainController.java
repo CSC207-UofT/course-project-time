@@ -126,8 +126,25 @@ public class MainController {
      */
     public void createTimer(int workTime, int breakTime) {
         pomodoroController.setPomodoroRunner(workTime, breakTime);
-        pomodoroController.startTimer();
+        boolean work = true;
+        while (!checkCancel()) {
+            boolean switchInterval = pomodoroController.startTimer();
+            if (switchInterval) {
+               if (work) {
+                   System.out.println("Break time!");
+                   work = false;
+               }
+               else {
+                   System.out.println("Work time!");
+               }
+            }
+        }
     }
+
+    public boolean checkCancel() {
+        return pomodoroController.getPomodoroRunner().getPomodoroTimer().getCanceled();
+    }
+
 
     public boolean stopTimer() {
         return pomodoroController.stopTimer();

@@ -32,7 +32,7 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
-        queryMenu.put("7", "Pomodoro Timer");
+        queryMenu.put("7", "Pomodoro timer");
         return queryMenu;
     }
 
@@ -134,12 +134,11 @@ public class ApplicationDriver {
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
                 System.out.print("Input \"c\" to end pomodoro timer");
-                while(cancelTimer()){
-                    controller.createTimer(intervals[0], intervals[1]);
-                }
-                if (controller.stopTimer()) {
-                    System.out.println("Timer stopped");
-                }
+                controller.createTimer(intervals[0], intervals[1]);
+
+//                if (controller.stopTimer()) {
+//                    System.out.println("Timer stopped");
+//                }
 
             default:
                 break;
@@ -296,7 +295,7 @@ public class ApplicationDriver {
         String intervals = scanner.nextLine();
 
         if (Integer.parseInt(intervals) == 0) {
-            return new int[] {25, 5};
+            return new int[] {1, 5};
         }
         else {
             String[] intervalsSplitString =  intervals.split(",");
@@ -307,15 +306,6 @@ public class ApplicationDriver {
             return intervalsSplit;
         }
     }
-
-    private static boolean cancelTimer() {
-        Scanner scanner = new Scanner(System.in);
-        if (Objects.equals(scanner.nextLine(), "c")) {
-            return true;
-        }
-        return false;
-    }
-
 
     public static void main(String[] args) {
         boolean askForInput;
