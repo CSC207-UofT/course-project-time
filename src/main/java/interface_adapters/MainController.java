@@ -136,6 +136,7 @@ public class MainController {
                }
                else {
                    System.out.println("Work time!");
+                   work = true;
                }
             }
         }

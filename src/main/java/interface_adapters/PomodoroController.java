@@ -11,17 +11,9 @@ public class PomodoroController {
     private boolean switched = false;
 
     public synchronized boolean startTimer() {
-
         pomodoroRunner.startTimer(!switched);
         PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner);
-        Thread thread = new Thread(pomodoroObserver);
-        thread.start();
-        boolean switchInterval = false;
-        while (!switchInterval) {
-            switchInterval = pomodoroObserver.getSwitchInterval();
-        }
-        switched = !switched;
-        return switchInterval;
+        return pomodoroObserver.startTracking();
     }
 
     public synchronized void checkUserInput() {

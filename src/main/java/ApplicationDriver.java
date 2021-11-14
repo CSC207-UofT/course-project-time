@@ -133,7 +133,7 @@ public class ApplicationDriver {
             case "7":
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
-                System.out.print("Input \"c\" to end pomodoro timer");
+                System.out.println("Input \"c\" to end pomodoro timer");
                 controller.createTimer(intervals[0], intervals[1]);
 
 //                if (controller.stopTimer()) {
@@ -295,7 +295,7 @@ public class ApplicationDriver {
         String intervals = scanner.nextLine();
 
         if (Integer.parseInt(intervals) == 0) {
-            return new int[] {1, 5};
+            return new int[] {1, 2};
         }
         else {
             String[] intervalsSplitString =  intervals.split(",");
