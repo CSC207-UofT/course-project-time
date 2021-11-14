@@ -1,14 +1,10 @@
 package main.java.data_gateway;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import main.java.entity.Event;
 import main.java.entity.Task;
-import main.java.data_gateway.JsonTaskAdapter;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -18,14 +14,7 @@ import java.util.Set;
 
 public class JsonEventAdapter extends TypeAdapter<Event> {
 
-    private Gson gson;
-    private JsonTaskAdapter jsonTaskAdapter = new JsonTaskAdapter();
-
-    public JsonEventAdapter() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
-        gson = builder.create();
-    }
+    private final JsonTaskAdapter jsonTaskAdapter = new JsonTaskAdapter();
 
     @Override
     public void write(JsonWriter jsonWriter, Event event) throws IOException {
@@ -55,10 +44,6 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
         }
         jsonWriter.endArray();
         jsonWriter.endObject();
-    }
-
-    private String stringToJsonString(String input) {
-        return gson.fromJson(input, JsonObject.class).toString();
     }
 
     @Override
@@ -112,7 +97,8 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
         }
         jsonReader.endObject();
 
-        if (read_so_far == 3) {
+        int MIN_EVENT_ATTRIBUTES = 3;
+        if (read_so_far == MIN_EVENT_ATTRIBUTES) {
             Event event = new Event(id, task, startTime, endTime, dates);
             for (String tag : tags) {
                 event.addTag(tag);

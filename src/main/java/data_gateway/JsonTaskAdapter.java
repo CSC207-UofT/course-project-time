@@ -82,7 +82,8 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
         }
         jsonReader.endObject();
 
-        if (read_so_far == 2) {
+        int MIN_TASK_ATTRIBUTES = 2;
+        if (read_so_far == MIN_TASK_ATTRIBUTES) {
             Task task = new Task(id, taskName, timeNeeded, deadline, subTasks);
             task.setCompleted(completed);
 
