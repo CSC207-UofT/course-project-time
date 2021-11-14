@@ -37,7 +37,9 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
-        queryMenu.put("7", "Save my Data");
+        queryMenu.put("7", "Complete task");
+        queryMenu.put("8", "Complete event");
+        queryMenu.put("9", "Save my Data");
         return queryMenu;
     }
 
@@ -135,8 +137,12 @@ public class ApplicationDriver {
                     System.out.println("Failed to create event from task");
                 }
                 break;
-
             case "7":
+                printTasks();
+                TaskInfo completedTask = chooseTask();
+                long taskId = completedTask.getId();
+                controller.completeTask(taskId);
+            case "9":
                 controller.saveData();
 
             default:

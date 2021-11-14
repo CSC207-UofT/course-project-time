@@ -131,6 +131,10 @@ public class MainController {
         return taskController.createTask(taskName, timeNeeded, deadline, subTasks);
     }
 
+    public boolean completeTask(long taskId) {
+        return taskController.completeTask(taskId);
+    }
+
     /**
      * Suggest a time to the user until the user is agrees with the time
      * @param task the task to be scheduled to event

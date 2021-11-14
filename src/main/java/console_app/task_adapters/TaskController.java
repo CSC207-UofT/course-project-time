@@ -41,6 +41,11 @@ public class TaskController {
         return true; // TODO: return value should indicate success of data creation
     }
 
+    public boolean completeTask(long taskId) {
+        taskAdder.completeTask(taskId);
+        return true;
+    }
+
     /**
      * Gets a Task by its name
      * @param name name of Task

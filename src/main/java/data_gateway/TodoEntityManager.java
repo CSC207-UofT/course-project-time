@@ -76,6 +76,14 @@ public class TodoEntityManager implements TodoListManager{
         return taskMap;
     }
 
+    @Override
+    public boolean completeTask(long taskId) {
+        for (Task t : taskArrayList)
+            if (t.getId() == taskId)
+                t.setCompleted(true);
+        return true;
+    }
+
     /**
      * Stores todolist data from an external json file, gson usaged based on
      * code from https://www.baeldung.com/gson-list

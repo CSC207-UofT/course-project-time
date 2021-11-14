@@ -14,5 +14,10 @@ public class TaskAdder implements TodoListTaskCreationBoundary {
     public int addTask(TodoListTaskCreationModel taskData) {
         return todoListManager.addTask(taskData);
     }
+
+    @Override
+    public boolean completeTask(long taskId) {
+        return todoListManager.completeTask(taskId);
+    }
 }
 

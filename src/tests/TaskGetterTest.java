@@ -75,6 +75,11 @@ public class TaskGetterTest {
         }
 
         @Override
+        public boolean completeTask(long taskId) {
+            return false;
+        }
+
+        @Override
         public void loadTodo(String filepath) throws IOException {
 
         }
