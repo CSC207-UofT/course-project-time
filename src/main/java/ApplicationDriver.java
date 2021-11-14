@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.entity.Event;
 import main.java.entity.TodoList;
 import main.java.interface_adapters.MainController;
 import main.java.entity.Task;

@@ -2,6 +2,7 @@ package main.java.entity_gateway;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -10,20 +11,17 @@ import main.java.entity.Task;
 import org.junit.jupiter.api.Tags;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class JsonEventAdapter extends TypeAdapter<Event> {
 
     private Gson gson;
-    public JsonEventAdapter()
-    {
+    private JsonTaskAdapter jsonTaskAdapter = new JsonTaskAdapter();
+
+    public JsonEventAdapter() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
         gson = builder.create();
@@ -33,40 +31,40 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
     public void write(JsonWriter jsonWriter, Event event) throws IOException {
         jsonWriter.beginObject();
         jsonWriter.setIndent("    ");
-        jsonWriter.beginObject();
         jsonWriter.name("id").value(event.getId());
         jsonWriter.name("startTime").value(event.getStartTime().toString());
         jsonWriter.name("endTime").value(event.getEndTime().toString());
         jsonWriter.name("tags");
         jsonWriter.beginArray();
-        for(String tag : event.getTags())
-        {
+        for (String tag : event.getTags()) {
             jsonWriter.value(tag);
         }
         jsonWriter.endArray();
 
         jsonWriter.name("task");
-        jsonWriter.value(gson.toJson(event.getTask()));
+        jsonTaskAdapter.write(jsonWriter, event.getTask());
 
         jsonWriter.name("dates");
         jsonWriter.beginArray();
-        for(LocalDate date : dates) {
-            jsonWriter.value(date.toString());
+        if (event.getDates() != null) {
+            for (LocalDate date : event.getDates()) {
+                jsonWriter.value(date.toString());
+            }
+        } else {
+            jsonWriter.nullValue();
         }
         jsonWriter.endArray();
         jsonWriter.endObject();
     }
-    private long id;
-    private LocalDateTime startTime;
-    private LocalTime endTime;
-    private Set<String> tags;
-    private Task task;
-    private Set<LocalDate> dates;
+
+    private String stringToJsonString(String input) {
+        return gson.fromJson(input, JsonObject.class).toString();
+    }
 
     @Override
     public Event read(JsonReader jsonReader) throws IOException {
         long id = 0;
-        LocalDateTime startTime = null;
+        LocalTime startTime = null;
         LocalTime endTime = null;
         Set<String> tags = new HashSet<>();
         Task task = null;
@@ -75,18 +73,17 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
 
         int read_so_far = 0;
         jsonReader.beginObject();
-        while(jsonReader.hasNext())
-        {
+        while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
 
-            switch(name) {
+            switch (name) {
                 case "id":
                     id = jsonReader.nextLong();
                     read_so_far += 1;
                     break;
                 case "startTime":
                     read_so_far += 1;
-                    startTime = LocalDateTime.parse(jsonReader.nextString());
+                    startTime = LocalTime.parse(jsonReader.nextString());
                     break;
                 case "endTime":
                     read_so_far += 1;
@@ -94,31 +91,34 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
                     break;
                 case "tags":
                     jsonReader.beginArray();
-                    while(jsonReader.hasNext())
-                    {
+                    while (jsonReader.hasNext()) {
                         tags.add(jsonReader.nextString());
                     }
                     jsonReader.endArray();
                     break;
                 case "task":
-                    task = gson.fromJson(jsonReader.nextString(), Task.class);
-                    read_so_far += 1;
+                    task = jsonTaskAdapter.read(jsonReader);
                     break;
                 case "dates":
-                    jsonReader.beginArray();
-                    while(jsonReader.hasNext())
-                    {
-                        dates.add(LocalDate.parse(jsonReader.nextString()));
+                    if (jsonReader.peek() != null) {
+                        jsonReader.beginArray();
+                        while (jsonReader.hasNext()) {
+                            dates.add(LocalDate.parse(jsonReader.nextString()));
+                        }
+                        jsonReader.endArray();
+                        break;
                     }
-                    jsonReader.endArray();
-                    break;
             }
         }
         jsonReader.endObject();
 
-        if(read_so_far == 3)
-        {
-            return new Event(id, task, startTime, endTime );
+        if (read_so_far == 3) {
+            Event event = new Event(id, task, startTime, endTime, dates);
+            for (String tag : tags) {
+                event.addTag(tag);
+            }
+
+            return event;
         }
         return null;
     }

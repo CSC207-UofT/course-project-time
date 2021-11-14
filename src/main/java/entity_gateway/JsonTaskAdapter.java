@@ -23,16 +23,14 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
         jsonWriter.name("timeNeeded").value(task.getTimeNeeded().toString());
         jsonWriter.name("deadline");
 
-        if(task.getDeadline() == null)
-        {
+        if (task.getDeadline() == null) {
             jsonWriter.nullValue();
         } else {
             jsonWriter.value(task.getDeadline().toString());
         }
         jsonWriter.name("subTasks");
         jsonWriter.beginArray();
-        for(String subtask : task.getSubTasks())
-        {
+        for (String subtask : task.getSubTasks()) {
             jsonWriter.value(subtask);
         }
         jsonWriter.endArray();
@@ -43,17 +41,17 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
     public Task read(JsonReader jsonReader) throws IOException {
         long id = 0;
         String taskName = "";
+        boolean completed = false;
         Duration timeNeeded = Task.DEFAULT_DURATION;
         LocalDateTime deadline = null;
         List<String> subTasks = new ArrayList<>();
 
         int read_so_far = 0;
         jsonReader.beginObject();
-        while(jsonReader.hasNext())
-        {
+        while (jsonReader.hasNext()) {
             String name = jsonReader.nextName();
 
-            switch(name) {
+            switch (name) {
                 case "id":
                     id = jsonReader.nextLong();
                     read_so_far += 1;
@@ -62,19 +60,20 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
                     read_so_far += 1;
                     taskName = jsonReader.nextString();
                     break;
+                case "completed":
+                    completed = jsonReader.nextBoolean();
+                    break;
                 case "timeNeeded":
                     timeNeeded = Duration.parse(jsonReader.nextString());
                     break;
                 case "deadline":
-                    if(jsonReader.peek() != null)
-                    {
+                    if (jsonReader.peek() != null) {
                         deadline = LocalDateTime.parse(jsonReader.nextString());
                     }
                     break;
                 case "subTasks":
                     jsonReader.beginArray();
-                    while(jsonReader.hasNext())
-                    {
+                    while (jsonReader.hasNext()) {
                         subTasks.add(jsonReader.nextString());
                     }
                     jsonReader.endArray();
@@ -83,9 +82,11 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
         }
         jsonReader.endObject();
 
-        if(read_so_far == 2)
-        {
-            return new Task(id, taskName, timeNeeded, deadline, subTasks);
+        if (read_so_far == 2) {
+            Task task = new Task(id, taskName, timeNeeded, deadline, subTasks);
+            task.setCompleted(completed);
+
+            return task;
         }
         return null;
 
