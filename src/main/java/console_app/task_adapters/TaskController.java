@@ -3,7 +3,6 @@ package main.java.console_app.task_adapters;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_presentation.TaskGetter;
 import main.java.services.task_presentation.TaskInfo;
-import main.java.services.task_presentation.TodoListsInfo;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,11 +19,10 @@ public class TaskController {
     }
 
     /**
-     * @return a list of tasks organized in map format, with
-     * "name", "deadline", "subtasks", and "completed" as keys
+     * Displays all tasks.
      */
-    public void getTasks() {
-        taskGetter.getTasks();
+    public void presentAllTasks() {
+        taskGetter.presentAllTasks();
     }
 
     public boolean createTask(String taskName, Duration timeNeeded) {

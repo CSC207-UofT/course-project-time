@@ -14,12 +14,14 @@ public class ConsoleEventPresenter implements CalendarEventPresenter {
         this.applicationDriver = applicationDriver;
     }
 
+    /**
+     * Given the event information in a DTO, present all events
+     * by printing them on the console.
+     * @param eventInfos list of information of event
+     */
     @Override
-    public void presentEvents(List<EventInfo> eventInfos) {
+    public void presentAllEvents(List<EventInfo> eventInfos) {
         List<String> eventFormattedInfo = new ArrayList<>();
-        if (eventInfos.size() == 0) {
-            System.out.println("No events have been created");
-        }
         for (EventInfo ei : eventInfos) {
 
             String name = ei.getName();
@@ -35,6 +37,6 @@ public class ConsoleEventPresenter implements CalendarEventPresenter {
                     + "dates = " + dates;
             eventFormattedInfo.add(output);
         }
-        this.applicationDriver.printEvents(eventFormattedInfo);
+        applicationDriver.printEvents(eventFormattedInfo);
     }
 }

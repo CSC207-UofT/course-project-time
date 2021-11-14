@@ -71,10 +71,10 @@ public class ApplicationDriver {
             case "0":
                 return false;
             case "1":
-                this.controller.getEvents();
+                controller.presentAllEvents();
                 break;
             case "2":
-                this.controller.getTasks();
+                controller.presentAllTasks();
                 break;
             case "3":
                 boolean success = handleCreateTask();
@@ -225,6 +225,9 @@ public class ApplicationDriver {
      * @param eventInfo the list of events' information to be displayed
      */
     public void printEvents(List<String> eventInfo) {
+        if (eventInfo.size() == 0) {
+            System.out.println("No events have been created");
+        }
         for (String event : eventInfo) {
             System.out.println(event);
         }
@@ -236,7 +239,7 @@ public class ApplicationDriver {
      * @return the chosen Task
      */
     private TaskInfo chooseTask() {
-        this.controller.getTasks();
+        this.controller.presentAllTasks();
         List<TaskInfo> taskInfos = todoListsInfo.getAllTasks();
         List<String> taskNames = new ArrayList<>();
         for (TaskInfo ti: taskInfos) {

@@ -39,6 +39,6 @@ public class ConsoleTaskPresenter implements TodoListPresenter {
                     + "completed = " + completed;
             taskFormattedInfo.add(output);
         }
-        this.applicationDriver.printTasks(taskFormattedInfo);
+        applicationDriver.printTasks(taskFormattedInfo);
     }
 }

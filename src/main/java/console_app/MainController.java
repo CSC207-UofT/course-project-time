@@ -27,7 +27,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -61,19 +60,17 @@ public class MainController {
     }
 
     /**
-     * Return a list of events data in the format of a map, with keys as
-     * "name", "start", and "end"
+     * Displays all events.
      */
-    public List<HashMap<String, String>> getEvents() {
-        return eventController.getEvents();
+    public void presentAllEvents() {
+        eventController.presentAllEvents();
     }
 
     /**
-     * Return a list of tasks data in the format of a map, with keys as
-     * "name"
+     * Displays all tasks.
      */
-    public void getTasks() {
-        taskController.getTasks();
+    public void presentAllTasks() {
+        taskController.presentAllTasks();
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
+public class EventGetter implements CalendarEventDisplayBoundary {
 
     private final CalendarManager calendarManager;
     private final CalendarEventPresenter eventPresenter;
@@ -19,38 +19,15 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     }
 
     /**
-     * Returns a list containing mappings of event attributes
-     * and their corresponding values, with keys as "name", "start",
-     * "end", "tags", and "dates
+     * Get events from the database through data gateway and
+     * pass the events as DTOs to the presenter to present all events.
      */
     @Override
-    public List<HashMap<String, String>> getEvents() {
-        List<HashMap<String, String>> event_data = new ArrayList<>();
-        for(EventReader eventReader : this.calendarManager.getAllEvents()) {
-            event_data.add(getEvent(eventReader));
-        }
-
-        return event_data;
-    }
-
-    private HashMap<String, String> getEvent(EventReader eventReader) {
-        HashMap<String, String> event_data = new HashMap<>();
-        event_data.put("name", eventReader.getName());
-        event_data.put("start", eventReader.getStartTime().toString());
-        event_data.put("end", eventReader.getEndTime().toString());
-        event_data.put("tags", eventReader.getTags().toString());
-        event_data.put("dates", eventReader.getDates().toString());
-
-        return event_data;
-
-    }
-
-    @Override
-    public void presentCalendar() {
+    public void presentAllEvents() {
         List<EventReader> calendarEvents = calendarManager.getAllEvents();
         List<EventInfo> eventInfos = new ArrayList<>();
         for (EventReader er : calendarEvents)
             eventInfos.add(new EventInfoFromReader(er));
-        eventPresenter.presentEvents(eventInfos);
+        eventPresenter.presentAllEvents(eventInfos);
     }
 }
