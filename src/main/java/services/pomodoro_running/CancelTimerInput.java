@@ -1,4 +1,4 @@
-package main.java;
+package main.java.services.pomodoro_running;
 
 import java.util.Objects;
 import java.util.Scanner;

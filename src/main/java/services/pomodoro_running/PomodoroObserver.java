@@ -1,8 +1,5 @@
 package main.java.services.pomodoro_running;
 
-import main.java.services.pomodoro_running.PomodoroRunner;
-import main.java.services.pomodoro_running.PomodoroTimerTask;
-
 public class PomodoroObserver{
     private PomodoroRunner pomodoroRunner;
 

@@ -1,6 +1,6 @@
 package main.java.console_app;
 
-import main.java.CancelTimerInput;
+import main.java.services.pomodoro_running.CancelTimerInput;
 import main.java.data_gateway.PomodoroTimerManager;
 import main.java.services.pomodoro_running.PomodoroObserver;
 import main.java.services.pomodoro_running.PomodoroRunner;

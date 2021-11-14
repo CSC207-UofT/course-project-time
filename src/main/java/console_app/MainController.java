@@ -155,6 +155,7 @@ public class MainController {
      * @param breakTime the time interval that the user specified they want to break for
      */
     public void createTimer(int workTime, int breakTime) {
+        pomodoroController.checkUserInput();
         pomodoroController.setPomodoroRunner(workTime, breakTime);
         boolean work = true;
         while (!checkCancel()) {
@@ -170,6 +171,8 @@ public class MainController {
                }
             }
         }
+        pomodoroController.stopTimer();
+        System.out.println("Timer stopped");
     }
 
     public boolean checkCancel() {
