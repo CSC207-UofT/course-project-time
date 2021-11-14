@@ -36,8 +36,4 @@ public class PomodoroRunner {
     public PomodoroTimerTask getPomodoroTimerTask() {
         return this.pomodoroTimerTask;
     }
-
-    public PomodoroTimer getPomodoroTimer() {
-        return this.pomodoroTimer;
-    }
 }

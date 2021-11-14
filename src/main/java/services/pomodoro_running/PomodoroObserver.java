@@ -19,9 +19,9 @@ public class PomodoroObserver{
         PomodoroTimerTask pomodoroTimerTask = pomodoroRunner.getPomodoroTimerTask();
         boolean switchNow = false;
         boolean cancelTimer = false;
-        while(!switchNow && !cancelTimer) {
+        while(!switchNow /*&& !cancelTimer*/) {
             switchNow = pomodoroTimerTask.getSwitchNow();
-            cancelTimer = cancelTimerInput.getCancel();
+            //cancelTimer = cancelTimerInput.getCancel();
         }
         return switchNow;
     }

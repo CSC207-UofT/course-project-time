@@ -141,12 +141,10 @@ public class ApplicationDriver {
             case "8":
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
-                System.out.println("Input \"c\" to end pomodoro timer");
+                //todo figure out why cancelling the pomodoro timer only works while debugging
+                //System.out.println("Input \"c\" to end pomodoro timer");
                 controller.createTimer(intervals[0], intervals[1]);
 
-//                if (controller.stopTimer()) {
-//                    System.out.println("Timer stopped");
-//                }
             default:
                 break;
         }
