@@ -30,6 +30,7 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
+    private final PomodoroController pomodoroController;
 
     public MainController() {
 
@@ -50,6 +51,8 @@ public class MainController {
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator);
+
+        pomodoroController = new PomodoroController();
     }
 
     /**
@@ -114,6 +117,20 @@ public class MainController {
      */
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
+    }
+
+    /**
+     * create the pomodoro timer and start it
+     * @param workTime the time interval that the user specified they want to work for
+     * @param breakTime the time interval that the user specified they want to break for
+     */
+    public void createTimer(int workTime, int breakTime) {
+        pomodoroController.setPomodoroRunner(workTime, breakTime);
+        pomodoroController.startTimer();
+    }
+
+    public boolean stopTimer() {
+        return pomodoroController.stopTimer();
     }
 
 }

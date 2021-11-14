@@ -132,6 +132,14 @@ public class ApplicationDriver {
                 break;
             case "7":
                 int[] intervals = inputPomodoroTime();
+                System.out.println("Timer started!");
+                System.out.print("Input \"c\" to end pomodoro timer");
+                while(cancelTimer()){
+                    controller.createTimer(intervals[0], intervals[1]);
+                }
+                if (controller.stopTimer()) {
+                    System.out.println("Timer stopped");
+                }
 
             default:
                 break;
@@ -282,7 +290,7 @@ public class ApplicationDriver {
     private static int[] inputPomodoroTime() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Input your desired work and break intervals in (work, break) (minutes) or 0 for default " +
-                "intervals");
+                "intervals: ");
 
         //todo handle exceptions when user doesn't input in desired format
         String intervals = scanner.nextLine();
@@ -300,12 +308,12 @@ public class ApplicationDriver {
         }
     }
 
-    private static void cancelTimer() {
+    private static boolean cancelTimer() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Input \"c\" to end pomodoro timer");
         if (Objects.equals(scanner.nextLine(), "c")) {
-
+            return true;
         }
+        return false;
     }
 
 

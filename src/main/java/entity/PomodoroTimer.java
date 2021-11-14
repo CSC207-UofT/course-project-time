@@ -4,6 +4,7 @@ public class PomodoroTimer {
     private int workLength;
     private int breakLength;
     private boolean canceled;
+    private boolean isWorking;
 
     /***
      *
@@ -14,6 +15,7 @@ public class PomodoroTimer {
         this.workLength = workLength;
         this.breakLength = breakLength;
         this.canceled = false;
+        this.isWorking = true;
     }
 
     public int getWorkLength() {
@@ -28,7 +30,15 @@ public class PomodoroTimer {
         return this.canceled;
     }
 
+    public boolean getIsWorking() {
+        return this.isWorking;
+    }
+
     public void setCanceled(boolean isCanceled) {
         this.canceled = isCanceled;
+    }
+
+    public void setWorking(boolean isWorking) {
+        this.isWorking = isWorking;
     }
 }

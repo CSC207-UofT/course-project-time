@@ -1,32 +1,21 @@
 package main.java.use_case;
 
-import main.java.entity.PomodoroTimer;
+public class PomodoroObserver implements Runnable{
+    private PomodoroRunner pomodoroRunner;
 
-import java.util.Timer;
-
-public class PomodoroObserver {
-    private PomodoroTimer pomodoroTimer;
-    private Timer timer;
-    private boolean isWorking;
-    private boolean isOnBreak;
-
-    public PomodoroObserver(PomodoroTimer pomodoroTimer) {
-        this.pomodoroTimer = pomodoroTimer;
-        this.timer = new Timer();
-        this.isOnBreak = false;
-        this.isWorking = false;
+    public PomodoroObserver(PomodoroRunner pomodoroRunner) {
+        this.pomodoroRunner = pomodoroRunner;
     }
 
-    public void startTimer(boolean isWorking){
-        if (this.pomodoroTimer.getCanceled()) {
-            return;
+    @Override
+    public void run() {
+        PomodoroTimerTask pomodoroTimerTask = pomodoroRunner.getPomodoroTimerTask();
+        boolean switchNow = false;
+        while(!switchNow || pomodoroRunner.getPomodoroTimer().getCanceled()) {
+            switchNow = pomodoroTimerTask.getSwitchNow();
         }
-        if (isWorking) {
-            timer.schedule(new PomodoroTimerTask(), pomodoroTimer.getWorkLength());
+        if (!pomodoroRunner.getPomodoroTimer().getCanceled()) {
+            pomodoroRunner.startTimer(!pomodoroRunner.getPomodoroTimer().getIsWorking());
         }
-        else {
-            timer.schedule(new PomodoroTimerTask(), pomodoroTimer.getBreakLength());
-        }
-        startTimer(!isWorking);
     }
 }

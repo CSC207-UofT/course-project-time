@@ -10,7 +10,8 @@ public class PomodoroTimerManager {
         return pomodoroTimer;
     }
 
-    public void stopPomodoroTimer() {
+    public boolean stopPomodoroTimer() {
         pomodoroTimer.setCanceled(true);
+        return true;
     }
 }
