@@ -12,7 +12,7 @@ public class EventSaver {
     {
         calendarManager = eventData;
     }
-    public void SaveEventData(String filename) throws IOException {
+    public void saveEventData(String filename) throws IOException {
         calendarManager.saveEvents(filename);
     }
 }

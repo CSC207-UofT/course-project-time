@@ -1,7 +1,6 @@
 package main.java.console_app.event_adapters;
 
 
-import main.java.entity.Event;
 import main.java.services.Snowflake;
 import main.java.services.event_creation.CalendarEventCreationBoundary;
 import main.java.services.event_creation.EventSaver;
@@ -80,7 +79,7 @@ public class EventController {
     }
 
     public void saveEvents(String filename) throws IOException {
-        this.eventSaver.SaveEventData(filename);
+        this.eventSaver.saveEventData(filename);
     }
 
 
