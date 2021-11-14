@@ -21,6 +21,10 @@ public class PomodoroTimerTask extends TimerTask {
        this.switchNow = true;
     }
 
+    public void stopTimer() {
+        this.timer.cancel();
+    }
+
 
     public boolean getSwitchNow() {
         return this.switchNow;

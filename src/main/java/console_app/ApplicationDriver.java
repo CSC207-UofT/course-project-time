@@ -300,9 +300,14 @@ public class ApplicationDriver {
 
         //todo handle exceptions when user doesn't input in desired format
         String intervals = scanner.nextLine();
-
-        if (Integer.parseInt(intervals) == 0) {
-            return new int[] {1, 2};
+        if (isInt(intervals)) {
+            if (Integer.parseInt(intervals) == 0) {
+                return new int[] {25, 5};
+            }
+            else {
+                System.out.print("Interval not accepted, please retry.");
+                return inputPomodoroTime();
+            }
         }
         else {
             String[] intervalsSplitString =  intervals.split(",");
@@ -313,6 +318,17 @@ public class ApplicationDriver {
             return intervalsSplit;
         }
     }
+
+    private static boolean isInt(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        }
+        catch(NumberFormatException numberFormatException) {
+            return false;
+        }
+    }
+
 
     public static void main(String[] args) {
         boolean askForInput;

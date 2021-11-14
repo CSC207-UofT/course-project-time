@@ -9,37 +9,27 @@ public class PomodoroController {
     private PomodoroRunner pomodoroRunner;
     private PomodoroTimerManager pomodoroTimerManager = new PomodoroTimerManager();
     private boolean switched = false;
+    private CancelTimerInput cancelTimerInput = new CancelTimerInput();
 
     public boolean startTimer() {
         pomodoroRunner.startTimer(!switched);
-        PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner);
+        PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner, cancelTimerInput);
         switched = !switched;
         return pomodoroObserver.startTracking();
     }
 
     public synchronized void checkUserInput() {
-        Thread thread = new Thread(new CancelTimerInput());
+        Thread thread = new Thread(cancelTimerInput);
         thread.start();
     }
 
-
     public boolean stopTimer() {
+        pomodoroRunner.stopTimer();
         return pomodoroTimerManager.stopPomodoroTimer();
-    }
-
-    public PomodoroRunner getPomodoroRunner() {
-        return this.pomodoroRunner;
-    }
-
-    public boolean getSwitched() {
-        return this.switched;
     }
 
     public void setPomodoroRunner(int workTime, int breakTime) {
         this.pomodoroRunner = new PomodoroRunner(pomodoroTimerManager.createPomodoroTimer(workTime, breakTime));
     }
 
-    public void setSwitched(boolean switched) {
-        this.switched = switched;
-    }
 }

@@ -29,6 +29,10 @@ public class PomodoroRunner {
         }
     }
 
+    public void stopTimer() {
+        pomodoroTimerTask.stopTimer();
+    }
+
     public PomodoroTimerTask getPomodoroTimerTask() {
         return this.pomodoroTimerTask;
     }
