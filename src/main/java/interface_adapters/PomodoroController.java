@@ -10,7 +10,7 @@ public class PomodoroController {
     private PomodoroTimerManager pomodoroTimerManager = new PomodoroTimerManager();
     private boolean switched = false;
 
-    public synchronized boolean startTimer() {
+    public boolean startTimer() {
         pomodoroRunner.startTimer(!switched);
         PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner);
         return pomodoroObserver.startTracking();

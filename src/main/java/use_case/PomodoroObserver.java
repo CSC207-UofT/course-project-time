@@ -2,7 +2,6 @@ package main.java.use_case;
 
 public class PomodoroObserver{
     private PomodoroRunner pomodoroRunner;
-    private boolean switchInterval = false;
 
     public PomodoroObserver(PomodoroRunner pomodoroRunner) {
         this.pomodoroRunner = pomodoroRunner;
@@ -14,14 +13,9 @@ public class PomodoroObserver{
         while(!switchNow || pomodoroRunner.getPomodoroTimer().getCanceled()) {
             switchNow = pomodoroTimerTask.getSwitchNow();
         }
-        this.switchInterval = switchNow;
-        return switchInterval;
+        return true;
 //        if (!pomodoroRunner.getPomodoroTimer().getCanceled()) {
 //            pomodoroRunner.startTimer(!pomodoroRunner.getPomodoroTimer().getIsWorking());
 //        }
-    }
-
-    public boolean getSwitchInterval() {
-        return this.switchInterval;
     }
 }
