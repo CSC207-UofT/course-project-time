@@ -8,6 +8,7 @@ import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_creation.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -72,6 +73,16 @@ public class TaskAdderTest {
         @Override
         public Map<Long, List<TaskReader>> getAllTasks() {
             return null;
+        }
+
+        @Override
+        public void loadTodo(String filepath) throws IOException {
+
+        }
+
+        @Override
+        public void saveTodo(String filepath) throws IOException {
+
         }
     }
 
