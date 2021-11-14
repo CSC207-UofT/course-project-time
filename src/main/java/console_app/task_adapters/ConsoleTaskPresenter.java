@@ -6,7 +6,9 @@ import main.java.services.task_presentation.TodoListPresenter;
 import main.java.services.task_presentation.TodoListsInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConsoleTaskPresenter implements TodoListPresenter {
     private final ApplicationDriver applicationDriver;
@@ -15,6 +17,10 @@ public class ConsoleTaskPresenter implements TodoListPresenter {
         this.applicationDriver = applicationDriver;
     }
 
+    /**
+     * Formats tasks' information and presents them on the console.
+     * @param todoListInfo the todolist DTO whose tasks are to be presented
+     */
     @Override
     public void presentTasks(TodoListsInfo todoListInfo) {
         List<String> taskFormattedInfo = new ArrayList<>();
@@ -40,5 +46,41 @@ public class ConsoleTaskPresenter implements TodoListPresenter {
             taskFormattedInfo.add(output);
         }
         applicationDriver.printTasks(taskFormattedInfo);
+    }
+
+    /**
+     * Formats the tasks' information in an ordered list and presents them.
+     * Passes the mapping of the position of task in the list to the task's actual id
+     * to the ApplicationDriver by setting it as an attribute of the ApplicationDriver.
+     * @param todoListInfo the todolist DTO whose tasks are to be presented in an ordered list
+     * @return a mapping of task's position in the presented list and id
+     */
+    @Override
+    public Map<Integer, Long> presentTasksForUserSelection(TodoListsInfo todoListInfo) {
+        List<String> taskFormattedInfo = new ArrayList<>();
+        Map<Integer, Long> positionToIdMapping = new HashMap<>();
+        List<TaskInfo> tasks = todoListInfo.getAllTasks();
+        int counter = 1;
+        for (TaskInfo ti : tasks) {
+            positionToIdMapping.put(counter, ti.getId());
+
+            String name = ti.getName();
+
+            String deadline;
+            if (ti.getDeadline() != null) {
+                deadline = ti.getDeadline().toString();
+            } else {
+                deadline = "NO DEADLINE";
+            }
+
+            String output = ((Integer) counter).toString() + ") "
+                    + "Task: " + name + ", "
+                    + "deadline = " + deadline;
+
+            taskFormattedInfo.add(output);
+            counter++;
+        }
+        applicationDriver.printTasks(taskFormattedInfo);
+        return positionToIdMapping;
     }
 }

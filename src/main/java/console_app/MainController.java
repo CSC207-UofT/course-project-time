@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class MainController {
     private final EventController eventController;
@@ -74,12 +75,12 @@ public class MainController {
     }
 
     /**
-     * Gets a Task by its name
-     * @param name name of Task
-     * @return TaskInfo with given name
+     * Gets a Task by its id
+     * @param id id of a Task
+     * @return TaskInfo of the corresponding Task
      */
-    public TaskInfo getTaskByName(String name) {
-        return taskController.getTaskByName(name);
+    public TaskInfo getTaskById(Long id) {
+        return taskController.getTaskById(id);
     }
 
     /**
@@ -121,4 +122,12 @@ public class MainController {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 
+    /**
+     * Displays task information in a numbered list for user to select a task
+     * for further actions.
+     * @return a mapping of task's position in the presented list and id
+     */
+    public Map<Integer, Long> presentAllTasksForUserSelection() {
+        return taskController.presentAllTasksForUserSelection();
+    }
 }

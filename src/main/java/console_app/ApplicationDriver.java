@@ -93,37 +93,41 @@ public class ApplicationDriver {
                 }
                 break;
             case "5":
-                // TODO: print tasks for user to select
-                TaskInfo task = chooseTask();
-                success = this.controller.suggestTimeToUser(task);
-                if (success) {
-                    System.out.println("Event created from task");
-                } else {
-                    // todo use exceptions in the future to track reason of failure
-                    System.out.println("Failed to create event from task");
+                Map<Integer, Long> positionToIdMapping = controller.presentAllTasksForUserSelection();
+                if (positionToIdMapping.size() != 0) {
+                    TaskInfo task = chooseTask(positionToIdMapping);
+                    success = controller.suggestTimeToUser(task);
+                    if (success) {
+                        System.out.println("Event created from task");
+                    } else {
+                        // todo use exceptions in the future to track reason of failure
+                        System.out.println("Failed to create event from task");
+                    }
                 }
                 break;
             case "6":
-                // TODO: print tasks for user to select
-                TaskInfo taskManual = chooseTask();
-                LocalDateTime userSuggestedTime;
-                boolean timeAvailable;
+                positionToIdMapping = controller.presentAllTasksForUserSelection();
+                if (positionToIdMapping.size() != 0) {
+                    TaskInfo taskManual = chooseTask(positionToIdMapping);
+                    LocalDateTime userSuggestedTime;
+                    boolean timeAvailable;
 
-                do {
-                    userSuggestedTime = inputTime();
-                    timeAvailable = this.controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
-                    if (!timeAvailable) {
-                        System.out.println("Time not available, please retry.");
+                    do {
+                        userSuggestedTime = inputTime();
+                        timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                        if (!timeAvailable) {
+                            System.out.println("Time not available, please retry.");
+                        }
+                    } while (!timeAvailable);
+
+                    success = controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
+                            userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+
+                    if (success) {
+                        System.out.println("Event created from task");
+                    } else {
+                        System.out.println("Failed to create event from task");
                     }
-                } while (!timeAvailable);
-
-                success = this.controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
-                        userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
-
-                if (success) {
-                    System.out.println("Event created from task");
-                } else {
-                    System.out.println("Failed to create event from task");
                 }
                 break;
             default:
@@ -235,27 +239,20 @@ public class ApplicationDriver {
     }
 
     /**
-     * Prompts the user to choose a Task among the list of Tasks
-     * @return the chosen Task
+     * Prompts the user to choose a task among the list of tasks
+     * @param mapping   the mapping of position of task to id
+     * @return the chosen task with its information as a TaskInfo instance
      */
-    private TaskInfo chooseTask() {
-        this.controller.presentAllTasks();
-        List<TaskInfo> taskInfos = todoListsInfo.getAllTasks();
-        List<String> taskNames = new ArrayList<>();
-        for (TaskInfo ti: taskInfos) {
-            taskNames.add(ti.getName());
-        }
-
+    private TaskInfo chooseTask(Map<Integer, Long> mapping) {
         Scanner scanner = new Scanner(System.in);
         String chosen;
 
-        // todo in the future lift the assumption where names are unique
         do {
-            System.out.print("Please choose a task by typing its name (case-sensitive): ");
+            System.out.print("Please choose a task (input the corresponding number): ");
             chosen = scanner.nextLine();
-        } while (!taskNames.contains(chosen));
+        } while (!(Integer.parseInt(chosen) <= mapping.size()));
 
-        return this.controller.getTaskByName(chosen);
+        return controller.getTaskById(mapping.get(Integer.parseInt(chosen)));
     }
 
     /**

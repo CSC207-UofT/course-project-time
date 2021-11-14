@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TaskController {
     private final TaskGetter taskGetter;
@@ -36,11 +37,20 @@ public class TaskController {
     }
 
     /**
-     * Gets a Task by its name
-     * @param name name of Task
-     * @return TaskInfo with given name
+     * Gets a Task by its id
+     * @param id id of Task
+     * @return TaskInfo with given id
      */
-    public TaskInfo getTaskByName(String name) {
-        return taskGetter.getTaskByName(name);
+    public TaskInfo getTaskById(Long id) {
+        return taskGetter.getTaskById(id);
+    }
+
+    /**
+     * Displays task information in a numbered list for user to select a task
+     * for further actions.
+     * @return a mapping of task's position in the presented list and id
+     */
+    public Map<Integer, Long> presentAllTasksForUserSelection() {
+        return taskGetter.presentAllTasksForUserSelection();
     }
 }
