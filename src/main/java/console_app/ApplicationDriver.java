@@ -37,6 +37,7 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
+        queryMenu.put("7", "Save my Data");
         return queryMenu;
     }
 
@@ -134,6 +135,10 @@ public class ApplicationDriver {
                     System.out.println("Failed to create event from task");
                 }
                 break;
+
+            case "7":
+                controller.saveData();
+
             default:
                 break;
         }

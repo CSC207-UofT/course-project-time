@@ -29,16 +29,16 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
     @Override
     public List<HashMap<String, String>> getEvents() {
         List<HashMap<String, String>> event_data = new ArrayList<>();
-        for(Event event : calendar.getEvents()) {
+        for(EventReader event : calendarManager.getAllEvents()) {
             event_data.add(getEvent(event));
         }
 
         return event_data;
     }
 
-    private HashMap<String, String> getEvent(Event event) {
+    private HashMap<String, String> getEvent(EventReader event) {
         HashMap<String, String> event_data = new HashMap<>();
-        event_data.put("name", event.getEventName());
+        event_data.put("name", event.getName());
         event_data.put("start", event.getStartTime().toString());
         event_data.put("end", event.getEndTime().toString());
         event_data.put("tags", event.getTags().toString());

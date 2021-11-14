@@ -1,10 +1,16 @@
 package main.java.data_gateway;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import main.java.entity.Task;
 import main.java.entity.TodoList;
 import main.java.services.Snowflake;
 import main.java.services.task_creation.TodoListTaskCreationModel;
 
+import java.io.*;
+import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,17 +19,21 @@ import java.util.List;
 import java.util.Map;
 
 public class TodoEntityManager implements TodoListManager{
-    private final List<Task> taskArrayList;
+    private final List<Task> taskArrayList= new ArrayList<>();
     TodoList todoList;
     int taskCounter;
     int todoCounter;
     private final Snowflake snowflake;
 
+    private Gson gson;
+
     public TodoEntityManager(Snowflake snowflake){
-        taskArrayList = new ArrayList<>();
         taskCounter = 0;
         todoCounter = 0;
         this.snowflake = snowflake;
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
+        gson = builder.create();
     }
 
     @Override
@@ -64,5 +74,39 @@ public class TodoEntityManager implements TodoListManager{
         // 0 because there is one todolist
         taskMap.put(0L, todoListTaskReaders);
         return taskMap;
+    }
+
+    /**
+     * Stores todolist data from an external json file, gson usaged based on
+     * code from https://www.baeldung.com/gson-list
+     * @param filePath The path of the file containing the todoList
+     * @throws FileNotFoundException if the specified file cannot be accessed
+     */
+    @Override
+    public void loadTodo(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.exists()) {
+            JsonReader reader = new JsonReader(new FileReader(filePath));
+
+            Type listType = new TypeToken<List<Task>>() {}.getType();
+            List<Task> tasks = gson.fromJson(reader, listType);
+
+            if(tasks != null)
+            {
+                this.taskArrayList.addAll(tasks);
+            }
+            reader.close();
+        }
+    }
+
+    @Override
+    public void saveTodo(String filename) throws IOException {
+        FileWriter fw = new FileWriter(filename);
+        String cal_json = gson.toJson(this.taskArrayList);
+        if(cal_json != null)
+        {
+            fw.write(cal_json);
+        }
+        fw.close();
     }
 }
