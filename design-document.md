@@ -6,16 +6,49 @@ If you found that something in your design wasn't good, tell us about that too!
 Pretending part of your design is good — when you know it isn't — can potentially hurt your mark significantly!
 Acknowledging bad design can earn you marks and demonstrates understanding — especially if you discuss how you could fix it if you had more time!
 
-## Clean Architecture (not completed)
+## Clean Architecture
 
-Is your program consistent with Clean Architecture?
-Show us with something like a CRC model or UML diagram.
+We organized our code according to the various layers as outlined in Clean Architecture, as can be seen in 
+[this](https://drive.google.com/file/d/1MepffESg7WIG2lEm6N33ytD_fawoBvkP/view?usp=sharing) UML diagram. 
+Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers 
+can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
+
+__A scenario walk through that demonstrates clean architecture__
+
+Upon running the `ApplicationDriver` of `console_app`, user is prompted to choose an action. 
+Assuming the user chooses to view all Events, `ApplicationDriver` passes this request to the `MainController`, which,
+as a facade, passes the request to the `EventController`. `EventController` calls `EventGetter` to retrieve all the
+events from the database by interacting with the database gateway, the `CalendarManager` interface. The gateway returns 
+an instance of `CalendarEventModel`, which is a data transfer object. Next, the `EventGetter` will pass the 
+retrieved information to a presenter to present the information. Since `EventGetter` is a use case class, it uses an 
+interface `CalendarEventDisplayBoundary` which has a `presentAllEvents()` method. A presenter class `ConsoleEventPresenter`
+implements the interface `CalendarEventDisplayBoundary` and the concrete implementation is not visible to the use case class
+`EventGetter`. This ensures that inner layers are not dependent on outer layers of clean architecture. `EventGetter` then invokes
+`presentAllEvents()` in `ConsoleEventPresenter`, which formats the data given by `EventGetter` and passes the formatted data to
+`ApplicationDriver` to be displayed.
+
+__Violation of clean architecture__
+
+However, there may be one violation of clean architecture when interacting with the outer layer. 
+
+In `ApplicationDriver` of `console_app`, it can be seen that if the user chooses action 5 or 6 
+(to automatically or manually schedule a task as an event), the `MainController` will be called to present the list of 
+tasks and at the same time, retrieve a mappings of the tasks' position in the list and their actual id. 
+However, retrieval of output data from use cases should be a responsibility of presenters and in our code, 
+the `MainController` is taking on roles of both a controller and a presenter.
+Given more time, we will remove the responsibilities of receiving output data from the use case from the controller, 
+to a presenter instead. 
+
+### to be added
+
 Describe a scenario walk-through and highlight how it demonstrates Clean Architecture.
-Are there any clear violations if we were to randomly look at the imports in a few of your files?
 Is the Dependency Rule consistently followed when interacting with details in the outer layer?
 Give us a concrete example from something like your UI or an interaction with a database.
 
 ## Design Patterns (not completed)
+- facade: MainController
+- observer pattern: Notif system
+- builder for the MainController? (future)
 
 Has your group used design patterns in appropriate places in the code? Identified and described any patterns that could be applied in future with more time?
 Have you clearly indicated where the pattern was used and possibly pointed out which Pull Request it was implemented in?
