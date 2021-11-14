@@ -54,12 +54,23 @@ Has your group used design patterns in appropriate places in the code? Identifie
 Have you clearly indicated where the pattern was used and possibly pointed out which Pull Request it was implemented in?
 Be careful that there aren't any obvious places a design pattern should have been applied that your group forgot to mention.
 
+In the future, we could implement a command design pattern for the user interface. We plan to use JavaFX to replace the console
+interface. In JavaFX, according to Oracle's documentation, actions performed by GUI elements are managed by EventHandlers,
+which implement events in a method called handle. To implement a command design pattern, we could add a Command interface with
+an execute command. The command interface could be implemented by several of our use cases, such as EventSaver, EventAdder, TaskAdder, and EventScheduler.
+The business rules implemented by these use cases would be called in the execute command. Then, we would create a subclass of EventHandler,
+that accepts a command, and executes that command in it's handle method. In order to adhere to Clean Architecture, our controllers
+would likely be responsible for creating this EventHandler, and proving it to the user interface, to prevent the UI from interacting with use cases.
+After successfully implementing the command design pattern, our UI would be able to execute commands implemented by use cases,
+without knowing anything about them.
+
 ## Use of GitHub Features
 
 Our group utilised various features of Github to improve our efficiency and keep ourselves organized. 
 We set up different **branches** when developing various features for our program. When a feature has been developed, 
 a **pull request** will be made. We often have at least two reviewers to review the pull request, 
-and more if it is a larger pull request. 
+and more if it is a larger pull request. Reviewers of pull requests frequently provided feedback, which was implemented before
+merging.
 
 Also, we have taken note of various problems that we have to fix in the future by opening new **issues**. 
 
