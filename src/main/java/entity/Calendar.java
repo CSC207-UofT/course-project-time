@@ -17,7 +17,7 @@ public class Calendar {
         this.todoList = new TodoList();
 
         for(Event event : this.events) {
-            Task task = new Task(event.getEventName());
+            Task task = new Task(event.getId(), event.getEventName());
             todoList.addTask(task);
         }
     }

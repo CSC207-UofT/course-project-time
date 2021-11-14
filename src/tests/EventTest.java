@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class EventTest {
     LocalDateTime startDate;
@@ -21,8 +21,8 @@ class EventTest {
     void setUp() {
         startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
         endTime = LocalTime.of(16, 0);
-        task = new Task("Math Homework");
-        event = new Event(task, startDate, endTime);
+        task = new Task(0, "Math Homework");
+        event = new Event(0, task, startDate, endTime);
 
     }
 

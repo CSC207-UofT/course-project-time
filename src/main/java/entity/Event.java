@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 public class Event {
 
+    private long id;
     private LocalTime startTime;
     private LocalTime endTime;
     private Set<String> tags;
@@ -23,11 +25,13 @@ public class Event {
 
     /**
      * Construct an event based on a task.
+     * @param id unique id of event
      * @param task the main task that will be changed into an event
      * @param startTime the start time of the event
      * @param endTime the end time the event
      */
-    public Event(Task task, LocalDateTime startTime, LocalTime endTime) {
+    public Event(long id, Task task, LocalDateTime startTime, LocalTime endTime) {
+        this.id = id;
         this.task = task;
         this.startTime = startTime.toLocalTime();
         this.endTime = endTime;
@@ -37,21 +41,40 @@ public class Event {
     }
 
     /**
+     * Construct an event based on a task.
+     * @param id unique id of event
+     * @param task the main task that will be changed into an event
+     * @param startTime the start time of the event
+     * @param endTime the end time the event
+     */
+    public Event(long id, Task task, LocalTime startTime, LocalTime endTime,
+                 Set<LocalDate> dates) {
+        this.id = id;
+        this.task = task;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.tags = new HashSet<>();
+        this.dates = dates;
+    }
+
+    /**
      * Construct an event directly, with the event name, start time,
      * end time, and the date
+     * @param id unique id of event
      * @param eventName the name of the event
      * @param startTime the start time of the event (without date)
      * @param endTime the end time of the event (without date)
      * @param tags the tags of the event
      * @param date the date time of the event
      */
-    public Event(String eventName, LocalTime startTime, LocalTime endTime,
-                 Set<String> tags, LocalDate date) {
+    public Event(long id, String eventName, LocalTime startTime, LocalTime endTime,
+                 HashSet<String> tags, LocalDate date) {
+        this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
         Duration timeNeeded = Duration.between(startTime, endTime);
-        this.task = new Task(eventName, timeNeeded);
+        this.task = new Task(id, eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
     }
@@ -95,6 +118,10 @@ public class Event {
      */
     public void addRepeatedDates(List<LocalDate> dates) {
         this.dates.addAll(dates);
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getEventName() {

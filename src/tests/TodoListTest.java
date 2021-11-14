@@ -6,14 +6,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TodoListTest {
     Task task;
     TodoList todoList;
     @BeforeEach
     void setUp() {
-        task = new Task("Math Homework");
+        task = new Task(0, "Math Homework");
         todoList = new TodoList();
     }
 
