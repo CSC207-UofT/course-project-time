@@ -1,5 +1,6 @@
 package main.java.console_app;
 
+import main.java.services.event_presentation.EventInfo;
 import main.java.services.task_presentation.TaskInfo;
 import main.java.services.task_presentation.TodoListsInfo;
 
@@ -71,18 +72,7 @@ public class ApplicationDriver {
             case "0":
                 return false;
             case "1":
-                List<HashMap<String, String>> allEventsData = controller.getEvents();
-                if (allEventsData.size() == 0) {
-                    System.out.println("No events have been created");
-                }
-                for (HashMap<String, String> eventData : allEventsData) {
-                    String output = "Event: " + eventData.get("name") + ", "
-                                        + "start time = " + eventData.get("start") + ", "
-                                        + "end time = " + eventData.get("end") + ", "
-                                        + "tags = " + eventData.get("tags") + ", "
-                                        + "dates = " + eventData.get("dates");
-                    System.out.println(output);
-                }
+                printEvents();
                 break;
             case "2":
                 printTasks();
@@ -142,6 +132,10 @@ public class ApplicationDriver {
                 TaskInfo completedTask = chooseTask();
                 long taskId = completedTask.getId();
                 controller.completeTask(taskId);
+                break;
+            case "8":
+                printEvents();
+                EventInfo completedEvent = chooseEvent();
             case "9":
                 controller.saveData();
 
@@ -248,6 +242,42 @@ public class ApplicationDriver {
                     + "completed = " + completed;
             System.out.println(output);
         }
+    }
+
+    private static void printEvents() {
+        List<HashMap<String, String>> allEventsData = controller.getEvents();
+        if (allEventsData.size() == 0) {
+            System.out.println("No events have been created");
+        }
+        for (HashMap<String, String> eventData : allEventsData) {
+            String output = "Event: " + eventData.get("name") + ", "
+                    + "start time = " + eventData.get("start") + ", "
+                    + "end time = " + eventData.get("end") + ", "
+                    + "tags = " + eventData.get("tags") + ", "
+                    + "dates = " + eventData.get("dates");
+            System.out.println(output);
+        }
+    }
+
+    /**
+     * Prompts the user to choose an Event from the list of Events
+     * @return the chosen Event
+     */
+    private static EventInfo chooseEvent() {
+        List<HashMap<String, String>> allEventsData = controller.getEvents();
+        List<String> eventNames = new ArrayList<>();
+        for (HashMap<String, String> event: allEventsData ) {
+            eventNames.add(event.get("name"));
+        }
+        Scanner scanner = new Scanner(System.in);
+        String chosen;
+        // todo in the future lift the assumption where names are unique
+        do {
+            System.out.print("Please choose an Event by typing its name (case-sensitive): ");
+            chosen = scanner.nextLine();
+        } while (!eventNames.contains(chosen));
+
+        return controller.getEventByName(chosen);
     }
 
     /**

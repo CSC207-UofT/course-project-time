@@ -36,6 +36,17 @@ public class EventGetter implements GetEvent, CalendarEventDisplayBoundary {
         return event_data;
     }
 
+    @Override
+    public EventInfo getEventByName(String name) {
+        List<EventReader> allEvents = calendarManager.getAllEvents();
+        for (EventReader event: allEvents) {
+            if (event.getName().equals(name)) {
+                return new EventInfoFromReader(event);
+            }
+        }
+        return null;
+    }
+
     private HashMap<String, String> getEvent(EventReader event) {
         HashMap<String, String> event_data = new HashMap<>();
         event_data.put("name", event.getName());

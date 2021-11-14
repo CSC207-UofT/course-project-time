@@ -18,6 +18,7 @@ import main.java.services.event_from_task_creation.EventFromTaskCreatorBoundary;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.CalendarEventPresenter;
 import main.java.services.event_presentation.EventGetter;
+import main.java.services.event_presentation.EventInfo;
 import main.java.services.task_creation.TaskAdder;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_creation.TaskSaver;
@@ -101,6 +102,14 @@ public class MainController {
         return taskController.getTaskByName(name);
     }
 
+    /**
+     * Gets an Event by its name
+     * @param name name of Event
+     * @return EventInfo with given name
+     */
+    public EventInfo getEventByName(String name) {
+        return eventController.getEventByName(name);
+    }
     /**
      * creates an event and adds it to the calendar
      * @param eventName name of the event to be created

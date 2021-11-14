@@ -6,6 +6,7 @@ import main.java.services.event_creation.CalendarEventCreationBoundary;
 import main.java.services.event_creation.EventSaver;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.EventGetter;
+import main.java.services.event_presentation.EventInfo;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -80,6 +81,10 @@ public class EventController {
 
     public void saveEvents(String filename) throws IOException {
         this.eventSaver.saveEventData(filename);
+    }
+
+    public EventInfo getEventByName(String name) {
+        return eventGetter.getEventByName(name);
     }
 
 

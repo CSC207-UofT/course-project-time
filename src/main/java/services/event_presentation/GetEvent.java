@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface GetEvent {
     List<HashMap<String, String>> getEvents();
+
+    EventInfo getEventByName(String name);
 }
