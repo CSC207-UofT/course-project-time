@@ -21,7 +21,7 @@ class TaskTest {
     void setUp() {
         timeNeeded = Duration.ofHours(2);
         deadline = LocalDateTime.of(2021, 10, 15, 23, 59, 59);
-        task = new Task("CSC207 project", timeNeeded, deadline);
+        task = new Task(0, "CSC207 project", timeNeeded, deadline);
 
     }
 
