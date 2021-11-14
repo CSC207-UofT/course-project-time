@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +40,23 @@ public class Event {
         this.dates = new HashSet<LocalDate>();
         this.dates.add(startTime.toLocalDate());
         this.notificationTimes = new HashSet<Duration>();
+    }
+
+    /**
+     * Construct an event based on a task.
+     * @param id unique id of event
+     * @param task the main task that will be changed into an event
+     * @param startTime the start time of the event
+     * @param endTime the end time the event
+     */
+    public Event(long id, Task task, LocalTime startTime, LocalTime endTime,
+                 Set<LocalDate> dates) {
+        this.id = id;
+        this.task = task;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.tags = new HashSet<>();
+        this.dates = dates;
     }
 
     /**

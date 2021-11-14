@@ -27,7 +27,7 @@ public class Task {
     private List<String> subTasks;
     private Set<Duration> notificationTimes;
 
-    private static final Duration DEFAULT_DURATION = Duration.ofHours(1);
+    public static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
     /**
      * Construct a task with task name
