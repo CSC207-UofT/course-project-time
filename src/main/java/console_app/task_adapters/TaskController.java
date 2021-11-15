@@ -1,9 +1,9 @@
-package main.java.console_app.task_adapters;
+package console_app.task_adapters;
 
-import main.java.services.task_creation.TaskSaver;
-import main.java.services.task_creation.TodoListTaskCreationBoundary;
-import main.java.services.task_presentation.TaskGetter;
-import main.java.services.task_presentation.TaskInfo;
+import services.task_creation.TaskSaver;
+import services.task_creation.TodoListTaskCreationBoundary;
+import services.task_presentation.TaskGetter;
+import services.task_presentation.TaskInfo;
 
 import java.io.IOException;
 import java.time.Duration;

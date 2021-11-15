@@ -1,4 +1,4 @@
-package main.java.services.event_presentation;
+package services.event_presentation;
 
 public interface CalendarEventDisplayBoundary {
 

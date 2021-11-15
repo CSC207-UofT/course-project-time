@@ -1,6 +1,6 @@
-package main.java.data_gateway;
+package data_gateway;
 
-import main.java.entity.Event;
+import entity.Event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

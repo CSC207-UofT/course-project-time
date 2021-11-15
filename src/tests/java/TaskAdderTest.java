@@ -1,11 +1,11 @@
-package tests;
 
-import main.java.data_gateway.TaskReader;
-import main.java.data_gateway.TodoListManager;
-import main.java.console_app.task_adapters.NewTodoListTaskData;
-import main.java.services.task_creation.TaskAdder;
-import main.java.services.task_creation.TodoListTaskCreationBoundary;
-import main.java.services.task_creation.TodoListTaskCreationModel;
+
+import data_gateway.TaskReader;
+import data_gateway.TodoListManager;
+import console_app.task_adapters.NewTodoListTaskData;
+import services.task_creation.TaskAdder;
+import services.task_creation.TodoListTaskCreationBoundary;
+import services.task_creation.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

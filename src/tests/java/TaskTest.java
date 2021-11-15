@@ -1,6 +1,6 @@
-package tests;
 
-import main.java.entity.Task;
+
+import entity.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

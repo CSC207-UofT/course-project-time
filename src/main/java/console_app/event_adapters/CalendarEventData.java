@@ -1,6 +1,6 @@
-package main.java.console_app.event_adapters;
+package console_app.event_adapters;
 
-import main.java.services.event_creation.CalendarEventModel;
+import services.event_creation.CalendarEventModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

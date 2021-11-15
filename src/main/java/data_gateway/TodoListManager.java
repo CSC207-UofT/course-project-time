@@ -1,6 +1,6 @@
-package main.java.data_gateway;
+package data_gateway;
 
-import main.java.services.task_creation.TodoListTaskCreationModel;
+import services.task_creation.TodoListTaskCreationModel;
 
 import java.io.IOException;
 import java.util.List;

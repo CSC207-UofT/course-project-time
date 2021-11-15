@@ -1,7 +1,5 @@
-package tests;
-
-import main.java.data_gateway.EventReader;
-import main.java.services.event_creation.EventInfoFromReader;
+import data_gateway.EventReader;
+import services.event_creation.EventInfoFromReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -75,6 +73,11 @@ public class EventInfoFromReaderTest {
         }
 
         @Override
+        public long getId() {
+            return 0;
+        }
+
+        @Override
         public String getName() {
             return name;
         }
@@ -97,6 +100,11 @@ public class EventInfoFromReaderTest {
         @Override
         public Set<LocalDate> getDates() {
             return dates;
+        }
+
+        @Override
+        public boolean getCompleted() {
+            return false;
         }
     }
 }

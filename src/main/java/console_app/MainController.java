@@ -1,30 +1,30 @@
-package main.java.console_app;
+package console_app;
 
-import main.java.console_app.event_adapters.ConsoleEventPresenter;
-import main.java.console_app.event_adapters.EventController;
-import main.java.console_app.task_adapters.ConsoleTaskPresenter;
-import main.java.console_app.task_adapters.TaskController;
-import main.java.console_app.task_to_event_adapters.TaskToEventController;
-import main.java.data_gateway.CalendarManager;
-import main.java.data_gateway.EventEntityManager;
-import main.java.data_gateway.TodoEntityManager;
-import main.java.data_gateway.TodoListManager;
-import main.java.services.Snowflake;
-import main.java.services.event_creation.CalendarEventCreationBoundary;
-import main.java.services.event_creation.EventAdder;
-import main.java.services.event_creation.EventSaver;
-import main.java.services.event_from_task_creation.EventFromTaskCreator;
-import main.java.services.event_from_task_creation.EventFromTaskCreatorBoundary;
-import main.java.services.event_from_task_creation.EventScheduler;
-import main.java.services.event_presentation.CalendarEventPresenter;
-import main.java.services.event_presentation.EventGetter;
-import main.java.services.event_presentation.EventInfo;
-import main.java.services.task_creation.TaskAdder;
-import main.java.services.task_creation.TodoListTaskCreationBoundary;
-import main.java.services.task_creation.TaskSaver;
-import main.java.services.task_presentation.TaskGetter;
-import main.java.services.task_presentation.TaskInfo;
-import main.java.services.task_presentation.TodoListPresenter;
+import console_app.event_adapters.ConsoleEventPresenter;
+import console_app.event_adapters.EventController;
+import console_app.task_adapters.ConsoleTaskPresenter;
+import console_app.task_adapters.TaskController;
+import console_app.task_to_event_adapters.TaskToEventController;
+import data_gateway.CalendarManager;
+import data_gateway.EventEntityManager;
+import data_gateway.TodoEntityManager;
+import data_gateway.TodoListManager;
+import services.Snowflake;
+import services.event_creation.CalendarEventCreationBoundary;
+import services.event_creation.EventAdder;
+import services.event_creation.EventSaver;
+import services.event_from_task_creation.EventFromTaskCreator;
+import services.event_from_task_creation.EventFromTaskCreatorBoundary;
+import services.event_from_task_creation.EventScheduler;
+import services.event_presentation.CalendarEventPresenter;
+import services.event_presentation.EventGetter;
+import services.event_presentation.EventInfo;
+import services.task_creation.TaskAdder;
+import services.task_creation.TodoListTaskCreationBoundary;
+import services.task_creation.TaskSaver;
+import services.task_presentation.TaskGetter;
+import services.task_presentation.TaskInfo;
+import services.task_presentation.TodoListPresenter;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -40,7 +40,6 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
-    private final Snowflake snowflake;
     private final PomodoroController pomodoroController;
 
     public MainController(ApplicationDriver applicationDriver) {
@@ -209,7 +208,7 @@ public class MainController {
         return taskController.presentAllTasksForUserSelection();
     }
 
-    public List<HashMap<String, String>> getEvents() {
+    public List<HashMap<String, String >> getEvents() {
         return eventController.getEvents();
     }
 }

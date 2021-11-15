@@ -1,6 +1,6 @@
-package main.java.data_gateway;
+package data_gateway;
 
-import main.java.entity.Task;
+import entity.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

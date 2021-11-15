@@ -1,4 +1,4 @@
-package main.java.services.event_from_task_creation;
+package services.event_from_task_creation;
 
 public interface EventFromTaskCreatorBoundary {
 
