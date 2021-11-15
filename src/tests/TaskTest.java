@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TaskTest {
     Duration timeNeeded;
@@ -19,7 +21,7 @@ class TaskTest {
     void setUp() {
         timeNeeded = Duration.ofHours(2);
         deadline = LocalDateTime.of(2021, 10, 15, 23, 59, 59);
-        task = new Task("CSC207 project", timeNeeded, deadline);
+        task = new Task(0, "CSC207 project", timeNeeded, deadline);
 
     }
 

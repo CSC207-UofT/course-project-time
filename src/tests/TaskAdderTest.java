@@ -1,13 +1,14 @@
 package tests;
 
-import main.java.entity_gateway.TaskReader;
-import main.java.entity_gateway.TodoListManager;
-import main.java.use_case.NewTodoListTaskData;
-import main.java.use_case.TaskAdder;
-import main.java.use_case.TodoListTaskCreationBoundary;
-import main.java.use_case.TodoListTaskCreationModel;
+import main.java.data_gateway.TaskReader;
+import main.java.data_gateway.TodoListManager;
+import main.java.console_app.task_adapters.NewTodoListTaskData;
+import main.java.services.task_creation.TaskAdder;
+import main.java.services.task_creation.TodoListTaskCreationBoundary;
+import main.java.services.task_creation.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,8 +39,8 @@ public class TaskAdderTest {
         TodoListTaskCreationModel newTaskData = buildRequestModel(newTodoListId);
         taskAdder.addTask(newTaskData);
 
-        int todoListId = newTaskData.getTodoListId();
-        int taskId = 0;
+        long todoListId = newTaskData.getTodoListId();
+        long taskId = 0;
         TaskReader sentTask = todoListManager.getTask(todoListId, taskId);
 
         assertEquals(sentTask.getName(), newTaskData.getName());
@@ -65,13 +66,23 @@ public class TaskAdderTest {
         }
 
         @Override
-        public TaskReader getTask(int todoListId, int taskId) {
+        public TaskReader getTask(long todoListId, long taskId) {
             return new MockTaskReader(sentTask);
         }
 
         @Override
-        public Map<Integer, List<TaskReader>> getAllTasks() {
+        public Map<Long, List<TaskReader>> getAllTasks() {
             return null;
+        }
+
+        @Override
+        public void loadTodo(String filepath) throws IOException {
+
+        }
+
+        @Override
+        public void saveTodo(String filepath) throws IOException {
+
         }
     }
 
@@ -82,7 +93,7 @@ public class TaskAdderTest {
         }
 
         @Override
-        public int getId() {
+        public long getId() {
             return 0;
         }
 
