@@ -96,8 +96,8 @@ public class ApplicationDriver {
             case "5":
                 Map<Integer, Long> positionToIdMapping = controller.presentAllTasksForUserSelection();
                 if (positionToIdMapping.size() != 0) {
-                    TaskInfo task = chooseTask(positionToIdMapping);
-                    success = controller.suggestTimeToUser(task);
+                    TaskInfo taskInfo = chooseTask(positionToIdMapping);
+                    success = controller.suggestTimeToUser(taskInfo);
                     if (success) {
                         System.out.println("Event created from task");
                     } else {
