@@ -21,6 +21,9 @@ public class PomodoroObserver{
         while(!switchNow && !cancelTimer) {
             switchNow = pomodoroTimerTask.getSwitchNow();
             cancelTimer = cancelTimerInput.getCancel();
+
+            //sleep for 1 second to allow other threads to be able to run its methods
+            //this allows the program to realize when anything in the other threads has changed
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException interruptedException) {

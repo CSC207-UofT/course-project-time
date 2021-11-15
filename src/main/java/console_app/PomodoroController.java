@@ -16,8 +16,13 @@ public class PomodoroController {
      * @return true if timer has to continue to run, false if timer has been cancelled
      */
     public boolean startTimer(){
+        //switched is whether or not the pomodoro timer has switched ie. switched from work to break
+        //true means it's a work interval, false means it's a break interval
         pomodoroRunner.startTimer(!switched);
         PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner, cancelTimerInput);
+
+        //this assignment happens so that the next call the startTimer will start with the opposite interval
+        //ex. if this interval was a work interval, this assignment makes the next interval a break interval
         switched = !switched;
         return pomodoroObserver.startTracking();
     }
