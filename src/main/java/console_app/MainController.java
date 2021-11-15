@@ -146,11 +146,11 @@ public class MainController {
 
     /**
      * sets completed attribute as true for the selected Event
-     * @param eventName the name of the completed Event
+     * @param eventId the id of the completed Event
      * @return true if Event has been set to completed
      */
-    public boolean completeEvent(String eventName) {
-        return eventController.completeEvent(eventName);
+    public boolean completeEvent(long eventId) {
+        return eventController.markEventAsCompleted(eventId);
     }
 
     /**

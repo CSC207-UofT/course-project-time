@@ -41,8 +41,8 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
-        queryMenu.put("7", "Complete task");
-        queryMenu.put("8", "Complete event");
+        queryMenu.put("7", "Mark a task as completed");
+        queryMenu.put("8", "Mark an event as completed");
         queryMenu.put("9", "Save my Data");
         return queryMenu;
     }
@@ -148,8 +148,7 @@ public class ApplicationDriver {
             case "8":
                 controller.presentAllEvents();
                 EventInfo completedEvent = chooseEvent();
-                String name = completedEvent.getName();
-                success = controller.completeEvent(name);
+                success = controller.completeEvent(completedEvent.getId());
                 if (success) {
                     System.out.println("Event completed");
                 } else {

@@ -87,8 +87,8 @@ public class EventController {
         return eventGetter.getEventByName(name);
     }
 
-    public boolean completeEvent(String eventName) {
-        return eventAdder.completeEvent(eventName);
+    public boolean markEventAsCompleted(long eventId) {
+        return eventAdder.completeEvent(eventId);
     }
 
     public List<HashMap<String, String>> getEvents() {

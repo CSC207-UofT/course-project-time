@@ -16,6 +16,11 @@ public class EventInfoFromReader implements EventInfo {
     }
 
     @Override
+    public long getId() {
+        return this.eventReader.getId();
+    }
+
+    @Override
     public String getName() {
         return eventReader.getName();
     }

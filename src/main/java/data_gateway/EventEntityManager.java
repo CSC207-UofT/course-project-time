@@ -77,9 +77,9 @@ public class EventEntityManager implements CalendarManager{
     }
 
     @Override
-    public boolean completeEvent(String eventName) {
+    public boolean markEventAsCompleted(long eventId) {
         for (Event event: eventList) {
-            if (event.getEventName().equals(eventName)) {
+            if (event.getId() == eventId) {
                 event.setCompleted(true);
                 return true;
             }

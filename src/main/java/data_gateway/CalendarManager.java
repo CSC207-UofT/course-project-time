@@ -10,7 +10,7 @@ public interface CalendarManager {
 
     boolean addEvent(CalendarEventModel eventData);
 
-    boolean completeEvent(String eventName);
+    boolean markEventAsCompleted(long eventId);
 
     List<EventReader> getAllEvents();
 
