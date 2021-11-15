@@ -63,6 +63,11 @@ public class EventEntityManager implements CalendarManager{
         }
     }
 
+    /**
+     * Add a new event to eventList using data from eventData
+     * @param eventData the information of an event
+     * @return true if the event is created and added to eventList successfully
+     */
     @Override
     public boolean addEvent(CalendarEventModel eventData) {
         String name = eventData.getName();
@@ -76,6 +81,10 @@ public class EventEntityManager implements CalendarManager{
         return eventList.contains(event);
     }
 
+    /**
+     * Return a list of eventReader
+     * @return a list of eventReader
+     */
     @Override
     public boolean markEventAsCompleted(long eventId) {
         for (Event event: eventList) {

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TaskInfoFromTaskReader implements TaskInfo {
 
-    private TaskReader taskReader;
+    private final TaskReader taskReader;
 
     public TaskInfoFromTaskReader(TaskReader taskReader) {
         this.taskReader = taskReader;

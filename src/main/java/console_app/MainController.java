@@ -45,7 +45,7 @@ public class MainController {
 
     public MainController(ApplicationDriver applicationDriver) {
 
-        snowflake = new Snowflake(0, 0, 0);
+        Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
@@ -63,7 +63,7 @@ public class MainController {
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, snowflake);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
