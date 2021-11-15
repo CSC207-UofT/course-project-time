@@ -1,6 +1,6 @@
-package main.java.services.event_from_task_creation;
+package services.event_from_task_creation;
 
-import main.java.services.task_presentation.TaskInfo;
+import services.task_presentation.TaskInfo;
 
 import java.time.LocalDateTime;
 

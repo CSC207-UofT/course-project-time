@@ -1,6 +1,6 @@
-package main.java.data_gateway;
+package data_gateway;
 
-import main.java.entity.PomodoroTimer;
+import entity.PomodoroTimer;
 
 public class PomodoroTimerManager {
     private PomodoroTimer pomodoroTimer;

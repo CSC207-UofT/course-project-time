@@ -1,6 +1,6 @@
-package main.java.services.task_creation;
+package services.task_creation;
 
-import main.java.data_gateway.TodoListManager;
+import data_gateway.TodoListManager;
 
 public class TaskAdder implements TodoListTaskCreationBoundary {
 

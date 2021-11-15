@@ -1,9 +1,9 @@
-package main.java.console_app.task_adapters;
+package console_app.task_adapters;
 
-import main.java.console_app.ApplicationDriver;
-import main.java.services.task_presentation.TaskInfo;
-import main.java.services.task_presentation.TodoListPresenter;
-import main.java.services.task_presentation.TodoListsInfo;
+import console_app.ApplicationDriver;
+import services.task_presentation.TaskInfo;
+import services.task_presentation.TodoListPresenter;
+import services.task_presentation.TodoListsInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

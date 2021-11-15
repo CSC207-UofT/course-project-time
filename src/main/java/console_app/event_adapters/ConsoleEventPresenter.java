@@ -1,8 +1,8 @@
-package main.java.console_app.event_adapters;
+package console_app.event_adapters;
 
-import main.java.console_app.ApplicationDriver;
-import main.java.services.event_presentation.CalendarEventPresenter;
-import main.java.services.event_presentation.EventInfo;
+import console_app.ApplicationDriver;
+import services.event_presentation.CalendarEventPresenter;
+import services.event_presentation.EventInfo;
 
 import java.util.ArrayList;
 import java.util.List;

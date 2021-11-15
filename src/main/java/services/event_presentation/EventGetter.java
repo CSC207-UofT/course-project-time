@@ -1,8 +1,8 @@
-package main.java.services.event_presentation;
+package services.event_presentation;
 
-import main.java.data_gateway.CalendarManager;
-import main.java.data_gateway.EventReader;
-import main.java.services.event_creation.EventInfoFromReader;
+import data_gateway.CalendarManager;
+import data_gateway.EventReader;
+import services.event_creation.EventInfoFromReader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

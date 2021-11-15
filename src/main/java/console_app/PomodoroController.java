@@ -1,9 +1,9 @@
-package main.java.console_app;
+package console_app;
 
-import main.java.services.pomodoro_running.CancelTimerInput;
-import main.java.data_gateway.PomodoroTimerManager;
-import main.java.services.pomodoro_running.PomodoroObserver;
-import main.java.services.pomodoro_running.PomodoroRunner;
+import services.pomodoro_running.CancelTimerInput;
+import data_gateway.PomodoroTimerManager;
+import services.pomodoro_running.PomodoroObserver;
+import services.pomodoro_running.PomodoroRunner;
 
 public class PomodoroController {
     private PomodoroRunner pomodoroRunner;

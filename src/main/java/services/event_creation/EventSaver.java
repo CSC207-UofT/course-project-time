@@ -1,6 +1,6 @@
-package main.java.services.event_creation;
+package services.event_creation;
 
-import main.java.data_gateway.CalendarManager;
+import data_gateway.CalendarManager;
 
 import java.io.IOException;
 

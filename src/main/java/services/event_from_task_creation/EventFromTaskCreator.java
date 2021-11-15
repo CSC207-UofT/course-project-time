@@ -1,10 +1,10 @@
-package main.java.services.event_from_task_creation;
+package services.event_from_task_creation;
 
-import main.java.console_app.event_adapters.CalendarEventData;
-import main.java.data_gateway.CalendarManager;
-import main.java.data_gateway.TaskReader;
-import main.java.data_gateway.TodoListManager;
-import main.java.services.event_creation.CalendarEventModel;
+import console_app.event_adapters.CalendarEventData;
+import data_gateway.CalendarManager;
+import data_gateway.TaskReader;
+import data_gateway.TodoListManager;
+import services.event_creation.CalendarEventModel;
 
 public class EventFromTaskCreator implements EventFromTaskCreatorBoundary {
 

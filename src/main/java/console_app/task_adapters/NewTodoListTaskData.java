@@ -1,6 +1,6 @@
-package main.java.console_app.task_adapters;
+package console_app.task_adapters;
 
-import main.java.services.task_creation.TodoListTaskCreationModel;
+import services.task_creation.TodoListTaskCreationModel;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

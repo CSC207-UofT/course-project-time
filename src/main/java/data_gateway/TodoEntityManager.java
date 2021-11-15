@@ -1,13 +1,13 @@
-package main.java.data_gateway;
+package data_gateway;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import main.java.entity.Task;
-import main.java.entity.TodoList;
-import main.java.services.Snowflake;
-import main.java.services.task_creation.TodoListTaskCreationModel;
+import entity.Task;
+import entity.TodoList;
+import services.Snowflake;
+import services.task_creation.TodoListTaskCreationModel;
 
 import java.io.*;
 import java.lang.reflect.Type;

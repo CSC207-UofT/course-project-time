@@ -1,4 +1,4 @@
-package main.java.services.event_creation;
+package services.event_creation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

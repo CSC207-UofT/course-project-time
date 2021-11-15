@@ -1,6 +1,6 @@
-package main.java.console_app.task_to_event_adapters;
+package console_app.task_to_event_adapters;
 
-import main.java.services.event_from_task_creation.EventFromTaskModel;
+import services.event_from_task_creation.EventFromTaskModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

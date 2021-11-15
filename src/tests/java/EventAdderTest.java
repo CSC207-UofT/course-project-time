@@ -1,14 +1,12 @@
-package tests;
-
-import main.java.console_app.event_adapters.CalendarEventData;
-import main.java.data_gateway.CalendarManager;
-import main.java.data_gateway.EventEntityManager;
-import main.java.data_gateway.EventReader;
-import main.java.data_gateway.EventToEventReader;
-import main.java.entity.Event;
-import main.java.services.Snowflake;
-import main.java.services.event_creation.CalendarEventModel;
-import main.java.services.event_creation.EventAdder;
+import console_app.event_adapters.CalendarEventData;
+import data_gateway.CalendarManager;
+import data_gateway.EventEntityManager;
+import data_gateway.EventReader;
+import data_gateway.EventToEventReader;
+import entity.Event;
+import services.Snowflake;
+import services.event_creation.CalendarEventModel;
+import services.event_creation.EventAdder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,6 +58,11 @@ public class EventAdderTest {
         @Override
         public boolean addEvent(CalendarEventModel eventData) {
             return eventList.add((CalendarEventData) eventData);
+        }
+
+        @Override
+        public boolean markEventAsCompleted(long eventId) {
+            return false;
         }
 
         public ArrayList<CalendarEventData> getEventList() {

@@ -1,7 +1,7 @@
-package main.java.console_app;
+package console_app;
 
-import main.java.services.event_presentation.EventInfo;
-import main.java.services.task_presentation.TaskInfo;
+import services.event_presentation.EventInfo;
+import services.task_presentation.TaskInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;
