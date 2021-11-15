@@ -153,7 +153,7 @@ Moreover, when functionalities are added or changed, the changes will likely be 
 Our program fulfills most parts of our specification (see `phase0\specification.md`).
 The specification seems to be sufficient for each of us to be actively involved in
 a feature of the program in each phase. In phase 2, we still have to implement the functionality
-to reschedule event, finalize the notification system, and set up the graphical user interface.
+to reschedule event, finalize the notification system, finalize pomodoro system, and set up the graphical user interface.
 
 Currently, our program is able to support these functionalities:
 Firstly, users can view all events and tasks, which are loaded into our program from json files.
