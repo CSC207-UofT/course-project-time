@@ -1,9 +1,7 @@
-package tests;
-
-import main.java.data_gateway.CalendarManager;
-import main.java.data_gateway.EventReader;
-import main.java.services.event_creation.CalendarEventModel;
-import main.java.services.event_creation.EventSaver;
+import data_gateway.CalendarManager;
+import data_gateway.EventReader;
+import services.event_creation.CalendarEventModel;
+import services.event_creation.EventSaver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +33,11 @@ public class EventSaverTest {
 
         @Override
         public boolean addEvent(CalendarEventModel eventData) {
+            return false;
+        }
+
+        @Override
+        public boolean markEventAsCompleted(long eventId) {
             return false;
         }
 
