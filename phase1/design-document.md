@@ -1,27 +1,31 @@
-## SOLID (not completed)
-
-How well does your design adhere to the SOLID design principles?
-Give us specific examples of how your design adheres to the SOLID principles.
-If you found that something in your design wasn't good, tell us about that too!
-Pretending part of your design is good — when you know it isn't — can potentially hurt your mark significantly!
-Acknowledging bad design can earn you marks and demonstrates understanding — especially if you discuss how you could fix it if you had more time!
-
+## SOLID
 
 ###  The Single-responsibility principle
 
-Classes are designed such that each only has one responsibility. For instance,
+Classes were designed such that each only has one responsibility. For instance,
 we have the functionalities to retrieve tasks and create new tasks. Even though both
 functionalities are manipulation of tasks, we separated them into two clases, `TaskGetter`
 and `TaskAdder` to be in charge of each functionality.
 
 ### The Open–closed principle
-
+Classes were written such that they are easy to extend.
 
 ### The Liskov substitution principle
-Our classes do not modify or remove behaviours from the interface they are implementing. An example of this is `EntityEventManager` which extends `CalendarManager`. `EntityEventManager` has all of the behaviours from `CalendarManager` and also extends it by adding the loadEvents and saveEvents methods.
+Our classes do not modify or remove behaviours from the interface they are 
+implementing. An example of this is `EntityEventManager` which extends 
+`CalendarManager`. `EntityEventManager` has all of the behaviours from 
+`CalendarManager` and also extends it by adding the loadEvents and saveEvents 
+methods.
 
 ### The Interface segregation principle
-The interfaces we created are quite small thereby allowing them to be fully used by the classes. For example `EventInfo` just has the methods to get the attributes relating to `Event` and nothing else. This makes our interfaces easy to understand and none of the concrete classes are forced to implement any unnecessary methods.
+The interfaces we created are quite small thereby allowing them to be fully 
+used by the classes. For example `EventInfo` just has the methods to get the 
+attributes relating to `Event` and nothing else. This makes our interfaces 
+easy to understand and none of the concrete classes are forced to implement 
+any unnecessary methods. Another example is the interfaces `TaskToEventAutoController` 
+and `TaskToEventManualController`. They both describe how a task is converted to an
+event, but in different ways. We separated them into two interfaces instead of one
+to adhere to the interface segregation principle.
 
 
 ### The Dependency inversion principle
@@ -114,22 +118,24 @@ or to indicate things to take note of when developing that feature.
 
 We ensured that code warnings are resolved and documented most of the methods, especially those that are 
 not clear on what they do at first glance. We have also documented some classes that we thought needed 
-some explanation of its responsibilities. The methods that are not documente were the methods we felt had sufficient explanation in their names, such as getters and setters.
+some explanation of its responsibilities. The methods that are not documented were the methods we felt had 
+sufficient explanation in their names, such as getters and setters.
 
-## Testing (not completed)
+## Testing
 
-Are most components of your system tested? Are there any components that would be difficult to test due to your design?
-We know time is tight in the project, so it is fine if you don't test everything if your group decides to focus on other aspects of the program, but we want to see evidence of testing.
-A significant portion of your code should be tested to earn full marks for this (run your tests with coverage to check).
+Due to time limitation, not all components are tested. However, most of the components
+are easy to test because we follow the clean architecture closely and ensured that
+classes are decoupled. Many of the classes rely on other classes through interfaces. 
+This makes our code easy to test as we can easily create a mock class that implements the
+interface that the class is using.
 
-## Refactoring (not completed)
+## Refactoring
 
 In pull request #36, we have refactored our code so that it follows clean architecture.
 
-Is there evidence that your team has refactored code in a meaningful way during the project?
-Point to specific Pull Requests!
-This could even be applying a design pattern to code you wrote in phase 0!
-Are there any obvious code smells still in your code that you missed fixing?
+However, we may have a code smell of an unproductive middle man which we plan to remove
+in phase 2. 
+
 
 ## Code Organization
 

@@ -40,6 +40,8 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
+    private final Snowflake snowflake;
+    private final PomodoroController pomodoroController;
 
     public MainController(ApplicationDriver applicationDriver) {
 
@@ -71,6 +73,7 @@ public class MainController {
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
+        pomodoroController = new PomodoroController();
     }
 
     /**
@@ -172,7 +175,33 @@ public class MainController {
     }
 
     /**
-     * Displays task information in a numbered list for user to select a task
+     * create the pomodoro timer and start it, also stops the timer when the user specifies
+     * @param workTime the time interval that the user specified they want to work for
+     * @param breakTime the time interval that the user specified they want to break for
+     */
+    public void createAndEndTimer(int workTime, int breakTime) {
+        pomodoroController.checkUserInput();
+        pomodoroController.setPomodoroRunner(workTime, breakTime);
+        boolean work = true;
+        boolean switchInterval = true;
+        while (switchInterval) {
+            switchInterval = pomodoroController.startTimer();
+            if (switchInterval) {
+               if (work) {
+                   System.out.println("Break time!");
+                   work = false;
+               }
+               else {
+                   System.out.println("Work time!");
+                   work = true;
+               }
+            }
+        }
+        pomodoroController.stopTimer();
+        System.out.println("Timer stopped");
+    }
+
+    /** Displays task information in a numbered list for user to select a task
      * for further actions.
      * @return a mapping of task's position in the presented list and id
      */
