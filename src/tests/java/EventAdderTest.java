@@ -1,16 +1,12 @@
 import console_app.event_adapters.CalendarEventData;
 import data_gateway.CalendarManager;
-import data_gateway.EventEntityManager;
 import data_gateway.EventReader;
-import data_gateway.EventToEventReader;
-import entity.Event;
 import services.Snowflake;
 import services.event_creation.CalendarEventModel;
 import services.event_creation.EventAdder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,11 +43,9 @@ public class EventAdderTest {
     }
 
     private class MockCalendarManager implements CalendarManager {
-        private final Snowflake snowflake;
         private final ArrayList<CalendarEventData> eventList;
 
         public MockCalendarManager(Snowflake snowflake) {
-            this.snowflake = snowflake;
             this.eventList = new ArrayList<>();
         }
 

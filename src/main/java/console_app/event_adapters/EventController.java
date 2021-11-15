@@ -1,7 +1,6 @@
 package console_app.event_adapters;
 
 
-import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.EventScheduler;

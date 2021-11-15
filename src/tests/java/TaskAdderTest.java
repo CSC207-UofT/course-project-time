@@ -8,7 +8,6 @@ import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,9 +54,8 @@ public class TaskAdderTest {
         private TodoListTaskCreationModel sentTask;
 
         @Override
-        public int addTask(TodoListTaskCreationModel taskData) {
+        public void addTask(TodoListTaskCreationModel taskData) {
             sentTask = taskData;
-            return 0;
         }
 
         @Override
@@ -76,8 +74,7 @@ public class TaskAdderTest {
         }
 
         @Override
-        public boolean completeTask(long taskId) {
-            return false;
+        public void completeTask(long taskId) {
         }
 
         @Override
