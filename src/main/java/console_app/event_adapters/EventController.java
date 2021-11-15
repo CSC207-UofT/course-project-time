@@ -6,6 +6,7 @@ import main.java.services.event_creation.CalendarEventCreationBoundary;
 import main.java.services.event_creation.EventSaver;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.EventGetter;
+import main.java.services.event_presentation.EventInfo;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -13,10 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-
 public class EventController {
 
     private final CalendarEventCreationBoundary eventAdder;
@@ -63,17 +61,17 @@ public class EventController {
      * @param startTime start time of event
      * @param endTime end time of event
      * @param tags relevant tags of event
-     * @param dates date of which this event occurs
+     * @param date date of which this event occurs
      * @return whether the event has been created successfully
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate dates) {
+                               HashSet<String> tags, LocalDate date) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), date)) {
             return eventAdder.addEvent(new CalendarEventData(eventName,
-                    LocalDateTime.of(dates, startTime),
-                    LocalDateTime.of(dates, endTime),
-                    tags, dates));
+                    LocalDateTime.of(date, startTime),
+                    LocalDateTime.of(date, endTime),
+                    tags));
         }
         return false;
     }
@@ -82,5 +80,11 @@ public class EventController {
         this.eventSaver.saveEventData(filename);
     }
 
+    public EventInfo getEventByName(String name) {
+        return eventGetter.getEventByName(name);
+    }
 
+    public boolean markEventAsCompleted(long eventId) {
+        return eventAdder.markEventAsCompleted(eventId);
+    }
 }

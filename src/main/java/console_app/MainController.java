@@ -18,6 +18,7 @@ import main.java.services.event_from_task_creation.EventFromTaskCreatorBoundary;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.CalendarEventPresenter;
 import main.java.services.event_presentation.EventGetter;
+import main.java.services.event_presentation.EventInfo;
 import main.java.services.task_creation.TaskAdder;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_creation.TaskSaver;
@@ -30,6 +31,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +100,14 @@ public class MainController {
     }
 
     /**
+     * Gets an Event by its name
+     * @param name name of Event
+     * @return EventInfo with given name
+     */
+    public EventInfo getEventByName(String name) {
+        return eventController.getEventByName(name);
+    }
+    /**
      * creates an event and adds it to the calendar
      * @param eventName name of the event to be created
      * @param startTime start time of the event
@@ -125,6 +135,24 @@ public class MainController {
      */
     public boolean createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
         return taskController.createTask(taskName, timeNeeded, deadline, subTasks);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param taskId the id of the completed Task
+     * @return true if Task has been set to completed
+     */
+    public boolean completeTask(long taskId) {
+        return taskController.completeTask(taskId);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Event
+     * @param eventId the id of the completed Event
+     * @return true if Event has been set to completed
+     */
+    public boolean completeEvent(long eventId) {
+        return eventController.markEventAsCompleted(eventId);
     }
 
     /**
@@ -179,5 +207,9 @@ public class MainController {
      */
     public Map<Integer, Long> presentAllTasksForUserSelection() {
         return taskController.presentAllTasksForUserSelection();
+    }
+
+    public List<HashMap<String, String>> getEvents() {
+        return eventController.getEvents();
     }
 }
