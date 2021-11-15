@@ -31,6 +31,7 @@ public class PomodoroController {
      * starts the thread to check if the user cancels the pomodoro timer
      */
     public synchronized void checkUserInput() {
+        cancelTimerInput.setCancel(false);
         Thread thread = new Thread(cancelTimerInput);
         thread.start();
     }

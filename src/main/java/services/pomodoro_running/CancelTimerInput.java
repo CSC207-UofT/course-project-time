@@ -24,4 +24,8 @@ public class CancelTimerInput implements Runnable {
     public boolean getCancel() {
         return this.cancel;
     }
+
+    public void setCancel(boolean cancel) {
+        this.cancel = cancel;
+    }
 }
