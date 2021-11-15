@@ -4,13 +4,13 @@ import main.java.services.task_creation.TaskSaver;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_presentation.TaskGetter;
 import main.java.services.task_presentation.TaskInfo;
-import main.java.services.task_presentation.TodoListsInfo;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TaskController {
     private final TaskGetter taskGetter;
@@ -24,11 +24,10 @@ public class TaskController {
     }
 
     /**
-     * @return a list of tasks organized in map format, with
-     * "name", "deadline", "subtasks", and "completed" as keys
+     * Displays all tasks.
      */
-    public TodoListsInfo getTasks() {
-        return taskGetter.getTasks();
+    public void presentAllTasks() {
+        taskGetter.presentAllTasks();
     }
 
     public boolean createTask(String taskName, Duration timeNeeded) {
@@ -42,12 +41,21 @@ public class TaskController {
     }
 
     /**
-     * Gets a Task by its name
-     * @param name name of Task
-     * @return TaskInfo with given name
+     * Gets a Task by its id
+     * @param id id of Task
+     * @return TaskInfo with given id
      */
-    public TaskInfo getTaskByName(String name) {
-        return taskGetter.getTaskByName(name);
+    public TaskInfo getTaskById(Long id) {
+        return taskGetter.getTaskById(id);
+    }
+
+    /**
+     * Displays task information in a numbered list for user to select a task
+     * for further actions.
+     * @return a mapping of task's position in the presented list and id
+     */
+    public Map<Integer, Long> presentAllTasksForUserSelection() {
+        return taskGetter.presentAllTasksForUserSelection();
     }
 
     public void saveTodoList(String filename) throws IOException {

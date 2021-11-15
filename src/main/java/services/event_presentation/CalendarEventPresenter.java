@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface CalendarEventPresenter {
 
-    void presentEvents(List<EventInfo> eventInfos);
+    void presentAllEvents(List<EventInfo> eventInfos);
 
 }
