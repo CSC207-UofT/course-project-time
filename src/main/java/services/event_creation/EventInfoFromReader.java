@@ -16,7 +16,7 @@ public class EventInfoFromReader implements EventInfo {
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return eventReader.getId();
     }
 

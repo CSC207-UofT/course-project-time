@@ -4,6 +4,7 @@ import main.java.services.event_creation.CalendarEventModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CalendarManager {
@@ -15,5 +16,7 @@ public interface CalendarManager {
     void loadEvents(String filePath) throws IOException;
 
     void saveEvents(String savePath) throws IOException;
+
+    boolean rescheduleEvent(Long eventId, LocalDateTime startTime, LocalDateTime endTime);
 
 }
