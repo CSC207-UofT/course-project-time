@@ -94,11 +94,10 @@ public class Snowflake {
                 (workerId << sequenceBits) | sequence;
     }
 
-    private long waitUntilNextMillisecond(long lastTimestampMilli) {
+    private void waitUntilNextMillisecond(long lastTimestampMilli) {
         long timestampMilli = getTimestampMilli();
         while (timestampMilli <= lastTimestampMilli) {
             timestampMilli = getTimestampMilli();
         }
-        return timestampMilli;
     }
 }

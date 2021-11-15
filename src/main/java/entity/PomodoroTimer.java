@@ -1,8 +1,8 @@
 package entity;
 
 public class PomodoroTimer {
-    private int workLength;
-    private int breakLength;
+    private final int workLength;
+    private final int breakLength;
     private boolean canceled;
     private boolean isWorking;
     private boolean switchNow;

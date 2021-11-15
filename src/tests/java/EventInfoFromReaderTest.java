@@ -61,11 +61,11 @@ public class EventInfoFromReaderTest {
     }
 
     private class MockEventReader implements EventReader {
-        private String name = "MockName";
-        private LocalTime startTime = LocalTime.of(12, 0);
-        private LocalTime endTime = LocalTime.of(14, 0);
-        private Set<String> tags = new HashSet<>();
-        private Set<LocalDate> dates = new HashSet<>();
+        private final String name = "MockName";
+        private final LocalTime startTime = LocalTime.of(12, 0);
+        private final LocalTime endTime = LocalTime.of(14, 0);
+        private final Set<String> tags = new HashSet<>();
+        private final Set<LocalDate> dates = new HashSet<>();
 
         public MockEventReader() {
             tags.add("CSC207");

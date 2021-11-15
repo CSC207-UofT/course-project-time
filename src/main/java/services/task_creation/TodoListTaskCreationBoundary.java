@@ -2,8 +2,8 @@ package services.task_creation;
 
 public interface TodoListTaskCreationBoundary {
 
-    int addTask(TodoListTaskCreationModel taskData);
+    void addTask(TodoListTaskCreationModel taskData);
 
-    boolean completeTask(long taskId);
+    void completeTask(long taskId);
 
 }

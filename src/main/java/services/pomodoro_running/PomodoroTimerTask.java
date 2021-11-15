@@ -6,8 +6,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PomodoroTimerTask extends TimerTask {
-    private Timer timer;
-    private PomodoroTimer pomodoroTimer;
+    private final Timer timer;
+    private final PomodoroTimer pomodoroTimer;
     private boolean switchNow;
 
     public PomodoroTimerTask(Timer timer, PomodoroTimer pomodoroTimer) {

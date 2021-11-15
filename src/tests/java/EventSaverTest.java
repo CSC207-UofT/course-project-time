@@ -47,12 +47,12 @@ public class EventSaverTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void loadEvents(String filePath) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void saveEvents(String savePath) {
             savedEvent = savePath;
         }
 

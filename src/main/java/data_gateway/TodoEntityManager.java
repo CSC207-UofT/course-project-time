@@ -25,7 +25,7 @@ public class TodoEntityManager implements TodoListManager{
     int todoCounter;
     private final Snowflake snowflake;
 
-    private Gson gson;
+    private final Gson gson;
 
     public TodoEntityManager(Snowflake snowflake){
         taskCounter = 0;

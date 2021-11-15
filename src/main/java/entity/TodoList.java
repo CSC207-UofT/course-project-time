@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TodoList{
-    private List<Task> completedList = new ArrayList<>();
-    private List<Task> uncompletedList = new ArrayList<>();
+    private final List<Task> completedList = new ArrayList<>();
+    private final List<Task> uncompletedList = new ArrayList<>();
 
 
     /**

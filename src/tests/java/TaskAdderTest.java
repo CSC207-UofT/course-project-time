@@ -81,12 +81,12 @@ public class TaskAdderTest {
         }
 
         @Override
-        public void loadTodo(String filepath) throws IOException {
+        public void loadTodo(String filepath) {
 
         }
 
         @Override
-        public void saveTodo(String filepath) throws IOException {
+        public void saveTodo(String filepath) {
 
         }
     }

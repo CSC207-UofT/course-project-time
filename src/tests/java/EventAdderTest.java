@@ -30,7 +30,7 @@ public class EventAdderTest {
         calendarEventData = new CalendarEventData("Work on project",
                 LocalDateTime.of(2021, 11, 15, 12, 0),
                 LocalDateTime.of(2021, 11, 15, 14, 0),
-                new HashSet<String>()
+                new HashSet<>()
         );
         manager = new MockCalendarManager(snowflake);
         eventAdder = new EventAdder(manager);
@@ -75,12 +75,12 @@ public class EventAdderTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void loadEvents(String filePath) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void saveEvents(String savePath) {
 
         }
     }

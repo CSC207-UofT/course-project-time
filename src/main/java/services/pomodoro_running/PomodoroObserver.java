@@ -3,7 +3,7 @@ package services.pomodoro_running;
 
 public class PomodoroObserver{
     private final PomodoroRunner pomodoroRunner;
-    private CancelTimerInput cancelTimerInput;
+    private final CancelTimerInput cancelTimerInput;
 
     public PomodoroObserver(PomodoroRunner pomodoroRunner, CancelTimerInput cancelTimerInput) {
         this.pomodoroRunner = pomodoroRunner;
