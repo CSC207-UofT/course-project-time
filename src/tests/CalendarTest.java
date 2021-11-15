@@ -34,10 +34,6 @@ class CalendarTest {
         calendar = new Calendar("New Calendar", eventlst);
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void getName() {
         assertEquals("New Calendar", calendar.getName());

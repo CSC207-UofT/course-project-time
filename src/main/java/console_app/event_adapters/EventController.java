@@ -38,8 +38,8 @@ public class EventController {
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
-    public List<HashMap<String, String>> getEvents() {
-        return eventGetter.getEvents();
+    public void presentAllEvents() {
+        eventGetter.presentAllEvents();
     }
 
     /**

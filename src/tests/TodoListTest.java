@@ -17,11 +17,6 @@ class TodoListTest {
         todoList = new TodoList();
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
-
     @Test
     void addTask() {
         todoList.addTask(task);

@@ -19,45 +19,42 @@ public class TaskGetter implements TodoListDisplayBoundary {
         this.taskPresenter = taskPresenter;
     }
 
-    public TodoListsInfo getTasks() {
-        Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
-        return new  TodoListInfoFromTaskReaders(taskReaders);
-    }
-
     /**
-     * @param task
-     * @return task data organized in map format, with
-     * "name", "deadline", "subtasks", and "completed" as keys
+     * Get task by id.
+     * @param id id of a task
+     * @return the corresponding task as a TaskInfo
      */
-    private HashMap<String, String> getTask(Task task) {
-        HashMap<String, String> task_data = new HashMap<>();
-        task_data.put("name", task.getTaskName());
-        if(task.getDeadline() != null) {
-            task_data.put("deadline", task.getDeadline().toString());
-        } else {
-            task_data.put("deadline", "NO DEADLINE");
-        }
-        task_data.put("subtasks", Arrays.toString(task.getSubTasks().toArray()));
-        task_data.put("completed", Boolean.toString(task.getCompleted()));
-
-        return task_data;
-    }
-
-    public TaskInfo getTaskByName(String name) {
+    public TaskInfo getTaskById(Long id) {
         Map<Long, List<TaskReader>> taskMap = todoListManager.getAllTasks();
         for (List<TaskReader> todoListTasks : taskMap.values())
             for (TaskReader tr : todoListTasks) {
-                if (tr.getName().equals(name)) {
+                if (((Long) tr.getId()).equals(id)) {
                     return new TaskInfoFromTaskReader(tr);
                 }
             }
         return null;
     }
 
+    /**
+     * Get tasks from the database through data gateway and
+     * pass the tasks as DTOs to the presenter to present all tasks.
+     */
     @Override
-    public void presentAllTodoLists() {
+    public void presentAllTasks() {
         Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
         TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
         taskPresenter.presentTasks(todoListInfo);
+    }
+
+    /**
+     * Get tasks from the database through data gateway and
+     * pass the tasks as DTOs to the presenter to present all tasks in an ordered list.
+     * @return a mapping of task's position in the presented list and id
+     */
+    @Override
+    public Map<Integer, Long> presentAllTasksForUserSelection() {
+        Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
+        TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
+        return taskPresenter.presentTasksForUserSelection(todoListInfo);
     }
 }

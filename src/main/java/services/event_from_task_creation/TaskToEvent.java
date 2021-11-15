@@ -3,6 +3,7 @@ package main.java.services.event_from_task_creation;
 import main.java.services.task_presentation.TaskInfo;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
@@ -16,7 +17,7 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
      */
     @Override
     public LocalDateTime getAvailableTime(TaskInfo taskInfo, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
-        return eventScheduler.getAvailableTime(unwantedTimes, taskInfo.getDuration());
+        return eventScheduler.getAvailableTime(unwantedTimes, taskInfo.getDuration()).truncatedTo(ChronoUnit.MINUTES);
     }
 
 
