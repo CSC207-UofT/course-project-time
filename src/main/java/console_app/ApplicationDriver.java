@@ -44,6 +44,7 @@ public class ApplicationDriver {
         queryMenu.put("7", "Mark a task as completed");
         queryMenu.put("8", "Mark an event as completed");
         queryMenu.put("9", "Save my Data");
+        queryMenu.put("10", "Pomodoro timer");
         return queryMenu;
     }
 
@@ -157,6 +158,11 @@ public class ApplicationDriver {
                 break;
             case "9":
                 controller.saveData();
+            case "10":
+                int[] intervals = inputPomodoroTime();
+                System.out.println("Timer started!");
+                System.out.println("Input \"c\" to end pomodoro timer");
+                controller.createAndEndTimer(intervals[0], intervals[1]);
 
             default:
                 break;
@@ -317,6 +323,46 @@ public class ApplicationDriver {
         String timeString = scanner.nextLine();
         return LocalDateTime.parse(timeString, formatter);
     }
+
+    /**
+     * Prompts users for their desired work and break intervals
+     * @return the time intervals the user inputted
+     */
+    private static int[] inputPomodoroTime() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input your desired work and break intervals in (work,break) (in minutes) (no spaces) " +
+                "or 0 for default intervals (25 mins work, 5 mins break): ");
+
+        //todo handle exceptions when user doesn't input in desired format
+        String intervals = scanner.nextLine();
+        if (isInt(intervals)) {
+            if (Integer.parseInt(intervals) == 0) {
+                return new int[] {25, 5};
+            }
+            else {
+                System.out.print("Interval not accepted, please retry.");
+                return inputPomodoroTime();
+            }
+        }
+        else {
+            String[] intervalsSplitString =  intervals.split(",");
+            int[] intervalsSplit = new int[2];
+            intervalsSplit[0] = Integer.parseInt(intervalsSplitString[0]);
+            intervalsSplit[1] = Integer.parseInt(intervalsSplitString[1]);
+            return intervalsSplit;
+        }
+    }
+
+    private static boolean isInt(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        }
+        catch(NumberFormatException numberFormatException) {
+            return false;
+        }
+    }
+
 
     public static void main(String[] args) {
         ApplicationDriver applicationDriver = new ApplicationDriver();
