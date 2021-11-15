@@ -12,14 +12,12 @@ public class CalendarEventData implements CalendarEventModel {
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
     private final HashSet<String> tags;
-    private final LocalDate dates;
 
-    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate dates) {
+    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags) {
         this.eventName = eventName;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
-        this.dates = dates;
     }
 
     @Override
@@ -44,6 +42,6 @@ public class CalendarEventData implements CalendarEventModel {
 
     @Override
     public LocalDate getDate() {
-        return dates;
+        return startTime.toLocalDate();
     }
 }

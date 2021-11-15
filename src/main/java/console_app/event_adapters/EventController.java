@@ -61,17 +61,17 @@ public class EventController {
      * @param startTime start time of event
      * @param endTime end time of event
      * @param tags relevant tags of event
-     * @param dates date of which this event occurs
+     * @param date date of which this event occurs
      * @return whether the event has been created successfully
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate dates) {
+                               HashSet<String> tags, LocalDate date) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), date)) {
             return eventAdder.addEvent(new CalendarEventData(eventName,
-                    LocalDateTime.of(dates, startTime),
-                    LocalDateTime.of(dates, endTime),
-                    tags, dates));
+                    LocalDateTime.of(date, startTime),
+                    LocalDateTime.of(date, endTime),
+                    tags));
         }
         return false;
     }
