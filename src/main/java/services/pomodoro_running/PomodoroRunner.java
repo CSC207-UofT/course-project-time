@@ -17,7 +17,7 @@ public class PomodoroRunner {
 
     /**
      * schedule the timer according to the lengths of time that the user has inputted
-     * @param isWorking whether or not the user is on a "work" interval or "break" interval
+     * @param isWorking whether the user is on a "work" interval or "break" interval
      */
     public void startTimer(boolean isWorking){
         this.pomodoroTimerTask = new PomodoroTimerTask(timer, pomodoroTimer);

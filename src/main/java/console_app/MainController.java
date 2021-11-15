@@ -150,11 +150,11 @@ public class MainController {
     }
 
     /**
-     * create the pomodoro timer and start it
+     * create the pomodoro timer and start it, also stops the timer when the user specifies
      * @param workTime the time interval that the user specified they want to work for
      * @param breakTime the time interval that the user specified they want to break for
      */
-    public void createTimer(int workTime, int breakTime) {
+    public void createAndEndTimer(int workTime, int breakTime) {
         pomodoroController.checkUserInput();
         pomodoroController.setPomodoroRunner(workTime, breakTime);
         boolean work = true;

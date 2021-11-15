@@ -15,6 +15,11 @@ public class PomodoroTimerTask extends TimerTask {
         this.pomodoroTimer = pomodoroTimer;
         this.switchNow = false;
     }
+
+    /**
+     * when the timer is over set switchNow to be equal to true to let the program know that it has to start a new timer
+     * with the opposite work/break interval
+     */
     @Override
     public void run() {
        pomodoroTimer.setWorking(!pomodoroTimer.getIsWorking());

@@ -142,7 +142,7 @@ public class ApplicationDriver {
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
                 System.out.println("Input \"c\" to end pomodoro timer");
-                controller.createTimer(intervals[0], intervals[1]);
+                controller.createAndEndTimer(intervals[0], intervals[1]);
 
             default:
                 break;
