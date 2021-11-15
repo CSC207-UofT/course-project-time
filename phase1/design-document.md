@@ -21,7 +21,7 @@ and `TaskAdder` to be in charge of each functionality.
 
 
 ### The Interface segregation principle
-
+The interfaces we created are quite small thereby allowing them to be fully used by the classes. For example 'EventInfo' just has the methods to get the attributes relating to 'Event' and nothing else. This makes our interfaces easy to understand and none of the concrete classes are forced to implement any unnecessary methods.
 
 
 ### The Dependency inversion principle
