@@ -257,6 +257,9 @@ public class ApplicationDriver {
         }
     }
 
+    /**
+     * print all events
+     */
     private static void printEvents() {
         List<HashMap<String, String>> allEventsData = controller.getEvents();
         if (allEventsData.size() == 0) {
