@@ -1,4 +1,4 @@
-package main.java.services.task_creation;
+package services.task_creation;
 
 public interface TodoListTaskCreationBoundary {
 

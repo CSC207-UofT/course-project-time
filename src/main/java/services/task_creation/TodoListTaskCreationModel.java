@@ -1,4 +1,4 @@
-package main.java.services.task_creation;
+package services.task_creation;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

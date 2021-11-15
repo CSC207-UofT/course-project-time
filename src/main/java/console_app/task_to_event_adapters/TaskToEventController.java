@@ -1,11 +1,11 @@
-package main.java.console_app.task_to_event_adapters;
+package console_app.task_to_event_adapters;
 
-import main.java.console_app.event_adapters.EventController;
-import main.java.services.event_from_task_creation.EventFromTaskCreatorBoundary;
-import main.java.services.event_from_task_creation.EventFromTaskModel;
-import main.java.services.event_from_task_creation.EventScheduler;
-import main.java.services.event_from_task_creation.TaskToEvent;
-import main.java.services.task_presentation.TaskInfo;
+import console_app.event_adapters.EventController;
+import services.event_from_task_creation.EventFromTaskCreatorBoundary;
+import services.event_from_task_creation.EventFromTaskModel;
+import services.event_from_task_creation.EventScheduler;
+import services.event_from_task_creation.TaskToEvent;
+import services.task_presentation.TaskInfo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

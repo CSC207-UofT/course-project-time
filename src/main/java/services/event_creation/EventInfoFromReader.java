@@ -1,7 +1,7 @@
-package main.java.services.event_creation;
+package services.event_creation;
 
-import main.java.data_gateway.EventReader;
-import main.java.services.event_presentation.EventInfo;
+import data_gateway.EventReader;
+import services.event_presentation.EventInfo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

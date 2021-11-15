@@ -1,12 +1,12 @@
-package main.java.data_gateway;
+package data_gateway;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import main.java.entity.Event;
-import main.java.services.Snowflake;
-import main.java.services.event_creation.CalendarEventModel;
+import entity.Event;
+import services.Snowflake;
+import services.event_creation.CalendarEventModel;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,9 +1,9 @@
-package main.java.data_gateway;
+package data_gateway;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import main.java.entity.Task;
+import entity.Task;
 
 import java.io.IOException;
 import java.time.Duration;

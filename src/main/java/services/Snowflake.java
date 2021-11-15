@@ -1,4 +1,4 @@
-package main.java.services;
+package services;
 
 /**
  * Revised from Twitter's snowflake algorithm for generating unique IDs

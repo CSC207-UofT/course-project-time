@@ -1,4 +1,4 @@
-package main.java.services.event_creation;
+package services.event_creation;
 
 public interface CalendarEventCreationBoundary {
 

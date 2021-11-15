@@ -1,4 +1,4 @@
-package main.java.data_gateway;
+package data_gateway;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
