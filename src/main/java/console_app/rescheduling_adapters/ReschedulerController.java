@@ -1,7 +1,10 @@
-package main.java.interface_adapters;
+package main.java.console_app.rescheduling_adapters;
 
-import main.java.entity_gateway.CalendarManager;
-import main.java.use_case.*;
+import main.java.data_gateway.CalendarManager;
+import main.java.services.event_from_task_creation.EventScheduler;
+import main.java.services.event_presentation.EventInfo;
+import main.java.services.rescheduling.Rescheduler;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
