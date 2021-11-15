@@ -292,8 +292,8 @@ public class ApplicationDriver {
      */
     private static int[] inputPomodoroTime() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Input your desired work and break intervals in (work, break) (minutes) or 0 for default " +
-                "intervals: ");
+        System.out.print("Input your desired work and break intervals in (work,break) (in minutes) (no spaces)" +
+                "or 0 for default intervals: ");
 
         //todo handle exceptions when user doesn't input in desired format
         String intervals = scanner.nextLine();

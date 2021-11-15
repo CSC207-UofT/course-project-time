@@ -1,7 +1,6 @@
 package main.java.services.pomodoro_running;
 
 import main.java.entity.PomodoroTimer;
-import main.java.services.pomodoro_running.PomodoroTimerTask;
 
 import java.util.Timer;
 

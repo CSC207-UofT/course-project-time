@@ -1,7 +1,5 @@
 package main.java.services.pomodoro_running;
 
-import main.java.entity.PomodoroTimer;
-
 import java.util.Objects;
 import java.util.Scanner;
 
