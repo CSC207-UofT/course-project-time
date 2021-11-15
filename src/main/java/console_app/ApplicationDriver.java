@@ -131,11 +131,24 @@ public class ApplicationDriver {
                 printTasks();
                 TaskInfo completedTask = chooseTask();
                 long taskId = completedTask.getId();
-                controller.completeTask(taskId);
+                success = controller.completeTask(taskId);
+                if (success) {
+                    System.out.println("Task completed");
+                } else {
+                System.out.println("Task failed to be set to completed");
+                }
                 break;
             case "8":
                 printEvents();
                 EventInfo completedEvent = chooseEvent();
+                String name = completedEvent.getName();
+                success = controller.completeEvent(name);
+                if (success) {
+                    System.out.println("Event completed");
+                } else {
+                    System.out.println("Event failed to be set to completed");
+                }
+                break;
             case "9":
                 controller.saveData();
 

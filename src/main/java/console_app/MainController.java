@@ -140,8 +140,22 @@ public class MainController {
         return taskController.createTask(taskName, timeNeeded, deadline, subTasks);
     }
 
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param taskId the id of the completed Task
+     * @return true if Task has been set to completed
+     */
     public boolean completeTask(long taskId) {
         return taskController.completeTask(taskId);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Event
+     * @param eventName the name of the completed Event
+     * @return true if Event has been set to completed
+     */
+    public boolean completeEvent(String eventName) {
+        return eventController.completeEvent(eventName);
     }
 
     /**

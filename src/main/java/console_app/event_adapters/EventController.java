@@ -87,5 +87,7 @@ public class EventController {
         return eventGetter.getEventByName(name);
     }
 
-
+    public boolean completeEvent(String eventName) {
+        return eventAdder.completeEvent(eventName);
+    }
 }
