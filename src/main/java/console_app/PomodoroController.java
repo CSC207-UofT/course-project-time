@@ -7,11 +7,11 @@ import main.java.services.pomodoro_running.PomodoroRunner;
 
 public class PomodoroController {
     private PomodoroRunner pomodoroRunner;
-    private PomodoroTimerManager pomodoroTimerManager = new PomodoroTimerManager();
+    private final PomodoroTimerManager pomodoroTimerManager = new PomodoroTimerManager();
     private boolean switched = false;
-    private CancelTimerInput cancelTimerInput = new CancelTimerInput();
+    private final CancelTimerInput cancelTimerInput = new CancelTimerInput();
 
-    public boolean startTimer() {
+    public boolean startTimer(){
         pomodoroRunner.startTimer(!switched);
         PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner, cancelTimerInput);
         switched = !switched;

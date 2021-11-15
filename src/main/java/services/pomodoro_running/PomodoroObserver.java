@@ -1,9 +1,8 @@
 package main.java.services.pomodoro_running;
 
-import java.util.Scanner;
 
 public class PomodoroObserver{
-    private PomodoroRunner pomodoroRunner;
+    private final PomodoroRunner pomodoroRunner;
     private CancelTimerInput cancelTimerInput;
 
     public PomodoroObserver(PomodoroRunner pomodoroRunner, CancelTimerInput cancelTimerInput) {
@@ -19,9 +18,14 @@ public class PomodoroObserver{
         PomodoroTimerTask pomodoroTimerTask = pomodoroRunner.getPomodoroTimerTask();
         boolean switchNow = false;
         boolean cancelTimer = false;
-        while(!switchNow /*&& !cancelTimer*/) {
+        while(!switchNow && !cancelTimer) {
             switchNow = pomodoroTimerTask.getSwitchNow();
-            //cancelTimer = cancelTimerInput.getCancel();
+            cancelTimer = cancelTimerInput.getCancel();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException interruptedException) {
+                Thread.currentThread().interrupt();
+            }
         }
         return switchNow;
     }
