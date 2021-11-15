@@ -36,7 +36,7 @@ class EventFromTaskCreatorBoundaryTest {
 
     @BeforeEach
     void setUp() {
-        eventFromTaskModel = new EventFromTaskId(123, LocalDateTime.of(2021, 11, 15, 12, 00));
+        eventFromTaskModel = new EventFromTaskId(123, LocalDateTime.of(2021, 11, 15, 12, 0));
         taskCreatorBoundary = new EventFromTaskCreator(todoListManager, calendarManager);
         snowflake = new Snowflake(1, 2, 3);
         calendarManager = new MockCalendarManager(snowflake);
@@ -52,7 +52,7 @@ class EventFromTaskCreatorBoundaryTest {
         assertTrue(taskCreatorBoundary.createEventFromTask(eventFromTaskModel));
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
         private final Snowflake snowflake;
         private final ArrayList<CalendarEventData> eventList;
 
@@ -86,7 +86,7 @@ class EventFromTaskCreatorBoundaryTest {
         }
     }
 
-    private class MockTodoListManager implements TodoListManager {
+    private static class MockTodoListManager implements TodoListManager {
 
         @Override
         public int addTask(TodoListTaskCreationModel taskData) {
