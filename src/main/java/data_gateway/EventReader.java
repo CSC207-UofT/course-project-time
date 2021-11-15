@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public interface EventReader {
-    Long getId();
+    long getId();
 
     String getName();
 

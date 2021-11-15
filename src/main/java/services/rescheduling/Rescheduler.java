@@ -1,6 +1,9 @@
-package main.java.use_case;
+package main.java.services.rescheduling;
 
-import main.java.entity_gateway.CalendarManager;
+import main.java.data_gateway.CalendarManager;
+import main.java.services.event_from_task_creation.EventScheduler;
+import main.java.services.event_presentation.EventInfo;
+
 
 import java.time.Duration;
 import java.time.LocalDateTime;

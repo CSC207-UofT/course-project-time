@@ -14,7 +14,7 @@ public class EventToEventReader implements EventReader{
     }
 
     @Override
-    public Long getId() {
+    public long getId() {
         return event.getId();
     }
 
