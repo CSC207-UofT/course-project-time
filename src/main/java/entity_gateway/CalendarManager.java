@@ -11,5 +11,5 @@ public interface CalendarManager {
 
     List<EventReader> getAllEvents();
 
-    boolean update(Long eventId, LocalDateTime startTime, LocalDateTime endTime);
+    boolean rescheduleEvent(Long eventId, LocalDateTime startTime, LocalDateTime endTime);
 }

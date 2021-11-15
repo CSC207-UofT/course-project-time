@@ -44,9 +44,9 @@ public class EventEntityManager implements CalendarManager{
         return eventReaderList;
     }
     @Override
-    public boolean update(Long eventId, LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean rescheduleEvent(Long eventId, LocalDateTime startTime, LocalDateTime endTime) {
         for(Event event: this.eventList){
-            if (event.getEventName().equals(eventId)){
+            if (event.getId() == eventId){
                 event.setStartTime(startTime.toLocalTime());
                 event.setEndTime(endTime.toLocalTime());
                 return true;
