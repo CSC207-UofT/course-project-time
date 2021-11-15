@@ -14,10 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-
 public class EventController {
 
     private final CalendarEventCreationBoundary eventAdder;
@@ -88,10 +85,6 @@ public class EventController {
     }
 
     public boolean markEventAsCompleted(long eventId) {
-        return eventAdder.completeEvent(eventId);
-    }
-
-    public List<HashMap<String, String>> getEvents() {
-        return eventGetter.getEvents();
+        return eventAdder.markEventAsCompleted(eventId);
     }
 }
