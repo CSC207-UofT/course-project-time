@@ -6,6 +6,7 @@ import main.java.services.event_creation.CalendarEventCreationBoundary;
 import main.java.services.event_creation.EventSaver;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.EventGetter;
+import main.java.services.event_presentation.EventInfo;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -13,24 +14,20 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 public class EventController {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final EventScheduler eventScheduler;
     private final EventGetter eventGetter;
-    private final Snowflake snowflake;
     private final EventSaver eventSaver;
 
     public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler,
-                           EventGetter eventGetter, EventSaver eventSaver, Snowflake snowflake) {
+                           EventGetter eventGetter, EventSaver eventSaver) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
-        this.snowflake = snowflake;
         this.eventSaver = eventSaver;
     }
 
@@ -38,8 +35,8 @@ public class EventController {
      * Returns a list containing mappings of event attributes
      * and their corresponding values
      */
-    public List<HashMap<String, String>> getEvents() {
-        return eventGetter.getEvents();
+    public void presentAllEvents() {
+        eventGetter.presentAllEvents();
     }
 
     /**
@@ -53,7 +50,7 @@ public class EventController {
     public boolean createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
         // todo use exceptions to ensure that duration won't last until the next day
         LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
-        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<String>(), startDateTime.toLocalDate());
+        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
     }
 
     /**
@@ -63,17 +60,17 @@ public class EventController {
      * @param startTime start time of event
      * @param endTime end time of event
      * @param tags relevant tags of event
-     * @param dates date of which this event occurs
+     * @param date date of which this event occurs
      * @return whether the event has been created successfully
      */
     public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate dates) {
+                               HashSet<String> tags, LocalDate date) {
 
-        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), dates)) {
+        if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), date)) {
             return eventAdder.addEvent(new CalendarEventData(eventName,
-                    LocalDateTime.of(dates, startTime),
-                    LocalDateTime.of(dates, endTime),
-                    tags, dates));
+                    LocalDateTime.of(date, startTime),
+                    LocalDateTime.of(date, endTime),
+                    tags));
         }
         return false;
     }
@@ -82,5 +79,15 @@ public class EventController {
         this.eventSaver.saveEventData(filename);
     }
 
+    public EventInfo getEventByName(String name) {
+        return eventGetter.getEventByName(name);
+    }
 
+    public boolean markEventAsCompleted(long eventId) {
+        return eventAdder.markEventAsCompleted(eventId);
+    }
+
+    public List<HashMap<String, String>> getEvents() {
+        return eventGetter.getEvents();
+    }
 }

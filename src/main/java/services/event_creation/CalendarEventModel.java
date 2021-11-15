@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 
 public interface CalendarEventModel {
-    public String getName();
-    public LocalDateTime getStartTime();
-    public LocalDateTime getEndTime();
-    public HashSet<String> getTags();
-    public LocalDate getDate();
+    String getName();
+    LocalDateTime getStartTime();
+    LocalDateTime getEndTime();
+    HashSet<String> getTags();
+    LocalDate getDate();
 
 }

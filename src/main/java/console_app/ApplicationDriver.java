@@ -1,7 +1,7 @@
 package main.java.console_app;
 
+import main.java.services.event_presentation.EventInfo;
 import main.java.services.task_presentation.TaskInfo;
-import main.java.services.task_presentation.TodoListsInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,9 +20,13 @@ import java.util.Scanner;
 
 public class ApplicationDriver {
 
-    private static final MainController controller = new MainController();
+    private final MainController controller;
 
     private static final Map<String, String> queryMenu = createdQueryMap();
+
+    public ApplicationDriver() {
+        this.controller = new MainController(this);
+    }
 
     /**
      * Creates a mapping of query and input by user
@@ -37,7 +41,10 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
-        queryMenu.put("7", "Save my Data");
+        queryMenu.put("7", "Mark a task as completed");
+        queryMenu.put("8", "Mark an event as completed");
+        queryMenu.put("9", "Save my Data");
+        queryMenu.put("10", "Pomodoro timer");
         return queryMenu;
     }
 
@@ -47,12 +54,12 @@ public class ApplicationDriver {
      */
     private static String getQueryInput() {
         System.out.print("Please enter your input: ");
-        Scanner command_input = new Scanner(System.in);
-        String input = command_input.nextLine();
+        Scanner commandInput = new Scanner(System.in);
+        String input = commandInput.nextLine();
 
         while(!queryMenu.containsKey(input)) {
             System.out.println("\" " + input +  " \" is not a valid input, try again.");
-            input = command_input.nextLine();
+            input = commandInput.nextLine();
         }
 
         return input;
@@ -63,27 +70,16 @@ public class ApplicationDriver {
      * @param input string that correspond to a key in queryMenu
      * @return whether to continue asking for inputs
      */
-    private static boolean handleQueryInput(String input) {
+    private boolean handleQueryInput(String input) {
         System.out.println("###############");
         switch (input) {
             case "0":
                 return false;
             case "1":
-                List<HashMap<String, String>> allEventsData = controller.getEvents();
-                if (allEventsData.size() == 0) {
-                    System.out.println("No events have been created");
-                }
-                for (HashMap<String, String> eventData : allEventsData) {
-                    String output = "Event: " + eventData.get("name") + ", "
-                                        + "start time = " + eventData.get("start") + ", "
-                                        + "end time = " + eventData.get("end") + ", "
-                                        + "tags = " + eventData.get("tags") + ", "
-                                        + "dates = " + eventData.get("dates");
-                    System.out.println(output);
-                }
+                controller.presentAllEvents();
                 break;
             case "2":
-                printTasks();
+                controller.presentAllTasks();
                 break;
             case "3":
                 boolean success = handleCreateTask();
@@ -102,42 +98,71 @@ public class ApplicationDriver {
                 }
                 break;
             case "5":
-                printTasks();
-                TaskInfo task = chooseTask();
-                success = controller.suggestTimeToUser(task);
-                if (success) {
-                    System.out.println("Event created from task");
-                } else {
-                    // todo use exceptions in the future to track reason of failure
-                    System.out.println("Failed to create event from task");
+                Map<Integer, Long> positionToIdMapping = controller.presentAllTasksForUserSelection();
+                if (positionToIdMapping.size() != 0) {
+                    TaskInfo taskInfo = chooseTask(positionToIdMapping);
+                    success = controller.suggestTimeToUser(taskInfo);
+                    if (success) {
+                        System.out.println("Event created from task");
+                    } else {
+                        // todo use exceptions in the future to track reason of failure
+                        System.out.println("Failed to create event from task");
+                    }
                 }
                 break;
             case "6":
-                printTasks();
-                TaskInfo taskManual = chooseTask();
-                LocalDateTime userSuggestedTime;
-                boolean timeAvailable;
+                positionToIdMapping = controller.presentAllTasksForUserSelection();
+                if (positionToIdMapping.size() != 0) {
+                    TaskInfo taskManual = chooseTask(positionToIdMapping);
+                    LocalDateTime userSuggestedTime;
+                    boolean timeAvailable;
 
-                do {
-                    userSuggestedTime = inputTime();
-                    timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
-                    if (!timeAvailable) {
-                        System.out.println("Time not available, please retry.");
+                    do {
+                        userSuggestedTime = inputTime();
+                        timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                        if (!timeAvailable) {
+                            System.out.println("Time not available, please retry.");
+                        }
+                    } while (!timeAvailable);
+
+                    success = controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
+                            userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+
+                    if (success) {
+                        System.out.println("Event created from task");
+                    } else {
+                        System.out.println("Failed to create event from task");
                     }
-                } while (!timeAvailable);
-
-                success = controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
-                        userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
-
-                if (success) {
-                    System.out.println("Event created from task");
-                } else {
-                    System.out.println("Failed to create event from task");
                 }
                 break;
-
             case "7":
+                positionToIdMapping = controller.presentAllTasksForUserSelection();
+                TaskInfo completedTask = chooseTask(positionToIdMapping);
+                long taskId = completedTask.getId();
+                success = controller.completeTask(taskId);
+                if (success) {
+                    System.out.println("Task completed");
+                } else {
+                System.out.println("Task failed to be set to completed");
+                }
+                break;
+            case "8":
+                controller.presentAllEvents();
+                EventInfo completedEvent = chooseEvent();
+                success = controller.completeEvent(completedEvent.getId());
+                if (success) {
+                    System.out.println("Event completed");
+                } else {
+                    System.out.println("Event failed to be set to completed");
+                }
+                break;
+            case "9":
                 controller.saveData();
+            case "10":
+                int[] intervals = inputPomodoroTime();
+                System.out.println("Timer started!");
+                System.out.println("Input \"c\" to end pomodoro timer");
+                controller.createAndEndTimer(intervals[0], intervals[1]);
 
             default:
                 break;
@@ -153,7 +178,7 @@ public class ApplicationDriver {
      * in the database
      * @return whether the event has been created
      */
-    private static boolean handleCreateEvent() {
+    private boolean handleCreateEvent() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter event name: ");
         String eventName = input.nextLine();
@@ -181,7 +206,7 @@ public class ApplicationDriver {
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
 
-        return controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
+        return this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
     }
 
     /**
@@ -190,7 +215,7 @@ public class ApplicationDriver {
      * in the database
      * @return whether the task has been created
      */
-    private static boolean handleCreateTask() {
+    private boolean handleCreateTask() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter task name: ");
         String taskName = input.nextLine();
@@ -217,55 +242,73 @@ public class ApplicationDriver {
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
 
-        return controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
+        return this.controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
     }
 
     /**
-     * Print all tasks
+     * Displays tasks on the console
+     * @param taskInfo the list of tasks' information to be displayed
      */
-    private static void printTasks() {
-        TodoListsInfo todoListsInfo = controller.getTasks();
-        List<TaskInfo> allTasksData = todoListsInfo.getAllTasks();
-        if (allTasksData.size() == 0) {
+    public void printTasks(List<String> taskInfo) {
+        if (taskInfo.size() == 0) {
             System.out.println("No tasks have been created");
         }
-        for (TaskInfo ti : allTasksData) {
-
-            String name = ti.getName();
-            String deadline = ti.getDeadline().toString();
-            String subtasks = ti.getSubtasks().toString();
-            boolean completed = ti.getCompleted();
-
-            String output = "Task: " + name + ", "
-                    + "deadline = " + deadline + ", "
-                    + "subtasks = " + subtasks + ", "
-                    + "completed = " + completed;
-            System.out.println(output);
+        for (String task : taskInfo) {
+            System.out.println(task);
         }
     }
 
+
     /**
-     * Prompts the user to choose a Task among the list of Tasks
-     * @return the chosen Task
+     * Displays events on the console
+     * @param eventInfo the list of events' information to be displayed
      */
-    private static TaskInfo chooseTask() {
-        TodoListsInfo todoListsInfo = controller.getTasks();
-        List<TaskInfo> taskInfos = todoListsInfo.getAllTasks();
-        List<String> taskNames = new ArrayList<>();
-        for (TaskInfo ti: taskInfos) {
-            taskNames.add(ti.getName());
+    public void printEvents(List<String> eventInfo) {
+        if (eventInfo.size() == 0) {
+            System.out.println("No events have been created");
+        }
+        for (String event : eventInfo) {
+            System.out.println(event);
         }
 
+    }
+
+    /**
+     * Prompts the user to choose an Event from the list of Events
+     * @return the chosen Event
+     */
+    private EventInfo chooseEvent() {
+        List<HashMap<String, String>> allEventsData = controller.getEvents();
+        List<String> eventNames = new ArrayList<>();
+        for (HashMap<String, String> event: allEventsData ) {
+            eventNames.add(event.get("name"));
+        }
+        Scanner scanner = new Scanner(System.in);
+        String chosen;
+        // todo in the future lift the assumption where names are unique
+        do {
+            System.out.print("Please choose an Event by typing its name (case-sensitive): ");
+            chosen = scanner.nextLine();
+        } while (!eventNames.contains(chosen));
+
+        return controller.getEventByName(chosen);
+    }
+
+    /**
+     * Prompts the user to choose a task among the list of tasks
+     * @param mapping   the mapping of position of task to id
+     * @return the chosen task with its information as a TaskInfo instance
+     */
+    private TaskInfo chooseTask(Map<Integer, Long> mapping) {
         Scanner scanner = new Scanner(System.in);
         String chosen;
 
-        // todo in the future lift the assumption where names are unique
         do {
-            System.out.print("Please choose a task by typing its name (case-sensitive): ");
+            System.out.print("Please choose a task (input the corresponding number): ");
             chosen = scanner.nextLine();
-        } while (!taskNames.contains(chosen));
+        } while (!(Integer.parseInt(chosen) <= mapping.size()));
 
-        return controller.getTaskByName(chosen);
+        return controller.getTaskById(mapping.get(Integer.parseInt(chosen)));
     }
 
     /**
@@ -276,12 +319,54 @@ public class ApplicationDriver {
         String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Input your desired time in (" + format + ") (24 hour time)");
+        System.out.print("Input your desired time in (" + format + ") (24 hour time): ");
         String timeString = scanner.nextLine();
         return LocalDateTime.parse(timeString, formatter);
     }
 
+    /**
+     * Prompts users for their desired work and break intervals
+     * @return the time intervals the user inputted
+     */
+    private static int[] inputPomodoroTime() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input your desired work and break intervals in (work,break) (in minutes) (no spaces) " +
+                "or 0 for default intervals (25 mins work, 5 mins break): ");
+
+        //todo handle exceptions when user doesn't input in desired format
+        String intervals = scanner.nextLine();
+        if (isInt(intervals)) {
+            if (Integer.parseInt(intervals) == 0) {
+                return new int[] {25, 5};
+            }
+            else {
+                System.out.print("Interval not accepted, please retry.");
+                return inputPomodoroTime();
+            }
+        }
+        else {
+            String[] intervalsSplitString =  intervals.split(",");
+            int[] intervalsSplit = new int[2];
+            intervalsSplit[0] = Integer.parseInt(intervalsSplitString[0]);
+            intervalsSplit[1] = Integer.parseInt(intervalsSplitString[1]);
+            return intervalsSplit;
+        }
+    }
+
+    private static boolean isInt(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        }
+        catch(NumberFormatException numberFormatException) {
+            return false;
+        }
+    }
+
+
     public static void main(String[] args) {
+        ApplicationDriver applicationDriver = new ApplicationDriver();
+
         boolean askForInput;
         do {
             System.out.println("\n###############");
@@ -290,7 +375,7 @@ public class ApplicationDriver {
             }
 
             String input = getQueryInput();
-            askForInput = handleQueryInput(input);
+            askForInput = applicationDriver.handleQueryInput(input);
             // if the above line returns true, then ask for input again
         } while (askForInput);
 

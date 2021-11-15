@@ -15,7 +15,7 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public long getId() {
-        return event.getId();
+        return this.event.getId();
     }
 
     @Override
@@ -41,5 +41,10 @@ public class EventToEventReader implements EventReader{
     @Override
     public Set<LocalDate> getDates() {
         return event.getDates();
+    }
+
+    @Override
+    public boolean getCompleted() {
+        return event.getCompleted();
     }
 }

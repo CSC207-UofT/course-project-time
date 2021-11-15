@@ -16,4 +16,6 @@ public interface EventInfo {
     Set<String> getTags();
 
     Set<LocalDate> getDates();
+
+    boolean getCompleted();
 }

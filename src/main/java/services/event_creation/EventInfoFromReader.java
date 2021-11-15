@@ -17,7 +17,7 @@ public class EventInfoFromReader implements EventInfo {
 
     @Override
     public long getId() {
-        return eventReader.getId();
+        return this.eventReader.getId();
     }
 
     @Override
@@ -43,5 +43,10 @@ public class EventInfoFromReader implements EventInfo {
     @Override
     public Set<LocalDate> getDates() {
         return eventReader.getDates();
+    }
+
+    @Override
+    public boolean getCompleted() {
+        return eventReader.getCompleted();
     }
 }
