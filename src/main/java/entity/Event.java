@@ -21,6 +21,7 @@ public class Event {
     private Set<String> tags;
     private Task task;
     private Set<LocalDate> dates;
+    private boolean completed;
 
     /**
      * Construct an event based on a task.
@@ -37,6 +38,7 @@ public class Event {
         this.tags = new HashSet<String>();
         this.dates = new HashSet<LocalDate>();
         this.dates.add(startTime.toLocalDate());
+        this.completed = task.getCompleted();
     }
 
     /**
@@ -54,6 +56,7 @@ public class Event {
         this.endTime = endTime;
         this.tags = new HashSet<>();
         this.dates = dates;
+        this.completed = task.getCompleted();
     }
 
     /**
@@ -76,6 +79,7 @@ public class Event {
         this.task = new Task(id, eventName, timeNeeded);
         this.dates = new HashSet<LocalDate>();
         this.dates.add(date);
+        this.completed = false;
     }
 
     public void setEventName(String newName) {
@@ -88,6 +92,10 @@ public class Event {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     public void addTag(String tag) {
@@ -147,4 +155,7 @@ public class Event {
         return this.dates;
     }
 
+    public boolean getCompleted() {
+        return this.completed;
+    }
 }

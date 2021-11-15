@@ -4,4 +4,6 @@ public interface TodoListTaskCreationBoundary {
 
     int addTask(TodoListTaskCreationModel taskData);
 
+    boolean completeTask(long taskId);
+
 }

@@ -16,6 +16,8 @@ public interface TodoListManager {
 
     Map<Long, List<TaskReader>> getAllTasks();
 
+    boolean completeTask(long taskId);
+
     void loadTodo(String filepath) throws IOException;
 
     void saveTodo(String filepath) throws IOException;

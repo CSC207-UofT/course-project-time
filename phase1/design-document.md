@@ -18,7 +18,7 @@ and `TaskAdder` to be in charge of each functionality.
 
 
 ### The Liskov substitution principle
-
+Our classes do not modify or remove behaviours from the interface they are implementing. An example of this is `EntityEventManager` which extends `CalendarManager`. `EntityEventManager` has all of the behaviours from `CalendarManager` and also extends it by adding the loadEvents and saveEvents methods.
 
 ### The Interface segregation principle
 The interfaces we created are quite small thereby allowing them to be fully used by the classes. For example `EventInfo` just has the methods to get the attributes relating to `Event` and nothing else. This makes our interfaces easy to understand and none of the concrete classes are forced to implement any unnecessary methods.
@@ -153,10 +153,10 @@ Moreover, when functionalities are added or changed, the changes will likely be 
 Our program fulfills most parts of our specification (see `phase0\specification.md`).
 The specification seems to be sufficient for each of us to be actively involved in
 a feature of the program in each phase. In phase 2, we still have to implement the functionality
-to reschedule event, finalize the notification system, finalize pomodoro system, and set up the graphical user interface.
+to reschedule event, finalize the notification system, finalize pomodoro system and set up the graphical user interface.
 
 Currently, our program is able to support these functionalities:
 Firstly, users can view all events and tasks, which are loaded into our program from json files.
 Users are also able to create new events and tasks. Next, we can automatically schedule tasks as events
-or let users manually input their desired time. Also, users can choose to save data, which
-is to persist all the changes made in the current session. The changes will then be saved into the json files.
+or let users manually input their desired time. After that, the users can choose to mark tasks or events as completed.
+Also, users can choose to save data, which is to persist all the changes made in the current session. The changes will then be saved into the json files. 

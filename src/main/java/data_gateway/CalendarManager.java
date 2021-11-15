@@ -9,6 +9,8 @@ public interface CalendarManager {
 
     boolean addEvent(CalendarEventModel eventData);
 
+    boolean markEventAsCompleted(long eventId);
+
     List<EventReader> getAllEvents();
 
     void loadEvents(String filePath) throws IOException;
