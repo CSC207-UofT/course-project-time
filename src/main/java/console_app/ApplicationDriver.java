@@ -1,5 +1,6 @@
 package main.java.console_app;
 
+import main.java.services.event_presentation.EventInfo;
 import main.java.services.task_presentation.TaskInfo;
 
 import java.time.Duration;
@@ -40,7 +41,9 @@ public class ApplicationDriver {
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
-        queryMenu.put("7", "Save my Data");
+        queryMenu.put("7", "Mark a task as completed");
+        queryMenu.put("8", "Mark an event as completed");
+        queryMenu.put("9", "Save my Data");
         return queryMenu;
     }
 
@@ -131,8 +134,28 @@ public class ApplicationDriver {
                     }
                 }
                 break;
-
             case "7":
+                positionToIdMapping = controller.presentAllTasksForUserSelection();
+                TaskInfo completedTask = chooseTask(positionToIdMapping);
+                long taskId = completedTask.getId();
+                success = controller.completeTask(taskId);
+                if (success) {
+                    System.out.println("Task completed");
+                } else {
+                System.out.println("Task failed to be set to completed");
+                }
+                break;
+            case "8":
+                controller.presentAllEvents();
+                EventInfo completedEvent = chooseEvent();
+                success = controller.completeEvent(completedEvent.getId());
+                if (success) {
+                    System.out.println("Event completed");
+                } else {
+                    System.out.println("Event failed to be set to completed");
+                }
+                break;
+            case "9":
                 controller.saveData();
 
             default:
@@ -229,6 +252,7 @@ public class ApplicationDriver {
         }
     }
 
+
     /**
      * Displays events on the console
      * @param eventInfo the list of events' information to be displayed
@@ -241,6 +265,27 @@ public class ApplicationDriver {
             System.out.println(event);
         }
 
+    }
+
+    /**
+     * Prompts the user to choose an Event from the list of Events
+     * @return the chosen Event
+     */
+    private EventInfo chooseEvent() {
+        List<HashMap<String, String>> allEventsData = controller.getEvents();
+        List<String> eventNames = new ArrayList<>();
+        for (HashMap<String, String> event: allEventsData ) {
+            eventNames.add(event.get("name"));
+        }
+        Scanner scanner = new Scanner(System.in);
+        String chosen;
+        // todo in the future lift the assumption where names are unique
+        do {
+            System.out.print("Please choose an Event by typing its name (case-sensitive): ");
+            chosen = scanner.nextLine();
+        } while (!eventNames.contains(chosen));
+
+        return controller.getEventByName(chosen);
     }
 
     /**

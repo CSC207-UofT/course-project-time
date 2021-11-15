@@ -29,12 +29,14 @@ public class ConsoleEventPresenter implements CalendarEventPresenter {
             String endTime = ei.getEndTime().toString();
             String tags = ei.getTags().toString();
             String dates = ei.getDates().toString();
+            boolean completed = ei.getCompleted();
 
             String output = "Event: " + name + ", "
                     + "start time = " + startTime + ", "
                     + "end time = " + endTime + ", "
                     + "tags = " + tags + ", "
-                    + "dates = " + dates;
+                    + "dates = " + dates + ", "
+                    + "completed = " + completed;
             eventFormattedInfo.add(output);
         }
         applicationDriver.printEvents(eventFormattedInfo);
