@@ -85,31 +85,6 @@ public class Task {
         this.subTasks = subTasks;
     }
 
-    /**
-     * Add a subtask to subTasks.
-     *
-     * @param subTask the task that will be added
-     */
-    public void addSubTask(String subTask) {
-        this.subTasks.add(subTask);
-    }
-
-    /**
-     * Remove a subtask from subTasks.
-     *
-     * @param subTask the task that will be removed
-     * @return true iff subTask is in subTask and is removed successfully
-     *
-     */
-    public boolean removeSubTask(String subTask) {
-        if (this.subTasks.contains(subTask)) {
-            this.subTasks.remove(subTask);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public long getId() {
         return id;
     }
