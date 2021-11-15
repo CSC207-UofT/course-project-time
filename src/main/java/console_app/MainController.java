@@ -18,6 +18,7 @@ import main.java.services.event_from_task_creation.EventFromTaskCreatorBoundary;
 import main.java.services.event_from_task_creation.EventScheduler;
 import main.java.services.event_presentation.CalendarEventPresenter;
 import main.java.services.event_presentation.EventGetter;
+import main.java.services.event_presentation.EventInfo;
 import main.java.services.task_creation.TaskAdder;
 import main.java.services.task_creation.TodoListTaskCreationBoundary;
 import main.java.services.task_creation.TaskSaver;
@@ -30,6 +31,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +41,11 @@ public class MainController {
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
     private final Snowflake snowflake;
+    private final PomodoroController pomodoroController;
 
     public MainController(ApplicationDriver applicationDriver) {
 
-        snowflake = new Snowflake(0, 0, 0);
+        Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
@@ -60,7 +63,7 @@ public class MainController {
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, snowflake);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
@@ -70,6 +73,7 @@ public class MainController {
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
+        pomodoroController = new PomodoroController();
     }
 
     /**
@@ -95,6 +99,14 @@ public class MainController {
         return taskController.getTaskById(id);
     }
 
+    /**
+     * Gets an Event by its name
+     * @param name name of Event
+     * @return EventInfo with given name
+     */
+    public EventInfo getEventByName(String name) {
+        return eventController.getEventByName(name);
+    }
     /**
      * creates an event and adds it to the calendar
      * @param eventName name of the event to be created
@@ -126,6 +138,24 @@ public class MainController {
     }
 
     /**
+     * sets completed attribute as true for the selected Task
+     * @param taskId the id of the completed Task
+     * @return true if Task has been set to completed
+     */
+    public boolean completeTask(long taskId) {
+        return taskController.completeTask(taskId);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Event
+     * @param eventId the id of the completed Event
+     * @return true if Event has been set to completed
+     */
+    public boolean completeEvent(long eventId) {
+        return eventController.markEventAsCompleted(eventId);
+    }
+
+    /**
      * Suggest a time to the user until the user is agrees with the time
      * @param task the task to be scheduled to event
      * @return whether the task is successfully scheduled to event
@@ -145,11 +175,41 @@ public class MainController {
     }
 
     /**
-     * Displays task information in a numbered list for user to select a task
+     * create the pomodoro timer and start it, also stops the timer when the user specifies
+     * @param workTime the time interval that the user specified they want to work for
+     * @param breakTime the time interval that the user specified they want to break for
+     */
+    public void createAndEndTimer(int workTime, int breakTime) {
+        pomodoroController.checkUserInput();
+        pomodoroController.setPomodoroRunner(workTime, breakTime);
+        boolean work = true;
+        boolean switchInterval = true;
+        while (switchInterval) {
+            switchInterval = pomodoroController.startTimer();
+            if (switchInterval) {
+               if (work) {
+                   System.out.println("Break time!");
+                   work = false;
+               }
+               else {
+                   System.out.println("Work time!");
+                   work = true;
+               }
+            }
+        }
+        pomodoroController.stopTimer();
+        System.out.println("Timer stopped");
+    }
+
+    /** Displays task information in a numbered list for user to select a task
      * for further actions.
      * @return a mapping of task's position in the presented list and id
      */
     public Map<Integer, Long> presentAllTasksForUserSelection() {
         return taskController.presentAllTasksForUserSelection();
+    }
+
+    public List<HashMap<String, String>> getEvents() {
+        return eventController.getEvents();
     }
 }

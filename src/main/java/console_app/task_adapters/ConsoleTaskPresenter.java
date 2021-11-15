@@ -73,7 +73,7 @@ public class ConsoleTaskPresenter implements TodoListPresenter {
                 deadline = "NO DEADLINE";
             }
 
-            String output = ((Integer) counter).toString() + ") "
+            String output = counter + ") "
                     + "Task: " + name + ", "
                     + "deadline = " + deadline;
 

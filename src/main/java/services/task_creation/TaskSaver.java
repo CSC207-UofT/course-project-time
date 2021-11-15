@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class TaskSaver {
 
-    private TodoListManager todoListManager;
+    private final TodoListManager todoListManager;
     public TaskSaver(TodoListManager todoListData)
     {
         todoListManager = todoListData;

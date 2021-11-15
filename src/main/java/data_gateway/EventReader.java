@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.util.Set;
 
 public interface EventReader {
+    long getId();
+
     String getName();
 
     LocalTime getStartTime();
@@ -14,4 +16,6 @@ public interface EventReader {
     Set<String> getTags();
 
     Set<LocalDate> getDates();
+
+    boolean getCompleted();
 }
