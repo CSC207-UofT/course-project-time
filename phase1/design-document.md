@@ -18,7 +18,7 @@ and `TaskAdder` to be in charge of each functionality.
 
 
 ### The Liskov substitution principle
-
+Our classes do not modify or remove behaviours from the interface they are implementing. An example of this is `EntityEventManager` which extends `CalendarManager`. `EntityEventManager` has all of the behaviours from `CalendarManager` and also extends it by adding the loadEvents and saveEvents methods.
 
 ### The Interface segregation principle
 The interfaces we created are quite small thereby allowing them to be fully used by the classes. For example `EventInfo` just has the methods to get the attributes relating to `Event` and nothing else. This makes our interfaces easy to understand and none of the concrete classes are forced to implement any unnecessary methods.
