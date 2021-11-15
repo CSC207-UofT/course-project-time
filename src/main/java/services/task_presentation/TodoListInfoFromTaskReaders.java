@@ -40,7 +40,7 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
         return map;
     }
 
-    private TaskReader getReader(int todoListId, int taskId) {
+    private TaskReader getReader(long todoListId, long taskId) {
         return taskMap.get(todoListId).get(taskId);
     }
 

@@ -20,15 +20,13 @@ public class EventController {
     private final CalendarEventCreationBoundary eventAdder;
     private final EventScheduler eventScheduler;
     private final EventGetter eventGetter;
-    private final Snowflake snowflake;
     private final EventSaver eventSaver;
 
     public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler,
-                           EventGetter eventGetter, EventSaver eventSaver, Snowflake snowflake) {
+                           EventGetter eventGetter, EventSaver eventSaver) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
-        this.snowflake = snowflake;
         this.eventSaver = eventSaver;
     }
 
@@ -51,7 +49,7 @@ public class EventController {
     public boolean createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
         // todo use exceptions to ensure that duration won't last until the next day
         LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
-        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<String>(), startDateTime.toLocalDate());
+        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
     }
 
     /**
