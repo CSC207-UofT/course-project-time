@@ -4,18 +4,26 @@
 
 Classes were designed such that each only has one responsibility. For instance,
 we have the functionalities to retrieve tasks and create new tasks. Even though both
-functionalities are manipulation of tasks, we separated them into two clases, `TaskGetter`
+functionalities are manipulation of tasks, we separated them into two classes, `TaskGetter`
 and `TaskAdder` to be in charge of each functionality.
 
 ### The Open–closed principle
-Classes were written such that they are easy to extend.
+Classes were written such that they are easy to extend. We have been avoiding extensive
+conditional control flow in lower layers in favor of classes. Although some classes
+are still concrete, interfaces are easily extractable which allows us to take advantage
+of polymorphism. The notification system we are working on currently has an undesired
+enum to denote the type of notification in the Notification entity. We hope to replace
+this enum with a polymorphic class (most likely implementing strategy pattern) so that
+new types can be added without undesired opening, especially since Notification is the
+lowest level entity.
 
 ### The Liskov substitution principle
 Our classes do not modify or remove behaviours from the interface they are 
 implementing. An example of this is `EntityEventManager` which extends 
 `CalendarManager`. `EntityEventManager` has all of the behaviours from 
 `CalendarManager` and also extends it by adding the loadEvents and saveEvents 
-methods.
+methods. We also avoided extending concrete classes as this structure tends to create
+method overriding that violates LSP.
 
 ### The Interface segregation principle
 The interfaces we created are quite small thereby allowing them to be fully 
@@ -43,7 +51,7 @@ of the presenter.
 ## Clean Architecture
 
 We organized our code according to the various layers as outlined in Clean Architecture, as can be seen in 
-[this](https://drive.google.com/file/d/1MepffESg7WIG2lEm6N33ytD_fawoBvkP/view?usp=sharing) UML diagram. 
+[this](https://drive.google.com/file/d/1MepffESg7WIG2lEm6N33ytD_fawoBvkP/view?usp=sharing) early design UML diagram. 
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers 
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
 
@@ -63,7 +71,7 @@ implements the interface `CalendarEventDisplayBoundary` and the concrete impleme
 
 __Violation of clean architecture__
 
-However, there may be one violation of clean architecture when interacting with the outer layer. 
+However, there may be a violation of clean architecture when interacting with the outer layer. 
 
 In `ApplicationDriver` of `console_app`, it can be seen that if the user chooses action 5 or 6 
 (to automatically or manually schedule a task as an event), the `MainController` will be called to present the list of 
@@ -131,7 +139,15 @@ interface that the class is using.
 
 ## Refactoring
 
-In pull request #36, we have refactored our code so that it follows clean architecture.
+In pull request #36, we have refactored our code so that it follows clean architecture. The primary
+objective of the PR was to introduce clear service layer interfaces to help decouple the application domain
+and the program that uses it. The introduction of more classes, however, pushed a large amount of class creation
+into the controllers, which in the future is intended to be further refactored into factories.
+
+Due to the usage of concrete classes over interfaces, dependency inversion (the lesser remember second part) was
+frequently violated, making it difficult to create test suites when dependent classes had to be initialized in its
+entirety. We are working on identifying and extracting interfaces from these concrete classes to invert these
+dependencies.
 
 However, we may have a code smell of an unproductive middle man which we plan to remove
 in phase 2. 
@@ -165,4 +181,4 @@ Currently, our program is able to support these functionalities:
 Firstly, users can view all events and tasks, which are loaded into our program from json files.
 Users are also able to create new events and tasks. Next, we can automatically schedule tasks as events
 or let users manually input their desired time. After that, the users can choose to mark tasks or events as completed.
-Also, users can choose to save data, which is to persist all the changes made in the current session. The changes will then be saved into the json files. 
+Also, users can choose to save data, which is to persist all the changes made in the current session. The changes will then be saved into the json files. The user can also choose to start a pomodoro timer with their desired work and break intervals.
