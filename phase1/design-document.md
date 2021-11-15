@@ -181,4 +181,4 @@ Currently, our program is able to support these functionalities:
 Firstly, users can view all events and tasks, which are loaded into our program from json files.
 Users are also able to create new events and tasks. Next, we can automatically schedule tasks as events
 or let users manually input their desired time. After that, the users can choose to mark tasks or events as completed.
-Also, users can choose to save data, which is to persist all the changes made in the current session. The changes will then be saved into the json files. 
+Also, users can choose to save data, which is to persist all the changes made in the current session. The changes will then be saved into the json files. The user can also choose to start a pomodoro timer with their desired work and break intervals.
