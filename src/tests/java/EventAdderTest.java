@@ -28,7 +28,7 @@ public class EventAdderTest {
                 LocalDateTime.of(2021, 11, 15, 14, 0),
                 new HashSet<>()
         );
-        manager = new MockCalendarManager(snowflake);
+        manager = new MockCalendarManager();
         eventAdder = new EventAdder(manager);
 
         eventAdder.addEvent(calendarEventData);
@@ -45,7 +45,7 @@ public class EventAdderTest {
     private class MockCalendarManager implements CalendarManager {
         private final ArrayList<CalendarEventData> eventList;
 
-        public MockCalendarManager(Snowflake snowflake) {
+        public MockCalendarManager() {
             this.eventList = new ArrayList<>();
         }
 
