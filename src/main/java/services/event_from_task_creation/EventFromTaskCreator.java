@@ -19,7 +19,7 @@ public class EventFromTaskCreator implements EventFromTaskCreatorBoundary {
     @Override
     public boolean createEventFromTask(EventFromTaskModel eventData) {
         TaskReader tr = todoListManager.getTask(0, eventData.getTaskId());
-        CalendarEventModel eventModel = new CalendarEventData(tr.getName(), eventData.getStartTime(), eventData.getStartTime().plus(tr.getDuration()), eventData.getTags(), eventData.getDates());
+        CalendarEventModel eventModel = new CalendarEventData(tr.getName(), eventData.getStartTime(), eventData.getStartTime().plus(tr.getDuration()), eventData.getTags());
         calendarManager.addEvent(eventModel);
         return true;
     }

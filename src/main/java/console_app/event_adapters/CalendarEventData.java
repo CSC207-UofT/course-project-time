@@ -13,7 +13,7 @@ public class CalendarEventData implements CalendarEventModel {
     private final LocalDateTime endTime;
     private final HashSet<String> tags;
 
-    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate dates) {
+    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags) {
         this.eventName = eventName;
         this.startTime = startTime;
         this.endTime = endTime;
