@@ -42,7 +42,7 @@ public class ApplicationDriver {
         queryMenu.put("5", "Auto schedule a task");
         queryMenu.put("6", "Manually schedule a task");
         queryMenu.put("7", "Complete task");
-        queryMenu.put("8", "Complete event");
+        queryMenu.put("8", "Mark event as completed");
         queryMenu.put("9", "Save my Data");
         return queryMenu;
     }

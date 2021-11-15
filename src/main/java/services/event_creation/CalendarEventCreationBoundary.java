@@ -4,5 +4,5 @@ public interface CalendarEventCreationBoundary {
 
     boolean addEvent(CalendarEventModel eventData);
 
-    boolean completeEvent(String eventName);
+    boolean markEventAsCompleted(String eventName);
 }
