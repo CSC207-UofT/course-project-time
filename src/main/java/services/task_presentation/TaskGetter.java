@@ -2,10 +2,7 @@ package main.java.services.task_presentation;
 
 import main.java.data_gateway.TaskReader;
 import main.java.data_gateway.TodoListManager;
-import main.java.entity.Task;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
