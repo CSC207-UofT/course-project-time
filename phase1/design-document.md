@@ -114,7 +114,7 @@ or to indicate things to take note of when developing that feature.
 
 We ensured that code warnings are resolved and documented most of the methods, especially those that are 
 not clear on what they do at first glance. We have also documented some classes that we thought needed 
-some explanation of its responsibilities. 
+some explanation of its responsibilities. The methods that are not documente were the methods we felt had sufficient explanation in their names, such as getters and setters.
 
 ## Testing (not completed)
 
