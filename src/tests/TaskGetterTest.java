@@ -2,11 +2,8 @@ package tests;
 
 import main.java.data_gateway.TaskReader;
 import main.java.data_gateway.TodoListManager;
-import main.java.services.task_presentation.TaskGetter;
-import main.java.services.task_presentation.TodoListDisplayBoundary;
-import main.java.services.task_presentation.TodoListPresenter;
+import main.java.services.task_presentation.*;
 import main.java.services.task_creation.TodoListTaskCreationModel;
-import main.java.services.task_presentation.TodoListsInfo;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -35,7 +32,7 @@ public class TaskGetterTest {
         todoListManager.addTask(taskData);
 
         TodoListDisplayBoundary taskGetter = new TaskGetter(todoListManager, todoListPresenter);
-        taskGetter.presentAllTodoLists();
+        taskGetter.presentAllTasks();
 
         TodoListsInfo addedInfo = buffer.get(0);
         assertEquals(addedInfo.getName(TODOLIST_ID, TASK_ID), taskData.getName());
@@ -140,6 +137,18 @@ public class TaskGetterTest {
         @Override
         public void presentTasks(TodoListsInfo todoListInfo) {
             presenterBuffer.add(todoListInfo);
+        }
+
+        @Override
+        public Map<Integer, Long> presentTasksForUserSelection(TodoListsInfo todoListInfo) {
+            presenterBuffer.add(todoListInfo);
+            Map<Integer, Long> mapping = new HashMap<>();
+            int counter = 1;
+            for (TaskInfo taskInfo : todoListInfo.getAllTasks()) {
+                mapping.put(counter, taskInfo.getId());
+                counter++;
+            }
+            return mapping;
         }
     }
 

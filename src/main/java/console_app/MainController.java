@@ -25,9 +25,7 @@ import main.java.services.task_creation.TaskSaver;
 import main.java.services.task_presentation.TaskGetter;
 import main.java.services.task_presentation.TaskInfo;
 import main.java.services.task_presentation.TodoListPresenter;
-import main.java.services.task_presentation.TodoListsInfo;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -36,6 +34,7 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class MainController {
     private final EventController eventController;
@@ -43,16 +42,14 @@ public class MainController {
     private final TaskToEventController taskToEventController;
     private final Snowflake snowflake;
 
-
-    public MainController() {
-
+    public MainController(ApplicationDriver applicationDriver) {
 
         snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
-        TodoEntityManager todoListManager = new TodoEntityManager(snowflake);
+        TodoListManager todoListManager = new TodoEntityManager(snowflake);
 
         try {
             calendarManager.loadEvents("EventData.json");
@@ -61,45 +58,43 @@ public class MainController {
             e.printStackTrace();
         }
 
-        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter();
+        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
 
         eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, snowflake);
 
-        TodoListPresenter taskPresenter = new ConsoleTaskPresenter();
+        TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         TaskSaver taskSaver = new TaskSaver(todoListManager);
-        taskController = new TaskController( taskGetter, taskAdder, taskSaver);
+        taskController = new TaskController(taskGetter, taskAdder, taskSaver);
 
         EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
         taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
     }
 
     /**
-     * Return a list of events data in the format of a map, with keys as
-     * "name", "start", and "end"
+     * Displays all events.
      */
-    public List<HashMap<String, String>> getEvents() {
-        return eventController.getEvents();
+    public void presentAllEvents() {
+        eventController.presentAllEvents();
     }
 
     /**
-     * Return a list of tasks data in the format of a map, with keys as
-     * "name"
+     * Displays all tasks.
      */
-    public TodoListsInfo getTasks() {
-        return taskController.getTasks();
+    public void presentAllTasks() {
+        taskController.presentAllTasks();
     }
 
     /**
-     * Gets a Task by its name
-     * @param name name of Task
-     * @return TaskInfo with given name
+     * Gets a Task by its id
+     * @param id id of a Task
+     * @return TaskInfo of the corresponding Task
      */
-    public TaskInfo getTaskByName(String name) {
-        return taskController.getTaskByName(name);
+    public TaskInfo getTaskById(Long id) {
+        return taskController.getTaskById(id);
     }
 
     /**
@@ -177,4 +172,16 @@ public class MainController {
         return taskToEventController.checkUserSuggestedTime(task, userSuggestedTime);
     }
 
+    /**
+     * Displays task information in a numbered list for user to select a task
+     * for further actions.
+     * @return a mapping of task's position in the presented list and id
+     */
+    public Map<Integer, Long> presentAllTasksForUserSelection() {
+        return taskController.presentAllTasksForUserSelection();
+    }
+
+    public List<HashMap<String, String>> getEvents() {
+        return eventController.getEvents();
+    }
 }

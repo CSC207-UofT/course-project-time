@@ -37,4 +37,9 @@ public class EventToEventReader implements EventReader{
     public Set<LocalDate> getDates() {
         return event.getDates();
     }
+
+    @Override
+    public boolean getCompleted() {
+        return event.getCompleted();
+    }
 }

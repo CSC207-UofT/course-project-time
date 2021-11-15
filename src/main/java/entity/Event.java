@@ -156,4 +156,7 @@ public class Event {
         return this.dates;
     }
 
+    public boolean getCompleted() {
+        return this.completed;
+    }
 }

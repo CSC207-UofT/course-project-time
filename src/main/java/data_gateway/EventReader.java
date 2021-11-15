@@ -14,4 +14,6 @@ public interface EventReader {
     Set<String> getTags();
 
     Set<LocalDate> getDates();
+
+    boolean getCompleted();
 }

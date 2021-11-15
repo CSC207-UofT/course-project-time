@@ -25,11 +25,6 @@ class TaskTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
-
     @Test
     void getTaskName() {
         assertEquals("CSC207 project", task.getTaskName());

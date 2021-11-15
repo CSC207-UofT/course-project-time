@@ -39,4 +39,9 @@ public class EventInfoFromReader implements EventInfo {
     public Set<LocalDate> getDates() {
         return eventReader.getDates();
     }
+
+    @Override
+    public boolean getCompleted() {
+        return eventReader.getCompleted();
+    }
 }
