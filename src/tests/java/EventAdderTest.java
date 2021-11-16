@@ -1,16 +1,11 @@
 import console_app.event_adapters.CalendarEventData;
 import data_gateway.CalendarManager;
-import data_gateway.EventEntityManager;
 import data_gateway.EventReader;
-import data_gateway.EventToEventReader;
-import entity.Event;
-import services.Snowflake;
 import services.event_creation.CalendarEventModel;
 import services.event_creation.EventAdder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,17 +17,15 @@ public class EventAdderTest {
     EventAdder eventAdder;
     MockCalendarManager manager;
     CalendarEventData calendarEventData;
-    Snowflake snowflake;
 
     @BeforeEach
     void setup() {
-        snowflake = new Snowflake(0, 0, 0);
         calendarEventData = new CalendarEventData("Work on project",
                 LocalDateTime.of(2021, 11, 15, 12, 0),
                 LocalDateTime.of(2021, 11, 15, 14, 0),
-                new HashSet<String>()
+                new HashSet<>()
         );
-        manager = new MockCalendarManager(snowflake);
+        manager = new MockCalendarManager();
         eventAdder = new EventAdder(manager);
 
         eventAdder.addEvent(calendarEventData);
@@ -46,23 +39,20 @@ public class EventAdderTest {
         assertEquals(eventData, manager.getEventList());
     }
 
-    private class MockCalendarManager implements CalendarManager {
-        private final Snowflake snowflake;
+    private static class MockCalendarManager implements CalendarManager {
         private final ArrayList<CalendarEventData> eventList;
 
-        public MockCalendarManager(Snowflake snowflake) {
-            this.snowflake = snowflake;
+        public MockCalendarManager() {
             this.eventList = new ArrayList<>();
         }
 
         @Override
-        public boolean addEvent(CalendarEventModel eventData) {
-            return eventList.add((CalendarEventData) eventData);
+        public void addEvent(CalendarEventModel eventData) {
+            eventList.add((CalendarEventData) eventData);
         }
 
         @Override
-        public boolean markEventAsCompleted(long eventId) {
-            return false;
+        public void markEventAsCompleted(long eventId) {
         }
 
         public ArrayList<CalendarEventData> getEventList() {
@@ -75,12 +65,12 @@ public class EventAdderTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void loadEvents(String filePath) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void saveEvents(String savePath) {
 
         }
     }

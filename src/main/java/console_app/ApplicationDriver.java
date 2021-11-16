@@ -82,32 +82,19 @@ public class ApplicationDriver {
                 controller.presentAllTasks();
                 break;
             case "3":
-                boolean success = handleCreateTask();
-                if (success) {
-                    System.out.println("Task created");
-                } else {
-                    System.out.println("Failed to create task");
-                }
+                handleCreateTask();
+                System.out.println("Task created");
                 break;
             case "4":
-                success = handleCreateEvent();
-                if (success) {
+                    handleCreateEvent();
                     System.out.println("Event created");
-                } else {
-                    System.out.println("Failed to create event");
-                }
                 break;
             case "5":
                 Map<Integer, Long> positionToIdMapping = controller.presentAllTasksForUserSelection();
                 if (positionToIdMapping.size() != 0) {
                     TaskInfo taskInfo = chooseTask(positionToIdMapping);
-                    success = controller.suggestTimeToUser(taskInfo);
-                    if (success) {
-                        System.out.println("Event created from task");
-                    } else {
-                        // todo use exceptions in the future to track reason of failure
-                        System.out.println("Failed to create event from task");
-                    }
+                    controller.suggestTimeToUser(taskInfo);
+                    System.out.println("Event created from task");
                 }
                 break;
             case "6":
@@ -125,44 +112,36 @@ public class ApplicationDriver {
                         }
                     } while (!timeAvailable);
 
-                    success = controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
+                    controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
                             userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+                    System.out.println("Event created from task");
 
-                    if (success) {
-                        System.out.println("Event created from task");
-                    } else {
-                        System.out.println("Failed to create event from task");
-                    }
                 }
                 break;
             case "7":
                 positionToIdMapping = controller.presentAllTasksForUserSelection();
                 TaskInfo completedTask = chooseTask(positionToIdMapping);
                 long taskId = completedTask.getId();
-                success = controller.completeTask(taskId);
-                if (success) {
-                    System.out.println("Task completed");
-                } else {
-                System.out.println("Task failed to be set to completed");
-                }
+                controller.completeTask(taskId);
+                System.out.println("Task completed");
                 break;
             case "8":
                 controller.presentAllEvents();
                 EventInfo completedEvent = chooseEvent();
-                success = controller.completeEvent(completedEvent.getId());
-                if (success) {
-                    System.out.println("Event completed");
-                } else {
-                    System.out.println("Event failed to be set to completed");
-                }
+                controller.completeEvent(completedEvent.getId());
+
+                System.out.println("Event completed");
+
                 break;
             case "9":
                 controller.saveData();
+                break;
             case "10":
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
                 System.out.println("Input \"c\" to end pomodoro timer");
                 controller.createAndEndTimer(intervals[0], intervals[1]);
+                break;
 
             default:
                 break;
@@ -176,9 +155,8 @@ public class ApplicationDriver {
      * prompts the user for inputs needed to create a new event
      * and passes the information to a controller to create the event
      * in the database
-     * @return whether the event has been created
      */
-    private boolean handleCreateEvent() {
+    private void handleCreateEvent() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter event name: ");
         String eventName = input.nextLine();
@@ -206,16 +184,15 @@ public class ApplicationDriver {
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
 
-        return this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
+        this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
     }
 
     /**
      * prompts the user for inputs needed to create a new task
      * and passes the information to a controller to create the task
      * in the database
-     * @return whether the task has been created
      */
-    private boolean handleCreateTask() {
+    private void handleCreateTask() {
         Scanner input = new Scanner(System.in);
         System.out.print("Enter task name: ");
         String taskName = input.nextLine();
@@ -242,7 +219,7 @@ public class ApplicationDriver {
         String[] subtaskArray = subtaskResponse.split(" ");
         ArrayList<String> taskSubtasks = new ArrayList<>(Arrays.asList(subtaskArray));
 
-        return this.controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
+        this.controller.createTask(taskName, taskDuration, taskDeadline, taskSubtasks);
     }
 
     /**

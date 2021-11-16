@@ -8,7 +8,6 @@ import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskAdderTest {
 
-    TodoListTaskCreationModel buildRequestModel(int todoListId) {
+    TodoListTaskCreationModel buildRequestModel() {
         String taskName = "Test task";
         Duration timeNeeded = Duration.ofMinutes(30);
         LocalDateTime deadline = LocalDateTime.of(2021, 10, 24, 11, 28);
         List<String> subtasks = new ArrayList<>();
 
-        return new NewTodoListTaskData(todoListId, taskName, timeNeeded, deadline, subtasks);
+        return new NewTodoListTaskData(taskName, timeNeeded, deadline, subtasks);
 
     }
 
@@ -35,13 +34,11 @@ public class TaskAdderTest {
         TodoListManager todoListManager = new MockTodoListManager();
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
 
-        int newTodoListId = todoListManager.createTodoList();
-        TodoListTaskCreationModel newTaskData = buildRequestModel(newTodoListId);
+        TodoListTaskCreationModel newTaskData = buildRequestModel();
         taskAdder.addTask(newTaskData);
 
-        long todoListId = newTaskData.getTodoListId();
         long taskId = 0;
-        TaskReader sentTask = todoListManager.getTask(todoListId, taskId);
+        TaskReader sentTask = todoListManager.getTask(taskId);
 
         assertEquals(sentTask.getName(), newTaskData.getName());
         assertEquals(sentTask.getDuration(), newTaskData.getDuration());
@@ -55,18 +52,13 @@ public class TaskAdderTest {
         private TodoListTaskCreationModel sentTask;
 
         @Override
-        public int addTask(TodoListTaskCreationModel taskData) {
+        public void addTask(TodoListTaskCreationModel taskData) {
             sentTask = taskData;
-            return 0;
         }
 
-        @Override
-        public int createTodoList() {
-            return 0;
-        }
 
         @Override
-        public TaskReader getTask(long todoListId, long taskId) {
+        public TaskReader getTask(long taskId) {
             return new MockTaskReader(sentTask);
         }
 
@@ -76,17 +68,16 @@ public class TaskAdderTest {
         }
 
         @Override
-        public boolean completeTask(long taskId) {
-            return false;
+        public void completeTask(long taskId) {
         }
 
         @Override
-        public void loadTodo(String filepath) throws IOException {
+        public void loadTodo(String filepath) {
 
         }
 
         @Override
-        public void saveTodo(String filepath) throws IOException {
+        public void saveTodo(String filepath) {
 
         }
     }

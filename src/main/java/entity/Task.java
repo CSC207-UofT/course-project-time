@@ -18,7 +18,7 @@ public class Task {
     private boolean completed;
     private Duration timeNeeded;
     private LocalDateTime deadline;
-    private List<String> subTasks;
+    private final List<String> subTasks;
 
     public static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
@@ -79,35 +79,6 @@ public class Task {
 
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
-    }
-
-    public void setSubTasks(List<String> subTasks) {
-        this.subTasks = subTasks;
-    }
-
-    /**
-     * Add a subtask to subTasks.
-     *
-     * @param subTask the task that will be added
-     */
-    public void addSubTask(String subTask) {
-        this.subTasks.add(subTask);
-    }
-
-    /**
-     * Remove a subtask from subTasks.
-     *
-     * @param subTask the task that will be removed
-     * @return true iff subTask is in subTask and is removed successfully
-     *
-     */
-    public boolean removeSubTask(String subTask) {
-        if (this.subTasks.contains(subTask)) {
-            this.subTasks.remove(subTask);
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public long getId() {

@@ -8,15 +8,13 @@ import java.util.Map;
 
 public interface TodoListManager {
 
-    int addTask(TodoListTaskCreationModel taskData);
+    void addTask(TodoListTaskCreationModel taskData);
 
-    int createTodoList();
-
-    TaskReader getTask(long todoListId, long taskId);
+    TaskReader getTask(long taskId);
 
     Map<Long, List<TaskReader>> getAllTasks();
 
-    boolean completeTask(long taskId);
+    void completeTask(long taskId);
 
     void loadTodo(String filepath) throws IOException;
 

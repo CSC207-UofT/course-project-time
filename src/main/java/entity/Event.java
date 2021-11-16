@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,12 +14,12 @@ import java.util.Set;
  */
 public class Event {
 
-    private long id;
+    private final long id;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Set<String> tags;
-    private Task task;
-    private Set<LocalDate> dates;
+    private final Set<String> tags;
+    private final Task task;
+    private final Set<LocalDate> dates;
     private boolean completed;
 
     /**
@@ -35,8 +34,8 @@ public class Event {
         this.task = task;
         this.startTime = startTime.toLocalTime();
         this.endTime = endTime;
-        this.tags = new HashSet<String>();
-        this.dates = new HashSet<LocalDate>();
+        this.tags = new HashSet<>();
+        this.dates = new HashSet<>();
         this.dates.add(startTime.toLocalDate());
         this.completed = task.getCompleted();
     }
@@ -77,7 +76,7 @@ public class Event {
         this.tags = tags;
         Duration timeNeeded = Duration.between(startTime, endTime);
         this.task = new Task(id, eventName, timeNeeded);
-        this.dates = new HashSet<LocalDate>();
+        this.dates = new HashSet<>();
         this.dates.add(date);
         this.completed = false;
     }
@@ -100,31 +99,6 @@ public class Event {
 
     public void addTag(String tag) {
         this.tags.add(tag);
-    }
-
-    public boolean removeTag(String tag) {
-        if (this.tags.contains(tag)) {
-            this.tags.remove(tag);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Add a repeated date to dates
-     * @param date the repeated date
-     */
-    public void addRepeatedDate(LocalDate date) {
-        this.dates.add(date);
-    }
-
-    /**
-     * Add a list of repeated dates to dates
-     * @param dates list of repeated dates
-     */
-    public void addRepeatedDates(List<LocalDate> dates) {
-        this.dates.addAll(dates);
     }
 
     public long getId() {

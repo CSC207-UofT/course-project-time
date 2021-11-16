@@ -36,9 +36,8 @@ public class PomodoroController {
         thread.start();
     }
 
-    public boolean stopTimer() {
+    public void stopTimer() {
         pomodoroRunner.stopTimer();
-        return pomodoroTimerManager.stopPomodoroTimer();
     }
 
     public void setPomodoroRunner(int workTime, int breakTime) {

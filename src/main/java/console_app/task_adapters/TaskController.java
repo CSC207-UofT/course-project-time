@@ -8,7 +8,6 @@ import services.task_presentation.TaskInfo;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,19 +29,13 @@ public class TaskController {
         taskGetter.presentAllTasks();
     }
 
-    public boolean createTask(String taskName, Duration timeNeeded) {
-        return this.createTask(taskName, timeNeeded, null, new ArrayList<>());
-    }
-
-    public boolean createTask(String taskName, Duration timeNeeded,
+    public void createTask(String taskName, Duration timeNeeded,
                               LocalDateTime deadline, List<String> subTasks) {
-        taskAdder.addTask(new NewTodoListTaskData(0, taskName, timeNeeded, deadline, subTasks));
-        return true; // TODO: return value should indicate success of data creation
+        taskAdder.addTask(new NewTodoListTaskData(taskName, timeNeeded, deadline, subTasks));
     }
 
-    public boolean completeTask(long taskId) {
+    public void completeTask(long taskId) {
         taskAdder.completeTask(taskId);
-        return true;
     }
 
     /**

@@ -10,7 +10,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class EventScheduler {
 //    private TaskToEventAuto converter;
@@ -33,19 +32,6 @@ public class EventScheduler {
         LocalDateTime targetTime = LocalDateTime.of(date, startTime);
         return this.checkAvailability(targetTime, timeNeeded);
             // the event has conflict with the calendar
-    }
-
-    public boolean isAvailableRepeated(LocalTime startTime, Duration timeNeeded, Set<LocalDate> dates){
-        // check whether the event has conflict with the calendar
-        for (LocalDate date : dates) {
-            LocalDateTime targetTime = LocalDateTime.of(date, startTime);
-            if (!this.checkAvailability(targetTime, timeNeeded)) {
-                // the event has conflict with the calendar
-                return false;
-            }
-        }
-
-        return true;
     }
 
     /**

@@ -40,14 +40,6 @@ public class Snowflake {
         this.sequence = sequence;
     }
 
-    public long getWorkerId() {
-        return workerId;
-    }
-
-    public long getDatacenterId() {
-        return datacenterId;
-    }
-
     public long getTimestampMilli() {
         return System.currentTimeMillis();
     }
@@ -77,7 +69,7 @@ public class Snowflake {
             // if <sequence> has been looped to 0 after too many increments, wail until the next millisecond
             // because not waiting results in the generation of non-unique ids
             if (sequence == 0) {
-                waitUntilNextMillisecond(lastTimestampMilli);
+                timestampMilli = waitUntilNextMillisecond(lastTimestampMilli);
             }
         } else {
             sequence = 0;

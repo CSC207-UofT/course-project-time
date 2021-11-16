@@ -13,8 +13,6 @@ import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
-import services.event_from_task_creation.EventFromTaskCreator;
-import services.event_from_task_creation.EventFromTaskCreatorBoundary;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
@@ -70,8 +68,7 @@ public class MainController {
         TaskSaver taskSaver = new TaskSaver(todoListManager);
         taskController = new TaskController(taskGetter, taskAdder, taskSaver);
 
-        EventFromTaskCreatorBoundary eventFromTaskCreator = new EventFromTaskCreator(todoListManager, calendarManager);
-        taskToEventController = new TaskToEventController(eventController, eventFromTaskCreator, eventScheduler);
+        taskToEventController = new TaskToEventController(eventController, eventScheduler);
         pomodoroController = new PomodoroController();
     }
 
@@ -113,11 +110,10 @@ public class MainController {
      * @param endTime   end time of the event
      * @param tags      a set of tags associated with the event
      * @param date      the date that the event would occur
-     * @return whether the event is created
      */
-    public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate date) {
-        return eventController.createEvent(eventName, startTime, endTime, tags, date);
+    public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
+                            HashSet<String> tags, LocalDate date) {
+        eventController.createEvent(eventName, startTime, endTime, tags, date);
     }
 
     public void saveData()
@@ -132,35 +128,32 @@ public class MainController {
     /**
      * creates a task and adds it to the todolist
      */
-    public boolean createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
-        return taskController.createTask(taskName, timeNeeded, deadline, subTasks);
+    public void createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
+         taskController.createTask(taskName, timeNeeded, deadline, subTasks);
     }
 
     /**
      * sets completed attribute as true for the selected Task
      * @param taskId the id of the completed Task
-     * @return true if Task has been set to completed
      */
-    public boolean completeTask(long taskId) {
-        return taskController.completeTask(taskId);
+    public void completeTask(long taskId) {
+        taskController.completeTask(taskId);
     }
 
     /**
      * sets completed attribute as true for the selected Event
      * @param eventId the id of the completed Event
-     * @return true if Event has been set to completed
      */
-    public boolean completeEvent(long eventId) {
-        return eventController.markEventAsCompleted(eventId);
+    public void completeEvent(long eventId) {
+        eventController.markEventAsCompleted(eventId);
     }
 
     /**
      * Suggest a time to the user until the user is agrees with the time
      * @param task the task to be scheduled to event
-     * @return whether the task is successfully scheduled to event
      */
-    public boolean suggestTimeToUser(TaskInfo task) {
-        return taskToEventController.suggestTimeToUser(task);
+    public void suggestTimeToUser(TaskInfo task) {
+        taskToEventController.suggestTimeToUser(task);
     }
 
     /**

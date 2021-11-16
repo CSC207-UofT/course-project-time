@@ -2,7 +2,6 @@
 
 import entity.Event;
 import entity.Task;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,10 +23,6 @@ class EventTest {
         task = new Task(0, "Math Homework");
         event = new Event(0, task, startDate, endTime);
 
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test

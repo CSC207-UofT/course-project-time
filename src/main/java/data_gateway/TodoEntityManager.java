@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import entity.Task;
-import entity.TodoList;
 import services.Snowflake;
 import services.task_creation.TodoListTaskCreationModel;
 
@@ -20,16 +19,13 @@ import java.util.Map;
 
 public class TodoEntityManager implements TodoListManager{
     private final List<Task> taskArrayList= new ArrayList<>();
-    TodoList todoList;
     int taskCounter;
-    int todoCounter;
     private final Snowflake snowflake;
 
-    private Gson gson;
+    private final Gson gson;
 
     public TodoEntityManager(Snowflake snowflake){
         taskCounter = 0;
-        todoCounter = 0;
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
@@ -37,7 +33,7 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public int addTask(TodoListTaskCreationModel taskData) {
+    public void addTask(TodoListTaskCreationModel taskData) {
         String name = taskData.getName();
         Duration duration = taskData.getDuration();
         LocalDateTime deadline = taskData.getDeadline();
@@ -47,18 +43,10 @@ public class TodoEntityManager implements TodoListManager{
         Task task = new Task(snowflake.nextId(), name, duration, deadline, subtasks);
 
         taskArrayList.add(task);
-        return taskCounter;
     }
 
     @Override
-    public int createTodoList() {
-        todoList = new TodoList();
-        todoCounter++;
-        return todoCounter;
-    }
-
-    @Override
-    public TaskReader getTask(long todoListId, long taskId){
+    public TaskReader getTask(long taskId){
         for (Task t : taskArrayList)
             if (t.getId() == taskId)
                 return new TaskToTaskReader(t);
@@ -77,11 +65,10 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public boolean completeTask(long taskId) {
+    public void completeTask(long taskId) {
         for (Task t : taskArrayList)
             if (t.getId() == taskId)
                 t.setCompleted(true);
-        return true;
     }
 
     /**

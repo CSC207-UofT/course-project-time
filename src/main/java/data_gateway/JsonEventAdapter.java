@@ -97,7 +97,7 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
         jsonReader.endObject();
 
         int MIN_EVENT_ATTRIBUTES = 3;
-        if (read_so_far == MIN_EVENT_ATTRIBUTES) {
+        if (read_so_far == MIN_EVENT_ATTRIBUTES && task != null) {
             Event event = new Event(id, task, startTime, endTime, dates);
             for (String tag : tags) {
                 event.addTag(tag);
