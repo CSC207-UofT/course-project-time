@@ -25,9 +25,8 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
     /**
      * Suggest a time to the user until the user agrees with the time
      * @param task the task to be scheduled to event
-     * @return whether the task is successfully scheduled to event
      */
-    public boolean suggestTimeToUser(TaskInfo task) {
+    public void suggestTimeToUser(TaskInfo task) {
         List<LocalDateTime> unwantedTimes = new ArrayList<>();
 
         String response;
@@ -45,7 +44,7 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
             unwantedTimes.add(suggestedTime);
         } while (!"y".equals(response));
 
-        return eventController.createEvent(task.getName(), suggestedTime, task.getDuration());
+        eventController.createEvent(task.getName(), suggestedTime, task.getDuration());
     }
 
     /**

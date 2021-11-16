@@ -28,17 +28,15 @@ public class EventSaverTest {
         assertEquals(expected, actual);
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
         String savedEvent;
 
         @Override
-        public boolean addEvent(CalendarEventModel eventData) {
-            return false;
+        public void addEvent(CalendarEventModel eventData) {
         }
 
         @Override
-        public boolean markEventAsCompleted(long eventId) {
-            return false;
+        public void markEventAsCompleted(long eventId) {
         }
 
         @Override

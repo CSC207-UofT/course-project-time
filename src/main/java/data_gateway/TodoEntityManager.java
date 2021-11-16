@@ -20,14 +20,12 @@ import java.util.Map;
 public class TodoEntityManager implements TodoListManager{
     private final List<Task> taskArrayList= new ArrayList<>();
     int taskCounter;
-    int todoCounter;
     private final Snowflake snowflake;
 
     private final Gson gson;
 
     public TodoEntityManager(Snowflake snowflake){
         taskCounter = 0;
-        todoCounter = 0;
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
@@ -45,12 +43,6 @@ public class TodoEntityManager implements TodoListManager{
         Task task = new Task(snowflake.nextId(), name, duration, deadline, subtasks);
 
         taskArrayList.add(task);
-    }
-
-    @Override
-    public int createTodoList() {
-        todoCounter++;
-        return todoCounter;
     }
 
     @Override

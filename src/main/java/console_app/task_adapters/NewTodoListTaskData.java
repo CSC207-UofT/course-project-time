@@ -8,24 +8,18 @@ import java.util.List;
 
 public class NewTodoListTaskData implements TodoListTaskCreationModel {
 
-    private final long todoListId;
     private final String taskName;
     private final Duration timeNeeded;
     private final LocalDateTime deadline;
     private final List<String> subtasks;
 
-    public NewTodoListTaskData(long todoListId, String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
-        this.todoListId = todoListId;
+    public NewTodoListTaskData(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
         this.taskName = taskName;
         this.timeNeeded = timeNeeded;
         this.deadline = deadline;
         this.subtasks = subTasks;
     }
 
-    @Override
-    public long getTodoListId() {
-        return todoListId;
-    }
 
     @Override
     public String getName() {

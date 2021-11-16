@@ -39,7 +39,7 @@ public class EventAdderTest {
         assertEquals(eventData, manager.getEventList());
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
         private final ArrayList<CalendarEventData> eventList;
 
         public MockCalendarManager() {
@@ -47,13 +47,12 @@ public class EventAdderTest {
         }
 
         @Override
-        public boolean addEvent(CalendarEventModel eventData) {
-            return eventList.add((CalendarEventData) eventData);
+        public void addEvent(CalendarEventModel eventData) {
+            eventList.add((CalendarEventData) eventData);
         }
 
         @Override
-        public boolean markEventAsCompleted(long eventId) {
-            return false;
+        public void markEventAsCompleted(long eventId) {
         }
 
         public ArrayList<CalendarEventData> getEventList() {

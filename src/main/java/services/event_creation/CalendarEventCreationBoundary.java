@@ -2,7 +2,7 @@ package services.event_creation;
 
 public interface CalendarEventCreationBoundary {
 
-    boolean addEvent(CalendarEventModel eventData);
+    void addEvent(CalendarEventModel eventData);
 
-    boolean markEventAsCompleted(long eventId);
+    void markEventAsCompleted(long eventId);
 }

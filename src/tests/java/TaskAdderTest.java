@@ -19,13 +19,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskAdderTest {
 
-    TodoListTaskCreationModel buildRequestModel(int todoListId) {
+    TodoListTaskCreationModel buildRequestModel() {
         String taskName = "Test task";
         Duration timeNeeded = Duration.ofMinutes(30);
         LocalDateTime deadline = LocalDateTime.of(2021, 10, 24, 11, 28);
         List<String> subtasks = new ArrayList<>();
 
-        return new NewTodoListTaskData(todoListId, taskName, timeNeeded, deadline, subtasks);
+        return new NewTodoListTaskData(taskName, timeNeeded, deadline, subtasks);
 
     }
 
@@ -34,8 +34,7 @@ public class TaskAdderTest {
         TodoListManager todoListManager = new MockTodoListManager();
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
 
-        int newTodoListId = todoListManager.createTodoList();
-        TodoListTaskCreationModel newTaskData = buildRequestModel(newTodoListId);
+        TodoListTaskCreationModel newTaskData = buildRequestModel();
         taskAdder.addTask(newTaskData);
 
         long taskId = 0;
@@ -57,10 +56,6 @@ public class TaskAdderTest {
             sentTask = taskData;
         }
 
-        @Override
-        public int createTodoList() {
-            return 0;
-        }
 
         @Override
         public TaskReader getTask(long taskId) {

@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface TodoListTaskCreationModel {
 
-    long getTodoListId();
-
     String getName();
 
     Duration getDuration();

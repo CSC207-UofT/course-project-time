@@ -46,12 +46,11 @@ public class EventController {
      * @param eventName name of event
      * @param startDateTime start time including date
      * @param duration duration of event
-     * @return whether the creation succeeded
      */
-    public boolean createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
+    public void createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
         // todo use exceptions to ensure that duration won't last until the next day
         LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
-        return createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
+        createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
     }
 
     /**
@@ -62,18 +61,16 @@ public class EventController {
      * @param endTime end time of event
      * @param tags relevant tags of event
      * @param date date of which this event occurs
-     * @return whether the event has been created successfully
      */
-    public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate date) {
+    public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
+                            HashSet<String> tags, LocalDate date) {
 
         if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), date)) {
-            return eventAdder.addEvent(new CalendarEventData(eventName,
+            eventAdder.addEvent(new CalendarEventData(eventName,
                     LocalDateTime.of(date, startTime),
                     LocalDateTime.of(date, endTime),
                     tags));
         }
-        return false;
     }
 
     public void saveEvents(String filename) throws IOException {
@@ -84,8 +81,8 @@ public class EventController {
         return eventGetter.getEventByName(name);
     }
 
-    public boolean markEventAsCompleted(long eventId) {
-        return eventAdder.markEventAsCompleted(eventId);
+    public void markEventAsCompleted(long eventId) {
+        eventAdder.markEventAsCompleted(eventId);
     }
 
     public List<HashMap<String, String>> getEvents() {

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface CalendarManager {
 
-    boolean addEvent(CalendarEventModel eventData);
+    void addEvent(CalendarEventModel eventData);
 
-    boolean markEventAsCompleted(long eventId);
+    void markEventAsCompleted(long eventId);
 
     List<EventReader> getAllEvents();
 

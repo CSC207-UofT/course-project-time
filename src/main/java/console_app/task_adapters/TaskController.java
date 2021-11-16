@@ -31,7 +31,7 @@ public class TaskController {
 
     public void createTask(String taskName, Duration timeNeeded,
                               LocalDateTime deadline, List<String> subTasks) {
-        taskAdder.addTask(new NewTodoListTaskData(0, taskName, timeNeeded, deadline, subTasks));
+        taskAdder.addTask(new NewTodoListTaskData(taskName, timeNeeded, deadline, subTasks));
     }
 
     public void completeTask(long taskId) {

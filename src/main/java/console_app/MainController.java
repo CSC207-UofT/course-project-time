@@ -110,11 +110,10 @@ public class MainController {
      * @param endTime   end time of the event
      * @param tags      a set of tags associated with the event
      * @param date      the date that the event would occur
-     * @return whether the event is created
      */
-    public boolean createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                               HashSet<String> tags, LocalDate date) {
-        return eventController.createEvent(eventName, startTime, endTime, tags, date);
+    public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
+                            HashSet<String> tags, LocalDate date) {
+        eventController.createEvent(eventName, startTime, endTime, tags, date);
     }
 
     public void saveData()

@@ -10,8 +10,6 @@ public interface TodoListManager {
 
     void addTask(TodoListTaskCreationModel taskData);
 
-    int createTodoList();
-
     TaskReader getTask(long taskId);
 
     Map<Long, List<TaskReader>> getAllTasks();
