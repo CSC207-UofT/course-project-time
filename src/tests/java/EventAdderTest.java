@@ -1,7 +1,6 @@
 import console_app.event_adapters.CalendarEventData;
 import data_gateway.CalendarManager;
 import data_gateway.EventReader;
-import services.Snowflake;
 import services.event_creation.CalendarEventModel;
 import services.event_creation.EventAdder;
 import org.junit.jupiter.api.BeforeEach;

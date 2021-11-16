@@ -1,6 +1,5 @@
 package services.event_from_task_creation;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 

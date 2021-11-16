@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import entity.Task;
-import entity.TodoList;
 import services.Snowflake;
 import services.task_creation.TodoListTaskCreationModel;
 
