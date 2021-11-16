@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-//Based on GSON type adapter documentation from
+// Based on GSON type adapter documentation from
 // https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.1/com/google/gson/TypeAdapter.html
 public class JsonTaskAdapter extends TypeAdapter<Task> {
 
