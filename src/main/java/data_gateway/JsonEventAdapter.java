@@ -12,6 +12,8 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
+//Based on GSON type adapter documentation from
+// https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.1/com/google/gson/TypeAdapter.html 
 public class JsonEventAdapter extends TypeAdapter<Event> {
 
     private final JsonTaskAdapter jsonTaskAdapter = new JsonTaskAdapter();
