@@ -36,7 +36,6 @@ public class TaskGetter implements TodoListDisplayBoundary {
      * Get tasks from the database through data gateway and
      * pass the tasks as DTOs to the presenter to present all tasks.
      */
-    @Override
     public void presentAllTasks() {
         Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
         TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
@@ -48,7 +47,6 @@ public class TaskGetter implements TodoListDisplayBoundary {
      * pass the tasks as DTOs to the presenter to present all tasks in an ordered list.
      * @return a mapping of task's position in the presented list and id
      */
-    @Override
     public Map<Integer, Long> presentAllTasksForUserSelection() {
         Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
         TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);

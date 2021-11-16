@@ -35,19 +35,6 @@ public class EventScheduler {
             // the event has conflict with the calendar
     }
 
-    public boolean isAvailableRepeated(LocalTime startTime, Duration timeNeeded, Set<LocalDate> dates){
-        // check whether the event has conflict with the calendar
-        for (LocalDate date : dates) {
-            LocalDateTime targetTime = LocalDateTime.of(date, startTime);
-            if (!this.checkAvailability(targetTime, timeNeeded)) {
-                // the event has conflict with the calendar
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     /**
      * Finds a gap of time for a task with the given duration.
      * The search heuristic is defined by the GapFinder when constructed.

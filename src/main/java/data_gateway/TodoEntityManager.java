@@ -20,7 +20,6 @@ import java.util.Map;
 
 public class TodoEntityManager implements TodoListManager{
     private final List<Task> taskArrayList= new ArrayList<>();
-    TodoList todoList;
     int taskCounter;
     int todoCounter;
     private final Snowflake snowflake;
@@ -51,7 +50,6 @@ public class TodoEntityManager implements TodoListManager{
 
     @Override
     public int createTodoList() {
-        todoList = new TodoList();
         todoCounter++;
         return todoCounter;
     }

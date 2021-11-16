@@ -2,7 +2,6 @@ package console_app.task_to_event_adapters;
 
 import console_app.event_adapters.EventController;
 import services.event_from_task_creation.EventFromTaskCreatorBoundary;
-import services.event_from_task_creation.EventFromTaskModel;
 import services.event_from_task_creation.EventScheduler;
 import services.event_from_task_creation.TaskToEvent;
 import services.task_presentation.TaskInfo;
@@ -26,17 +25,11 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
         this.eventScheduler = eventScheduler;
     }
 
-    public boolean createEventFromTask(int taskId, LocalDateTime startTime) {
-        EventFromTaskModel eventData = new EventFromTaskId(taskId, startTime);
-        return eventFromTaskCreatorBoundary.createEventFromTask(eventData);
-    }
-
     /**
      * Suggest a time to the user until the user agrees with the time
      * @param task the task to be scheduled to event
      * @return whether the task is successfully scheduled to event
      */
-    @Override
     public boolean suggestTimeToUser(TaskInfo task) {
         List<LocalDateTime> unwantedTimes = new ArrayList<>();
 
@@ -64,7 +57,6 @@ public class TaskToEventController implements TaskToEventAutoController, TaskToE
      * @param userSuggestedTime the time suggested by the user
      * @return whether the task is successfully scheduled to event
      */
-    @Override
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
         return taskToEvent.checkTimeAvailability(task, eventScheduler, userSuggestedTime);
     }

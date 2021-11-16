@@ -81,10 +81,6 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public void setSubTasks(List<String> subTasks) {
-        this.subTasks = subTasks;
-    }
-
     public long getId() {
         return id;
     }

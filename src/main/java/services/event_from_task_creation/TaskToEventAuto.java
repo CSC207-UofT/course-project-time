@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface TaskToEventAuto {
 
-    LocalDateTime getAvailableTime(TaskInfo taskInfo, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes);
 }

@@ -28,16 +28,8 @@ public class PomodoroTimer {
         return this.breakLength;
     }
 
-    public boolean getCanceled() {
-        return this.canceled;
-    }
-
     public boolean getIsWorking() {
         return this.isWorking;
-    }
-
-    public boolean getSwitchNow() {
-        return this.switchNow;
     }
 
     public void setCanceled(boolean isCanceled) {
@@ -48,7 +40,4 @@ public class PomodoroTimer {
         this.isWorking = isWorking;
     }
 
-    public void setSwitchNow(boolean switchNow) {
-        this.switchNow = switchNow;
-    }
 }

@@ -15,7 +15,6 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
      * @param unwantedTimes times that the user does not want
      * @return the time outputted by the eventScheduler
      */
-    @Override
     public LocalDateTime getAvailableTime(TaskInfo taskInfo, EventScheduler eventScheduler, List<LocalDateTime> unwantedTimes) {
         return eventScheduler.getAvailableTime(unwantedTimes, taskInfo.getDuration()).truncatedTo(ChronoUnit.MINUTES);
     }
@@ -28,7 +27,6 @@ public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
      * @param userSuggestedTime times that the user suggested
      * @return whether the time suggested by the user is available
      */
-    @Override
     public boolean checkTimeAvailability(TaskInfo taskInfo, EventScheduler eventScheduler, LocalDateTime userSuggestedTime) {
         return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), taskInfo.getDuration(), userSuggestedTime.toLocalDate());
     }

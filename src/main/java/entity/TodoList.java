@@ -21,20 +21,6 @@ public class TodoList{
         }
     }
 
-    /**
-     * Check for all tasks in uncompletedList,
-     * move the completed tasks into completedList
-     */
-    public void updateCompletedList() {
-        for (Task task : uncompletedList) {
-            notCompleted(task);
-        }
-    }
-
-    public List<Task> getTasks()
-    {
-        return uncompletedList;
-    }
 
 
     public void addTask(Task task){
@@ -49,11 +35,5 @@ public class TodoList{
     public boolean isTaskinList(Task task){
         return completedList.contains(task) || uncompletedList.contains(task);
     }
-
-    public List<Task> getUncompletedList(){
-        return this.uncompletedList;
-    }
-
-    public List<Task> getCompletedList() { return this.completedList; }
 
 }

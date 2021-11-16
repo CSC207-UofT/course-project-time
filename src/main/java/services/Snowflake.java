@@ -40,14 +40,6 @@ public class Snowflake {
         this.sequence = sequence;
     }
 
-    public long getWorkerId() {
-        return workerId;
-    }
-
-    public long getDatacenterId() {
-        return datacenterId;
-    }
-
     public long getTimestampMilli() {
         return System.currentTimeMillis();
     }

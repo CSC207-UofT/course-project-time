@@ -12,6 +12,4 @@ public interface EventFromTaskModel {
 
     HashSet<String> getTags();
 
-    LocalDate getDates();
-
 }

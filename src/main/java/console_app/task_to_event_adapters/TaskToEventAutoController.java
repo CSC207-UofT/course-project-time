@@ -4,5 +4,4 @@ import services.task_presentation.TaskInfo;
 
 public interface TaskToEventAutoController {
 
-    boolean suggestTimeToUser(TaskInfo task);
 }

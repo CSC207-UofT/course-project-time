@@ -44,22 +44,18 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
         return taskMap.get(todoListId).get(taskId);
     }
 
-    @Override
     public String getName(int todoListId, int taskId) {
         return getReader(todoListId, taskId).getName();
     }
 
-    @Override
     public LocalDateTime getDeadline(int todoListId, int taskId) {
         return getReader(todoListId, taskId).getDeadline();
     }
 
-    @Override
     public Duration getDuration(int todoListId, int taskId) {
         return getReader(todoListId, taskId).getDuration();
     }
 
-    @Override
     public List<String> getSubtasks(int todoListId, int taskId) {
         return getReader(todoListId, taskId).getSubtasks();
     }
