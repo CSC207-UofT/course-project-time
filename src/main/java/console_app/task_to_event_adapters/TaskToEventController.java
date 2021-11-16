@@ -1,7 +1,6 @@
 package console_app.task_to_event_adapters;
 
 import console_app.event_adapters.EventController;
-import services.event_from_task_creation.EventFromTaskCreatorBoundary;
 import services.event_from_task_creation.EventScheduler;
 import services.event_from_task_creation.TaskToEvent;
 import services.task_presentation.TaskInfo;
@@ -14,13 +13,11 @@ import java.util.Scanner;
 public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
 
     private final TaskToEvent taskToEvent = new TaskToEvent();
-    private final EventFromTaskCreatorBoundary eventFromTaskCreatorBoundary;
     private final EventScheduler eventScheduler;
 
     protected final EventController eventController;
 
-    public TaskToEventController(EventController eventController, EventFromTaskCreatorBoundary eventFromTaskBoundary, EventScheduler eventScheduler) {
-        this.eventFromTaskCreatorBoundary = eventFromTaskBoundary;
+    public TaskToEventController(EventController eventController, EventScheduler eventScheduler) {
         this.eventController = eventController;
         this.eventScheduler = eventScheduler;
     }

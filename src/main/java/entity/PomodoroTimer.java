@@ -3,9 +3,7 @@ package entity;
 public class PomodoroTimer {
     private final int workLength;
     private final int breakLength;
-    private boolean canceled;
     private boolean isWorking;
-    private boolean switchNow;
 
     /***
      *
@@ -15,9 +13,7 @@ public class PomodoroTimer {
     public PomodoroTimer(int workLength, int breakLength) {
         this.workLength = workLength;
         this.breakLength = breakLength;
-        this.canceled = false;
         this.isWorking = true;
-        this.switchNow = false;
     }
 
     public int getWorkLength() {
@@ -30,10 +26,6 @@ public class PomodoroTimer {
 
     public boolean getIsWorking() {
         return this.isWorking;
-    }
-
-    public void setCanceled(boolean isCanceled) {
-        this.canceled = isCanceled;
     }
 
     public void setWorking(boolean isWorking) {

@@ -8,15 +8,12 @@ import java.util.List;
 public class Calendar {
 
     private final String name;
-    private final List<Event> events;
-    private final TodoList todoList;
 
     public Calendar(String name, List<Event> events) {
         this.name = name;
-        this.events = events;
-        this.todoList = new TodoList();
+        TodoList todoList = new TodoList();
 
-        for(Event event : this.events) {
+        for(Event event : events) {
             Task task = new Task(event.getId(), event.getEventName());
             todoList.addTask(task);
         }

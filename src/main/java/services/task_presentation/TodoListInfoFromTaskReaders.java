@@ -11,11 +11,10 @@ import java.util.Map;
 
 public class TodoListInfoFromTaskReaders implements TodoListsInfo {
 
-    private final Map<Long, Map<Long, TaskReader>> taskMap;
     private final List<TaskReader> taskReaders;
 
     public TodoListInfoFromTaskReaders(Map<Long, List<TaskReader>> taskReaders) {
-        taskMap = convertInnerListToMap(taskReaders);
+        Map<Long, Map<Long, TaskReader>> taskMap = convertInnerListToMap(taskReaders);
         this.taskReaders = flattenMap(taskReaders);
     }
 
@@ -38,26 +37,6 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
             map.put(e.getKey(), todoListMap);
         }
         return map;
-    }
-
-    private TaskReader getReader(long todoListId, long taskId) {
-        return taskMap.get(todoListId).get(taskId);
-    }
-
-    public String getName(int todoListId, int taskId) {
-        return getReader(todoListId, taskId).getName();
-    }
-
-    public LocalDateTime getDeadline(int todoListId, int taskId) {
-        return getReader(todoListId, taskId).getDeadline();
-    }
-
-    public Duration getDuration(int todoListId, int taskId) {
-        return getReader(todoListId, taskId).getDuration();
-    }
-
-    public List<String> getSubtasks(int todoListId, int taskId) {
-        return getReader(todoListId, taskId).getSubtasks();
     }
 
     @Override

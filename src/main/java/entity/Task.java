@@ -18,7 +18,7 @@ public class Task {
     private boolean completed;
     private Duration timeNeeded;
     private LocalDateTime deadline;
-    private List<String> subTasks;
+    private final List<String> subTasks;
 
     public static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 

@@ -54,7 +54,7 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public TaskReader getTask(long todoListId, long taskId){
+    public TaskReader getTask(long taskId){
         for (Task t : taskArrayList)
             if (t.getId() == taskId)
                 return new TaskToTaskReader(t);

@@ -12,7 +12,7 @@ public interface TodoListManager {
 
     int createTodoList();
 
-    TaskReader getTask(long todoListId, long taskId);
+    TaskReader getTask(long taskId);
 
     Map<Long, List<TaskReader>> getAllTasks();
 

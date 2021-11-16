@@ -38,9 +38,8 @@ public class TaskAdderTest {
         TodoListTaskCreationModel newTaskData = buildRequestModel(newTodoListId);
         taskAdder.addTask(newTaskData);
 
-        long todoListId = newTaskData.getTodoListId();
         long taskId = 0;
-        TaskReader sentTask = todoListManager.getTask(todoListId, taskId);
+        TaskReader sentTask = todoListManager.getTask(taskId);
 
         assertEquals(sentTask.getName(), newTaskData.getName());
         assertEquals(sentTask.getDuration(), newTaskData.getDuration());
@@ -64,7 +63,7 @@ public class TaskAdderTest {
         }
 
         @Override
-        public TaskReader getTask(long todoListId, long taskId) {
+        public TaskReader getTask(long taskId) {
             return new MockTaskReader(sentTask);
         }
 
