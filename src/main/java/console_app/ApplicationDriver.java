@@ -135,11 +135,13 @@ public class ApplicationDriver {
                 break;
             case "9":
                 controller.saveData();
+                break;
             case "10":
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
                 System.out.println("Input \"c\" to end pomodoro timer");
                 controller.createAndEndTimer(intervals[0], intervals[1]);
+                break;
 
             default:
                 break;

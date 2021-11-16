@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class TaskToEvent implements TaskToEventAuto, TaskToEventManual {
+public class TaskToEvent {
 
     /**
      * Gets an available time slot given task, calendar, and an eventScheduler

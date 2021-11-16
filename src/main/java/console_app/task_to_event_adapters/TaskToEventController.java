@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TaskToEventController implements TaskToEventAutoController, TaskToEventManualController {
+public class TaskToEventController {
 
     private final TaskToEvent taskToEvent = new TaskToEvent();
     private final EventScheduler eventScheduler;

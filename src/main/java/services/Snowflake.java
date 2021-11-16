@@ -69,7 +69,7 @@ public class Snowflake {
             // if <sequence> has been looped to 0 after too many increments, wail until the next millisecond
             // because not waiting results in the generation of non-unique ids
             if (sequence == 0) {
-                waitUntilNextMillisecond(lastTimestampMilli);
+                timestampMilli = waitUntilNextMillisecond(lastTimestampMilli);
             }
         } else {
             sequence = 0;
@@ -86,10 +86,11 @@ public class Snowflake {
                 (workerId << sequenceBits) | sequence;
     }
 
-    private void waitUntilNextMillisecond(long lastTimestampMilli) {
+    private long waitUntilNextMillisecond(long lastTimestampMilli) {
         long timestampMilli = getTimestampMilli();
         while (timestampMilli <= lastTimestampMilli) {
             timestampMilli = getTimestampMilli();
         }
+        return timestampMilli;
     }
 }

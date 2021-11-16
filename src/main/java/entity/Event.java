@@ -101,31 +101,6 @@ public class Event {
         this.tags.add(tag);
     }
 
-//    public boolean removeTag(String tag) {
-//        if (this.tags.contains(tag)) {
-//            this.tags.remove(tag);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
-//    /**
-//     * Add a repeated date to dates
-//     * @param date the repeated date
-//     */
-//    public void addRepeatedDate(LocalDate date) {
-//        this.dates.add(date);
-//    }
-
-//    /**
-//     * Add a list of repeated dates to dates
-//     * @param dates list of repeated dates
-//     */
-//    public void addRepeatedDates(List<LocalDate> dates) {
-//        this.dates.addAll(dates);
-//    }
-
     public long getId() {
         return id;
     }
