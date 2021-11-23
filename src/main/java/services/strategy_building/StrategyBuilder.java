@@ -4,6 +4,7 @@ import entity.dates.CompositeDateStrategy;
 import entity.dates.DateStrategy;
 import entity.dates.OrStrategy;
 import services.strategy_building.strategies.EndRestrictionDecorator;
+import services.strategy_building.strategies.StartRestrictionDecorator;
 import services.strategy_building.strategies.WeeklyStrategy;
 
 import java.time.DayOfWeek;
@@ -32,6 +33,18 @@ public class StrategyBuilder {
             currentStrategy = new EndRestrictionDecorator(currentStrategy, endTime);
         else if (!compositeStrategiesStack.isEmpty())
             currentStrategy = new EndRestrictionDecorator(compositeStrategiesStack.pop(), endTime);
+    }
+
+    public void addStartingRestriction(LocalDateTime startTime) {
+        if (currentStrategy != null)
+            currentStrategy = new StartRestrictionDecorator(currentStrategy, startTime);
+        else if (!compositeStrategiesStack.isEmpty())
+            currentStrategy = new StartRestrictionDecorator(compositeStrategiesStack.pop(), startTime);
+    }
+
+    public void addRangeRestriction(LocalDateTime startTime, LocalDateTime endTime) {
+        addStartingRestriction(startTime);
+        addEndingRestriction(endTime);
     }
 
     public void finishCurrentStrategy() {
