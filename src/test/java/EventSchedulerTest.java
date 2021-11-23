@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class EventSchedulerTest {
     EventScheduler eventScheduler;
@@ -55,34 +57,30 @@ public class EventSchedulerTest {
 
     @Test
     public void checkAvailabilityTrue() {
-        boolean expected = true;
         boolean actual = eventScheduler.checkAvailability(LocalDateTime.of(
                 2021, 11, 25, 14, 30), Duration.ofHours(1));
-        assertEquals(expected, actual);
+        assertTrue(actual);
     }
 
     @Test
     public void checkAvailabilityFalse() {
-        boolean expected = false;
         boolean actual = eventScheduler.checkAvailability(LocalDateTime.of(
                 2021, 11, 25, 15, 30), Duration.ofHours(1));
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
     public void isAvailableTrue() {
-        boolean expected = true;
         boolean actual = eventScheduler.isAvailable(LocalTime.of(14, 30), Duration.ofHours(1),
                 LocalDate.of(2021, 11, 25));
-        assertEquals(expected, actual);
+        assertTrue(actual);
     }
 
     @Test
     public void isAvailableFalse() {
-        boolean expected = false;
         boolean actual = eventScheduler.isAvailable(LocalTime.of(
                 15, 30), Duration.ofHours(1), LocalDate.of(2021, 11, 25));
-        assertEquals(expected, actual);
+        assertFalse(actual);
     }
 
     @Test
