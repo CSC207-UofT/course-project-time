@@ -33,23 +33,23 @@ public class EventSchedulerTest {
         tags1.add("CSC207");
         tags1.add("Quiz");
 
-        Set<LocalDate> dates1 = new HashSet<>();
-        dates1.add(LocalDate.of(2021, 11, 25));
-        dates1.add(LocalDate.of(2021, 11, 27));
+        Set<LocalDate> nov25Nov27 = new HashSet<>();
+        nov25Nov27.add(LocalDate.of(2021, 11, 25));
+        nov25Nov27.add(LocalDate.of(2021, 11, 27));
 
         MockEventReader reader1 = new MockEventReader(207L, "CSC207 Quiz", LocalTime.of(12, 7),
-                LocalTime.of(14, 7), tags1, dates1);
+                LocalTime.of(14, 7), tags1, nov25Nov27);
 
         Set<String> tags2 = new HashSet<>();
         tags2.add("CSC207");
         tags2.add("Project");
 
-        Set<LocalDate> dates2 = new HashSet<>();
-        dates2.add(LocalDate.of(2021, 11, 25));
-        dates2.add(LocalDate.of(2021, 11, 26));
+        Set<LocalDate> nov25Nov26 = new HashSet<>();
+        nov25Nov26.add(LocalDate.of(2021, 11, 25));
+        nov25Nov26.add(LocalDate.of(2021, 11, 26));
 
         MockEventReader reader2 = new MockEventReader(208L, "CSC207 Project", LocalTime.of(16, 0),
-                LocalTime.of(17, 0), tags2, dates2);
+                LocalTime.of(17, 0), tags2, nov25Nov26);
 
         events.add(reader1);
         events.add(reader2);
