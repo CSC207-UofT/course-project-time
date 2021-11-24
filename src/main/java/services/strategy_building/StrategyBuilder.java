@@ -4,6 +4,7 @@ import entity.dates.CompositeDateStrategy;
 import entity.dates.DateStrategy;
 import entity.dates.OrStrategy;
 import services.strategy_building.strategies.EndRestrictionDecorator;
+import services.strategy_building.strategies.SingleDateStrategy;
 import services.strategy_building.strategies.StartRestrictionDecorator;
 import services.strategy_building.strategies.WeeklyStrategy;
 
@@ -19,6 +20,10 @@ public class StrategyBuilder {
 
     public void startWeeklyStrategy(DayOfWeek dayOfWeek, LocalTime timeOfDay) {
         currentStrategy = new WeeklyStrategy(dayOfWeek, timeOfDay);
+    }
+
+    public void startSingleDateStrategy(LocalDateTime dateTime) {
+        currentStrategy = new SingleDateStrategy(dateTime);
     }
 
     public void startUnionStrategy() {
