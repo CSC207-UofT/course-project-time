@@ -3,6 +3,7 @@ package console_app.task_to_event_adapters;
 import console_app.event_adapters.EventController;
 import services.event_from_task_creation.EventScheduler;
 import services.event_from_task_creation.TaskToEvent;
+import services.strategy_building.MultipleBasicForm;
 import services.task_presentation.TaskInfo;
 
 import java.time.LocalDateTime;
@@ -44,7 +45,10 @@ public class TaskToEventController {
             unwantedTimes.add(suggestedTime);
         } while (!"y".equals(response));
 
-        eventController.createEvent(task.getName(), suggestedTime, task.getDuration());
+        MultipleBasicForm form = new MultipleBasicForm();
+        form.addSingleOccurrence(suggestedTime);
+
+        eventController.createEvent(task.getName(), task.getDuration(), form);
     }
 
     /**

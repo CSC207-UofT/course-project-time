@@ -1,13 +1,15 @@
 package data_gateway;
 
-import services.event_creation.CalendarEventModel;
-
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 public interface CalendarManager {
 
-    void addEvent(CalendarEventModel eventData);
+    void addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+                  LocalDate date);
 
     void markEventAsCompleted(long eventId);
 

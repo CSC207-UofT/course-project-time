@@ -1,13 +1,17 @@
 package console_app;
 
 import services.event_presentation.EventInfo;
+import services.strategy_building.DatesForm;
+import services.strategy_building.MultipleBasicForm;
 import services.task_presentation.TaskInfo;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 
 public class ApplicationDriver {
@@ -112,8 +117,10 @@ public class ApplicationDriver {
                         }
                     } while (!timeAvailable);
 
-                    controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
-                            userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+                    MultipleBasicForm form = new MultipleBasicForm();
+                    form.addSingleOccurrence(userSuggestedTime);
+
+                    controller.createEvent(taskManual.getName(), taskManual.getDuration(), form);
                     System.out.println("Event created from task");
 
                 }
@@ -161,30 +168,25 @@ public class ApplicationDriver {
         System.out.print("Enter event name: ");
         String eventName = input.nextLine();
 
-        String timeFormat = "HH:mm";
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormat);
+        DatesForm form = createForm();
 
-        System.out.print("Enter start time for event in (" + timeFormat + ") (24 hour time): ");
-        String startTimeResponse = input.nextLine(); // TODO exception handling
-        LocalTime eventStartTime = LocalTime.parse(startTimeResponse, timeFormatter);
+        String[] response;
+        do {
+            System.out.print("Enter how long the event will go on for (hours minutes) ");
+            String startTimeResponse = input.nextLine(); // TODO exception handling
+            response = startTimeResponse.split("\\w");
+        } while (response.length != 2);
+        int hours = Integer.parseInt(response[0]);
+        int minutes = Integer.parseInt(response[1]);
 
-        System.out.print("Enter end time for event in (" + timeFormat + ") (24 hour time): ");
-        String endTimeResponse = input.nextLine(); // todo exception handling
-        LocalTime eventEndTime = LocalTime.parse(endTimeResponse, timeFormatter);
-
-        String dateFormat = "yyyy-MM-dd";
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
-
-        System.out.print("Enter date for event in (" + dateFormat + "): ");
-        String dateResponse = input.nextLine();  // todo exception handling
-        LocalDate eventDate = LocalDate.parse(dateResponse, dateFormatter);
+        Duration eventDuration = Duration.ofMinutes(hours * 60L + minutes);
 
         System.out.print("Enter tags for event, separated by space, or press enter if there are no tags: ");
         String tagResponse = input.nextLine(); // todo exception handling
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
 
-        this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
+        this.controller.createEvent(eventName, eventDuration, form, eventTags);
     }
 
     /**
@@ -338,6 +340,60 @@ public class ApplicationDriver {
         catch(NumberFormatException numberFormatException) {
             return false;
         }
+    }
+
+
+    private DatesForm createForm() {
+
+        String[] daysOfWeek = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+        Set<String> daysSet = new HashSet<>(Arrays.asList(daysOfWeek));
+
+        Scanner sc = new Scanner(System.in);
+        String input;
+        do {
+            System.out.println("Input what day of the week you want the event to reoccur");
+            input = sc.nextLine().toLowerCase();
+        } while (!daysSet.contains(input));
+
+        int index = 0;
+        while (!daysOfWeek[index].equals(input))
+            index++;
+
+        DayOfWeek day = DayOfWeek.of(index + 1);
+
+        System.out.println("When in the day do you want the event to reoccur (HH:mm)?");
+        Scanner scanner = new Scanner(System.in);
+        String timeString = scanner.nextLine();
+        LocalTime timeOfDay = LocalTime.parse(timeString);
+
+        System.out.println("(Optional) input the time to start from (enter nothing to not use)");
+        LocalDateTime startTime;
+        try {
+             startTime = inputTime();
+        } catch (DateTimeParseException e) {
+            startTime = null;
+        }
+
+        System.out.println("(Optional) input the time to end at (enter nothing to not use)");
+        LocalDateTime endTime;
+        try {
+            endTime = inputTime();
+        } catch (DateTimeParseException e) {
+            endTime = null;
+        }
+
+        MultipleBasicForm form = new MultipleBasicForm();
+        if (startTime != null && endTime != null)
+            form.addWeeklyOccurrenceBetween(day, timeOfDay, startTime, endTime);
+        else if (startTime != null)
+            form.addWeeklyOccurrenceFrom(day, timeOfDay, startTime);
+        else if (endTime != null)
+            form.addWeeklyOccurrenceUntil(day, timeOfDay, endTime);
+        else
+            form.addWeeklyOccurrence(day, timeOfDay);
+
+        return form;
+
     }
 
 
