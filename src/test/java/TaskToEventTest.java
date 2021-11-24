@@ -90,7 +90,7 @@ public class TaskToEventTest {
     private class MockCalendarManager implements CalendarManager {
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
+        public void addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
 
         }
 
