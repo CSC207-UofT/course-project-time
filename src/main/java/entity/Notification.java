@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class Notification {
     private final long associatedId;
-    private final LocalDateTime dateTime;
+    private final LocalDateTime notificationDateTime;
     private final String message;
 
     public Notification(LocalDateTime dateTime, int associatedId, String message) {
-        this.dateTime = dateTime;
+        this.notificationDateTime = dateTime;
         this.associatedId = associatedId;
         this.message = message;
     }
@@ -17,8 +17,8 @@ public class Notification {
         return associatedId;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDateTime getNotificationDateTime() {
+        return notificationDateTime;
     }
 
     public String getMessage() {
