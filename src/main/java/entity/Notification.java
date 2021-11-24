@@ -7,9 +7,9 @@ public class Notification {
     private final LocalDateTime notificationDateTime;
     private final String message;
 
-    public Notification(LocalDateTime dateTime, int associatedId, String message) {
-        this.notificationDateTime = dateTime;
+    public Notification(Long associatedId, LocalDateTime notificationDateTime, String message) {
         this.associatedId = associatedId;
+        this.notificationDateTime = notificationDateTime;
         this.message = message;
     }
 
