@@ -5,7 +5,7 @@ import entity.Notification;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NotificationTracker implements Runnable, NotificationTrack{
+public class NotificationTracker implements Runnable {
     private List<NotificationPresenter> observers;
     private List<Notification> notificationList;
 

@@ -2,7 +2,7 @@ package services.event_creation;
 
 import data_gateway.CalendarManager;
 
-public class EventAdder implements CalendarEventCreationBoundary {
+public class EventAdder implements EventAdding {
 
     private final CalendarManager calendarManager;
 
