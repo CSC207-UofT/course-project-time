@@ -33,7 +33,7 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public void addTask(TodoListTaskCreationModel taskData) {
+    public long addTask(TodoListTaskCreationModel taskData) {
         String name = taskData.getName();
         Duration duration = taskData.getDuration();
         LocalDateTime deadline = taskData.getDeadline();
@@ -43,6 +43,7 @@ public class TodoEntityManager implements TodoListManager{
         Task task = new Task(snowflake.nextId(), name, duration, deadline, subtasks);
 
         taskArrayList.add(task);
+        return task.getId();
     }
 
     @Override

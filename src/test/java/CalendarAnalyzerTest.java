@@ -90,8 +90,8 @@ public class CalendarAnalyzerTest {
     private class MockCalendarManager implements CalendarManager {
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
-
+        public long addEvent(CalendarEventModel eventData) {
+            return 0L;
         }
 
         @Override
