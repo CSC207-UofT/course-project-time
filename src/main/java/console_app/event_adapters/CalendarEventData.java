@@ -4,8 +4,6 @@ import services.event_creation.CalendarEventModel;
 import services.strategy_building.DatesForm;
 
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 
 public class CalendarEventData implements CalendarEventModel {

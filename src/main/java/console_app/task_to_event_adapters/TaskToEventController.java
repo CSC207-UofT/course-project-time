@@ -1,7 +1,7 @@
 package console_app.task_to_event_adapters;
 
-import services.event_from_task_creation.CalendarAnalyzer;
 import console_app.event_adapters.EventController;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.strategy_building.DatesForm;
 import services.strategy_building.MultipleRuleFormBuilder;
