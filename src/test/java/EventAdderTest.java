@@ -93,9 +93,10 @@ public class EventAdderTest {
         public EventBuffer output;
 
         @Override
-        public void addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
                              LocalDate date) {
             output = new EventBuffer(eventName, startTime, endTime, tags, date);
+            return 0L;
         }
 
         @Override

@@ -35,8 +35,8 @@ public class EventSaverTest {
         String savedEvent;
 
         @Override
-        public void addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
-
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+            return 0L;
         }
 
         @Override

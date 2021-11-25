@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CalendarManager {
 
-    void addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+    long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
                   LocalDate date);
 
     void markEventAsCompleted(long eventId);

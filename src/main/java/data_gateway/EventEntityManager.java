@@ -71,11 +71,11 @@ public class EventEntityManager implements CalendarManager{
      * @param date          the date the event should occur
      */
     @Override
-    public void addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
                          LocalDate date) {
-
         Event event = new Event(snowflake.nextId(), eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         eventList.add(event);
+        return event.getId();
     }
 
     /**
