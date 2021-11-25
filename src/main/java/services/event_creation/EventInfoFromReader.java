@@ -3,6 +3,7 @@ package services.event_creation;
 import data_gateway.EventReader;
 import services.event_presentation.EventInfo;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
@@ -48,5 +49,10 @@ public class EventInfoFromReader implements EventInfo {
     @Override
     public boolean getCompleted() {
         return eventReader.getCompleted();
+    }
+
+    @Override
+    public Duration getNotificationTimeInAdvance() {
+        return eventReader.getNotificationTimeInAdvance();
     }
 }

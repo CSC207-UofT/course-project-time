@@ -2,6 +2,7 @@ package console_app.event_adapters;
 
 import services.event_creation.CalendarEventModel;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -12,12 +13,15 @@ public class CalendarEventData implements CalendarEventModel {
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
     private final HashSet<String> tags;
+    private final Duration notificationTimeInAdvance;
 
-    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags) {
+    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime,
+                             HashSet<String> tags, Duration notificationTimeInAdvance) {
         this.eventName = eventName;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
+        this.notificationTimeInAdvance = notificationTimeInAdvance;
     }
 
     @Override
@@ -43,5 +47,10 @@ public class CalendarEventData implements CalendarEventModel {
     @Override
     public LocalDate getDate() {
         return startTime.toLocalDate();
+    }
+
+    @Override
+    public Duration getNotificationTimeInAdvance() {
+        return notificationTimeInAdvance;
     }
 }

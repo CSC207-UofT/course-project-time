@@ -3,6 +3,7 @@ import services.event_creation.EventInfoFromReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -104,6 +105,11 @@ public class EventInfoFromReaderTest {
         @Override
         public boolean getCompleted() {
             return false;
+        }
+
+        @Override
+        public Duration getNotificationTimeInAdvance() {
+            return null;
         }
     }
 }

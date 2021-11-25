@@ -19,6 +19,7 @@ public class Task {
     private Duration timeNeeded;
     private LocalDateTime deadline;
     private final List<String> subTasks;
+    private Duration notificationTimeInAdvance = null;
 
     public static final Duration DEFAULT_DURATION = Duration.ofHours(1);
 
@@ -81,6 +82,10 @@ public class Task {
         this.deadline = deadline;
     }
 
+    public void setNotificationTimeInAdvance(Duration timeInAdvance) {
+        this.notificationTimeInAdvance = timeInAdvance;
+    }
+
     public long getId() {
         return id;
     }
@@ -103,6 +108,10 @@ public class Task {
 
     public List<String> getSubTasks() {
         return this.subTasks;
+    }
+
+    public Duration getNotificationTimeInAdvance(){
+        return notificationTimeInAdvance;
     }
 
 }

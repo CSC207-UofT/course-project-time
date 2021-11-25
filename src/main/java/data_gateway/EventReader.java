@@ -1,5 +1,6 @@
 package data_gateway;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
@@ -18,4 +19,6 @@ public interface EventReader {
     Set<LocalDate> getDates();
 
     boolean getCompleted();
+
+    Duration getNotificationTimeInAdvance();
 }

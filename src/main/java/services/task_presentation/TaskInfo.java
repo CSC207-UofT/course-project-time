@@ -17,4 +17,6 @@ public interface TaskInfo {
     List<String> getSubtasks();
 
     boolean getCompleted();
+
+    Duration getNotificationTimeInAdvance();
 }

@@ -113,7 +113,8 @@ public class ApplicationDriver {
                     } while (!timeAvailable);
 
                     controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
-                            userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+                            userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(),
+                            userSuggestedTime.toLocalDate(), taskManual.getNotificationTimeInAdvance());
                     System.out.println("Event created from task");
 
                 }
@@ -184,7 +185,11 @@ public class ApplicationDriver {
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
 
-        this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
+        System.out.print("Enter notification time duration in advance (in minutes): ");
+        int notificationResponse = Integer.parseInt(input.nextLine());
+        Duration notificationTimeInAdvance = Duration.ofMinutes(notificationResponse);
+
+        this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate, notificationTimeInAdvance);
     }
 
     /**

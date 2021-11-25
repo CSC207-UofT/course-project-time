@@ -43,4 +43,9 @@ public class TaskToTaskReader implements TaskReader{
     public boolean getCompleted() {
         return task.getCompleted();
     }
+
+    @Override
+    public Duration getNotificationTimeInAdvance() {
+        return task.getNotificationTimeInAdvance();
+    }
 }

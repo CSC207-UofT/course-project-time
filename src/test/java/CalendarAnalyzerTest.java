@@ -85,6 +85,11 @@ public class CalendarAnalyzerTest {
         public boolean getCompleted() {
             return false;
         }
+
+        @Override
+        public Duration getNotificationTimeInAdvance() {
+            return null;
+        }
     }
 
     private class MockCalendarManager implements CalendarManager {
@@ -152,6 +157,11 @@ public class CalendarAnalyzerTest {
         @Override
         public boolean getCompleted() {
             return false;
+        }
+
+        @Override
+        public Duration getNotificationTimeInAdvance() {
+            return null;
         }
     }
 }

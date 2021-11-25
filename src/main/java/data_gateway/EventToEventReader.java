@@ -2,6 +2,7 @@ package data_gateway;
 
 import entity.Event;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Set;
@@ -46,5 +47,10 @@ public class EventToEventReader implements EventReader{
     @Override
     public boolean getCompleted() {
         return event.getCompleted();
+    }
+
+    @Override
+    public Duration getNotificationTimeInAdvance() {
+        return event.getNotificationTimeInAdvance();
     }
 }

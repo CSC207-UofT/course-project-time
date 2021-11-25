@@ -6,6 +6,7 @@ import services.event_creation.EventAdder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,8 +24,8 @@ public class EventAdderTest {
         calendarEventData = new CalendarEventData("Work on project",
                 LocalDateTime.of(2021, 11, 15, 12, 0),
                 LocalDateTime.of(2021, 11, 15, 14, 0),
-                new HashSet<>()
-        );
+                new HashSet<>(),
+                Duration.ofHours(4));
         manager = new MockCalendarManager();
         eventAdder = new EventAdder(manager);
 

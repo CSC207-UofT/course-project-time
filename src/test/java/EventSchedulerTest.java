@@ -185,5 +185,10 @@ public class EventSchedulerTest {
         public boolean getCompleted() {
             return false;
         }
+
+        @Override
+        public Duration getNotificationTimeInAdvance() {
+            return null;
+        }
     }
 }

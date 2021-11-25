@@ -43,7 +43,7 @@ public class TaskToEventController {
             unwantedTimes.add(suggestedTime);
         } while (!"y".equals(response));
 
-        eventController.createEvent(task.getName(), suggestedTime, task.getDuration());
+        eventController.createEvent(task.getName(), suggestedTime, task.getDuration(), task.getNotificationTimeInAdvance());
     }
 
     /**

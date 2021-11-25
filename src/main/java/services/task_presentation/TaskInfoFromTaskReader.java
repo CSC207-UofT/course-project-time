@@ -43,4 +43,9 @@ public class TaskInfoFromTaskReader implements TaskInfo {
     public boolean getCompleted() {
         return taskReader.getCompleted();
     }
+
+    @Override
+    public Duration getNotificationTimeInAdvance() {
+        return taskReader.getNotificationTimeInAdvance();
+    }
 }
