@@ -14,15 +14,14 @@ import java.util.regex.Pattern;
 
 public class ClockController {
 
-    private float time_milli;
     private AnimationTimer timer;
     private GraphicsContext gc;
-    private float brushSize = 15;
+    private final float brushSize = 30;
 
-    private long workDuration = 20;
-    private long breakDuration = 5;
-
-    private long startTime = 0;
+    private final long workDuration = 1;
+    private final long breakDuration = 1;
+    private long currentDuration = workDuration;
+    private boolean isBreak = false;
 
     private long startNano;
     private boolean newStart;
@@ -30,17 +29,14 @@ public class ClockController {
     @FXML
     private Canvas canvas;
 
-    @FXML
-    private TextField workText;
-
-    @FXML
-    private TextField breakText;
 
     @FXML
     public void initialize() {
+
         gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.LIGHTGREEN);
+
         gc.setLineWidth(brushSize);
+        setWork(gc);
 
         timer = new AnimationTimer() {
 
@@ -52,34 +48,44 @@ public class ClockController {
                     newStart = false;
                 }
 
-                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                double angle = (double)(now - startNano) / TimeUnit.NANOSECONDS.convert(1, TimeUnit.MINUTES) * 360;
+                double elapsedTime = (double)(now - startNano);
+                double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
 
-                canvas.getGraphicsContext2D().strokeArc(brushSize, brushSize, canvas.getWidth() - brushSize * 2,
-                        canvas.getHeight() - brushSize * 2, 90, angle, ArcType.OPEN);
+                gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+                gc.strokeArc(brushSize, brushSize, canvas.getWidth() - brushSize * 2,
+                        canvas.getHeight() - brushSize * 2, 90, -angle, ArcType.OPEN);
+
+                if(elapsedTime >= TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES)) {
+                    switchCircle(gc);
+                }
             }
         };
     }
 
+    private void setWork(GraphicsContext gc) {
+        isBreak = false;
+        gc.setStroke(Color.LIGHTGREEN);
+        currentDuration = workDuration;
+        newStart = true;
+    }
 
-    @FXML
-    void updateWorkTime() {
-        String input = workText.getText();
+    private void setBreak(GraphicsContext gc) {
+        isBreak = true;
+        gc.setStroke(Color.TEAL);
+        currentDuration = breakDuration;
+        newStart = true;
+    }
 
-        if (isShortDuration(input)) {
-            workDuration = Integer.parseInt(input);
-            timer.stop();
+    private void switchCircle(GraphicsContext gc) {
+        isBreak = !isBreak;
+        if(isBreak) {
+            setBreak(gc);
+        } else {
+            setWork(gc);
         }
     }
 
-    @FXML
-    void updateBreakTime(MouseEvent event) {
-        String input = breakText.getText();
-
-        if (isShortDuration(input)) {
-            breakDuration = Integer.parseInt(input);
-        }
-    }
 
     @FXML
     void startClock(MouseEvent event) {
@@ -92,10 +98,5 @@ public class ClockController {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         timer.stop();
     }
-
-    private boolean isShortDuration(String input) {
-        return Pattern.matches("\\d\\*", input);
-    }
-
 
 }
