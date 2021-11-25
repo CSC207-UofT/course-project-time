@@ -1,4 +1,4 @@
-package main.java.entity;
+package entity;
 
 import java.util.List;
 
@@ -8,16 +8,13 @@ import java.util.List;
 public class Calendar {
 
     private final String name;
-    private final List<Event> events;
-    private final TodoList todoList;
 
     public Calendar(String name, List<Event> events) {
         this.name = name;
-        this.events = events;
-        this.todoList = new TodoList();
+        TodoList todoList = new TodoList();
 
-        for(Event event : this.events) {
-            Task task = new Task(event.getEventName());
+        for(Event event : events) {
+            Task task = new Task(event.getId(), event.getEventName());
             todoList.addTask(task);
         }
     }
@@ -30,9 +27,4 @@ public class Calendar {
         return name;
     }
 
-    public List<Event> getEvents() { return events; }
-
-    public TodoList getTodoList() {
-        return todoList;
-    }
 }

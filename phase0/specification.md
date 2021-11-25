@@ -16,7 +16,14 @@ from the calendar and suggest it to the user. Upon confirmation with the user,
 an event will be scheduled for the user to complete the task.
 
 The user will also be able to reschedule an event if they did not end up completing 
-the event in the scheduled time. 
+the event in the scheduled time, or if they want to change a time for the event. 
 
-The application will also contain a notification system that will notify users when their events are about to begin 
-so that the users do not miss their events.
+Furthermore, the application will contain a notification system that notifies users when their events are about to begin 
+so that the users do not miss their events, and when the tasks will be due. Users
+will be able to set how long before the deadline should the notification be sent. Users
+can choose to be notified through the application or email, or both.
+
+Lastly, there will be a pomodoro feature to help users work productively.
+The user will be able to select durations for "work time", and a "break time".
+Our program will then start timing and alternate between "work time" and "break time"
+for the user to work and take a break accordingly.
