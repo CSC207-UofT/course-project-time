@@ -22,6 +22,11 @@ public class NotificationAdder {
         this.notificationFormat = notificationFormat;
     }
 
+    /***
+     * Create an event notification using the date from eventData and the event id eventId
+     * @param eventData the event data from the user
+     * @param eventId the id of the event
+     */
     public void createNotification(CalendarEventModel eventData, long eventId) {
         // TODO: add duration in advance to CalendarEventModel and other related classes
         // will need to use for loop
@@ -32,6 +37,10 @@ public class NotificationAdder {
 
     }
 
+    /***
+     * Load the event notifications from the database
+     * @param eventReaders a list of EvenReader that stores the information of events from the database
+     */
     public void loadEventNotifications(List<EventReader> eventReaders) {
         for (EventReader eventReader : eventReaders) {
             long eventId = eventReader.getId();
@@ -51,6 +60,11 @@ public class NotificationAdder {
         }
     }
 
+    /***
+     * Create a task notification using the date from taskData and the task id tasktId
+     * @param taskData the task data from the user
+     * @param taskId the id of the task
+     */
     public void createNotification(TodoListTaskCreationModel taskData, long taskId) {
         // TODO: add duration in advance to TodoListTaskCreationModel and other related classes
         LocalDateTime notificationTime = taskData.getDeadline();
@@ -59,6 +73,10 @@ public class NotificationAdder {
         notificationTracker.addNotification(notification);
     }
 
+    /***
+     * Load the task notifications from the database
+     * @param taskReaders a list of TaskReader that stores the information of tasks from the database
+     */
     public void loadTaskNotifications(List<TaskReader> taskReaders) {
         for (TaskReader taskReader : taskReaders) {
             long taskId = taskReader.getId();
