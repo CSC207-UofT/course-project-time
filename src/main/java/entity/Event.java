@@ -21,6 +21,7 @@ public class Event {
     private final Task task;
     private final Set<LocalDate> dates;
     private boolean completed;
+    private Duration notificationTimeInAdvance = null;
 
     /**
      * Construct an event based on a task.
@@ -101,6 +102,10 @@ public class Event {
         this.tags.add(tag);
     }
 
+    public void setNotificationTimeInAdvance(Duration timeInAdvance) {
+        this.notificationTimeInAdvance = timeInAdvance;
+    }
+
     public long getId() {
         return id;
     }
@@ -131,5 +136,9 @@ public class Event {
 
     public boolean getCompleted() {
         return this.completed;
+    }
+
+    public Duration getNotificationTimeInAdvance() {
+        return this.notificationTimeInAdvance;
     }
 }
