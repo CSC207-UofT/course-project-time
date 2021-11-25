@@ -17,12 +17,15 @@ public class ClockController {
     private float time_milli;
     private AnimationTimer timer;
     private GraphicsContext gc;
-    private float brushSize = 10;
+    private float brushSize = 15;
 
     private long workDuration = 20;
     private long breakDuration = 5;
 
     private long startTime = 0;
+
+    private long startNano;
+    private boolean newStart;
 
     @FXML
     private Canvas canvas;
@@ -36,16 +39,22 @@ public class ClockController {
     @FXML
     public void initialize() {
         gc = canvas.getGraphicsContext2D();
-        gc.setStroke(Color.GREEN);
-        gc.setLineWidth(10);
+        gc.setStroke(Color.LIGHTGREEN);
+        gc.setLineWidth(brushSize);
 
         timer = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
-                long angle = now / TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES);
+
+                if(newStart) {
+                    startNano = now;
+                    newStart = false;
+                }
 
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                double angle = (double)(now - startNano) / TimeUnit.NANOSECONDS.convert(1, TimeUnit.MINUTES) * 360;
+
                 canvas.getGraphicsContext2D().strokeArc(brushSize, brushSize, canvas.getWidth() - brushSize * 2,
                         canvas.getHeight() - brushSize * 2, 90, angle, ArcType.OPEN);
             }
@@ -59,6 +68,7 @@ public class ClockController {
 
         if (isShortDuration(input)) {
             workDuration = Integer.parseInt(input);
+            timer.stop();
         }
     }
 
@@ -73,6 +83,7 @@ public class ClockController {
 
     @FXML
     void startClock(MouseEvent event) {
+        newStart = true;
         timer.start();
     }
 
