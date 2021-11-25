@@ -47,8 +47,9 @@ public class EventAdderTest {
         }
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
+        public long addEvent(CalendarEventModel eventData) {
             eventList.add((CalendarEventData) eventData);
+            return 0L;
         }
 
         @Override

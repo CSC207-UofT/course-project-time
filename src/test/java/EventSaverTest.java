@@ -32,7 +32,8 @@ public class EventSaverTest {
         String savedEvent;
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
+        public long addEvent(CalendarEventModel eventData) {
+            return 0L;
         }
 
         @Override
