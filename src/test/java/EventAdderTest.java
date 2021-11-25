@@ -64,6 +64,11 @@ public class EventAdderTest {
             rules.add(new Rules.StartSingleDateRule(date));
             return rules.iterator();
         }
+
+        @Override
+        public void addRule(Rule rule) {
+
+        }
     }
 
     private static class EventBuffer {
