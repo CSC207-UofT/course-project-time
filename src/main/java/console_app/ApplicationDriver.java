@@ -2,12 +2,11 @@ package console_app;
 
 import services.event_presentation.EventInfo;
 import services.strategy_building.DatesForm;
-import services.strategy_building.MultipleBasicForm;
+import services.strategy_building.MultipleRuleFormBuilder;
 import services.task_presentation.TaskInfo;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -117,8 +116,9 @@ public class ApplicationDriver {
                         }
                     } while (!timeAvailable);
 
-                    MultipleBasicForm form = new MultipleBasicForm();
-                    form.addSingleOccurrence(userSuggestedTime);
+                    MultipleRuleFormBuilder formBuilder = new MultipleRuleFormBuilder();
+                    formBuilder.addSingleOccurrence(userSuggestedTime);
+                    DatesForm form = formBuilder.getForm();
 
                     controller.createEvent(taskManual.getName(), taskManual.getDuration(), form);
                     System.out.println("Event created from task");
@@ -382,17 +382,17 @@ public class ApplicationDriver {
             endTime = null;
         }
 
-        MultipleBasicForm form = new MultipleBasicForm();
+        MultipleRuleFormBuilder formBuilder = new MultipleRuleFormBuilder();
         if (startTime != null && endTime != null)
-            form.addWeeklyOccurrenceBetween(day, timeOfDay, startTime, endTime);
+            formBuilder.addWeeklyOccurrenceBetween(day, timeOfDay, startTime, endTime);
         else if (startTime != null)
-            form.addWeeklyOccurrenceFrom(day, timeOfDay, startTime);
+            formBuilder.addWeeklyOccurrenceFrom(day, timeOfDay, startTime);
         else if (endTime != null)
-            form.addWeeklyOccurrenceUntil(day, timeOfDay, endTime);
+            formBuilder.addWeeklyOccurrenceUntil(day, timeOfDay, endTime);
         else
-            form.addWeeklyOccurrence(day, timeOfDay);
+            formBuilder.addWeeklyOccurrence(day, timeOfDay);
 
-        return form;
+        return formBuilder.getForm();
 
     }
 
