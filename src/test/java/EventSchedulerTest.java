@@ -100,7 +100,7 @@ public class EventSchedulerTest {
         assertEquals(expected, actual);
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
         List<EventReader> events;
 
         public MockCalendarManager(List<EventReader> events) {
@@ -108,8 +108,8 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
-
+        public long addEvent(CalendarEventModel eventData) {
+            return 0L;
         }
 
         @Override

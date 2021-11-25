@@ -68,7 +68,7 @@ public class EventEntityManager implements CalendarManager{
      * @param eventData the information of an event
      */
     @Override
-    public void addEvent(CalendarEventModel eventData) {
+    public long addEvent(CalendarEventModel eventData) {
         String name = eventData.getName();
         LocalDateTime startTime = eventData.getStartTime();
         LocalDateTime endTime = eventData.getEndTime();
@@ -77,6 +77,7 @@ public class EventEntityManager implements CalendarManager{
 
         Event event = new Event(snowflake.nextId(), name, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         eventList.add(event);
+        return event.getId();
     }
 
     /**

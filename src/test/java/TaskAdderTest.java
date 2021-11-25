@@ -52,8 +52,9 @@ public class TaskAdderTest {
         private TodoListTaskCreationModel sentTask;
 
         @Override
-        public void addTask(TodoListTaskCreationModel taskData) {
+        public long addTask(TodoListTaskCreationModel taskData) {
             sentTask = taskData;
+            return 0L;
         }
 
 
