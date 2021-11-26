@@ -123,6 +123,21 @@ public class EventSchedulerTest {
         }
 
         @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
         public void loadEvents(String filePath) throws IOException {
 
         }
