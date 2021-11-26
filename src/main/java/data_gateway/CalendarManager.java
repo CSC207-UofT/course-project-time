@@ -16,8 +16,6 @@ public interface CalendarManager {
 
     List<EventReader> getAllEvents();
 
-    Event updateEvent(long eventId);
-
     void updateName(long id, String newName);
 
     void updateStartTime(long id, LocalTime newStartTime);
