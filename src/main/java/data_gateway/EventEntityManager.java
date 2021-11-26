@@ -105,15 +105,6 @@ public class EventEntityManager implements CalendarManager{
         return eventReaderList;
     }
 
-    @Override
-    public Event updateEvent(long eventId) {
-        for (Event event: eventList) {
-            if (event.getId() == eventId) {
-                return event;
-            }
-        }
-        return null;
-    }
 
     @Override
     public void updateName(long id, String newName) {
