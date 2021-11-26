@@ -71,6 +71,35 @@ public class TodoEntityManager implements TodoListManager{
                 t.setCompleted(true);
     }
 
+
+    @Override
+    public void updateName(long id, String newName) {
+        for (Task task : taskArrayList) {
+            if (task.getId() == id){
+                task.setTaskName(newName);
+            }
+        }
+    }
+
+    @Override
+    public void updateDuration(long id, Duration newDuration) {
+        for (Task task : taskArrayList){
+            if(task.getId() == id){
+                task.setTimeNeeded(newDuration);
+            }
+        }
+    }
+
+    @Override
+    public void updateDeadline(long id, LocalDateTime newDeadline) {
+        for (Task task : taskArrayList){
+            if(task.getId() == id){
+                task.setDeadline(newDeadline);
+            }
+        }
+    }
+
+
     /**
      * Stores todolist data from an external json file, gson usaged based on
      * code from https://www.baeldung.com/gson-list

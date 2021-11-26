@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -101,5 +102,43 @@ public class EventEntityManager implements CalendarManager{
             eventReaderList.add(eventReader);
         }
         return eventReaderList;
+    }
+
+    @Override
+    public Event updateEvent(long eventId) {
+        for (Event event: eventList) {
+            if (event.getId() == eventId) {
+                return event;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void updateName(long id, String newName) {
+        for(Event event : eventList){
+            if(event.getId() == id){
+                event.setEventName(newName);
+            }
+        }
+    }
+
+    @Override
+    public void updateStartTime(long id, LocalTime newStartTime) {
+        for(Event event : eventList){
+            if(event.getId() == id){
+                event.setStartTime(newStartTime);
+            }
+        }
+    }
+
+    @Override
+    public void updateEndTime(long id, LocalTime newEndTime) {
+        for(Event event : eventList){
+            if(event.getId() == id){
+                event.setEndTime(newEndTime);
+            }
+        }
+
     }
 }

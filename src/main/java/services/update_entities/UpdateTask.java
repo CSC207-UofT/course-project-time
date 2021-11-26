@@ -1,0 +1,37 @@
+package services.update_entities;
+
+import data_gateway.TodoEntityManager;
+import data_gateway.TodoListManager;
+import services.Snowflake;
+
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+
+
+public class UpdateTask {
+    TodoListManager todoListManager;
+    long id;
+
+    public UpdateTask(TodoListManager todoEntityManager, long id){
+        this.todoListManager = todoEntityManager;
+        this.id = id;
+    }
+
+    public void updateName(String newName){
+        todoListManager.updateName(id, newName);
+    }
+
+    public void updateDuration(Duration newDuration){
+        todoListManager.updateDuration(id, newDuration);
+    }
+
+    public void updateDeadline(LocalDateTime newDeadline){
+        todoListManager.updateDeadline(id, newDeadline);
+    }
+
+    public void completeTask() {
+        todoListManager.completeTask(id);
+    }
+
+}
