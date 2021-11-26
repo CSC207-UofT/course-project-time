@@ -1,8 +1,8 @@
 package console_app.task_to_event_adapters;
 
+import services.event_from_task_creation.CalendarAnalyzer;
 import console_app.event_adapters.EventController;
 import services.event_from_task_creation.EventScheduler;
-import services.event_from_task_creation.TaskToEvent;
 import services.task_presentation.TaskInfo;
 
 import java.time.LocalDateTime;
@@ -12,8 +12,7 @@ import java.util.Scanner;
 
 public class TaskToEventController {
 
-    private final TaskToEvent taskToEvent = new TaskToEvent();
-    private final EventScheduler eventScheduler;
+    private final CalendarAnalyzer eventScheduler;
 
     protected final EventController eventController;
 
@@ -34,8 +33,8 @@ public class TaskToEventController {
         Scanner scanner = new Scanner(System.in);
 
         do {
-            suggestedTime = taskToEvent.getAvailableTime(
-                    task, eventScheduler, unwantedTimes
+            suggestedTime = eventScheduler.getAvailableTime(
+                    unwantedTimes, task.getDuration()
             );
             System.out.println("Suggested time: " + suggestedTime);
             System.out.print("Type 'y' for yes, anything else for no: ");
@@ -54,6 +53,6 @@ public class TaskToEventController {
      * @return whether the task is successfully scheduled to event
      */
     public boolean checkUserSuggestedTime(TaskInfo task, LocalDateTime userSuggestedTime) {
-        return taskToEvent.checkTimeAvailability(task, eventScheduler, userSuggestedTime);
+        return eventScheduler.isAvailable(userSuggestedTime.toLocalTime(), task.getDuration(), userSuggestedTime.toLocalDate());
     }
 }

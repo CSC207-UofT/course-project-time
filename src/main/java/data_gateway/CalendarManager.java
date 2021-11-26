@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CalendarManager {
 
-    void addEvent(CalendarEventModel eventData);
+    long addEvent(CalendarEventModel eventData);
 
     void markEventAsCompleted(long eventId);
 

@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface TodoListManager {
 
-    void addTask(TodoListTaskCreationModel taskData);
+    long addTask(TodoListTaskCreationModel taskData);
 
     TaskReader getTask(long taskId);
 
