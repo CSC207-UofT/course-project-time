@@ -15,6 +15,6 @@ public interface CalendarManager {
 
     void loadEvents(String filePath) throws IOException;
 
-    void saveEvents(String savePath) throws IOException;
+    void saveEvents(String filePath) throws IOException;
 
 }
