@@ -11,8 +11,8 @@ public class EventAdder implements EventAdding {
     }
 
     @Override
-    public void addEvent(CalendarEventModel eventData) {
-        calendarManager.addEvent(eventData);
+    public long addEvent(CalendarEventModel eventData) {
+        return calendarManager.addEvent(eventData);
     }
 
     @Override
