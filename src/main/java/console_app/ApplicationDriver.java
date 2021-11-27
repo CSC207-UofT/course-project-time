@@ -7,6 +7,7 @@ import services.task_presentation.TaskInfo;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -174,7 +175,7 @@ public class ApplicationDriver {
         do {
             System.out.print("Enter how long the event will go on for (hours minutes) ");
             String startTimeResponse = input.nextLine(); // TODO exception handling
-            response = startTimeResponse.split("\\w");
+            response = startTimeResponse.split(" ");
         } while (response.length != 2);
         int hours = Integer.parseInt(response[0]);
         int minutes = Integer.parseInt(response[1]);
@@ -303,6 +304,22 @@ public class ApplicationDriver {
         return LocalDateTime.parse(timeString, formatter);
     }
 
+    private static LocalDateTime inputDateWithOptionalTime(LocalTime defaultTime) {
+        String dateTimeFormat = "yyyy/MM/dd-HH:mm";
+        String dateFormat = "yyyy/MM/dd";
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Format: (" + dateTimeFormat + ") or " +
+                "(" + dateFormat + ") defaulting to " + defaultTime.toString() + " (24 hour time): ");
+        String timeString = scanner.nextLine();
+        try {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            return LocalDateTime.parse(timeString, dateTimeFormatter);
+        } catch (DateTimeParseException e) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            return LocalDate.parse(timeString, dateFormatter).atTime(defaultTime);
+        }
+    }
+
     /**
      * Prompts users for their desired work and break intervals
      * @return the time intervals the user inputted
@@ -351,7 +368,7 @@ public class ApplicationDriver {
         Scanner sc = new Scanner(System.in);
         String input;
         do {
-            System.out.println("Input what day of the week you want the event to reoccur");
+            System.out.print("Input what day of the week you want the event to reoccur: ");
             input = sc.nextLine().toLowerCase();
         } while (!daysSet.contains(input));
 
@@ -361,23 +378,23 @@ public class ApplicationDriver {
 
         DayOfWeek day = DayOfWeek.of(index + 1);
 
-        System.out.println("When in the day do you want the event to reoccur (HH:mm)?");
+        System.out.print("When in the day do you want the event to reoccur (HH:mm)? ");
         Scanner scanner = new Scanner(System.in);
         String timeString = scanner.nextLine();
         LocalTime timeOfDay = LocalTime.parse(timeString);
 
-        System.out.println("(Optional) input the time to start from (enter nothing to not use)");
+        System.out.println("(Optional) Input the date from when this recurrence should start (for an event like every Monday from Jan 1) (enter nothing to not use)");
         LocalDateTime startTime;
         try {
-             startTime = inputTime();
+             startTime = inputDateWithOptionalTime(LocalTime.MIDNIGHT);
         } catch (DateTimeParseException e) {
             startTime = null;
         }
 
-        System.out.println("(Optional) input the time to end at (enter nothing to not use)");
+        System.out.println("(Optional) Input the date from when this recurrence should end (for an event like Monday until Dec 31) (enter nothing to not use)");
         LocalDateTime endTime;
         try {
-            endTime = inputTime();
+            endTime = inputDateWithOptionalTime(LocalTime.MIDNIGHT.minusMinutes(1));
         } catch (DateTimeParseException e) {
             endTime = null;
         }
