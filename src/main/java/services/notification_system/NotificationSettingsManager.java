@@ -32,6 +32,6 @@ public class NotificationSettingsManager implements NotificationSettings{
     @Override
     public void saveNewSettings(Map<String, Boolean> newSettings) {
         notificationSettings = newSettings;
-        // TODO: save to the datebase
+        // TODO: save to the database
     }
 }

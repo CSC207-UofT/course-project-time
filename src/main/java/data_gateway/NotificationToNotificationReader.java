@@ -1,25 +1,29 @@
 package data_gateway;
 
+import entity.Notification;
+
 import java.time.LocalDateTime;
 
 public class NotificationToNotificationReader implements NotificationReader{
-    @Override
-    public long getId() {
-        return 0;
+
+    private final Notification notification;
+
+    public NotificationToNotificationReader(Notification notification) {
+        this.notification = notification;
     }
 
     @Override
     public long getAssociatedId() {
-        return 0;
+        return notification.getAssociatedId();
     }
 
     @Override
     public LocalDateTime getNotificationDateTime() {
-        return null;
+        return notification.getNotificationDateTime();
     }
 
     @Override
     public String getMessage() {
-        return null;
+        return notification.getMessage();
     }
 }
