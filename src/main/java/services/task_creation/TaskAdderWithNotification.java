@@ -5,22 +5,23 @@ import services.notification_system.NotificationAdder;
 
 public class TaskAdderWithNotification implements TaskAdding{
 
-    private final TodoListManager todoListManager;
+    private final TaskAdder service;
     private final NotificationAdder notificationAdder;
 
-    public TaskAdderWithNotification(TodoListManager todoListManager, NotificationAdder notificationAdder) {
-        this.todoListManager = todoListManager;
+    public TaskAdderWithNotification(TaskAdder service, NotificationAdder notificationAdder) {
+        this.service = service;
         this.notificationAdder = notificationAdder;
     }
 
     @Override
-    public void addTask(TodoListTaskCreationModel taskData) {
-        long taskId = todoListManager.addTask(taskData);
+    public long addTask(TodoListTaskCreationModel taskData) {
+        long taskId = service.addTask(taskData);
         notificationAdder.createNotification(taskData, taskId);
+        return taskId;
     }
 
     @Override
     public void completeTask(long taskId) {
-        todoListManager.completeTask(taskId);
+        service.completeTask(taskId);
     }
 }

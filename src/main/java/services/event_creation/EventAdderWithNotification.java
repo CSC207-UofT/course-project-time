@@ -5,22 +5,23 @@ import services.notification_system.NotificationAdder;
 
 public class EventAdderWithNotification implements EventAdding{
 
-    private final CalendarManager calendarManager;
+    private final EventAdder service;
     private final NotificationAdder notificationAdder;
 
-    public EventAdderWithNotification(CalendarManager calendarManager, NotificationAdder notificationAdder) {
-        this.calendarManager = calendarManager;
+    public EventAdderWithNotification(EventAdder service, NotificationAdder notificationAdder) {
+        this.service = service;
         this.notificationAdder = notificationAdder;
     }
 
     @Override
-    public void addEvent(CalendarEventModel eventData) {
-        long eventId = calendarManager.addEvent(eventData);
+    public long addEvent(CalendarEventModel eventData) {
+        long eventId = service.addEvent(eventData);
         notificationAdder.createNotification(eventData, eventId);
+        return eventId;
     }
 
     @Override
     public void markEventAsCompleted(long eventId) {
-        calendarManager.markEventAsCompleted(eventId);
+        service.markEventAsCompleted(eventId);
     }
 }
