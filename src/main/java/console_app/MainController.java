@@ -12,6 +12,7 @@ import data_gateway.TodoListManager;
 import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
+import services.event_creation.EventAdderWithNotification;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
@@ -19,6 +20,7 @@ import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
 import services.notification_system.*;
 import services.task_creation.TaskAdder;
+import services.task_creation.TaskAdderWithNotification;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TaskSaver;
 import services.task_presentation.TaskGetter;
@@ -43,7 +45,6 @@ public class MainController {
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
-        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
         EventScheduler eventScheduler = new EventScheduler(calendarManager);
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
 
@@ -54,30 +55,39 @@ public class MainController {
             e.printStackTrace();
         }
 
-        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
-        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
-        EventSaver eventSaver = new EventSaver(calendarManager);
-
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
-
-        TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
-        TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        TaskSaver taskSaver = new TaskSaver(todoListManager);
-        taskController = new TaskController(taskGetter, taskAdder, taskSaver);
-
-        taskToEventController = new TaskToEventController(eventController, eventScheduler);
-        pomodoroController = new PomodoroController();
-
+        // Creating notification presenters
         List<NotificationPresenter> notificationPresenters = new ArrayList<>();
         NotificationPresenter desktopPresenter = new DesktopNotificationPresenter();
         NotificationPresenter emailPresenter = new EmailNotificationPresenter();
         notificationPresenters.add(desktopPresenter);
         notificationPresenters.add(emailPresenter);
+
         NotificationTracker notificationTracker = new NotificationTracker(notificationPresenters);
+
+        // Creating classes related to notification adding process
         NotificationFormat notificationFormatter = new NotificationFormatter();
         NotificationAdder notificationAdder = new NotificationAdder(notificationTracker, notificationFormatter);
+
+        // Creating classes related to event use cases
+        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
+        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
+        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
+        EventSaver eventSaver = new EventSaver(calendarManager);
+        CalendarEventCreationBoundary eventAdderWithNotification = new EventAdderWithNotification(eventAdder, notificationAdder);
+
+        // Creating classes related to task use cases
+        TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
+        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
+        TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
+        TaskSaver taskSaver = new TaskSaver(todoListManager);
+        TodoListTaskCreationBoundary taskAdderWithNotification = new TaskAdderWithNotification(taskAdder, notificationAdder);
+
+        // Creating controllers
         NotificationController notificationController = new NotificationController(notificationTracker, notificationAdder);
+        eventController = new EventController(eventAdderWithNotification, eventScheduler, eventGetter,  eventSaver, notificationController);
+        taskController = new TaskController(taskGetter, taskAdderWithNotification, taskSaver, notificationController);
+        taskToEventController = new TaskToEventController(eventController, eventScheduler);
+        pomodoroController = new PomodoroController();
     }
 
     /**

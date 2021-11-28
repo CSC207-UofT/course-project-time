@@ -1,10 +1,10 @@
 package console_app.event_adapters;
 
 
+import console_app.NotificationController;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.CalendarAnalyzer;
-import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
 
@@ -24,13 +24,15 @@ public class EventController {
     private final CalendarAnalyzer eventScheduler;
     private final EventGetter eventGetter;
     private final EventSaver eventSaver;
+    private final NotificationController notificationController;
 
     public EventController(CalendarEventCreationBoundary eventAdder, CalendarAnalyzer eventScheduler,
-                           EventGetter eventGetter, EventSaver eventSaver) {
+                           EventGetter eventGetter, EventSaver eventSaver, NotificationController notificationController) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
         this.eventSaver = eventSaver;
+        this.notificationController = notificationController;
     }
 
     /**
