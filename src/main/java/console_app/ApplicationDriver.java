@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -93,14 +94,26 @@ public class ApplicationDriver {
                 if (positionToIdMapping.size() != 0) {
                     TaskInfo taskInfo = chooseTask(positionToIdMapping);
                     LocalDateTime suggestedTime = controller.getSuggestedTime(taskInfo.getDuration());
-                    String formattedTime = suggestedTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm"));
+                    String format = "yyyy/MM/dd-HH:mm";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+                    String formattedTime = suggestedTime.format(formatter);
                     System.out.println("Suggested time is: " + formattedTime);
 
                     LocalDateTime userSuggestedTime;
                     boolean timeAvailable;
 
                     do {
-                        userSuggestedTime = inputTime();
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.print("Input your desired time in (" + format + ") (24 hour time) or 'y' to accept the suggested time: ");
+                        String timeString = scanner.nextLine();
+                        try {
+                            userSuggestedTime = LocalDateTime.parse(timeString, formatter);
+                        } catch (DateTimeParseException e) {
+                            if (timeString.equalsIgnoreCase("y"))
+                                userSuggestedTime = suggestedTime;
+                            else
+                                throw e;
+                        }
                         timeAvailable = controller.checkUserSuggestedTime(taskInfo, userSuggestedTime);
                         if (!timeAvailable) {
                             System.out.println("Time not available, please retry.");
