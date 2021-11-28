@@ -1,5 +1,6 @@
 package console_app.task_adapters;
 
+import console_app.NotificationController;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskGetter;
@@ -15,11 +16,13 @@ public class TaskController {
     private final TaskGetter taskGetter;
     private final TodoListTaskCreationBoundary taskAdder;
     private final TaskSaver taskSaver;
+    private final NotificationController notificationController;
 
-    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver) {
+    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver, NotificationController notificationController) {
         this.taskGetter = taskGetter;
         this.taskAdder = taskAdder;
         this.taskSaver = taskSaver;
+        this.notificationController = notificationController;
     }
 
     /**
