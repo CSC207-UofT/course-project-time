@@ -3,6 +3,8 @@ package services.task_creation;
 import data_gateway.TodoListManager;
 import services.notification_system.NotificationAdder;
 
+import java.time.Duration;
+
 public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
 
     private final TodoListTaskCreationBoundary service;
@@ -14,9 +16,9 @@ public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
     }
 
     @Override
-    public long addTask(TodoListTaskCreationModel taskData) {
+    public long addTask(TodoListTaskCreationModel taskData, Duration notificationTimeInAdvance) {
         long taskId = service.addTask(taskData);
-        notificationAdder.createNotification(taskData, taskId);
+        notificationAdder.createNotification(taskData, taskId, notificationTimeInAdvance);
         return taskId;
     }
 
