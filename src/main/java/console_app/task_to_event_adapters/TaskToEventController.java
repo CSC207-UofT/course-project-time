@@ -5,7 +5,6 @@ import console_app.event_adapters.EventController;
 import services.event_from_task_creation.EventScheduler;
 import services.task_presentation.TaskInfo;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

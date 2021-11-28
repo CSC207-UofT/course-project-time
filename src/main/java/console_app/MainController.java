@@ -120,8 +120,8 @@ public class MainController {
      * @param date      the date that the event would occur
      */
     public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                            HashSet<String> tags, LocalDate date, Duration notificationTimeInAdvance) {
-        eventController.createEvent(eventName, startTime, endTime, tags, date, notificationTimeInAdvance);
+                            HashSet<String> tags, LocalDate date) {
+        eventController.createEvent(eventName, startTime, endTime, tags, date);
     }
 
     public void saveData()

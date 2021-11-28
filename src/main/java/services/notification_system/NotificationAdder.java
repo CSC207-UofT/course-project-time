@@ -27,12 +27,12 @@ public class NotificationAdder {
      * @param eventData the event data from the user
      * @param eventId the id of the event
      */
-    public void createNotification(CalendarEventModel eventData, long eventId, Duration notificationTimeInAdvance) {
+    public void createNotification(CalendarEventModel eventData, long eventId) {
         // TODO: add duration in advance to CalendarEventModel and other related classes
         // will need to use for loop
         LocalDateTime notificationTime = null;
         String message = notificationFormat.formatNotificationMessage(eventData);
-        Notification notification = new Notification(eventId, Duration notificationTimeInAdvance, notificationTime, message);
+        Notification notification = new Notification(eventId, notificationTime, message);
         notificationTracker.addNotification(notification);
 
     }
@@ -65,11 +65,11 @@ public class NotificationAdder {
      * @param taskData the task data from the user
      * @param taskId the id of the task
      */
-    public void createNotification(TodoListTaskCreationModel taskData, long taskId, Duration notificationTimeInAdvance) {
+    public void createNotification(TodoListTaskCreationModel taskData, long taskId) {
         // TODO: add duration in advance to TodoListTaskCreationModel and other related classes
         LocalDateTime notificationTime = taskData.getDeadline();
         String message = notificationFormat.formatNotificationMessage(taskData);
-        Notification notification = new Notification(taskId, Duration notificationTimeInAdvance, notificationTime, message);
+        Notification notification = new Notification(taskId, notificationTime, message);
         notificationTracker.addNotification(notification);
     }
 

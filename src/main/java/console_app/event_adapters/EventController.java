@@ -48,12 +48,10 @@ public class EventController {
      * @param startDateTime start time including date
      * @param duration duration of event
      */
-    public void createEvent(String eventName, LocalDateTime startDateTime, Duration duration,
-                            Duration notificationTimeInAdvance) {
+    public void createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
         // todo use exceptions to ensure that duration won't last until the next day
         LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
-        createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(),
-                startDateTime.toLocalDate(), notificationTimeInAdvance);
+        createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
     }
 
     /**
@@ -66,13 +64,13 @@ public class EventController {
      * @param date date of which this event occurs
      */
     public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                            HashSet<String> tags, LocalDate date, Duration notificationTimeInAdvance) {
+                            HashSet<String> tags, LocalDate date) {
 
         if(eventScheduler.isAvailable(startTime, Duration.between(startTime, endTime), date)) {
             eventAdder.addEvent(new CalendarEventData(eventName,
                     LocalDateTime.of(date, startTime),
                     LocalDateTime.of(date, endTime),
-                    tags), notificationTimeInAdvance);
+                    tags));
         }
     }
 
