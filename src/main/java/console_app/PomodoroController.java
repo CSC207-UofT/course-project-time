@@ -41,7 +41,7 @@ public class PomodoroController {
     }
 
     public void setPomodoroRunner(int workTime, int breakTime) {
-        this.pomodoroRunner = new PomodoroRunner(pomodoroTimerManager.createPomodoroTimer(workTime, breakTime));
+//        this.pomodoroRunner = new PomodoroRunner(pomodoroTimerManager.createPomodoroTimer(workTime, breakTime));
     }
 
 }

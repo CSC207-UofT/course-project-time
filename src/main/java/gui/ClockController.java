@@ -1,13 +1,17 @@
 package gui;
 
+import console_app.PomodoroController;
 import javafx.animation.AnimationTimer;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import services.pomodoro_running.PomodoroRunner;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -16,6 +20,7 @@ public class ClockController {
 
     private AnimationTimer timer;
     private GraphicsContext gc;
+    private Label pomodoroLabel;
     private final float brushSize = 30;
 
     private final long workDuration = 1;
@@ -37,6 +42,8 @@ public class ClockController {
 
         gc.setLineWidth(brushSize);
         setWork(gc);
+
+        pomodoroLabel = new Label();
 
         timer = new AnimationTimer() {
 
@@ -89,8 +96,11 @@ public class ClockController {
 
     @FXML
     void startClock(MouseEvent event) {
+        PomodoroRunner pomodoroRunner = new PomodoroRunner();
         newStart = true;
         timer.start();
+        Thread thread = new Thread(() -> pomodoroLabel.setText(pomodoroRunner.getCurrentTime()));
+        thread.start();
     }
 
     @FXML
