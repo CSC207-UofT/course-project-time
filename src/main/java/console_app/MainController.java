@@ -17,6 +17,7 @@ import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
+import services.notification_system.*;
 import services.task_creation.TaskAdder;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TaskSaver;
@@ -29,10 +30,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MainController {
     private final EventController eventController;
@@ -70,6 +68,16 @@ public class MainController {
 
         taskToEventController = new TaskToEventController(eventController, eventScheduler);
         pomodoroController = new PomodoroController();
+
+        List<NotificationPresenter> notificationPresenters = new ArrayList<>();
+        NotificationPresenter desktopPresenter = new DesktopNotificationPresenter();
+        NotificationPresenter emailPresenter = new EmailNotificationPresenter();
+        notificationPresenters.add(desktopPresenter);
+        notificationPresenters.add(emailPresenter);
+        NotificationTracker notificationTracker = new NotificationTracker(notificationPresenters);
+        NotificationFormat notificationFormatter = new NotificationFormatter();
+        NotificationAdder notificationAdder = new NotificationAdder(notificationTracker, notificationFormatter);
+        NotificationController notificationController = new NotificationController(notificationTracker, notificationAdder);
     }
 
     /**

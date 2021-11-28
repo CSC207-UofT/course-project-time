@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class NotificationController {
-    private NotificationTracker notificationTracker;
-    private NotificationAdder notificationAdder;
-    private NotificationSettings notificationSettings;
+    private final NotificationTracker notificationTracker;
+    private final NotificationAdder notificationAdder;
+    private final NotificationSettings notificationSettings;
 
     public NotificationController(NotificationTracker notificationTracker, NotificationAdder notificationAdder) {
         this.notificationTracker = notificationTracker;

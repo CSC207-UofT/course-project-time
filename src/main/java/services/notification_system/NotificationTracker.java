@@ -3,15 +3,16 @@ package services.notification_system;
 import entity.Notification;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationTracker implements Runnable {
-    private List<NotificationPresenter> observers;
-    private List<Notification> notificationList;
+    private final List<NotificationPresenter> observers;
+    private final List<Notification> notificationList;
 
-    public NotificationTracker(List<NotificationPresenter> observers, List<Notification> notificationList) {
+    public NotificationTracker(List<NotificationPresenter> observers) {
         this.observers = observers;
-        this.notificationList = notificationList;
+        this.notificationList = new ArrayList<>();
     }
 
     /**
@@ -19,7 +20,6 @@ public class NotificationTracker implements Runnable {
      * associatedId being id and notificationTime being time
      * @param id the associatedId of the target notification
      * @param time the notification time of the target notification
-     * @return true if the corresponding notification is deleted successfully
      */
     public void deleteNotification(int id, LocalDateTime time) {
         notificationList.removeIf(notification ->
@@ -29,7 +29,6 @@ public class NotificationTracker implements Runnable {
     /**
      * Delete all notifications in notificationList with associatedId being id
      * @param id the associated id that decide which notifications to delete
-     * @return true if all notifications are deleted successfully
      */
     public void deleteNotifications(int id) {
         notificationList.removeIf(notification -> id == notification.getAssociatedId());
