@@ -3,7 +3,7 @@ package services.task_creation;
 import data_gateway.TodoListManager;
 import services.notification_system.NotificationAdder;
 
-public class TaskAdderWithNotification implements TaskAdding{
+public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
 
     private final TaskAdder service;
     private final NotificationAdder notificationAdder;

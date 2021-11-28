@@ -3,7 +3,7 @@ package services.event_creation;
 import data_gateway.CalendarManager;
 import services.notification_system.NotificationAdder;
 
-public class EventAdderWithNotification implements EventAdding{
+public class EventAdderWithNotification implements CalendarEventCreationBoundary {
 
     private final EventAdder service;
     private final NotificationAdder notificationAdder;
