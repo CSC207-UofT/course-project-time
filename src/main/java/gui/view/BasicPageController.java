@@ -1,4 +1,4 @@
-package gui;
+package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

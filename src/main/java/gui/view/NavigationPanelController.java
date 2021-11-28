@@ -1,4 +1,4 @@
-package gui;
+package gui.view;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
