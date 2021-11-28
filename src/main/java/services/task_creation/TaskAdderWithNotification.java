@@ -7,10 +7,10 @@ import java.time.Duration;
 
 public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
 
-    private final TaskAdder service;
+    private final TodoListTaskCreationBoundary service;
     private final NotificationAdder notificationAdder;
 
-    public TaskAdderWithNotification(TaskAdder service, NotificationAdder notificationAdder) {
+    public TaskAdderWithNotification(TodoListTaskCreationBoundary service, NotificationAdder notificationAdder) {
         this.service = service;
         this.notificationAdder = notificationAdder;
     }
