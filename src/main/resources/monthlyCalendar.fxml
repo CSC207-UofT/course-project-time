@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.calendarfx.view.page.MonthPage?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.BasicPageController">
+   <children>
+      <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0" style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MonthPage layoutX="246.0" layoutY="173.0" prefHeight="512.0" prefWidth="675.0" />
+         </children></AnchorPane>
+      <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0" />
+      <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

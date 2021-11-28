@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class BasicPageController implements Initializable {
+public class MonthlyCalendarController implements Initializable {
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -45,6 +45,5 @@ public class BasicPageController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
 }

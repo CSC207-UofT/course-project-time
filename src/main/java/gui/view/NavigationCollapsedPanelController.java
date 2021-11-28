@@ -1,10 +1,19 @@
 package gui.view;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class NavigationCollapsedPanelController {
 
@@ -27,13 +36,20 @@ public class NavigationCollapsedPanelController {
     private JFXButton todolist;
 
     @FXML
-    void enterCalendarPage(MouseEvent event) {
-
+    void enterCalendarPage(MouseEvent event) throws IOException {
+        System.out.println("CLAENDAR CLICKED");
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setScene(new Scene(root, 1000, 800));
+        currentStage.show();
     }
 
     @FXML
-    void enterHomePage(MouseEvent event) {
-
+    void enterHomePage(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setScene(new Scene(root, 1000, 800));
+        currentStage.show();
     }
 
     @FXML
@@ -52,8 +68,11 @@ public class NavigationCollapsedPanelController {
     }
 
     @FXML
-    void menuClicked(MouseEvent event) {
-
+    void menuIconClicked(MouseEvent event) {
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        JFXDrawer extendedNavPanel = (JFXDrawer) currentScene.lookup("#extendedNavPanel");
+        extendedNavPanel.setVisible(true);
+        extendedNavPanel.open();
     }
 
 }
