@@ -3,6 +3,8 @@ package services.event_creation;
 import data_gateway.CalendarManager;
 import services.notification_system.NotificationAdder;
 
+import java.time.Duration;
+
 public class EventAdderWithNotification implements CalendarEventCreationBoundary {
 
     private final EventAdder service;
@@ -14,9 +16,9 @@ public class EventAdderWithNotification implements CalendarEventCreationBoundary
     }
 
     @Override
-    public long addEvent(CalendarEventModel eventData) {
+    public long addEvent(CalendarEventModel eventData, Duration notificationTimeInAdvance) {
         long eventId = service.addEvent(eventData);
-        notificationAdder.createNotification(eventData, eventId);
+        notificationAdder.createNotification(eventData, eventId, notificationTimeInAdvance);
         return eventId;
     }
 
