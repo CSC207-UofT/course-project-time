@@ -1,70 +1,59 @@
 package gui.view;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import gui.utility.NavigationHelper;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class NavigationCollapsedPanelController {
 
     @FXML
-    private JFXButton calendar;
-
-    @FXML
-    private JFXButton home;
-
-    @FXML
-    private JFXHamburger menuIcon;
-
-    @FXML
-    private JFXButton pomodoro;
-
-    @FXML
-    private JFXButton settings;
-
-    @FXML
-    private JFXButton todolist;
-
-    @FXML
-    void enterCalendarPage(MouseEvent event) throws IOException {
-        System.out.println("CLAENDAR CLICKED");
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        currentStage.setScene(new Scene(root, 1000, 800));
-        currentStage.show();
+    void enterCalendarPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterCalendarPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @FXML
-    void enterHomePage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        currentStage.setScene(new Scene(root, 1000, 800));
-        currentStage.show();
+    void enterHomePage(MouseEvent event) {
+        try {
+            NavigationHelper.enterHomePage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     void enterPomodoroPage(MouseEvent event) {
-
+        try {
+            NavigationHelper.enterPomodoroPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     void enterSettingsPage(MouseEvent event) {
-
+        try {
+            NavigationHelper.enterSettingsPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     void enterTodoListPage(MouseEvent event) {
-
+        try {
+            NavigationHelper.enterTodoListPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @FXML
