@@ -1,4 +1,5 @@
 package gui.view;
+
 import com.jfoenix.controls.JFXDrawer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,21 +15,30 @@ import java.util.ResourceBundle;
 public class BasicPageController implements Initializable {
 
     @FXML
-    private JFXDrawer drawer;
+    private JFXDrawer collapsedNavPanel;
+
+    @FXML
+    private JFXDrawer extendedNavPanel;
 
     @FXML
     private AnchorPane mainBackground;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // this adds the navigation panel to the view page
         try {
-            VBox vBox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/navigationPanel.fxml")));
-            drawer.setSidePane(vBox);
-            drawer.open();
+            VBox extendedPanel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/navigationExtendedPanel.fxml")));
+            extendedNavPanel.setSidePane(extendedPanel);
+            extendedNavPanel.setMinWidth(0);
+            extendedNavPanel.close();
+
+            VBox collapsedPanel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/navigationCollapsedPanel.fxml")));
+            collapsedNavPanel.setSidePane(collapsedPanel);
+            collapsedNavPanel.setMinWidth(0);
+            collapsedNavPanel.open();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
