@@ -32,7 +32,7 @@ public class NotificationAdder {
         // will need to use for loop
         LocalDateTime notificationTime = null;
         String message = notificationFormat.formatNotificationMessage(eventData);
-        Notification notification = new Notification(eventId, notificationTime, message);
+        Notification notification = new Notification(eventId, notificationTimeInAdvance, notificationTime, message);
         notificationTracker.addNotification(notification);
 
     }
@@ -54,7 +54,7 @@ public class NotificationAdder {
                 LocalDateTime startDateTime = date.atTime(startTime);
                 LocalDateTime notificationTime = startDateTime.minus(timeInAdvance);
                 String message = notificationFormat.formatEventNotificationMessage(eventName, date, startTime, endTime);
-                Notification notification = new Notification(eventId, notificationTime, message);
+                Notification notification = new Notification(eventId, notificationTimeInAdvance, notificationTime, message);
                 this.notificationTracker.addNotification(notification);
             }
         }
@@ -69,7 +69,7 @@ public class NotificationAdder {
         // TODO: add duration in advance to TodoListTaskCreationModel and other related classes
         LocalDateTime notificationTime = taskData.getDeadline();
         String message = notificationFormat.formatNotificationMessage(taskData);
-        Notification notification = new Notification(taskId, notificationTime, message);
+        Notification notification = new Notification(taskId, notificationTimeInAdvance, notificationTime, message);
         notificationTracker.addNotification(notification);
     }
 
@@ -86,7 +86,7 @@ public class NotificationAdder {
             LocalDateTime deadline = taskReader.getDeadline();
             LocalDateTime notificationTime = deadline.minus(timeInAdvance);
             String message = notificationFormat.formatTaskNotificationMessage(taskName, deadline);
-            Notification notification = new Notification(taskId, notificationTime, message);
+            Notification notification = new Notification(taskId, notificationTimeInAdvance, notificationTime, message);
             this.notificationTracker.addNotification(notification);
         }
     }

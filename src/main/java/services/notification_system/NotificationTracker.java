@@ -2,6 +2,7 @@ package services.notification_system;
 
 import entity.Notification;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,23 @@ public class NotificationTracker implements Runnable {
         }
         // either <notifications> is empty or it has been checked to the end
         notificationList.add(newNotification);
+    }
+
+    /***
+     * Look up the notification with the associated id in the notificationList.
+     * If the notification exists, return the notification time in advance of this notification.
+     * If the notification does not exist, return null.
+     * @param associatedId the associated id of the notification
+     * @return notification time in advance if the notification exists;
+     *         null if the notification does not exists.
+     */
+    public Duration getNotificationTimeInAdvance(long associatedId) {
+        for (Notification notification : notificationList) {
+            if (notification.getAssociatedId() == associatedId) {
+                return notification.getNotificationTimeInAdvance();
+            }
+        }
+        return null;
     }
 
     /**
