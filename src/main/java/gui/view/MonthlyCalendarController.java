@@ -1,15 +1,12 @@
 package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
+import gui.utility.NavigationHelper;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MonthlyCalendarController implements Initializable {
@@ -25,25 +22,6 @@ public class MonthlyCalendarController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeNavPanel();
+        NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
     }
-
-    private void initializeNavPanel() {
-        // this adds the navigation panel to the view page
-        try {
-            VBox extendedPanel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/navigationExtendedPanel.fxml")));
-            extendedNavPanel.setSidePane(extendedPanel);
-            extendedNavPanel.setMinWidth(0);
-            extendedNavPanel.setVisible(false);
-            extendedNavPanel.close();
-
-            VBox collapsedPanel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/navigationCollapsedPanel.fxml")));
-            collapsedNavPanel.setSidePane(collapsedPanel);
-            collapsedNavPanel.setMinWidth(0);
-            collapsedNavPanel.open();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
