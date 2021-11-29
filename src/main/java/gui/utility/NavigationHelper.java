@@ -1,6 +1,8 @@
 package gui.utility;
 
 import com.jfoenix.controls.JFXDrawer;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -44,13 +46,50 @@ public final class NavigationHelper {
     }
 
     /**
-     * Changes view to the calendar page.
+     * Changes view to the monthly calendar page.
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    public static void enterCalendarPage(MouseEvent event) throws IOException {
+    public static void enterMonthlyCalendarPage(Event event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
         setNewScene(event, root);
+    }
+
+    /**
+     * Changes view to the weekly calendar page.
+     * @param event the event that triggered the request to change view
+     * @throws IOException if the resource file cannot be found
+     */
+    private static void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
+        setNewScene(event, root);
+    }
+
+    /**
+     * Changes view to the daily calendar page.
+     * @param event the event that triggered the request to change view
+     * @throws IOException if the resource file cannot be found
+     */
+    private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
+        setNewScene(event, root);
+    }
+
+    /**
+     * Switches the page view based on the given calendar type
+     * @param event the event that triggered the request to change view
+     * @param calendarType the type of calendar page to switch to (weekly, monthly, and daily)
+     * @throws IOException if the resource file cannot be found
+     */
+    public static void switchCalendarPageType(ActionEvent event, String calendarType) throws IOException {
+        switch (calendarType) {
+            case "Month":
+                enterMonthlyCalendarPage(event);
+            case "Week":
+                enterWeeklyCalendarPage(event);
+            case "Day":
+                enterDailyCalendarPage(event);
+        }
     }
 
     /**
@@ -95,7 +134,7 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @param root the resource to change the view page to
      */
-    private static void setNewScene(MouseEvent event, Parent root) {
+    private static void setNewScene(Event event, Parent root) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setScene(new Scene(root, 1000, 800));
         currentStage.show();

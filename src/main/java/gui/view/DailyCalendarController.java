@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MonthlyCalendarController implements Initializable {
+public class DailyCalendarController implements Initializable {
 
     @FXML
     private JFXDrawer collapsedNavPanel;

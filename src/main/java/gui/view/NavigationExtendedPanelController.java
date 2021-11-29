@@ -14,7 +14,7 @@ public class NavigationExtendedPanelController {
     @FXML
     void enterCalendarPage(MouseEvent event) {
         try {
-            NavigationHelper.enterCalendarPage(event);
+            NavigationHelper.enterMonthlyCalendarPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
