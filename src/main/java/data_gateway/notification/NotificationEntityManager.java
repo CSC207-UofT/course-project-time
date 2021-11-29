@@ -44,7 +44,7 @@ public class NotificationEntityManager implements NotificationManager {
     /**
      * Deletes a notification
      * @param associatedId the id of the associated object that the notification is for
-     * @param timeInAdvance the duration in advance that the notification was to be sent out
+     * @param timeInAdvance the duration in advance that the notification is to be sent out
      */
     @Override
     public void deleteNotification(long associatedId, Duration timeInAdvance) {
@@ -72,7 +72,7 @@ public class NotificationEntityManager implements NotificationManager {
     /**
      * Return a notification.
      * @param associatedId the id of the associated object that the notification is for
-     * @param timeInAdvance the duration in advance that the notification was to be sent out
+     * @param timeInAdvance the duration in advance that the notification is to be sent out
      * @return the corresponding notification
      */
     @Override
