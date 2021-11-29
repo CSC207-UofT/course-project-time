@@ -19,7 +19,7 @@ public class EventAdder implements CalendarEventCreationBoundary {
     }
 
     @Override
-    public void addEvent(CalendarEventModel eventData) {
+    public long addEvent(CalendarEventModel eventData) {
 
         String eventName = eventData.getName();
         HashSet<String> tags = eventData.getTags();
@@ -31,7 +31,7 @@ public class EventAdder implements CalendarEventCreationBoundary {
         List<LocalDateTime> times = strategy.datesBetween(LocalDateTime.now(), LocalDateTime.now().plusYears(1));
         LocalDateTime startTime = times.get(0);
 
-        calendarManager.addEvent(eventName, startTime, startTime.plus(eventDuration), tags, startTime.toLocalDate());
+        return calendarManager.addEvent(eventName, startTime, startTime.plus(eventDuration), tags, startTime.toLocalDate());
     }
 
     @Override
