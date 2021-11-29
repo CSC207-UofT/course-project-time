@@ -1,10 +1,8 @@
 package data_gateway;
 
-import entity.Event;
 import services.event_creation.CalendarEventModel;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -21,6 +19,10 @@ public interface CalendarManager {
     void updateStartTime(long id, LocalTime newStartTime);
 
     void updateEndTime(long id, LocalTime newEndTime);
+
+    void addTags(long id, String tag);
+
+    void removeTags(long id, String tag);
 
     void loadEvents(String filePath) throws IOException;
 

@@ -26,6 +26,10 @@ public class UpdateEvent {
         calendarManager.updateEndTime(id, endTime);
     }
 
+    public void addTags(String tag){calendarManager.addTags(id, tag);}
+
+    public void removeTags(String tag){calendarManager.removeTags(id, tag);}
+
     public void markEventAsCompleted() {
         calendarManager.markEventAsCompleted(id);
     }

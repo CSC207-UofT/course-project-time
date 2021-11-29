@@ -86,12 +86,7 @@ public class EventEntityManager implements CalendarManager{
      */
     @Override
     public void markEventAsCompleted(long eventId) {
-        for (Event event: eventList) {
-            if (event.getId() == eventId) {
-                event.setCompleted(true);
-                return;
-            }
-        }
+        getById(eventId).setCompleted(true);
     }
 
     @Override
@@ -105,32 +100,38 @@ public class EventEntityManager implements CalendarManager{
         return eventReaderList;
     }
 
-
     @Override
     public void updateName(long id, String newName) {
-        for(Event event : eventList){
-            if(event.getId() == id){
-                event.setEventName(newName);
-            }
-        }
+        getById(id).setEventName(newName);
     }
 
     @Override
     public void updateStartTime(long id, LocalTime newStartTime) {
-        for(Event event : eventList){
-            if(event.getId() == id){
-                event.setStartTime(newStartTime);
-            }
-        }
+        getById(id).setStartTime(newStartTime);
     }
 
     @Override
     public void updateEndTime(long id, LocalTime newEndTime) {
+        getById(id).setEndTime(newEndTime);
+    }
+
+    @Override
+    public void addTags(long id, String tag) {
+        getById(id).addTag(tag);
+    }
+
+    @Override
+    public void removeTags(long id, String tag) {
+        getById(id).removeTag(tag);
+    }
+
+    private Event getById(long id){
         for(Event event : eventList){
             if(event.getId() == id){
-                event.setEndTime(newEndTime);
+                return event;
             }
         }
-
+        return null;
     }
+
 }

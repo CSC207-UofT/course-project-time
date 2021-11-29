@@ -1,6 +1,5 @@
 package data_gateway;
 
-import entity.Task;
 import services.task_creation.TodoListTaskCreationModel;
 
 import java.io.IOException;
@@ -24,6 +23,10 @@ public interface TodoListManager {
     void updateDuration(long id, Duration newDuration);
 
     void updateDeadline(long id, LocalDateTime newDeadline);
+
+    void addSubtask(long id, String subtask);
+
+    void removeSubtask(long id, String subtask);
 
     void loadTodo(String filepath) throws IOException;
 

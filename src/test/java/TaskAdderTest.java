@@ -88,6 +88,16 @@ public class TaskAdderTest {
         }
 
         @Override
+        public void addSubtask(long id, String subtask) {
+
+        }
+
+        @Override
+        public void removeSubtask(long id, String subtask) {
+
+        }
+
+        @Override
         public void loadTodo(String filepath) {
 
         }

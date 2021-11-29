@@ -82,6 +82,16 @@ public class EventAdderTest {
         }
 
         @Override
+        public void addTags(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTags(long id, String tag) {
+
+        }
+
+        @Override
         public void loadEvents(String filePath) {
 
         }

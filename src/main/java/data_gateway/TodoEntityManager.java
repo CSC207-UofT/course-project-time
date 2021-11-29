@@ -67,37 +67,42 @@ public class TodoEntityManager implements TodoListManager{
 
     @Override
     public void completeTask(long taskId) {
-        for (Task t : taskArrayList)
-            if (t.getId() == taskId)
-                t.setCompleted(true);
+        getById(taskId).setCompleted(true);
     }
 
 
     @Override
     public void updateName(long id, String newName) {
-        for (Task task : taskArrayList) {
-            if (task.getId() == id){
-                task.setTaskName(newName);
-            }
-        }
+        getById(id).setTaskName(newName);
     }
 
     @Override
     public void updateDuration(long id, Duration newDuration) {
-        for (Task task : taskArrayList){
-            if(task.getId() == id){
-                task.setTimeNeeded(newDuration);
-            }
-        }
+        getById(id).setTimeNeeded(newDuration);
     }
 
     @Override
     public void updateDeadline(long id, LocalDateTime newDeadline) {
-        for (Task task : taskArrayList){
+        getById(id).setDeadline(newDeadline);
+    }
+
+    @Override
+    public void addSubtask(long id, String subtask) {
+        getById(id).addSubtask(subtask);
+    }
+
+    @Override
+    public void removeSubtask(long id, String subtask) {
+        getById(id).removeSubtask(subtask);
+    }
+
+    private Task getById(long id){
+        for(Task task : taskArrayList){
             if(task.getId() == id){
-                task.setDeadline(newDeadline);
+                return task;
             }
         }
+        return null;
     }
 
 

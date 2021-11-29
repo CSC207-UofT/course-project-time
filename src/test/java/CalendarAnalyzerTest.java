@@ -122,6 +122,16 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
+        public void addTags(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTags(long id, String tag) {
+
+        }
+
+        @Override
         public void loadEvents(String filePath) throws IOException {
 
         }
