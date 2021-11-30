@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import services.pomodoro_running.PomodoroRunner;
 import services.pomodoro_running.TimeFormatter;
 
 
@@ -148,6 +149,9 @@ public class ClockController {
         timer.start();
     }
 
+    /**
+     * checks if the user input is an integer
+     */
     boolean userInputChecker(String text) {
         return text.matches("[0-9]*");
     }

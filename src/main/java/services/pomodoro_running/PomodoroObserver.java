@@ -2,11 +2,11 @@ package services.pomodoro_running;
 
 
 public class PomodoroObserver{
-    private final TimeFormatter timeFormatter;
+    private final PomodoroRunner pomodoroRunner;
     private final CancelTimerInput cancelTimerInput;
 
-    public PomodoroObserver(TimeFormatter timeFormatter, CancelTimerInput cancelTimerInput) {
-        this.timeFormatter = timeFormatter;
+    public PomodoroObserver(PomodoroRunner pomodoroRunner, CancelTimerInput cancelTimerInput) {
+        this.pomodoroRunner = pomodoroRunner;
         this.cancelTimerInput = cancelTimerInput;
     }
 
@@ -15,7 +15,7 @@ public class PomodoroObserver{
      * @return true when the pomodoro timer needs to start the next timer, false when user cancels timer
      */
     public boolean startTracking() {
-        PomodoroTimerTask pomodoroTimerTask = timeFormatter.getPomodoroTimerTask();
+        PomodoroTimerTask pomodoroTimerTask = pomodoroRunner.getPomodoroTimerTask();
         boolean switchNow = false;
         boolean cancelTimer = false;
         while(!switchNow && !cancelTimer) {
