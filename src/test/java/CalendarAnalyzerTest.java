@@ -40,7 +40,7 @@ public class CalendarAnalyzerTest {
     @Test
     void getAvailableTime() {
         LocalDateTime actual = scheduler.getAvailableTime(new ArrayList<>(), taskInfo.getDuration());
-        LocalDateTime expected = LocalDateTime.now().plus(taskInfo.getDuration());
+        LocalDateTime expected = LocalDateTime.now().plus(taskInfo.getDuration()).plusHours(1);
         assertEquals(toMinutes(expected), toMinutes(actual));
     }
 

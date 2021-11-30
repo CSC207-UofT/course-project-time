@@ -56,7 +56,13 @@ public class EventScheduler implements CalendarAnalyzer {
             }
         }
 
+        removeTimesBefore(timeFramesToIgnore, LocalDateTime.now().plusHours(1));
+
         return gapFinder.findTimeGap(timeFramesToIgnore, taskDuration);
+    }
+
+    private void removeTimesBefore(List<TimeFrame> times, LocalDateTime limit) {
+        times.removeIf(f -> f.end.isBefore(limit));
     }
 
     /**
@@ -136,7 +142,7 @@ class SortAndSearch implements GapFinder {
             second = t;
             if (first != null && first.end.plus(taskDuration).isBefore(second.start)) return first.end;
         }
-        return second == null ? LocalDateTime.now().plus(taskDuration) : second.end;
+        return second == null ? LocalDateTime.now().plus(taskDuration).plusHours(1) : second.end;
     }
 }
 
