@@ -20,9 +20,9 @@ public interface CalendarManager {
 
     void updateEndTime(long id, LocalTime newEndTime);
 
-    void addTags(long id, String tag);
+    void addTag(long id, String tag);
 
-    void removeTags(long id, String tag);
+    void removeTag(long id, String tag);
 
     void loadEvents(String filePath) throws IOException;
 

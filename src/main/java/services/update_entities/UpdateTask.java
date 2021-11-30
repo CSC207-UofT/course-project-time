@@ -29,9 +29,9 @@ public class UpdateTask {
         todoListManager.updateDeadline(id, newDeadline);
     }
 
-    public void addSubtasks(String subtask){todoListManager.addSubtask(id, subtask);}
+    public void addSubtask(String subtask){todoListManager.addSubtask(id, subtask);}
 
-    public void removeSubtasks(String subtask){todoListManager.removeSubtask(id, subtask);}
+    public void removeSubtask(String subtask){todoListManager.removeSubtask(id, subtask);}
 
     public void completeTask() {
         todoListManager.completeTask(id);

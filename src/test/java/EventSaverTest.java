@@ -62,12 +62,12 @@ public class EventSaverTest {
         }
 
         @Override
-        public void addTags(long id, String tag) {
+        public void addTag(long id, String tag) {
 
         }
 
         @Override
-        public void removeTags(long id, String tag) {
+        public void removeTag(long id, String tag) {
 
         }
 
