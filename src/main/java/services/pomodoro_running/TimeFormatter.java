@@ -4,21 +4,23 @@ import entity.PomodoroTimer;
 
 import java.util.Timer;
 
-public class PomodoroRunner {
+public class TimeFormatter {
 //    private final PomodoroTimer pomodoroTimer;
 //    private final Timer timer;
     private PomodoroTimerTask pomodoroTimerTask;
-    long startTime = System.currentTimeMillis();
 
 //    public PomodoroRunner(PomodoroTimer pomodoroTimer) {
 //        this.pomodoroTimer = pomodoroTimer;
 //        this.timer = new Timer();
 //    }
 
-    public String getCurrentTime() {
-        long currentTime = System.currentTimeMillis() - startTime;
-        String seconds = Integer.toString((int)currentTime % 60);
-        String minutes = Integer.toString((int)currentTime % 3600);
+    public String formatTime(double elapsedTime, long currentDuration) {
+        double totalTime = (double)currentDuration;
+        double timeLeft = totalTime - elapsedTime;
+
+
+        String seconds = Integer.toString((int)timeLeft % 60);
+        String minutes = Integer.toString((int)timeLeft % 3600);
 
         if (seconds.length() < 2) {
             seconds = "0" + seconds;

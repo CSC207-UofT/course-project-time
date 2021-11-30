@@ -3,10 +3,10 @@ package console_app;
 import services.pomodoro_running.CancelTimerInput;
 import data_gateway.PomodoroTimerManager;
 import services.pomodoro_running.PomodoroObserver;
-import services.pomodoro_running.PomodoroRunner;
+import services.pomodoro_running.TimeFormatter;
 
 public class PomodoroController {
-    private PomodoroRunner pomodoroRunner;
+    private TimeFormatter timeFormatter;
     private final PomodoroTimerManager pomodoroTimerManager = new PomodoroTimerManager();
     private boolean switched = false;
     private final CancelTimerInput cancelTimerInput = new CancelTimerInput();
@@ -18,8 +18,8 @@ public class PomodoroController {
     public boolean startTimer(){
         //switched is whether or not the pomodoro timer has switched ie. switched from work to break
         //true means it's a work interval, false means it's a break interval
-        pomodoroRunner.startTimer(!switched);
-        PomodoroObserver pomodoroObserver = new PomodoroObserver(pomodoroRunner, cancelTimerInput);
+        timeFormatter.startTimer(!switched);
+        PomodoroObserver pomodoroObserver = new PomodoroObserver(timeFormatter, cancelTimerInput);
 
         //this assignment happens so that the next call the startTimer will start with the opposite interval
         //ex. if this interval was a work interval, this assignment makes the next interval a break interval
@@ -37,7 +37,7 @@ public class PomodoroController {
     }
 
     public void stopTimer() {
-        pomodoroRunner.stopTimer();
+        timeFormatter.stopTimer();
     }
 
     public void setPomodoroRunner(int workTime, int breakTime) {

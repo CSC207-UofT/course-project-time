@@ -1,20 +1,16 @@
 package gui;
 
-import console_app.PomodoroController;
 import javafx.animation.AnimationTimer;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
-import services.pomodoro_running.PomodoroRunner;
+import services.pomodoro_running.TimeFormatter;
 
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 public class ClockController {
 
@@ -30,6 +26,8 @@ public class ClockController {
 
     private long startNano;
     private boolean newStart;
+
+    static TimeFormatter timeFormatter = new TimeFormatter();
 
     @FXML
     private Canvas canvas;
@@ -57,6 +55,8 @@ public class ClockController {
 
                 double elapsedTime = (double)(now - startNano);
                 double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
+
+                String timeLeft = timeFormatter.formatTime(elapsedTime, currentDuration);
 
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
@@ -96,11 +96,8 @@ public class ClockController {
 
     @FXML
     void startClock(MouseEvent event) {
-        PomodoroRunner pomodoroRunner = new PomodoroRunner();
         newStart = true;
         timer.start();
-        Thread thread = new Thread(() -> pomodoroLabel.setText(pomodoroRunner.getCurrentTime()));
-        thread.start();
     }
 
     @FXML
