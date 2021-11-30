@@ -4,8 +4,8 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
@@ -29,6 +29,8 @@ public class ClockController {
 
     private long startNano;
     private boolean newStart;
+
+    private final Alert error = new Alert(Alert.AlertType.ERROR);
 
     static TimeFormatter timeFormatter = new TimeFormatter();
 
@@ -118,14 +120,36 @@ public class ClockController {
     @FXML
     void startClock(MouseEvent event) {
         if (!workTimeText.getText().isEmpty()) {
-            workDuration = Long.parseLong(workTimeText.getText());
+            String potentialWorkTime = workTimeText.getText();
+            if (!userInputChecker(potentialWorkTime)){
+                error.setTitle("Invalid input");
+                error.setContentText("Pomodoro timer will be started with default work interval");
+                error.showAndWait();
+                workTimeText.clear();
+            }
+            else {
+                workDuration = Long.parseLong(potentialWorkTime);
+                currentDuration = workDuration;
+            }
         }
         else if (!breakTimeText.getText().isEmpty()) {
-            breakDuration = Long.parseLong(breakTimeText.getText());
+            String potentialBreakTime = breakTimeText.getText();
+            if (!userInputChecker(potentialBreakTime)){
+                error.setTitle("Invalid input");
+                error.setContentText("Pomodoro timer will be started with default break interval");
+                error.showAndWait();
+                breakTimeText.clear();
+            }
+            else {
+                breakDuration = Long.parseLong(potentialBreakTime);
+            }
         }
-        currentDuration = workDuration;
         newStart = true;
         timer.start();
+    }
+
+    boolean userInputChecker(String text) {
+        return text.matches("[0-9]*");
     }
 
     @FXML
