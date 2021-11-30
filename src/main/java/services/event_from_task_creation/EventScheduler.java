@@ -42,6 +42,7 @@ public class EventScheduler implements CalendarAnalyzer {
      *
      * @return a time available in the calendar for at least the given duration
      */
+    @Override
     public LocalDateTime getAvailableTime(List<LocalDateTime> timesToIgnore, Duration taskDuration) {
         List<TimeFrame> timeFramesToIgnore = new ArrayList<>();
 
@@ -56,6 +57,14 @@ public class EventScheduler implements CalendarAnalyzer {
         }
 
         return gapFinder.findTimeGap(timeFramesToIgnore, taskDuration);
+    }
+
+    /**
+     * {@link #getAvailableTime(List, Duration)}
+     */
+    @Override
+    public LocalDateTime getAvailableTime(Duration taskDuration) {
+        return getAvailableTime(new ArrayList<>(), taskDuration);
     }
 
     /**

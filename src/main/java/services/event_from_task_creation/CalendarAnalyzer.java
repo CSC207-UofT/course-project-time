@@ -12,4 +12,7 @@ public interface CalendarAnalyzer {
 
     LocalDateTime getAvailableTime(List<LocalDateTime> timesToIgnore, Duration taskDuration);
 
+    LocalDateTime getAvailableTime(Duration taskDuration);
+
+
 }
