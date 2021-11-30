@@ -22,8 +22,8 @@ public class ClockController {
     private GraphicsContext gc;
     private final float brushSize = 30;
 
-    private final long workDuration = 1;
-    private final long breakDuration = 1;
+    private long workDuration = 25;
+    private long breakDuration = 5;
     private long currentDuration = workDuration;
     private boolean isBreak = false;
 
@@ -61,6 +61,12 @@ public class ClockController {
                     newStart = false;
                 }
 
+                if (!workTimeText.getText().isEmpty()) {
+                    workDuration = Long.parseLong(workTimeText.getText());
+                }
+                else if (!breakTimeText.getText().isEmpty()) {
+                    breakDuration = Long.parseLong(breakTimeText.getText());
+                }
 
                 double elapsedTime = (double)(now - startNano);
                 double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
@@ -110,18 +116,14 @@ public class ClockController {
     }
 
     @FXML
-    void updateBreakTime(InputMethodEvent event) {
-        // Update breakDuration
-    }
-
-    @FXML
-    void updateWorkTime(InputMethodEvent event) {
-        // Update workDuration
-    }
-
-
-    @FXML
     void startClock(MouseEvent event) {
+        if (!workTimeText.getText().isEmpty()) {
+            workDuration = Long.parseLong(workTimeText.getText());
+        }
+        else if (!breakTimeText.getText().isEmpty()) {
+            breakDuration = Long.parseLong(breakTimeText.getText());
+        }
+        currentDuration = workDuration;
         newStart = true;
         timer.start();
     }
