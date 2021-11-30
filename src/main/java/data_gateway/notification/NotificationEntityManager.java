@@ -70,6 +70,22 @@ public class NotificationEntityManager implements NotificationManager {
     }
 
     /**
+     * Retrieve all notifications that belong ot the object as specified to the id
+     * @param associatedId the id of the object that we want to get the notifications of
+     * @return notifications belonging to the specified object
+     */
+    @Override
+    public List<NotificationReader> getNotificationsForAssociatedObject(long associatedId) {
+        List<NotificationReader> notificationReaderList = new ArrayList<>();
+        for (Notification notification : notifications) {
+            if (notification.getAssociatedId() == associatedId) {
+                notificationReaderList.add(new NotificationToNotificationReader(notification));
+            }
+        }
+        return notificationReaderList;
+    }
+
+    /**
      * Return a notification.
      * @param associatedId the id of the associated object that the notification is for
      * @param timeInAdvance the duration in advance that the notification is to be sent out
