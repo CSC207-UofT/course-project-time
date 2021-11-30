@@ -146,6 +146,8 @@ public class ClockController {
             }
         }
         newStart = true;
+        workTimeText.setEditable(false);
+        breakTimeText.setEditable(false);
         timer.start();
     }
 
@@ -160,6 +162,8 @@ public class ClockController {
     void resetClock(MouseEvent event) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         timer.stop();
+        breakTimeText.setEditable(true);
+        workTimeText.setEditable(true);
     }
 
 }
