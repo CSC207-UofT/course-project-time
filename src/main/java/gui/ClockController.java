@@ -61,6 +61,7 @@ public class ClockController {
                 double elapsedTime = (double)(now - startNano);
                 double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
 
+                //Need a way to format the elapsed time
                 String timeText = String.valueOf(TimeUnit.SECONDS.convert(now - startNano, TimeUnit.NANOSECONDS));
 
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
