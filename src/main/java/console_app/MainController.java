@@ -14,9 +14,12 @@ import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.EventScheduler;
+import services.event_presentation.CalendarEventDisplayBoundary;
 import services.event_presentation.CalendarEventPresenter;
+import services.event_presentation.CalendarEventRequestBoundary;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
+import services.event_presentation.EventOutputter;
 import services.task_creation.TaskAdder;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TaskSaver;
@@ -57,10 +60,11 @@ public class MainController {
         }
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
-        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
+        CalendarEventRequestBoundary eventGetter = new EventGetter(calendarManager);
+        CalendarEventDisplayBoundary eventOutputter = new EventOutputter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
+        eventController = new EventController(eventAdder, eventScheduler, eventGetter, eventOutputter, eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);

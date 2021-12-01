@@ -5,7 +5,8 @@ import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
-import services.event_presentation.EventGetter;
+import services.event_presentation.CalendarEventDisplayBoundary;
+import services.event_presentation.CalendarEventRequestBoundary;
 import services.event_presentation.EventInfo;
 
 import java.io.IOException;
@@ -22,14 +23,17 @@ public class EventController {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final CalendarAnalyzer eventScheduler;
-    private final EventGetter eventGetter;
+    private final CalendarEventRequestBoundary eventGetter;
+    private final CalendarEventDisplayBoundary eventOutputter;
     private final EventSaver eventSaver;
 
     public EventController(CalendarEventCreationBoundary eventAdder, CalendarAnalyzer eventScheduler,
-                           EventGetter eventGetter, EventSaver eventSaver) {
+                           CalendarEventRequestBoundary eventGetter, CalendarEventDisplayBoundary eventOutputter,
+                           EventSaver eventSaver) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
+        this.eventOutputter = eventOutputter;
         this.eventSaver = eventSaver;
     }
 
@@ -38,7 +42,7 @@ public class EventController {
      * and their corresponding values
      */
     public void presentAllEvents() {
-        eventGetter.presentAllEvents();
+        eventOutputter.presentAllEvents();
     }
 
     /**
