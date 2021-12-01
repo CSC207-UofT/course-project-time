@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Stack;
 
+/**
+ * DateStrategy builder class encapsulating the logic and invariants of trying to combine DateStrategy classes.
+ */
 public class StrategyBuilder {
 
     private DateStrategy currentStrategy = null;

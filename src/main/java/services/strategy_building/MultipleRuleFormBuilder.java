@@ -4,9 +4,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Builder with declarative methods that fills up the form with rules.
+ */
 public class MultipleRuleFormBuilder {
 
-    private final DatesForm form = new SimpleForm();
+    private final DatesForm form = new UnionForm();
 
     public DatesForm getForm() {
         return form;

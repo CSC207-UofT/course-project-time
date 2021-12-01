@@ -2,16 +2,17 @@ package services.strategy_building;
 
 import entity.dates.DateStrategy;
 
+/**
+ * Directs a StrategyBuilder using Rules taken from a DatesForm (iterable of Rules).
+ */
 public class StrategyBuilderDirector {
 
     public DateStrategy createStrategy(DatesForm form) {
 
         StrategyBuilder sb = new StrategyBuilder();
 
-        sb.startUnionStrategy();
         for (Rule r : form)
             r.execute(sb);
-        sb.finishCurrentStrategy();
 
         return sb.compileStrategy();
     }

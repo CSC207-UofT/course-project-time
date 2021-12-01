@@ -3,6 +3,9 @@ package entity.dates;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Modify the dates returned by another strategy
+ */
 abstract public class DecoratorStrategy implements DateStrategy {
 
     private final DateStrategy strategy;

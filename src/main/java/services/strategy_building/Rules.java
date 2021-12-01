@@ -4,6 +4,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Utility class containing Rule classes which manipulate a StrategyBuilder
+ */
 public class Rules {
 
     public static class FinishRule implements Rule {
