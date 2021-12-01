@@ -1,7 +1,7 @@
 package services.task_presentation;
 
-import data_gateway.TaskReader;
-import data_gateway.TodoListManager;
+import data_gateway.task.TaskReader;
+import data_gateway.task.TodoListManager;
 
 import java.util.List;
 import java.util.Map;
