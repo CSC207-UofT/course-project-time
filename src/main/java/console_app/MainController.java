@@ -22,7 +22,10 @@ import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TaskSaver;
 import services.task_presentation.TaskGetter;
 import services.task_presentation.TaskInfo;
+import services.task_presentation.TaskOutputter;
+import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
+import services.task_presentation.TodoListRequestBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -63,10 +66,11 @@ public class MainController {
         eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
+        TodoListRequestBoundary taskGetter = new TaskGetter(todoListManager);
+        TodoListDisplayBoundary taskOutputter = new TaskOutputter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         TaskSaver taskSaver = new TaskSaver(todoListManager);
-        taskController = new TaskController(taskGetter, taskAdder, taskSaver);
+        taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver);
 
         taskToEventController = new TaskToEventController(eventController, eventScheduler);
         pomodoroController = new PomodoroController();
