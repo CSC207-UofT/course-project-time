@@ -1,8 +1,13 @@
 package console_app;
 
 import services.event_presentation.EventInfo;
+import services.services_factory.BasicRepositoryFactory;
+import services.services_factory.BasicServiceFactory;
+import services.services_factory.RepositoryFactory;
+import services.services_factory.ServicesFactory;
 import services.task_presentation.TaskInfo;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +31,17 @@ public class ApplicationDriver {
     private static final Map<String, String> queryMenu = createdQueryMap();
 
     public ApplicationDriver() {
-        this.controller = new MainController(this);
+        RepositoryFactory repositoryFactory = new BasicRepositoryFactory();
+        ServicesFactory serviceFactory = new BasicServiceFactory(repositoryFactory);
+        ConsoleAppFactory consoleAppFactory = new ConsoleAppFactory(serviceFactory);
+        this.controller = new MainController(this, consoleAppFactory);
+
+        try {
+            repositoryFactory.makeEventRepository().loadEvents("EventData.json");
+            repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

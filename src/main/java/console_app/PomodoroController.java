@@ -1,7 +1,7 @@
 package console_app;
 
-import services.pomodoro_running.CancelTimerInput;
 import data_gateway.PomodoroTimerManager;
+import services.pomodoro_running.CancelTimerInput;
 import services.pomodoro_running.PomodoroObserver;
 import services.pomodoro_running.PomodoroRunner;
 

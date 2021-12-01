@@ -4,15 +4,14 @@ import data_gateway.CalendarManager;
 import data_gateway.TodoListManager;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
-import services.event_from_task_creation.CalendarAnalyzer;
+import services.event_creation.EventSaver;
 import services.event_from_task_creation.EventScheduler;
-import services.event_presentation.CalendarEventDisplayBoundary;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.task_creation.TaskAdder;
+import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskGetter;
-import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
 
 public class BasicServiceFactory implements ServicesFactory {
@@ -20,11 +19,13 @@ public class BasicServiceFactory implements ServicesFactory {
     private final CalendarManager eventRepository;
     private final TodoListManager taskRepository;
 
-    private CalendarAnalyzer cachedAnalyzer;
+    private EventScheduler cachedAnalyzer;
     private CalendarEventCreationBoundary cachedEventCreator;
-    private CalendarEventDisplayBoundary cachedEventOutputter;
+    private EventGetter cachedEventOutputter;
+    private EventSaver cachedEventSaver;
     private TodoListTaskCreationBoundary cachedTaskCreator;
-    private TodoListDisplayBoundary cachedTaskOutputter;
+    private TaskGetter cachedTaskOutputter;
+    private TaskSaver cachedTaskSaver;
 
 
     public BasicServiceFactory(RepositoryFactory repositoryFactory) {
@@ -33,7 +34,7 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
-    public CalendarAnalyzer makeCalendarAnalyzer() {
+    public EventScheduler makeCalendarAnalyzer() {
         if (cachedAnalyzer == null)
             cachedAnalyzer = new EventScheduler(eventRepository);
         return cachedAnalyzer;
@@ -47,10 +48,17 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
-    public CalendarEventDisplayBoundary makeEventOutputter(CalendarEventPresenter eventPresenter) {
+    public EventGetter makeEventOutputter(CalendarEventPresenter eventPresenter) {
         if (cachedEventOutputter == null)
             cachedEventOutputter = new EventGetter(eventRepository, eventPresenter);
         return cachedEventOutputter;
+    }
+
+    @Override
+    public EventSaver makeEventSaver() {
+        if (cachedEventSaver == null)
+            cachedEventSaver = new EventSaver(eventRepository);
+        return cachedEventSaver;
     }
 
     @Override
@@ -61,9 +69,16 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
-    public TodoListDisplayBoundary makeTaskOutputter(TodoListPresenter taskPresenter) {
+    public TaskGetter makeTaskOutputter(TodoListPresenter taskPresenter) {
         if (cachedTaskOutputter == null)
             cachedTaskOutputter = new TaskGetter(taskRepository, taskPresenter);
         return cachedTaskOutputter;
+    }
+
+    @Override
+    public TaskSaver makeTaskSaver() {
+        if (cachedTaskSaver == null)
+            cachedTaskSaver = new TaskSaver(taskRepository);
+        return cachedTaskSaver;
     }
 }
