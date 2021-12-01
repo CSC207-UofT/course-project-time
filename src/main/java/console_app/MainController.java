@@ -9,6 +9,10 @@ import data_gateway.event.CalendarManager;
 import data_gateway.event.EventEntityManager;
 import data_gateway.task.TodoEntityManager;
 import data_gateway.task.TodoListManager;
+import data_gateway.event.ObservableEventEntityManager;
+import data_gateway.event.ObservableEventManager;
+import data_gateway.task.ObservableTaskEntityManager;
+import data_gateway.task.ObservableTaskManager;
 import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
@@ -45,27 +49,38 @@ public class MainController {
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
-        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
-        EventScheduler eventScheduler = new EventScheduler(calendarManager);
+        ObservableEventManager observableEventManager = new ObservableEventEntityManager(calendarManager);
+        observableEventManager.addOnCreationObserver(
+                (eventReader, eventId) -> System.out.println("New event \"" + eventReader.getName() + "\" was created"));
+        observableEventManager.addOnCompletionUpdateObserver(
+                (eventReader, completed) -> System.out.println(eventReader.getName() + "was set to " + (completed ? "Complete1" : "Incomplete")));
+        CalendarEventCreationBoundary eventAdder = new EventAdder(observableEventManager);
+        EventScheduler eventScheduler = new EventScheduler(observableEventManager);
+
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        ObservableTaskManager observableTaskManager = new ObservableTaskEntityManager(todoListManager);
+        observableTaskManager.addOnCreationObserver(
+                (taskReader, taskId) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
+        observableTaskManager.addOnCompletionUpdateObserver(
+                (taskReader, completed) -> System.out.println(taskReader.getName() + "was set to " + (completed ? "Complete1" : "Incomplete")));
 
         try {
-            calendarManager.loadEvents("EventData.json");
-            todoListManager.loadTodo("TaskData.json");
+            observableEventManager.loadEvents("EventData.json");
+            observableTaskManager.loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
-        EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
-        EventSaver eventSaver = new EventSaver(calendarManager);
+        EventGetter eventGetter = new EventGetter(observableEventManager, eventPresenter);
+        EventSaver eventSaver = new EventSaver(observableEventManager);
 
         eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
-        TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        TaskSaver taskSaver = new TaskSaver(todoListManager);
+        TaskGetter taskGetter = new TaskGetter(observableTaskManager, taskPresenter);
+        TodoListTaskCreationBoundary taskAdder = new TaskAdder(observableTaskManager);
+        TaskSaver taskSaver = new TaskSaver(observableTaskManager);
         taskController = new TaskController(taskGetter, taskAdder, taskSaver);
 
         taskToEventController = new TaskToEventController(eventController, eventScheduler);
