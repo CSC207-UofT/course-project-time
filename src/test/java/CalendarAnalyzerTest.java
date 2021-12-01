@@ -3,8 +3,8 @@ import data_gateway.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.event_creation.CalendarEventModel;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
-import services.event_from_task_creation.TaskToEvent;
 import services.task_presentation.TaskInfo;
 
 import java.io.IOException;
@@ -19,36 +19,36 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TaskToEventTest {
-    TaskToEvent taskToEvent;
+public class CalendarAnalyzerTest {
     TaskInfo taskInfo;
-    EventScheduler scheduler;
+    CalendarAnalyzer scheduler;
     CalendarManager manager;
 
     @BeforeEach
     void setup() {
-        taskToEvent = new TaskToEvent();
         taskInfo = new MockTaskInfo();
         manager = new MockCalendarManager();
         scheduler = new EventScheduler(manager);
     }
 
+    private LocalDateTime toMinutes(LocalDateTime dateTime) {
+        return dateTime.truncatedTo(ChronoUnit.MINUTES);
+    }
+
     @Test
     void getAvailableTime() {
-        LocalDateTime expected = scheduler.getAvailableTime(
-                new ArrayList<>() , taskInfo.getDuration()).truncatedTo(ChronoUnit.MINUTES);
-        LocalDateTime actual = taskToEvent.getAvailableTime(taskInfo, scheduler, new ArrayList<>());
-        assertEquals(expected, actual);
+        LocalDateTime actual = scheduler.getAvailableTime(new ArrayList<>(), taskInfo.getDuration());
+        LocalDateTime expected = LocalDateTime.now().plus(taskInfo.getDuration()).plusHours(1);
+        assertEquals(toMinutes(expected), toMinutes(actual));
     }
 
     @Test
     void checkTimeAvailability() {
         LocalDateTime userSuggestedTime = LocalDateTime.of(2021, 11, 26, 10, 0);
-        boolean expected = scheduler.isAvailable(userSuggestedTime.toLocalTime(), taskInfo.getDuration(),
-                userSuggestedTime.toLocalDate());
-        boolean actual = taskToEvent.checkTimeAvailability(taskInfo, scheduler, userSuggestedTime);
-        assertEquals(expected, actual);
+        boolean actual = scheduler.isAvailable(userSuggestedTime.toLocalTime(), taskInfo.getDuration(), userSuggestedTime.toLocalDate());
+        assertTrue(actual);
     }
 
     private static class MockTaskInfo implements TaskInfo {
@@ -90,8 +90,8 @@ public class TaskToEventTest {
     private class MockCalendarManager implements CalendarManager {
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
-
+        public long addEvent(CalendarEventModel eventData) {
+            return 0L;
         }
 
         @Override
