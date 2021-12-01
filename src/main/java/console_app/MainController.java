@@ -149,14 +149,6 @@ public class MainController {
     }
 
     /**
-     * Suggest a time to the user until the user is agrees with the time
-     * @param task the task to be scheduled to event
-     */
-    public void suggestTimeToUser(TaskInfo task) {
-        taskToEventController.suggestTimeToUser(task);
-    }
-
-    /**
      * Check whether the time suggested by the user is available
      * @param task the task to be scheduled to event
      * @param userSuggestedTime the time suggested by the user
@@ -199,6 +191,10 @@ public class MainController {
      */
     public Map<Integer, Long> presentAllTasksForUserSelection() {
         return taskController.presentAllTasksForUserSelection();
+    }
+
+    public LocalDateTime getSuggestedTime(Duration duration) {
+        return taskToEventController.getSuggestedTime(duration);
     }
 
     public List<HashMap<String, String >> getEvents() {
