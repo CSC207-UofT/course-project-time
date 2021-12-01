@@ -12,10 +12,7 @@ public class TaskToEventController {
 
     private final CalendarAnalyzer eventScheduler;
 
-    protected final EventController eventController;
-
-    public TaskToEventController(EventController eventController, EventScheduler eventScheduler) {
-        this.eventController = eventController;
+    public TaskToEventController(EventScheduler eventScheduler) {
         this.eventScheduler = eventScheduler;
     }
 

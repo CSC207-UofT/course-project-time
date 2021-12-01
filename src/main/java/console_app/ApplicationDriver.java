@@ -296,19 +296,6 @@ public class ApplicationDriver {
     }
 
     /**
-     * Prompts the user to input a time
-     * @return the time the user inputted
-     */
-    private static LocalDateTime inputTime() {
-        String format = "yyyy/MM/dd-HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Input your desired time in (" + format + ") (24 hour time): ");
-        String timeString = scanner.nextLine();
-        return LocalDateTime.parse(timeString, formatter);
-    }
-
-    /**
      * Prompts users for their desired work and break intervals
      * @return the time intervals the user inputted
      */

@@ -7,7 +7,6 @@ import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.task_presentation.TaskInfo;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -87,7 +86,7 @@ public class CalendarAnalyzerTest {
         }
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
 
         @Override
         public long addEvent(CalendarEventModel eventData) {
@@ -107,17 +106,17 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void loadEvents(String filePath) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void saveEvents(String savePath) {
 
         }
     }
 
-    private class MockEventReader implements EventReader {
+    private static class MockEventReader implements EventReader {
 
         @Override
         public long getId() {

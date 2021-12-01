@@ -4,7 +4,6 @@ package console_app.event_adapters;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.CalendarAnalyzer;
-import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
 
@@ -39,19 +38,6 @@ public class EventController {
      */
     public void presentAllEvents() {
         eventGetter.presentAllEvents();
-    }
-
-    /**
-     * checks whether the time period is available to schedule a new event
-     * and add the event if it is available
-     * @param eventName name of event
-     * @param startDateTime start time including date
-     * @param duration duration of event
-     */
-    public void createEvent(String eventName, LocalDateTime startDateTime, Duration duration) {
-        // todo use exceptions to ensure that duration won't last until the next day
-        LocalTime endTime = startDateTime.plus(duration.getSeconds(), ChronoUnit.SECONDS).toLocalTime();
-        createEvent(eventName, startDateTime.toLocalTime(), endTime, new HashSet<>(), startDateTime.toLocalDate());
     }
 
     /**
