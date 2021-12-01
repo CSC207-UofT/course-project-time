@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.task;
 
 import services.task_creation.TodoListTaskCreationModel;
 

@@ -1,7 +1,7 @@
 package services.event_presentation;
 
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import services.event_creation.EventInfoFromReader;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package services.event_creation;
 
-import data_gateway.CalendarManager;
+import data_gateway.event.CalendarManager;
 import entity.dates.DateStrategy;
 import services.strategy_building.DatesForm;
 import services.strategy_building.StrategyBuilderDirector;

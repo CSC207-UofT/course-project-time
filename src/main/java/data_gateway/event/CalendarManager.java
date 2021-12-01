@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.event;
 
 import java.io.IOException;
 import java.time.LocalDate;
