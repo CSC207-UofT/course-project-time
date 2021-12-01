@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,12 +40,11 @@ public class ApplicationDriver {
         queryMenu.put("2", "View all tasks");
         queryMenu.put("3", "Create a new task");
         queryMenu.put("4", "Create a new event");
-        queryMenu.put("5", "Auto schedule a task");
-        queryMenu.put("6", "Manually schedule a task");
-        queryMenu.put("7", "Mark a task as completed");
-        queryMenu.put("8", "Mark an event as completed");
-        queryMenu.put("9", "Save my Data");
-        queryMenu.put("10", "Pomodoro timer");
+        queryMenu.put("5", "Turn a task into an event");
+        queryMenu.put("6", "Mark a task as completed");
+        queryMenu.put("7", "Mark an event as completed");
+        queryMenu.put("8", "Save my Data");
+        queryMenu.put("9", "Pomodoro timer");
         return queryMenu;
     }
 
@@ -93,39 +93,46 @@ public class ApplicationDriver {
                 Map<Integer, Long> positionToIdMapping = controller.presentAllTasksForUserSelection();
                 if (positionToIdMapping.size() != 0) {
                     TaskInfo taskInfo = chooseTask(positionToIdMapping);
-                    controller.suggestTimeToUser(taskInfo);
-                    System.out.println("Event created from task");
-                }
-                break;
-            case "6":
-                positionToIdMapping = controller.presentAllTasksForUserSelection();
-                if (positionToIdMapping.size() != 0) {
-                    TaskInfo taskManual = chooseTask(positionToIdMapping);
+                    LocalDateTime suggestedTime = controller.getSuggestedTime(taskInfo.getDuration());
+                    String format = "yyyy/MM/dd-HH:mm";
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+                    String formattedTime = suggestedTime.format(formatter);
+                    System.out.println("Suggested time is: " + formattedTime);
+
                     LocalDateTime userSuggestedTime;
                     boolean timeAvailable;
 
                     do {
-                        userSuggestedTime = inputTime();
-                        timeAvailable = controller.checkUserSuggestedTime(taskManual, userSuggestedTime);
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.print("Input your desired time in (" + format + ") (24 hour time) or 'y' to accept the suggested time: ");
+                        String timeString = scanner.nextLine();
+                        try {
+                            userSuggestedTime = LocalDateTime.parse(timeString, formatter);
+                        } catch (DateTimeParseException e) {
+                            if (timeString.equalsIgnoreCase("y"))
+                                userSuggestedTime = suggestedTime;
+                            else
+                                throw e;
+                        }
+                        timeAvailable = controller.checkUserSuggestedTime(taskInfo, userSuggestedTime);
                         if (!timeAvailable) {
                             System.out.println("Time not available, please retry.");
                         }
                     } while (!timeAvailable);
 
-                    controller.createEvent(taskManual.getName(), userSuggestedTime.toLocalTime(),
-                            userSuggestedTime.toLocalTime().plus(taskManual.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+                    controller.createEvent(taskInfo.getName(), userSuggestedTime.toLocalTime(),
+                            userSuggestedTime.toLocalTime().plus(taskInfo.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
                     System.out.println("Event created from task");
-
                 }
                 break;
-            case "7":
+            case "6":
                 positionToIdMapping = controller.presentAllTasksForUserSelection();
                 TaskInfo completedTask = chooseTask(positionToIdMapping);
                 long taskId = completedTask.getId();
                 controller.completeTask(taskId);
                 System.out.println("Task completed");
                 break;
-            case "8":
+            case "7":
                 controller.presentAllEvents();
                 EventInfo completedEvent = chooseEvent();
                 controller.completeEvent(completedEvent.getId());
@@ -133,10 +140,10 @@ public class ApplicationDriver {
                 System.out.println("Event completed");
 
                 break;
-            case "9":
+            case "8":
                 controller.saveData();
                 break;
-            case "10":
+            case "9":
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
                 System.out.println("Input \"c\" to end pomodoro timer");
