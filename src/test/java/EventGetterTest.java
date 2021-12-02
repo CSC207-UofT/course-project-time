@@ -1,8 +1,10 @@
 import data_gateway.event.CalendarManager;
 import data_gateway.event.EventReader;
 import entity.Event;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.event_creation.EventInfoFromReader;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
@@ -14,6 +16,7 @@ import java.time.LocalTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EventGetterTest {
 
@@ -87,6 +90,19 @@ public class EventGetterTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void presentAllEvents() {
+        eventGetter.presentAllEvents();
+        assertTrue(presenter.isPresentAllEventsSuccess());
+    }
+
+    @Test
+    void getEventByName() {
+        EventInfo expected = new EventInfoFromReader(e1);
+        EventInfo actual = eventGetter.getEventByName("mock1");
+        assertEquals(expected, actual);
+    }
+
     private class MockCalendarManager implements CalendarManager {
 
         @Override
@@ -117,9 +133,15 @@ public class EventGetterTest {
 
     private static class MockCalendarEventPresenter implements CalendarEventPresenter {
 
+        private boolean presentAllEventsSuccess = false;
+
         @Override
         public void presentAllEvents(List<EventInfo> eventInfos) {
+            presentAllEventsSuccess = true;
+        }
 
+        public boolean isPresentAllEventsSuccess() {
+            return presentAllEventsSuccess;
         }
     }
 
