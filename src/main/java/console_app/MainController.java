@@ -13,6 +13,7 @@ import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
@@ -45,7 +46,7 @@ public class MainController {
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
-        EventScheduler eventScheduler = new EventScheduler(calendarManager);
+        CalendarAnalyzer eventScheduler = new EventScheduler(calendarManager);
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
 
         try {
