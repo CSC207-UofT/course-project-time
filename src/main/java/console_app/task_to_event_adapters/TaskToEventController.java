@@ -1,7 +1,6 @@
 package console_app.task_to_event_adapters;
 
 import services.event_from_task_creation.CalendarAnalyzer;
-import services.event_from_task_creation.EventScheduler;
 import services.task_presentation.TaskInfo;
 
 import java.time.Duration;
@@ -11,7 +10,7 @@ public class TaskToEventController {
 
     private final CalendarAnalyzer eventScheduler;
 
-    public TaskToEventController(EventScheduler eventScheduler) {
+    public TaskToEventController(CalendarAnalyzer eventScheduler) {
         this.eventScheduler = eventScheduler;
     }
 
