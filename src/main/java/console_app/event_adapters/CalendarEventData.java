@@ -1,22 +1,22 @@
 package console_app.event_adapters;
 
 import services.event_creation.CalendarEventModel;
+import services.strategy_building.DatesForm;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.HashSet;
 
 public class CalendarEventData implements CalendarEventModel {
 
     private final String eventName;
-    private final LocalDateTime startTime;
-    private final LocalDateTime endTime;
+    private final Duration duration;
+    private final DatesForm form;
     private final HashSet<String> tags;
 
-    public CalendarEventData(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags) {
+    public CalendarEventData(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
         this.eventName = eventName;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.duration = duration;
+        this.form = form;
         this.tags = tags;
     }
 
@@ -26,13 +26,13 @@ public class CalendarEventData implements CalendarEventModel {
     }
 
     @Override
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public Duration getDuration() {
+        return duration;
     }
 
     @Override
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public DatesForm getForm() {
+        return form;
     }
 
     @Override
@@ -40,8 +40,4 @@ public class CalendarEventData implements CalendarEventModel {
         return tags;
     }
 
-    @Override
-    public LocalDate getDate() {
-        return startTime.toLocalDate();
-    }
 }

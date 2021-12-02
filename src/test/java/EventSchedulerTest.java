@@ -1,8 +1,7 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_creation.CalendarEventModel;
 import services.event_from_task_creation.EventScheduler;
 
 import java.time.Duration;
@@ -112,7 +111,7 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public long addEvent(CalendarEventModel eventData) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
             return 0L;
         }
 

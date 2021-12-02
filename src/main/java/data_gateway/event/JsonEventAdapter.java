@@ -1,8 +1,9 @@
-package data_gateway;
+package data_gateway.event;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import data_gateway.task.JsonTaskAdapter;
 import entity.Event;
 import entity.Task;
 
