@@ -2,8 +2,9 @@ package console_app.task_adapters;
 
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
-import services.task_presentation.TaskGetter;
 import services.task_presentation.TaskInfo;
+import services.task_presentation.TodoListDisplayBoundary;
+import services.task_presentation.TodoListRequestBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -12,12 +13,15 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskController {
-    private final TaskGetter taskGetter;
+    private final TodoListRequestBoundary taskGetter;
+    private final TodoListDisplayBoundary taskOutputter;
     private final TodoListTaskCreationBoundary taskAdder;
     private final TaskSaver taskSaver;
 
-    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver) {
+    public TaskController(TodoListRequestBoundary taskGetter, TodoListDisplayBoundary taskOutputter,
+                          TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver) {
         this.taskGetter = taskGetter;
+        this.taskOutputter = taskOutputter;
         this.taskAdder = taskAdder;
         this.taskSaver = taskSaver;
     }
@@ -26,7 +30,7 @@ public class TaskController {
      * Displays all tasks.
      */
     public void presentAllTasks() {
-        taskGetter.presentAllTasks();
+        taskOutputter.presentAllTasks();
     }
 
     public void createTask(String taskName, Duration timeNeeded,
@@ -53,7 +57,7 @@ public class TaskController {
      * @return a mapping of task's position in the presented list and id
      */
     public Map<Integer, Long> presentAllTasksForUserSelection() {
-        return taskGetter.presentAllTasksForUserSelection();
+        return taskOutputter.presentAllTasksForUserSelection();
     }
 
     public void saveTodoList(String filename) throws IOException {
