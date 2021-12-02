@@ -1,7 +1,7 @@
 
 
-import data_gateway.TaskReader;
-import data_gateway.TodoListManager;
+import data_gateway.task.TaskReader;
+import data_gateway.task.TodoListManager;
 import console_app.task_adapters.NewTodoListTaskData;
 import services.task_creation.TaskAdder;
 import services.task_creation.TodoListTaskCreationBoundary;

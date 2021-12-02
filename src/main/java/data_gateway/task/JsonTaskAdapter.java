@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.task;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

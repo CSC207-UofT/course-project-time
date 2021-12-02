@@ -1,5 +1,5 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.event_creation.CalendarEventModel;
@@ -40,7 +40,7 @@ public class CalendarAnalyzerTest {
     @Test
     void getAvailableTime() {
         LocalDateTime actual = scheduler.getAvailableTime(new ArrayList<>(), taskInfo.getDuration());
-        LocalDateTime expected = LocalDateTime.now().plus(taskInfo.getDuration());
+        LocalDateTime expected = LocalDateTime.now().plus(taskInfo.getDuration()).plusHours(1);
         assertEquals(toMinutes(expected), toMinutes(actual));
     }
 

@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.event;
 
 import services.event_creation.CalendarEventModel;
 

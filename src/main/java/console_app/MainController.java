@@ -5,10 +5,10 @@ import console_app.event_adapters.EventController;
 import console_app.task_adapters.ConsoleTaskPresenter;
 import console_app.task_adapters.TaskController;
 import console_app.task_to_event_adapters.TaskToEventController;
-import data_gateway.CalendarManager;
-import data_gateway.EventEntityManager;
-import data_gateway.TodoEntityManager;
-import data_gateway.TodoListManager;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventEntityManager;
+import data_gateway.task.TodoEntityManager;
+import data_gateway.task.TodoListManager;
 import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
@@ -208,14 +208,6 @@ public class MainController {
     }
 
     /**
-     * Suggest a time to the user until the user is agrees with the time
-     * @param task the task to be scheduled to event
-     */
-    public void suggestTimeToUser(TaskInfo task) {
-        taskToEventController.suggestTimeToUser(task);
-    }
-
-    /**
      * Check whether the time suggested by the user is available
      * @param task the task to be scheduled to event
      * @param userSuggestedTime the time suggested by the user
@@ -258,6 +250,10 @@ public class MainController {
      */
     public Map<Integer, Long> presentAllTasksForUserSelection() {
         return taskController.presentAllTasksForUserSelection();
+    }
+
+    public LocalDateTime getSuggestedTime(Duration duration) {
+        return taskToEventController.getSuggestedTime(duration);
     }
 
     public List<HashMap<String, String >> getEvents() {
