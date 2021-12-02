@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.event;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,19 +44,17 @@ public class EventEntityManager implements CalendarManager{
     /**
      * Loads event data from specified json file, gson code based on examples from
      * //www.baeldung.com/gson-list
-     * @param filePath The location of the json file contining event data
+     * @param filePath The location of the json file containing event data
      * @throws FileNotFoundException if the specified file cannot be accessed
      */
     public void loadEvents(String filePath) throws IOException {
         File file = new File(filePath);
-        if(file.isFile())
-        {
+        if(file.isFile()) {
             JsonReader reader = new JsonReader(new FileReader(filePath));
             Type listType = new TypeToken<List<Event>>(){}.getType();
             List<Event> events = gson.fromJson(reader, listType);
 
-            if(events != null)
-            {
+            if(events != null) {
                 this.eventList.addAll(events);
             }
             reader.close();
@@ -68,7 +66,7 @@ public class EventEntityManager implements CalendarManager{
      * @param eventData the information of an event
      */
     @Override
-    public void addEvent(CalendarEventModel eventData) {
+    public long addEvent(CalendarEventModel eventData) {
         String name = eventData.getName();
         LocalDateTime startTime = eventData.getStartTime();
         LocalDateTime endTime = eventData.getEndTime();
@@ -77,6 +75,7 @@ public class EventEntityManager implements CalendarManager{
 
         Event event = new Event(snowflake.nextId(), name, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         eventList.add(event);
+        return event.getId();
     }
 
     /**

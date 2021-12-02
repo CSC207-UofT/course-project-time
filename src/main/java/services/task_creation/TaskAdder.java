@@ -1,6 +1,6 @@
 package services.task_creation;
 
-import data_gateway.TodoListManager;
+import data_gateway.task.TodoListManager;
 
 public class TaskAdder implements TodoListTaskCreationBoundary {
 
@@ -11,8 +11,8 @@ public class TaskAdder implements TodoListTaskCreationBoundary {
     }
 
     @Override
-    public void addTask(TodoListTaskCreationModel taskData) {
-        todoListManager.addTask(taskData);
+    public long addTask(TodoListTaskCreationModel taskData) {
+        return todoListManager.addTask(taskData);
     }
 
     @Override

@@ -3,6 +3,7 @@ package console_app.event_adapters;
 
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
@@ -20,11 +21,11 @@ import java.util.List;
 public class EventController {
 
     private final CalendarEventCreationBoundary eventAdder;
-    private final EventScheduler eventScheduler;
+    private final CalendarAnalyzer eventScheduler;
     private final EventGetter eventGetter;
     private final EventSaver eventSaver;
 
-    public EventController(CalendarEventCreationBoundary eventAdder, EventScheduler eventScheduler,
+    public EventController(CalendarEventCreationBoundary eventAdder, CalendarAnalyzer eventScheduler,
                            EventGetter eventGetter, EventSaver eventSaver) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;

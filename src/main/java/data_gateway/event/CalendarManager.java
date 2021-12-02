@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.event;
 
 import services.event_creation.CalendarEventModel;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CalendarManager {
 
-    void addEvent(CalendarEventModel eventData);
+    long addEvent(CalendarEventModel eventData);
 
     void markEventAsCompleted(long eventId);
 

@@ -1,5 +1,5 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import services.event_creation.CalendarEventModel;
 import services.event_creation.EventSaver;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,8 @@ public class EventSaverTest {
         String savedEvent;
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
+        public long addEvent(CalendarEventModel eventData) {
+            return 0L;
         }
 
         @Override

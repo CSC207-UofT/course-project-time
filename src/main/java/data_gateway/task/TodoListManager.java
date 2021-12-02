@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.task;
 
 import services.task_creation.TodoListTaskCreationModel;
 
@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface TodoListManager {
 
-    void addTask(TodoListTaskCreationModel taskData);
+    long addTask(TodoListTaskCreationModel taskData);
 
     TaskReader getTask(long taskId);
 

@@ -1,7 +1,7 @@
 package services.event_from_task_creation;
 
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EventScheduler {
-//    private TaskToEventAuto converter;
+public class EventScheduler implements CalendarAnalyzer {
     private final GapFinder gapFinder;
     private final CalendarManager calendarManager;
 
@@ -43,6 +42,7 @@ public class EventScheduler {
      *
      * @return a time available in the calendar for at least the given duration
      */
+    @Override
     public LocalDateTime getAvailableTime(List<LocalDateTime> timesToIgnore, Duration taskDuration) {
         List<TimeFrame> timeFramesToIgnore = new ArrayList<>();
 
@@ -56,7 +56,21 @@ public class EventScheduler {
             }
         }
 
+        removeTimesBefore(timeFramesToIgnore, LocalDateTime.now().plusHours(1));
+
         return gapFinder.findTimeGap(timeFramesToIgnore, taskDuration);
+    }
+
+    private void removeTimesBefore(List<TimeFrame> times, LocalDateTime limit) {
+        times.removeIf(f -> f.end.isBefore(limit));
+    }
+
+    /**
+     * {@link #getAvailableTime(List, Duration)}
+     */
+    @Override
+    public LocalDateTime getAvailableTime(Duration taskDuration) {
+        return getAvailableTime(new ArrayList<>(), taskDuration);
     }
 
     /**
@@ -128,7 +142,7 @@ class SortAndSearch implements GapFinder {
             second = t;
             if (first != null && first.end.plus(taskDuration).isBefore(second.start)) return first.end;
         }
-        return second == null ? LocalDateTime.now().plus(taskDuration) : second.end;
+        return second == null ? LocalDateTime.now().plus(taskDuration).plusHours(1) : second.end;
     }
 }
 

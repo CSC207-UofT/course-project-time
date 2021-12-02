@@ -1,5 +1,5 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.event_creation.CalendarEventModel;
@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -85,22 +86,26 @@ public class EventSchedulerTest {
 
     @Test
     public void getAvailableTimeNoIgnore() {
-        LocalDateTime expected = LocalDateTime.of(2021, 11, 25, 14, 7);
+        LocalDateTime expected = LocalDateTime.now().plus(Duration.ofHours(2));
         LocalDateTime actual = eventScheduler.getAvailableTime(new ArrayList<>(), Duration.ofHours(1));
-        assertEquals(expected, actual);
+        assertEquals(toMinutes(expected), toMinutes(actual));
+    }
+
+    private LocalDateTime toMinutes(LocalDateTime dateTime) {
+        return dateTime.truncatedTo(ChronoUnit.MINUTES);
     }
 
     @Test
     public void getAvailableTimeIgnore() {
         List<LocalDateTime> timesToIgnore = new ArrayList<>();
-        timesToIgnore.add(LocalDateTime.of(2021, 11, 25, 14, 7));
+        LocalDateTime expected = LocalDate.now().plusDays(1).atTime(LocalTime.NOON);
+        timesToIgnore.add(expected.minus(Duration.ofHours(1)));
 
-        LocalDateTime expected = LocalDateTime.of(2021, 11, 25, 17, 0);
         LocalDateTime actual = eventScheduler.getAvailableTime(timesToIgnore, Duration.ofHours(1));
         assertEquals(expected, actual);
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
         List<EventReader> events;
 
         public MockCalendarManager(List<EventReader> events) {
@@ -108,8 +113,8 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
-
+        public long addEvent(CalendarEventModel eventData) {
+            return 0L;
         }
 
         @Override
