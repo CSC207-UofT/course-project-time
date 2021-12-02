@@ -1,6 +1,5 @@
 package services.task_presentation;
 
-
 import data_gateway.task.TaskReader;
 import data_gateway.task.TodoListManager;
 
