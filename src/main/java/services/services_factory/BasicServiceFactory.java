@@ -13,7 +13,10 @@ import services.task_creation.TaskAdder;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskGetter;
+import services.task_presentation.TaskOutputter;
+import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
+import services.task_presentation.TodoListRequestBoundary;
 
 public class BasicServiceFactory implements ServicesFactory {
 
@@ -25,7 +28,8 @@ public class BasicServiceFactory implements ServicesFactory {
     private EventGetter cachedEventOutputter;
     private EventSaver cachedEventSaver;
     private TodoListTaskCreationBoundary cachedTaskCreator;
-    private TaskGetter cachedTaskOutputter;
+    private TodoListDisplayBoundary cachedTaskOutputter;
+    private TodoListRequestBoundary cachedTaskGetter;
     private TaskSaver cachedTaskSaver;
 
 
@@ -70,10 +74,17 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
-    public TaskGetter makeTaskOutputter(TodoListPresenter taskPresenter) {
+    public TodoListDisplayBoundary makeTaskOutputter(TodoListPresenter taskPresenter) {
         if (cachedTaskOutputter == null)
-            cachedTaskOutputter = new TaskGetter(taskRepository, taskPresenter);
+            cachedTaskOutputter = new TaskOutputter(taskRepository, taskPresenter);
         return cachedTaskOutputter;
+    }
+
+    @Override
+    public TodoListRequestBoundary makeTaskGetter() {
+        if (cachedTaskGetter == null)
+            cachedTaskGetter = new TaskGetter(taskRepository);
+        return cachedTaskGetter;
     }
 
     @Override

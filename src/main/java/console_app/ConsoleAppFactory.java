@@ -13,7 +13,8 @@ import services.event_presentation.EventGetter;
 import services.services_factory.ServicesFactory;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
-import services.task_presentation.TaskGetter;
+import services.task_presentation.TodoListDisplayBoundary;
+import services.task_presentation.TodoListRequestBoundary;
 
 public class ConsoleAppFactory {
 
@@ -31,10 +32,11 @@ public class ConsoleAppFactory {
 
     public TaskController makeTaskController(ConsoleTaskPresenter taskPresenter) {
         if (cachedTaskController == null) {
-            TaskGetter taskGetter = servicesFactory.makeTaskOutputter(taskPresenter);
+            TodoListDisplayBoundary taskOutputter = servicesFactory.makeTaskOutputter(taskPresenter);
+            TodoListRequestBoundary taskGetter = servicesFactory.makeTaskGetter();
             TodoListTaskCreationBoundary taskCreator = servicesFactory.makeTaskCreator();
             TaskSaver taskSaver = servicesFactory.makeTaskSaver();
-            cachedTaskController = new TaskController(taskGetter, taskCreator, taskSaver);
+            cachedTaskController = new TaskController(taskGetter, taskOutputter, taskCreator, taskSaver);
         }
         return cachedTaskController;
     }
@@ -49,14 +51,10 @@ public class ConsoleAppFactory {
         return cachedEventController;
     }
 
-    public EventController getCachedEventController() {
-        return cachedEventController;
-    }
-
     public TaskToEventController makeTaskToEventController() {
         if (cachedTaskToEventController == null) {
             CalendarAnalyzer calendarAnalyzer = servicesFactory.makeCalendarAnalyzer();
-            cachedTaskToEventController = new TaskToEventController(getCachedEventController(), calendarAnalyzer);
+            cachedTaskToEventController = new TaskToEventController(calendarAnalyzer);
         }
         return cachedTaskToEventController;
 

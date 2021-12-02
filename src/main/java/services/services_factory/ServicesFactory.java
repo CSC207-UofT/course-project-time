@@ -7,8 +7,9 @@ import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
-import services.task_presentation.TaskGetter;
+import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
+import services.task_presentation.TodoListRequestBoundary;
 
 /**
  * Abstract Factory for creating service-layer use cases
@@ -19,6 +20,7 @@ public interface ServicesFactory {
     EventGetter makeEventOutputter(CalendarEventPresenter eventPresenter);
     EventSaver makeEventSaver();
     TodoListTaskCreationBoundary makeTaskCreator();
-    TaskGetter makeTaskOutputter(TodoListPresenter taskPresenter);
+    TodoListDisplayBoundary makeTaskOutputter(TodoListPresenter taskPresenter);
+    TodoListRequestBoundary makeTaskGetter();
     TaskSaver makeTaskSaver();
 }

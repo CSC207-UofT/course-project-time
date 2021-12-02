@@ -313,19 +313,6 @@ public class ApplicationDriver {
         return controller.getTaskById(mapping.get(Integer.parseInt(chosen)));
     }
 
-    /**
-     * Prompts the user to input a time
-     * @return the time the user inputted
-     */
-    private static LocalDateTime inputTime() {
-        String format = "yyyy/MM/dd-HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Input your desired time in (" + format + ") (24 hour time): ");
-        String timeString = scanner.nextLine();
-        return LocalDateTime.parse(timeString, formatter);
-    }
-
     private static LocalDateTime inputDateWithOptionalTime(LocalTime defaultTime) {
         String dateTimeFormat = "yyyy/MM/dd-HH:mm";
         String dateFormat = "yyyy/MM/dd";
