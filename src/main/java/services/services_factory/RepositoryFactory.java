@@ -1,7 +1,8 @@
 package services.services_factory;
 
-import data_gateway.CalendarManager;
-import data_gateway.TodoListManager;
+
+import data_gateway.event.CalendarManager;
+import data_gateway.task.TodoListManager;
 
 /**
  * Factory Method for creating entity repositories

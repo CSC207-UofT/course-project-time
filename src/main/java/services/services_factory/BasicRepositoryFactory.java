@@ -1,9 +1,9 @@
 package services.services_factory;
 
-import data_gateway.CalendarManager;
-import data_gateway.EventEntityManager;
-import data_gateway.TodoEntityManager;
-import data_gateway.TodoListManager;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventEntityManager;
+import data_gateway.task.TodoEntityManager;
+import data_gateway.task.TodoListManager;
 import services.Snowflake;
 
 /**

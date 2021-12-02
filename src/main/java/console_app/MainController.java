@@ -6,13 +6,12 @@ import console_app.task_adapters.ConsoleTaskPresenter;
 import console_app.task_adapters.TaskController;
 import console_app.task_to_event_adapters.TaskToEventController;
 import services.event_presentation.EventInfo;
+import services.strategy_building.DatesForm;
 import services.task_presentation.TaskInfo;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -63,16 +62,17 @@ public class MainController {
         return eventController.getEventByName(name);
     }
     /**
-     * creates an event and adds it to the calendar
-     * @param eventName name of the event to be created
-     * @param startTime start time of the event
-     * @param endTime   end time of the event
-     * @param tags      a set of tags associated with the event
-     * @param date      the date that the event would occur
+     * @see console_app.event_adapters.EventController#createEvent(String, Duration, DatesForm, HashSet)
      */
-    public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                            HashSet<String> tags, LocalDate date) {
-        eventController.createEvent(eventName, startTime, endTime, tags, date);
+    public void createEvent(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
+        eventController.createEvent(eventName, duration, form, tags);
+    }
+
+    /**
+     * @see console_app.event_adapters.EventController#createEvent(String, Duration, DatesForm)
+     */
+    public void createEvent(String eventName, Duration duration, DatesForm form) {
+        eventController.createEvent(eventName, duration, form);
     }
 
     public void saveData()

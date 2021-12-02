@@ -1,7 +1,7 @@
 package services.services_factory;
 
-import data_gateway.CalendarManager;
-import data_gateway.TodoListManager;
+import data_gateway.event.CalendarManager;
+import data_gateway.task.TodoListManager;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;

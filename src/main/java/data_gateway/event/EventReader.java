@@ -1,4 +1,4 @@
-package data_gateway;
+package data_gateway.event;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

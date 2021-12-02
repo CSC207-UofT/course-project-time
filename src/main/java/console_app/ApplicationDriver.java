@@ -8,6 +8,10 @@ import services.services_factory.ServicesFactory;
 import services.task_presentation.TaskInfo;
 
 import java.io.IOException;
+import services.strategy_building.DatesForm;
+import services.strategy_building.MultipleRuleFormBuilder;
+
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 
 public class ApplicationDriver {
@@ -135,8 +140,11 @@ public class ApplicationDriver {
                         }
                     } while (!timeAvailable);
 
-                    controller.createEvent(taskInfo.getName(), userSuggestedTime.toLocalTime(),
-                            userSuggestedTime.toLocalTime().plus(taskInfo.getDuration()), new HashSet<>(), userSuggestedTime.toLocalDate());
+                    MultipleRuleFormBuilder formBuilder = new MultipleRuleFormBuilder();
+                    formBuilder.addSingleOccurrence(userSuggestedTime);
+                    DatesForm form = formBuilder.getForm();
+
+                    controller.createEvent(taskInfo.getName(), taskInfo.getDuration(), form);
                     System.out.println("Event created from task");
                 }
                 break;
@@ -183,30 +191,25 @@ public class ApplicationDriver {
         System.out.print("Enter event name: ");
         String eventName = input.nextLine();
 
-        String timeFormat = "HH:mm";
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(timeFormat);
+        DatesForm form = createForm();
 
-        System.out.print("Enter start time for event in (" + timeFormat + ") (24 hour time): ");
-        String startTimeResponse = input.nextLine(); // TODO exception handling
-        LocalTime eventStartTime = LocalTime.parse(startTimeResponse, timeFormatter);
+        String[] response;
+        do {
+            System.out.print("Enter how long the event will go on for (hours minutes) ");
+            String startTimeResponse = input.nextLine(); // TODO exception handling
+            response = startTimeResponse.split(" ");
+        } while (response.length != 2);
+        int hours = Integer.parseInt(response[0]);
+        int minutes = Integer.parseInt(response[1]);
 
-        System.out.print("Enter end time for event in (" + timeFormat + ") (24 hour time): ");
-        String endTimeResponse = input.nextLine(); // todo exception handling
-        LocalTime eventEndTime = LocalTime.parse(endTimeResponse, timeFormatter);
-
-        String dateFormat = "yyyy-MM-dd";
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
-
-        System.out.print("Enter date for event in (" + dateFormat + "): ");
-        String dateResponse = input.nextLine();  // todo exception handling
-        LocalDate eventDate = LocalDate.parse(dateResponse, dateFormatter);
+        Duration eventDuration = Duration.ofMinutes(hours * 60L + minutes);
 
         System.out.print("Enter tags for event, separated by space, or press enter if there are no tags: ");
         String tagResponse = input.nextLine(); // todo exception handling
         String[] tagArray = tagResponse.split(" ");
         HashSet<String> eventTags = new HashSet<>(Arrays.asList(tagArray));
 
-        this.controller.createEvent(eventName, eventStartTime, eventEndTime, eventTags, eventDate);
+        this.controller.createEvent(eventName, eventDuration, form, eventTags);
     }
 
     /**
@@ -323,6 +326,22 @@ public class ApplicationDriver {
         return LocalDateTime.parse(timeString, formatter);
     }
 
+    private static LocalDateTime inputDateWithOptionalTime(LocalTime defaultTime) {
+        String dateTimeFormat = "yyyy/MM/dd-HH:mm";
+        String dateFormat = "yyyy/MM/dd";
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Format: (" + dateTimeFormat + ") or " +
+                "(" + dateFormat + ") defaulting to " + defaultTime.toString() + " (24 hour time): ");
+        String timeString = scanner.nextLine();
+        try {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            return LocalDateTime.parse(timeString, dateTimeFormatter);
+        } catch (DateTimeParseException e) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            return LocalDate.parse(timeString, dateFormatter).atTime(defaultTime);
+        }
+    }
+
     /**
      * Prompts users for their desired work and break intervals
      * @return the time intervals the user inputted
@@ -360,6 +379,60 @@ public class ApplicationDriver {
         catch(NumberFormatException numberFormatException) {
             return false;
         }
+    }
+
+
+    private DatesForm createForm() {
+
+        String[] daysOfWeek = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+        Set<String> daysSet = new HashSet<>(Arrays.asList(daysOfWeek));
+
+        Scanner sc = new Scanner(System.in);
+        String input;
+        do {
+            System.out.print("Input what day of the week you want the event to reoccur: ");
+            input = sc.nextLine().toLowerCase();
+        } while (!daysSet.contains(input));
+
+        int index = 0;
+        while (!daysOfWeek[index].equals(input))
+            index++;
+
+        DayOfWeek day = DayOfWeek.of(index + 1);
+
+        System.out.print("When in the day do you want the event to reoccur (HH:mm)? ");
+        Scanner scanner = new Scanner(System.in);
+        String timeString = scanner.nextLine();
+        LocalTime timeOfDay = LocalTime.parse(timeString);
+
+        System.out.println("(Optional) Input the date from when this recurrence should start (for an event like every Monday from Jan 1) (enter nothing to not use)");
+        LocalDateTime startTime;
+        try {
+             startTime = inputDateWithOptionalTime(LocalTime.MIDNIGHT);
+        } catch (DateTimeParseException e) {
+            startTime = null;
+        }
+
+        System.out.println("(Optional) Input the date from when this recurrence should end (for an event like Monday until Dec 31) (enter nothing to not use)");
+        LocalDateTime endTime;
+        try {
+            endTime = inputDateWithOptionalTime(LocalTime.MIDNIGHT.minusMinutes(1));
+        } catch (DateTimeParseException e) {
+            endTime = null;
+        }
+
+        MultipleRuleFormBuilder formBuilder = new MultipleRuleFormBuilder();
+        if (startTime != null && endTime != null)
+            formBuilder.addWeeklyOccurrenceBetween(day, timeOfDay, startTime, endTime);
+        else if (startTime != null)
+            formBuilder.addWeeklyOccurrenceFrom(day, timeOfDay, startTime);
+        else if (endTime != null)
+            formBuilder.addWeeklyOccurrenceUntil(day, timeOfDay, endTime);
+        else
+            formBuilder.addWeeklyOccurrence(day, timeOfDay);
+
+        return formBuilder.getForm();
+
     }
 
 

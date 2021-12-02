@@ -43,10 +43,9 @@ public class ConsoleAppFactory {
     public EventController makeEventController(CalendarEventPresenter eventPresenter) {
         if (cachedEventController == null ) {
             CalendarEventCreationBoundary eventCreator = servicesFactory.makeEventCreator();
-            CalendarAnalyzer analyzer = servicesFactory.makeCalendarAnalyzer();
             EventGetter eventGetter = servicesFactory.makeEventOutputter(eventPresenter);
             EventSaver eventSaver = servicesFactory.makeEventSaver();
-            cachedEventController = new EventController(eventCreator, analyzer, eventGetter, eventSaver);
+            cachedEventController = new EventController(eventCreator, eventGetter, eventSaver);
         }
         return cachedEventController;
     }
