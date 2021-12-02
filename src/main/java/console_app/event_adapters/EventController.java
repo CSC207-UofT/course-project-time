@@ -7,6 +7,8 @@ import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
+import services.update_entities.EventUpdater;
+import services.update_entities.UpdateEventBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -24,13 +26,15 @@ public class EventController {
     private final CalendarAnalyzer eventScheduler;
     private final EventGetter eventGetter;
     private final EventSaver eventSaver;
+    private final UpdateEventBoundary eventUpdater;
 
     public EventController(CalendarEventCreationBoundary eventAdder, CalendarAnalyzer eventScheduler,
-                           EventGetter eventGetter, EventSaver eventSaver) {
+                           EventGetter eventGetter, EventSaver eventSaver, EventUpdater eventUpdater) {
         this.eventAdder = eventAdder;
         this.eventScheduler = eventScheduler;
         this.eventGetter = eventGetter;
         this.eventSaver = eventSaver;
+        this.eventUpdater = eventUpdater;
     }
 
     /**
@@ -78,12 +82,20 @@ public class EventController {
         this.eventSaver.saveEventData(filename);
     }
 
+    public void updateName(long id, String newName){eventUpdater.updateName(id, newName);}
+
+    public void updateStartTime(long id, LocalTime newStartTime){eventUpdater.updateStartTime(id, newStartTime);}
+
+    public void updateEndTime(long id, LocalTime newEndTime){eventUpdater.updateEndTime(id, newEndTime);}
+
+    public void addTag(long id, String tag){eventUpdater.addTag(id, tag);}
+
+    public void removeTag(long id, String tag){eventUpdater.removeTag(id, tag);}
+
+    public void markEventAsCompleted(long id){eventUpdater.markEventAsCompleted(id);}
+
     public EventInfo getEventByName(String name) {
         return eventGetter.getEventByName(name);
-    }
-
-    public void markEventAsCompleted(long eventId) {
-        eventAdder.markEventAsCompleted(eventId);
     }
 
     public List<HashMap<String, String>> getEvents() {

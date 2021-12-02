@@ -4,6 +4,8 @@ import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskGetter;
 import services.task_presentation.TaskInfo;
+import services.update_entities.TaskUpdater;
+import services.update_entities.UpdateTaskBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -15,11 +17,13 @@ public class TaskController {
     private final TaskGetter taskGetter;
     private final TodoListTaskCreationBoundary taskAdder;
     private final TaskSaver taskSaver;
+    private final UpdateTaskBoundary taskUpdater;
 
-    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver) {
+    public TaskController(TaskGetter taskGetter, TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver, TaskUpdater taskUpdater) {
         this.taskGetter = taskGetter;
         this.taskAdder = taskAdder;
         this.taskSaver = taskSaver;
+        this.taskUpdater = taskUpdater;
     }
 
     /**
@@ -30,12 +34,32 @@ public class TaskController {
     }
 
     public void createTask(String taskName, Duration timeNeeded,
-                              LocalDateTime deadline, List<String> subTasks) {
+                           LocalDateTime deadline, List<String> subTasks) {
         taskAdder.addTask(new NewTodoListTaskData(taskName, timeNeeded, deadline, subTasks));
     }
 
+    public void updateName(long taskId, String newName){
+        taskUpdater.updateName(taskId, newName);
+    }
+
+    public void updateDuration(long id, Duration newDuration){
+        taskUpdater.updateDuration(id, newDuration);
+    }
+
+    public void updateDeadline(long id, LocalDateTime newDeadline){
+        taskUpdater.updateDeadline(id, newDeadline);
+    }
+
+    public void addSubtask(long id, String subtask){
+        taskUpdater.addSubtask(id, subtask);
+    }
+
+    public void removeSubtask(long id, String subtask){
+        taskUpdater.removeSubtask(id, subtask);
+    }
+
     public void completeTask(long taskId) {
-        taskAdder.completeTask(taskId);
+        taskUpdater.completeTask(taskId);
     }
 
     /**

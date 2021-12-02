@@ -15,8 +15,4 @@ public class EventAdder implements CalendarEventCreationBoundary {
         return calendarManager.addEvent(eventData);
     }
 
-    @Override
-    public void markEventAsCompleted(long eventId) {
-        calendarManager.markEventAsCompleted(eventId);
-    }
 }
