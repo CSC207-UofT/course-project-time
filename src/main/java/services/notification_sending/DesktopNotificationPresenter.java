@@ -2,6 +2,7 @@ package services.notification_sending;
 
 import java.awt.*;
 import java.awt.TrayIcon.MessageType;
+import java.net.MalformedURLException;
 
 /**
  * Sends out desktop push notifications.
@@ -11,14 +12,17 @@ public class DesktopNotificationPresenter implements NotificationPresenter, Sett
     private boolean enabled;
     private SystemTray tray = SystemTray.getSystemTray();
 
+
     @Override
     public void presentNotification(String message) {
         try{
-            Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("/resources/icon.png"));
-            TrayIcon trayIcon = new TrayIcon(image, "Time");
-            trayIcon.setImageAutoSize(true);
+            // necessary because you need to instantiate TrayIcon with an image, icon.png doesn't actually exist
+            Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
+            TrayIcon trayIcon = new TrayIcon(image, "TIME");
             tray.add(trayIcon);
-            trayIcon.displayMessage("Time", message, MessageType.INFO);
+
+            // MessageType.INFO is where the icon actually comes from
+            trayIcon.displayMessage("TIME", message, MessageType.INFO);
         } catch(AWTException e) {
             System.err.print(e);
         }
@@ -33,5 +37,10 @@ public class DesktopNotificationPresenter implements NotificationPresenter, Sett
     @Override
     public boolean getSettings() {
         return this.enabled;
+    }
+
+    public static void main(String[] args) {
+        DesktopNotificationPresenter desktopNotificationPresenter = new DesktopNotificationPresenter();
+        desktopNotificationPresenter.presentNotification("HI");
     }
 }
