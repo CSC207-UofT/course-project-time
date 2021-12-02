@@ -8,7 +8,6 @@ import console_app.task_to_event_adapters.TaskToEventController;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.CalendarAnalyzer;
-import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.services_factory.ServicesFactory;
@@ -56,8 +55,8 @@ public class ConsoleAppFactory {
 
     public TaskToEventController makeTaskToEventController() {
         if (cachedTaskToEventController == null) {
-            EventScheduler eventScheduler = servicesFactory.makeCalendarAnalyzer();
-            cachedTaskToEventController = new TaskToEventController(getCachedEventController(), eventScheduler);
+            CalendarAnalyzer calendarAnalyzer = servicesFactory.makeCalendarAnalyzer();
+            cachedTaskToEventController = new TaskToEventController(getCachedEventController(), calendarAnalyzer);
         }
         return cachedTaskToEventController;
 

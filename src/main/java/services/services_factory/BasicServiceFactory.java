@@ -5,6 +5,7 @@ import data_gateway.task.TodoListManager;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
@@ -19,7 +20,7 @@ public class BasicServiceFactory implements ServicesFactory {
     private final CalendarManager eventRepository;
     private final TodoListManager taskRepository;
 
-    private EventScheduler cachedAnalyzer;
+    private CalendarAnalyzer cachedAnalyzer;
     private CalendarEventCreationBoundary cachedEventCreator;
     private EventGetter cachedEventOutputter;
     private EventSaver cachedEventSaver;
@@ -34,7 +35,7 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
-    public EventScheduler makeCalendarAnalyzer() {
+    public CalendarAnalyzer makeCalendarAnalyzer() {
         if (cachedAnalyzer == null)
             cachedAnalyzer = new EventScheduler(eventRepository);
         return cachedAnalyzer;
