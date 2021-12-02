@@ -1,6 +1,7 @@
 package services.update_entities;
 
-import data_gateway.CalendarManager;
+
+import data_gateway.event.CalendarManager;
 
 import java.time.LocalTime;
 

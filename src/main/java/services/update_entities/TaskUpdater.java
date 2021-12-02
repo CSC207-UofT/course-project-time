@@ -1,6 +1,8 @@
 package services.update_entities;
 
-import data_gateway.TodoListManager;
+
+
+import data_gateway.task.TodoListManager;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
