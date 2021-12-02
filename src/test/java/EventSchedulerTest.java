@@ -113,7 +113,7 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public long addEvent(CalendarEventModel eventData) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
             return 0L;
         }
 

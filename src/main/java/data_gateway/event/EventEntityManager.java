@@ -6,13 +6,12 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import entity.Event;
 import services.Snowflake;
-import services.event_creation.CalendarEventModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -63,17 +62,16 @@ public class EventEntityManager implements CalendarManager{
 
     /**
      * Add a new event to eventList using data from eventData
-     * @param eventData the information of an event
+     * @param eventName     the name of the new event
+     * @param startTime     the time the event should start
+     * @param endTime       the time the event should end
+     * @param tags          the tags associated with the event
+     * @param date          the date the event should occur
      */
     @Override
-    public long addEvent(CalendarEventModel eventData) {
-        String name = eventData.getName();
-        LocalDateTime startTime = eventData.getStartTime();
-        LocalDateTime endTime = eventData.getEndTime();
-        HashSet<String> tags = eventData.getTags();
-        LocalDate date = eventData.getDate();
-
-        Event event = new Event(snowflake.nextId(), name, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+                         LocalDate date) {
+        Event event = new Event(snowflake.nextId(), eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         eventList.add(event);
         return event.getId();
     }

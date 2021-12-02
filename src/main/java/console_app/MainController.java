@@ -17,22 +17,22 @@ import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
+import services.strategy_building.DatesForm;
 import services.task_creation.TaskAdder;
-import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TaskSaver;
+import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskGetter;
 import services.task_presentation.TaskInfo;
 import services.task_presentation.TodoListPresenter;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -55,7 +55,7 @@ public class MainController {
         observableEventManager.addOnCompletionUpdateObserver(
                 (eventReader, completed) -> System.out.println(eventReader.getName() + "was set to " + (completed ? "Complete1" : "Incomplete")));
         CalendarEventCreationBoundary eventAdder = new EventAdder(observableEventManager);
-        EventScheduler eventScheduler = new EventScheduler(observableEventManager);
+        CalendarAnalyzer eventScheduler = new EventScheduler(observableEventManager);
 
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
         ObservableTaskManager observableTaskManager = new ObservableTaskEntityManager(todoListManager);
@@ -75,7 +75,7 @@ public class MainController {
         EventGetter eventGetter = new EventGetter(observableEventManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(observableEventManager);
 
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver);
+        eventController = new EventController(eventAdder, eventGetter,  eventSaver);
 
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TaskGetter taskGetter = new TaskGetter(observableTaskManager, taskPresenter);
@@ -119,16 +119,17 @@ public class MainController {
         return eventController.getEventByName(name);
     }
     /**
-     * creates an event and adds it to the calendar
-     * @param eventName name of the event to be created
-     * @param startTime start time of the event
-     * @param endTime   end time of the event
-     * @param tags      a set of tags associated with the event
-     * @param date      the date that the event would occur
+     * @see console_app.event_adapters.EventController#createEvent(String, Duration, DatesForm, HashSet)
      */
-    public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                            HashSet<String> tags, LocalDate date) {
-        eventController.createEvent(eventName, startTime, endTime, tags, date);
+    public void createEvent(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
+        eventController.createEvent(eventName, duration, form, tags);
+    }
+
+    /**
+     * @see console_app.event_adapters.EventController#createEvent(String, Duration, DatesForm)
+     */
+    public void createEvent(String eventName, Duration duration, DatesForm form) {
+        eventController.createEvent(eventName, duration, form);
     }
 
     public void saveData()

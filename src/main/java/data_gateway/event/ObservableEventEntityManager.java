@@ -2,9 +2,11 @@ package data_gateway.event;
 
 import data_gateway.ObservableProperty;
 import data_gateway.PropertyObserver;
-import services.event_creation.CalendarEventModel;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 public class ObservableEventEntityManager implements ObservableEventManager {
@@ -28,8 +30,8 @@ public class ObservableEventEntityManager implements ObservableEventManager {
     }
 
     @Override
-    public long addEvent(CalendarEventModel eventData) {
-        long newEventId = calendarManager.addEvent(eventData);
+    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+        long newEventId = calendarManager.addEvent(eventName, startTime, endTime, tags, date);
         EventReader newEvent = getById(newEventId);
         newEventObservers.notifyObservers(newEvent, newEventId);
         return newEventId;
