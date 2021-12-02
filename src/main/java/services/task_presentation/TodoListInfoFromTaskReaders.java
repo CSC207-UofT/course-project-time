@@ -31,4 +31,8 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
             taskInfos.add(new TaskInfoFromTaskReader(tr));
         return taskInfos;
     }
+
+    public List<TaskReader> getTaskReaders() {
+        return taskReaders;
+    }
 }
