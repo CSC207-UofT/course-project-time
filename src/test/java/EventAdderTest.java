@@ -24,7 +24,7 @@ public class EventAdderTest {
     MockCalendarManager manager;
     CalendarEventData calendarEventData;
 
-    LocalDateTime tomorrowNoon = LocalDate.now().plusDays(1).atTime(LocalTime.NOON);
+    final LocalDateTime tomorrowNoon = LocalDate.now().plusDays(1).atTime(LocalTime.NOON);
 
     @BeforeEach
     void setup() {

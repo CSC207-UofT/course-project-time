@@ -72,7 +72,7 @@ public class MainController {
         TaskSaver taskSaver = new TaskSaver(todoListManager);
         taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver);
 
-        taskToEventController = new TaskToEventController(eventController, eventScheduler);
+        taskToEventController = new TaskToEventController(eventScheduler);
         pomodoroController = new PomodoroController();
     }
 
