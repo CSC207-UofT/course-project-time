@@ -82,14 +82,14 @@ public class TaskOutputterTest {
 
         @Override
         public void presentTasks(TodoListsInfo todoListInfo) {
-            if (((TodoListInfoFromTaskReaders) todoListInfo).getTaskReaders().equals(new ArrayList<>())) {
+            if (todoListInfo.getAllTasks().equals(new ArrayList<>())) {
                 presentTasksSuccess = true;
             }
         }
 
         @Override
         public Map<Integer, Long> presentTasksForUserSelection(TodoListsInfo todoListInfo) {
-            if(((TodoListInfoFromTaskReaders) todoListInfo).getTaskReaders().equals(new ArrayList<>())) {
+            if (todoListInfo.getAllTasks().equals(new ArrayList<>())) {
                 return new HashMap<>();
             } else {
                 return null;

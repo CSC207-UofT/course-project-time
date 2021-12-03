@@ -32,7 +32,4 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
         return taskInfos;
     }
 
-    public List<TaskReader> getTaskReaders() {
-        return taskReaders;
-    }
 }
