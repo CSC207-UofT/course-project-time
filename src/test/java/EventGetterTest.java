@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -104,7 +105,14 @@ public class EventGetterTest {
     void getEventByName() {
         EventInfo expected = new EventInfoFromReader(e1);
         EventInfo actual = eventGetter.getEventByName("mock1");
-        assertEquals(expected, actual);
+
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getCompleted(), actual.getCompleted());
+        assertEquals(expected.getDates(), actual.getDates());
+        assertEquals(expected.getEndTime(), actual.getEndTime());
+        assertEquals(expected.getStartTime(), actual.getStartTime());
+        assertEquals(expected.getTags(), actual.getTags());
     }
 
     private class MockCalendarManager implements CalendarManager {
