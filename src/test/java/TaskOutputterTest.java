@@ -76,7 +76,7 @@ public class TaskOutputterTest {
         }
     }
 
-    private class MockTodoListPresenter implements TodoListPresenter {
+    private static class MockTodoListPresenter implements TodoListPresenter {
 
         private boolean presentTasksSuccess = false;
 
