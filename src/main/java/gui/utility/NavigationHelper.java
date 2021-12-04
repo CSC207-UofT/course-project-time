@@ -20,6 +20,8 @@ import java.util.Objects;
  */
 public final class NavigationHelper {
 
+    private static final AdaptedFXMLLoader loader = new AdaptedFXMLLoader();
+
     private NavigationHelper() {
     }
 
@@ -51,7 +53,8 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterMonthlyCalendarPage(Event event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
+        Parent root = loader.load();
         setNewScene(event, root);
     }
 
@@ -61,7 +64,8 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     private static void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
+        Parent root = loader.load();
         setNewScene(event, root);
     }
 
@@ -71,7 +75,8 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
+        Parent root = loader.load();
         setNewScene(event, root);
     }
 
@@ -98,7 +103,8 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterHomePage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
+        Parent root = loader.load();
         setNewScene(event, root);
     }
 
