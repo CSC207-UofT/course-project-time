@@ -7,6 +7,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.MessagingException;
+import javax.mail.Authenticator;
 import java.util.Properties;
 
 /**
@@ -20,7 +21,8 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
     private String userEmail;
     private String subject;
 
-    EmailNotificationPresenter(boolean enabled, String senderEmail, String password, String userEmail, String subject) {
+    public EmailNotificationPresenter(boolean enabled, String senderEmail,
+                                      String password, String userEmail, String subject) {
         this.enabled = enabled;
         this.senderEmail = senderEmail;
         this.password = password;
@@ -30,33 +32,35 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
 
     @Override
     public void presentNotification(String message) {
-        //Get properties object
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
+        if (enabled) {
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
+            props.put("mail.smtp.socketFactory.port", "465"); //SSL Port： 465
+            props.put("mail.smtp.socketFactory.class",
+                    "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.auth", "true"); //Enabling SMTP Authentication
+            props.put("mail.smtp.port", "465"); //SMTP Port
 
-        //get Session
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(senderEmail, password);
-                    }
-                });
+            Authenticator auth = new Authenticator() {
+                //override the getPasswordAuthentication method
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(senderEmail, password);
+                }
+            };
 
-        //compose message
-        try {
-            MimeMessage msg = new MimeMessage(session);
-            msg.addRecipient(Message.RecipientType.TO,new InternetAddress(userEmail));
-            msg.setSubject(subject);
-            msg.setText(message);
-            //send message
-            Transport.send(msg);
-            System.out.println("message sent successfully");
-        } catch (MessagingException e) {throw new RuntimeException(e);}
+            Session session = Session.getDefaultInstance(props, auth);
+
+            try {
+                MimeMessage msg = new MimeMessage(session);
+                msg.addRecipient(Message.RecipientType.TO,new InternetAddress(userEmail));
+                msg.setSubject(subject);
+                msg.setText(message);
+                Transport.send(msg);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     @Override
