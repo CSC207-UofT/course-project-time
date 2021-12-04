@@ -1,8 +1,13 @@
 package services.notification_sending;
 
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.MessagingException;
 import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.*;
 
 /**
  * Sends out email notifications.
