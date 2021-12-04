@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Text fill="#646890" layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcoming">
+               <font>
+                  <Font name="Haettenschweiler" size="24.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#646890" height="62.0" layoutX="16.0" layoutY="69.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.bottomAnchor="269.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="69.0" />
+            <Text fill="#f3f3f3" layoutX="32.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Events of the day" AnchorPane.leftAnchor="32.0">
+               <font>
+                  <Font name="Haettenschweiler" size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" fill="WHITE" height="31.0" layoutX="16.0" layoutY="95.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="95.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="16.0" layoutY="105.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#646890" height="62.0" layoutX="16.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
+            <Text fill="#f3f3f3" layoutX="31.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tasks due today" AnchorPane.leftAnchor="32.0">
+               <font>
+                  <Font name="Haettenschweiler" size="20.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" fill="WHITE" height="31.0" layoutX="16.0" layoutY="224.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="16.0" layoutY="234.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
