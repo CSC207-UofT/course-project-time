@@ -13,22 +13,26 @@ import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
+import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
+import services.strategy_building.DatesForm;
 import services.task_creation.TaskAdder;
-import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_creation.TaskSaver;
+import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskGetter;
 import services.task_presentation.TaskInfo;
+import services.task_presentation.TaskOutputter;
+import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
 import services.update_entities.EventUpdater;
 import services.update_entities.TaskUpdater;
+import services.task_presentation.TodoListRequestBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -48,7 +52,7 @@ public class MainController {
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
-        EventScheduler eventScheduler = new EventScheduler(calendarManager);
+        CalendarAnalyzer eventScheduler = new EventScheduler(calendarManager);
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
 
         try {
@@ -62,17 +66,15 @@ public class MainController {
         EventGetter eventGetter = new EventGetter(calendarManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(calendarManager);
         EventUpdater eventUpdater = new EventUpdater(calendarManager);
-
-        eventController = new EventController(eventAdder, eventScheduler, eventGetter,  eventSaver, eventUpdater);
-
+        eventController = new EventController(eventAdder, eventGetter, eventSaver, eventUpdater);
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TaskGetter taskGetter = new TaskGetter(todoListManager, taskPresenter);
+        TodoListRequestBoundary taskGetter = new TaskGetter(todoListManager);
+        TodoListDisplayBoundary taskOutputter = new TaskOutputter(todoListManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
         TaskSaver taskSaver = new TaskSaver(todoListManager);
         TaskUpdater taskUpdater = new TaskUpdater(todoListManager);
-        taskController = new TaskController(taskGetter, taskAdder, taskSaver, taskUpdater);
-
-        taskToEventController = new TaskToEventController(eventController, eventScheduler);
+        taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver, taskUpdater);
+        taskToEventController = new TaskToEventController(eventScheduler);
         pomodoroController = new PomodoroController();
     }
 
@@ -108,16 +110,17 @@ public class MainController {
         return eventController.getEventByName(name);
     }
     /**
-     * creates an event and adds it to the calendar
-     * @param eventName name of the event to be created
-     * @param startTime start time of the event
-     * @param endTime   end time of the event
-     * @param tags      a set of tags associated with the event
-     * @param date      the date that the event would occur
+     * @see console_app.event_adapters.EventController#createEvent(String, Duration, DatesForm, HashSet)
      */
-    public void createEvent(String eventName, LocalTime startTime, LocalTime endTime,
-                            HashSet<String> tags, LocalDate date) {
-        eventController.createEvent(eventName, startTime, endTime, tags, date);
+    public void createEvent(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
+        eventController.createEvent(eventName, duration, form, tags);
+    }
+
+    /**
+     * @see console_app.event_adapters.EventController#createEvent(String, Duration, DatesForm)
+     */
+    public void createEvent(String eventName, Duration duration, DatesForm form) {
+        eventController.createEvent(eventName, duration, form);
     }
 
     public void saveData()

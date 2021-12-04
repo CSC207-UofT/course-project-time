@@ -1,14 +1,14 @@
 package services.event_creation;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import services.strategy_building.DatesForm;
+
+import java.time.Duration;
 import java.util.HashSet;
 
 public interface CalendarEventModel {
     String getName();
-    LocalDateTime getStartTime();
-    LocalDateTime getEndTime();
+    Duration getDuration();
+    DatesForm getForm();
     HashSet<String> getTags();
-    LocalDate getDate();
 
 }
