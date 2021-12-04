@@ -4,23 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NotificationSettingsManager implements SettingsManager {
-    private String email;
-    private final Map<String, Boolean> notificationSettings;
+    private String userEmail;
+    private Map<String, Boolean> notificationSettings;
 
     public NotificationSettingsManager() {
-        this.email = "testtime@gmail.com";
+        this.userEmail = "testtime@gmail.com";
         notificationSettings = new HashMap<>();
         notificationSettings.put("email", true);
         notificationSettings.put("desktop", true);
     }
 
-    public void setEmail(String newEmail) {
-        this.email = newEmail;
+    @Override
+    public void setUserEmail(String newUserEmail) {
+        this.userEmail = newUserEmail;
     }
 
     @Override
-    public String getEmail() {
-        return this.email;
+    public String getUserEmail() {
+        return this.userEmail;
+    }
+
+    @Override
+    public void setNotificationSettings(Map<String, Boolean> newSettings) {
+        this.notificationSettings = newSettings;
     }
 
     @Override

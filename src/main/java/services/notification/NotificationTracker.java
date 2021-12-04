@@ -1,6 +1,7 @@
 package services.notification;
 
 import entity.Notification;
+import services.notification_sending.NotificationPresenter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -94,7 +95,7 @@ public class NotificationTracker implements Runnable {
      */
     private void updateObservers(String message) {
         for (NotificationPresenter observer : observers) {
-            observer.presentNotifications(message);
+            observer.presentNotification(message);
         }
     }
 }

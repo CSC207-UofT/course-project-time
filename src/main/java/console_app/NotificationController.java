@@ -1,12 +1,10 @@
 package console_app;
 
-import data_gateway.EventReader;
-import data_gateway.TaskReader;
-import entity.Notification;
-import services.notification_system.NotificationAdder;
-import services.notification_system.NotificationSettings;
-import services.notification_system.NotificationSettingsManager;
-import services.notification_system.NotificationTracker;
+import data_gateway.event.EventReader;
+import data_gateway.notification.SettingsManager;
+import data_gateway.task.TaskReader;
+import services.notification.NotificationAdder;
+import services.notification.NotificationTracker;
 
 import java.time.Duration;
 import java.util.List;
@@ -15,12 +13,13 @@ import java.util.Map;
 public class NotificationController {
     private final NotificationTracker notificationTracker;
     private final NotificationAdder notificationAdder;
-    private final NotificationSettings notificationSettings;
+    private final SettingsManager notificationSettings;
 
-    public NotificationController(NotificationTracker notificationTracker, NotificationAdder notificationAdder) {
+    public NotificationController(NotificationTracker notificationTracker,
+                                  NotificationAdder notificationAdder, SettingsManager notificationSettings) {
         this.notificationTracker = notificationTracker;
         this.notificationAdder = notificationAdder;
-        notificationSettings = new NotificationSettingsManager();
+        this.notificationSettings = notificationSettings;
     }
 
     /***
@@ -35,17 +34,7 @@ public class NotificationController {
      * @param newSettings the new notification settings
      */
     public void updateNotificationSettings(Map<String, Boolean> newSettings) {
-        notificationSettings.saveNewSettings(newSettings);
-    }
-
-    /***
-     * Load the event notifications and task notifications from the database
-     * @param eventReaders a list of EvenReader that stores the information of events from the database
-     * @param taskReaders a list of TaskReader that stores the information of tasks from the database
-     */
-    public void loadNotifications(List<EventReader> eventReaders, List<TaskReader> taskReaders) {
-        notificationAdder.loadEventNotifications(eventReaders);
-        notificationAdder.loadTaskNotifications(taskReaders);
+        notificationSettings.setNotificationSettings(newSettings);
     }
 
     /***
