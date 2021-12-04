@@ -1,20 +1,24 @@
 package services.notification;
 
+import data_gateway.notification.NotificationManager;
+import data_gateway.notification.NotificationReader;
 import entity.Notification;
 import services.notification_sending.NotificationPresenter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationTracker implements Runnable {
     private final List<NotificationPresenter> observers;
-    private final List<Notification> notificationList;
+    private NotificationManager notificationManager;
+    private NotificationReader upcomingNotification;
 
-    public NotificationTracker(List<NotificationPresenter> observers) {
+    public NotificationTracker(List<NotificationPresenter> observers,
+                               NotificationManager notificationManager) {
         this.observers = observers;
-        this.notificationList = new ArrayList<>();
+        this.notificationManager = notificationManager;
+        this.upcomingNotification = null;
     }
 
     /**
@@ -78,9 +82,9 @@ public class NotificationTracker implements Runnable {
     @Override
     public void run() {
         // TODO: rerun the run() when notificationList is no longer empty
-        while (!notificationList.isEmpty()) {
+        while (true) {
             // remove overdue notifications
-            if (notificationList.get(0).getNotificationDateTime().isAfter(LocalDateTime.now())) {
+            if (upcomingNotification.getNotificationDateTime().isAfter(LocalDateTime.now())) {
                 notificationList.remove(0);
             } else if (notificationList.get(0).getNotificationDateTime().equals(LocalDateTime.now())) {
                 updateObservers(notificationList.get(0).getMessage());
