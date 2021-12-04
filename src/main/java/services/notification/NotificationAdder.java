@@ -1,7 +1,7 @@
 package services.notification;
 
-import data_gateway.EventReader;
-import data_gateway.TaskReader;
+import data_gateway.event.EventReader;
+import data_gateway.task.TaskReader;
 import entity.Notification;
 import services.event_creation.CalendarEventModel;
 import services.task_creation.TodoListTaskCreationModel;
@@ -32,7 +32,7 @@ public class NotificationAdder {
         // will need to use for loop
         LocalDateTime notificationTime = null;
         String message = notificationFormat.formatNotificationMessage(eventData);
-        Notification notification = new Notification(eventId, notificationTimeInAdvance, notificationTime, message);
+        Notification notification = new Notification(eventId, null, notificationTime, message);
         notificationTracker.addNotification(notification);
 
     }
@@ -54,7 +54,7 @@ public class NotificationAdder {
                 LocalDateTime startDateTime = date.atTime(startTime);
                 LocalDateTime notificationTime = startDateTime.minus(timeInAdvance);
                 String message = notificationFormat.formatEventNotificationMessage(eventName, date, startTime, endTime);
-                Notification notification = new Notification(eventId, notificationTimeInAdvance, notificationTime, message);
+                Notification notification = new Notification(eventId, null, notificationTime, message);
                 this.notificationTracker.addNotification(notification);
             }
         }
@@ -69,7 +69,7 @@ public class NotificationAdder {
         // TODO: add duration in advance to TodoListTaskCreationModel and other related classes
         LocalDateTime notificationTime = taskData.getDeadline();
         String message = notificationFormat.formatNotificationMessage(taskData);
-        Notification notification = new Notification(taskId, notificationTimeInAdvance, notificationTime, message);
+        Notification notification = new Notification(taskId, null, notificationTime, message);
         notificationTracker.addNotification(notification);
     }
 
@@ -86,7 +86,7 @@ public class NotificationAdder {
             LocalDateTime deadline = taskReader.getDeadline();
             LocalDateTime notificationTime = deadline.minus(timeInAdvance);
             String message = notificationFormat.formatTaskNotificationMessage(taskName, deadline);
-            Notification notification = new Notification(taskId, notificationTimeInAdvance, notificationTime, message);
+            Notification notification = new Notification(taskId, null, notificationTime, message);
             this.notificationTracker.addNotification(notification);
         }
     }

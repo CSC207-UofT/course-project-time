@@ -1,7 +1,5 @@
 package services.notification;
 
-import data_gateway.EventReader;
-import data_gateway.TaskReader;
 import services.event_creation.CalendarEventModel;
 import services.task_creation.TodoListTaskCreationModel;
 
