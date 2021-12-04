@@ -1,6 +1,6 @@
 package services.task_presentation;
 
-import data_gateway.TaskReader;
+import data_gateway.task.TaskReader;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

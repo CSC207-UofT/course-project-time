@@ -1,10 +1,11 @@
 package services.event_creation;
 
-import data_gateway.EventReader;
+import data_gateway.event.EventReader;
 import services.event_presentation.EventInfo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.Set;
 
 public class EventInfoFromReader implements EventInfo {
@@ -49,4 +50,5 @@ public class EventInfoFromReader implements EventInfo {
     public boolean getCompleted() {
         return eventReader.getCompleted();
     }
+
 }
