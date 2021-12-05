@@ -11,12 +11,10 @@ import java.io.IOException;
 
 public class NavigationExtendedPanelController {
 
-    private final NavigationHelper navigationHelper = new NavigationHelper();
-
     @FXML
     void enterCalendarPage(MouseEvent event) {
         try {
-            navigationHelper.enterMonthlyCalendarPage(event);
+            NavigationHelper.enterMonthlyCalendarPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -25,7 +23,7 @@ public class NavigationExtendedPanelController {
     @FXML
     void enterHomePage(MouseEvent event) {
         try {
-            navigationHelper.enterHomePage(event);
+            NavigationHelper.enterHomePage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -34,7 +32,7 @@ public class NavigationExtendedPanelController {
     @FXML
     void enterPomodoroPage(MouseEvent event) {
         try {
-            navigationHelper.enterPomodoroPage(event);
+            NavigationHelper.enterPomodoroPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -43,7 +41,7 @@ public class NavigationExtendedPanelController {
     @FXML
     void enterSettingsPage(MouseEvent event) {
         try {
-            navigationHelper.enterSettingsPage(event);
+            NavigationHelper.enterSettingsPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -52,7 +50,7 @@ public class NavigationExtendedPanelController {
     @FXML
     void enterTodoListPage(MouseEvent event) {
         try {
-            navigationHelper.enterTodoListPage(event);
+            NavigationHelper.enterTodoListPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

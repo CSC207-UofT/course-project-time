@@ -15,8 +15,6 @@ import java.util.ResourceBundle;
 
 public class DailyCalendarController implements Initializable, ViewModelBindingController {
 
-    private final NavigationHelper navigationHelper = new NavigationHelper();
-
     @FXML
     private JFXDrawer collapsedNavPanel;
 
@@ -39,7 +37,7 @@ public class DailyCalendarController implements Initializable, ViewModelBindingC
     @FXML
     void calendarTypeSelected(ActionEvent event) throws IOException {
         String selected = calendarType.getValue();
-        navigationHelper.switchCalendarPageType(event, selected);
+        NavigationHelper.switchCalendarPageType(event, selected);
     }
 
     @Override

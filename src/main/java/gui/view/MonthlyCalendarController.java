@@ -25,8 +25,6 @@ import java.util.ResourceBundle;
 
 public class MonthlyCalendarController implements Initializable, ViewModelBindingController {
 
-    private final NavigationHelper navigationHelper = new NavigationHelper();
-
     private MonthlyCalendarViewModel viewModel;
 
     @FXML
@@ -58,7 +56,7 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
     @FXML
     void calendarTypeSelected(ActionEvent event) throws IOException {
         String selected = calendarType.getValue();
-        navigationHelper.switchCalendarPageType(event, selected);
+        NavigationHelper.switchCalendarPageType(event, selected);
     }
 
     @Override
