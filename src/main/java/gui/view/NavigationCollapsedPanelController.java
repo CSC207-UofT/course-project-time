@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -63,5 +64,4 @@ public class NavigationCollapsedPanelController {
         extendedNavPanel.setVisible(true);
         extendedNavPanel.open();
     }
-
 }
