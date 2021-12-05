@@ -1,10 +1,7 @@
 package gui.utility;
 
 import com.jfoenix.controls.JFXDrawer;
-import gui.view.BasicPageController;
-import gui.view.DailyCalendarController;
-import gui.view.MonthlyCalendarController;
-import gui.view.WeeklyCalendarController;
+import gui.view.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -63,12 +60,7 @@ public final class NavigationHelper {
     public static void enterMonthlyCalendarPage(Event event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
-
-        // Note: load() needs to be called before the associated controller is instantiated
-        Parent root = loader.load();
-        MonthlyCalendarController controller = loader.getController();
-        controller.init(instanceMapper.getViewModel(controller.getClass()));
-        setNewScene(event, root);
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -79,10 +71,7 @@ public final class NavigationHelper {
     private static void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
-        Parent root = loader.load();
-        WeeklyCalendarController controller = loader.getController();
-        controller.init(instanceMapper.getViewModel(controller.getClass()));
-        setNewScene(event, root);
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -93,10 +82,7 @@ public final class NavigationHelper {
     private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
-        Parent root = loader.load();
-        DailyCalendarController controller = loader.getController();
-        controller.init(instanceMapper.getViewModel(controller.getClass()));
-        setNewScene(event, root);
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -122,10 +108,7 @@ public final class NavigationHelper {
     public static void enterHomePage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
-        Parent root = loader.load();
-        BasicPageController controller = loader.getController();
-        controller.init(instanceMapper.getViewModel(controller.getClass()));
-        setNewScene(event, root);
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -158,9 +141,13 @@ public final class NavigationHelper {
     /**
      * Sets a new scene. Used by the other methods when handling requests to change view pages.
      * @param event the event that triggered the request to change view
-     * @param root the resource to change the view page to
+     * @param loader the FXMLLoader with its location set as the fxml file to be loaded
      */
-    private static void setNewScene(Event event, Parent root) {
+    private static void initializeControllerAndSetNewScene(Event event, FXMLLoader loader) throws IOException {
+        // Note: load() needs to be called before the associated controller is instantiated
+        Parent root = loader.load();
+        ViewModelBindingController controller = loader.getController();
+        controller.init(instanceMapper.getViewModel(controller.getClass()));
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setScene(new Scene(root, 1000, 800));
         currentStage.show();
