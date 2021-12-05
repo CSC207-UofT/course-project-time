@@ -17,6 +17,7 @@ public class ICSExporter {
 
         FileWriter writer = new FileWriter("time_calendar_export.ics");
         writer.write(generateHeader());
+        writer.write(generateTimeZone());
         writer.append(generateICSEvents(events));
         writer.append("END:VCALENDAR");
         writer.close();
