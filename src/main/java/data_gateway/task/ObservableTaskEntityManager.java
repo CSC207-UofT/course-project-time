@@ -1,38 +1,51 @@
 package data_gateway.task;
 
-import data_gateway.ObservableProperty;
-import data_gateway.PropertyObserver;
+import data_gateway.Observer;
 import services.task_creation.TodoListTaskCreationModel;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ObservableTaskEntityManager implements ObservableTaskManager {
+
     private final TodoListManager taskManager;
-    private final ObservableProperty<TaskReader, Long> newTaskObservers;
-    private final ObservableProperty<TaskReader, Boolean> updateCompletionObservers;
+
+    private final List<Observer<TaskReader>> onCreationObservers = new ArrayList<>();
+    private final List<Observer<TaskReader>> onUpdateObservers = new ArrayList<>();
+
 
     public ObservableTaskEntityManager(TodoListManager taskManager) {
         this.taskManager = taskManager;
-        newTaskObservers = new ObservableProperty<>();
-        updateCompletionObservers = new ObservableProperty<>();
     }
+
+
     @Override
-    public void addOnCreationObserver(PropertyObserver<TaskReader, Long> observer) {
-        newTaskObservers.addObserver(observer);
+    public void addCreationObserver(Observer<TaskReader> observer) {
+        onCreationObservers.add(observer);
     }
 
     @Override
-    public void addOnCompletionUpdateObserver(PropertyObserver<TaskReader, Boolean> observer) {
-        updateCompletionObservers.addObserver(observer);
+    public void addUpdateObserver(Observer<TaskReader> observer) {
+        onUpdateObservers.add(observer);
+    }
+
+    private void notifyCreationObservers(TaskReader tr) {
+        onCreationObservers.forEach(o -> o.notifyObserver(tr));
+    }
+
+    private void notifyUpdateObservers(TaskReader tr) {
+        onUpdateObservers.forEach(o -> o.notifyObserver(tr));
     }
 
     @Override
     public long addTask(TodoListTaskCreationModel taskData) {
         long newTaskId = taskManager.addTask(taskData);
         TaskReader newTask = getTask(newTaskId);
-        newTaskObservers.notifyObservers(newTask, newTaskId);
+        notifyCreationObservers(newTask);
         return newTaskId;
     }
 
@@ -49,8 +62,37 @@ public class ObservableTaskEntityManager implements ObservableTaskManager {
     @Override
     public void completeTask(long taskId) {
         taskManager.completeTask(taskId);
-        TaskReader updatedTask = getTask(taskId);
-        updateCompletionObservers.notifyObservers(updatedTask, true);
+        notifyUpdateObservers(getTask(taskId));
+    }
+
+    @Override
+    public void updateName(long id, String newName) {
+        taskManager.updateName(id, newName);
+        notifyUpdateObservers(getTask(id));
+    }
+
+    @Override
+    public void updateDuration(long id, Duration newDuration) {
+        taskManager.updateDuration(id, newDuration);
+        notifyUpdateObservers(getTask(id));
+    }
+
+    @Override
+    public void updateDeadline(long id, LocalDateTime newDeadline) {
+        taskManager.updateDeadline(id, newDeadline);
+        notifyUpdateObservers(getTask(id));
+    }
+
+    @Override
+    public void addSubtask(long id, String subtask) {
+        taskManager.addSubtask(id, subtask);
+        notifyUpdateObservers(getTask(id));
+    }
+
+    @Override
+    public void removeSubtask(long id, String subtask) {
+        taskManager.removeSubtask(id, subtask);
+        notifyUpdateObservers(getTask(id));
     }
 
     @Override
@@ -62,5 +104,4 @@ public class ObservableTaskEntityManager implements ObservableTaskManager {
     public void saveTodo(String filepath) throws IOException {
         taskManager.saveTodo(filepath);
     }
-
 }

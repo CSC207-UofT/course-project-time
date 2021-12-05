@@ -7,10 +7,10 @@ import console_app.task_adapters.TaskController;
 import console_app.task_to_event_adapters.TaskToEventController;
 import data_gateway.event.CalendarManager;
 import data_gateway.event.EventEntityManager;
+import data_gateway.event.ObservableEventRepository;
 import data_gateway.task.TodoEntityManager;
 import data_gateway.task.TodoListManager;
 import data_gateway.event.ObservableEventEntityManager;
-import data_gateway.event.ObservableEventManager;
 import data_gateway.task.ObservableTaskEntityManager;
 import data_gateway.task.ObservableTaskManager;
 import services.Snowflake;
@@ -55,20 +55,20 @@ public class MainController {
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
-        ObservableEventManager observableEventManager = new ObservableEventEntityManager(calendarManager);
-        observableEventManager.addOnCreationObserver(
-                (eventReader, eventId) -> System.out.println("New event \"" + eventReader.getName() + "\" was created"));
-        observableEventManager.addOnCompletionUpdateObserver(
-                (eventReader, completed) -> System.out.println(eventReader.getName() + "was set to " + (completed ? "Complete1" : "Incomplete")));
+        ObservableEventRepository observableEventManager = new ObservableEventEntityManager(calendarManager);
+        observableEventManager.addCreationObserver(
+                (eventReader) -> System.out.println("New event \"" + eventReader.getName() + "\" was created"));
+        observableEventManager.addUpdateObserver(
+                (eventReader) -> System.out.println(eventReader.getName() + "was updated!"));
         CalendarEventCreationBoundary eventAdder = new EventAdder(observableEventManager);
         CalendarAnalyzer eventScheduler = new EventScheduler(observableEventManager);
 
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
         ObservableTaskManager observableTaskManager = new ObservableTaskEntityManager(todoListManager);
-        observableTaskManager.addOnCreationObserver(
-                (taskReader, taskId) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
-        observableTaskManager.addOnCompletionUpdateObserver(
-                (taskReader, completed) -> System.out.println(taskReader.getName() + "was set to " + (completed ? "Complete1" : "Incomplete")));
+        observableTaskManager.addCreationObserver(
+                (taskReader) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
+        observableTaskManager.addUpdateObserver(
+                (taskReader) -> System.out.println(taskReader.getName() + "was updated"));
 
         try {
             observableEventManager.loadEvents("EventData.json");

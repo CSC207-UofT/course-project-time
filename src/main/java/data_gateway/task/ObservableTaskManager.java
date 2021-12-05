@@ -1,9 +1,10 @@
 package data_gateway.task;
 
-import data_gateway.PropertyObserver;
+import data_gateway.ObservableRepository;
 
-public interface ObservableTaskManager extends TodoListManager {
-
-    void addOnCreationObserver(PropertyObserver<TaskReader, Long> observer);
-    void addOnCompletionUpdateObserver(PropertyObserver<TaskReader, Boolean> observer);
+/**
+ * Interface allowing implementors polymorphic access to
+ * {@link TodoListManager} and {@link ObservableRepository<TaskReader>}
+ */
+public interface ObservableTaskManager extends ObservableRepository<TaskReader>, TodoListManager {
 }

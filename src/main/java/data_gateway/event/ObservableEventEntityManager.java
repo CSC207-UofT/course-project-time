@@ -1,39 +1,49 @@
 package data_gateway.event;
 
-import data_gateway.ObservableProperty;
-import data_gateway.PropertyObserver;
+import data_gateway.Observer;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class ObservableEventEntityManager implements ObservableEventManager {
+public class ObservableEventEntityManager implements ObservableEventRepository {
 
     private final CalendarManager calendarManager;
-    private final ObservableProperty<EventReader, Long> newEventObservers;
-    private final ObservableProperty<EventReader, Boolean> updateCompletionObservers;
+    private final List<Observer<EventReader>> onCreationObservers = new ArrayList<>();
+    private final List<Observer<EventReader>> onUpdateObservers = new ArrayList<>();
 
     public ObservableEventEntityManager(CalendarManager calendarManager) {
         this.calendarManager = calendarManager;
-        newEventObservers = new ObservableProperty<>();
-        updateCompletionObservers = new ObservableProperty<>();
     }
 
-    public void addOnCreationObserver(PropertyObserver<EventReader, Long> observer) {
-        newEventObservers.addObserver(observer);
+    @Override
+    public void addCreationObserver(Observer<EventReader> observer) {
+        onCreationObservers.add(observer);
     }
 
-    public void addOnCompletionUpdateObserver(PropertyObserver<EventReader, Boolean> observer) {
-        updateCompletionObservers.addObserver(observer);
+    @Override
+    public void addUpdateObserver(Observer<EventReader> observer) {
+        onUpdateObservers.add(observer);
+    }
+
+    private void notifyCreationObservers(EventReader er) {
+        onCreationObservers.forEach(o -> o.notifyObserver(er));
+    }
+
+    private void notifyUpdateObservers(EventReader er) {
+        onUpdateObservers.forEach(o -> o.notifyObserver(er));
     }
 
     @Override
     public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
         long newEventId = calendarManager.addEvent(eventName, startTime, endTime, tags, date);
         EventReader newEvent = getById(newEventId);
-        newEventObservers.notifyObservers(newEvent, newEventId);
+        notifyCreationObservers(newEvent);
         return newEventId;
     }
 
@@ -41,12 +51,47 @@ public class ObservableEventEntityManager implements ObservableEventManager {
     public void markEventAsCompleted(long eventId) {
         calendarManager.markEventAsCompleted(eventId);
         EventReader updatedEvent = getById(eventId);
-        updateCompletionObservers.notifyObservers(updatedEvent, true);
+        notifyUpdateObservers(updatedEvent);
     }
 
     @Override
     public List<EventReader> getAllEvents() {
         return calendarManager.getAllEvents();
+    }
+
+    @Override
+    public void updateName(long id, String newName) {
+        calendarManager.updateName(id, newName);
+        EventReader updatedEvent = getById(id);
+        notifyUpdateObservers(updatedEvent);
+    }
+
+    @Override
+    public void updateStartTime(long id, LocalTime newStartTime) {
+        calendarManager.updateStartTime(id, newStartTime);
+        EventReader updatedEvent = getById(id);
+        notifyUpdateObservers(updatedEvent);
+    }
+
+    @Override
+    public void updateEndTime(long id, LocalTime newEndTime) {
+        calendarManager.updateEndTime(id, newEndTime);
+        EventReader updatedEvent = getById(id);
+        notifyUpdateObservers(updatedEvent);
+    }
+
+    @Override
+    public void addTag(long id, String tag) {
+        calendarManager.addTag(id, tag);
+        EventReader updatedEvent = getById(id);
+        notifyUpdateObservers(updatedEvent);
+    }
+
+    @Override
+    public void removeTag(long id, String tag) {
+        calendarManager.removeTag(id, tag);
+        EventReader updatedEvent = getById(id);
+        notifyUpdateObservers(updatedEvent);
     }
 
     @Override
@@ -65,6 +110,6 @@ public class ObservableEventEntityManager implements ObservableEventManager {
                 return event;
             }
         }
-        return null;
+        throw new NoSuchElementException("Event with id " + eventId + " not found");
     }
 }
