@@ -7,8 +7,12 @@ import console_app.task_adapters.TaskController;
 import console_app.task_to_event_adapters.TaskToEventController;
 import data_gateway.event.CalendarManager;
 import data_gateway.event.EventEntityManager;
+import data_gateway.event.ObservableEventRepository;
 import data_gateway.task.TodoEntityManager;
 import data_gateway.task.TodoListManager;
+import data_gateway.event.ObservableEventEntityManager;
+import data_gateway.task.ObservableTaskEntityManager;
+import data_gateway.task.ObservableTaskRepository;
 import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
@@ -54,29 +58,40 @@ public class MainController {
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
-        CalendarEventCreationBoundary eventAdder = new EventAdder(calendarManager);
-        CalendarAnalyzer eventScheduler = new EventScheduler(calendarManager);
+        ObservableEventRepository observableEventManager = new ObservableEventEntityManager(calendarManager);
+        observableEventManager.addCreationObserver(
+                (eventReader) -> System.out.println("New event \"" + eventReader.getName() + "\" was created"));
+        observableEventManager.addUpdateObserver(
+                (eventReader) -> System.out.println(eventReader.getName() + "was updated!"));
+        CalendarEventCreationBoundary eventAdder = new EventAdder(observableEventManager);
+        CalendarAnalyzer eventScheduler = new EventScheduler(observableEventManager);
+
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        ObservableTaskRepository observableTaskManager = new ObservableTaskEntityManager(todoListManager);
+        observableTaskManager.addCreationObserver(
+                (taskReader) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
+        observableTaskManager.addUpdateObserver(
+                (taskReader) -> System.out.println(taskReader.getName() + "was updated"));
 
         try {
-            calendarManager.loadEvents("EventData.json");
-            todoListManager.loadTodo("TaskData.json");
+            observableEventManager.loadEvents("EventData.json");
+            observableTaskManager.loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
-        CalendarEventRequestBoundary eventGetter = new EventGetter(calendarManager);
-        CalendarEventDisplayBoundary eventOutputter = new EventOutputter(calendarManager, eventPresenter);
-        EventSaver eventSaver = new EventSaver(calendarManager);
-        EventUpdater eventUpdater = new EventUpdater(calendarManager);
+        CalendarEventRequestBoundary eventGetter = new EventGetter(observableEventManager);
+        CalendarEventDisplayBoundary eventOutputter = new EventOutputter(observableEventManager, eventPresenter);
+        EventSaver eventSaver = new EventSaver(observableEventManager);
+        EventUpdater eventUpdater = new EventUpdater(observableEventManager);
         eventController = new EventController(eventAdder, eventGetter, eventOutputter, eventSaver, eventUpdater);
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TodoListRequestBoundary taskGetter = new TaskGetter(todoListManager);
-        TodoListDisplayBoundary taskOutputter = new TaskOutputter(todoListManager, taskPresenter);
-        TodoListTaskCreationBoundary taskAdder = new TaskAdder(todoListManager);
-        TaskSaver taskSaver = new TaskSaver(todoListManager);
-        TaskUpdater taskUpdater = new TaskUpdater(todoListManager);
+        TodoListRequestBoundary taskGetter = new TaskGetter(observableTaskManager);
+        TodoListDisplayBoundary taskOutputter = new TaskOutputter(observableTaskManager, taskPresenter);
+        TodoListTaskCreationBoundary taskAdder = new TaskAdder(observableTaskManager);
+        TaskSaver taskSaver = new TaskSaver(observableTaskManager);
+        TaskUpdater taskUpdater = new TaskUpdater(observableTaskManager);
         taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver, taskUpdater);
         taskToEventController = new TaskToEventController(eventScheduler);
         pomodoroController = new PomodoroController();
