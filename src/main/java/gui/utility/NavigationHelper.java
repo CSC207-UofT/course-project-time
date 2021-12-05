@@ -1,6 +1,10 @@
 package gui.utility;
 
 import com.jfoenix.controls.JFXDrawer;
+import gui.view.BasicPageController;
+import gui.view.DailyCalendarController;
+import gui.view.MonthlyCalendarController;
+import gui.view.WeeklyCalendarController;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +23,12 @@ import java.util.Objects;
  * navigation panels when view pages are initially loaded.
  */
 public class NavigationHelper {
+
+    private static InstanceMapper instanceMapper = new InstanceMapper();
+
+    public static void setInstanceMap(InstanceMapper mapper) {
+        instanceMapper = mapper;
+    }
 
     /**
      * Initializes the navigation panels in a view page by adding them into the JFXDrawers.
@@ -48,7 +58,13 @@ public class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public void enterMonthlyCalendarPage(Event event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+
+        // Note: load() needs to be called before the associated controller is instantiated
+        Parent root = loader.load();
+        MonthlyCalendarController controller = loader.getController();
+        controller.init(instanceMapper.getViewModel(controller.getClass()));
         setNewScene(event, root);
     }
 
@@ -58,7 +74,11 @@ public class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     private void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/weeklyCalendar.fxml")));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/weeklyCalendar.fxml")));
+        Parent root = loader.load();
+        WeeklyCalendarController controller = loader.getController();
+        controller.init(instanceMapper.getViewModel(controller.getClass()));
         setNewScene(event, root);
     }
 
@@ -68,7 +88,11 @@ public class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     private void enterDailyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dailyCalendar.fxml")));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/dailyCalendar.fxml")));
+        Parent root = loader.load();
+        DailyCalendarController controller = loader.getController();
+        controller.init(instanceMapper.getViewModel(controller.getClass()));
         setNewScene(event, root);
     }
 
@@ -93,7 +117,11 @@ public class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public void enterHomePage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
+        Parent root = loader.load();
+        BasicPageController controller = loader.getController();
+        controller.init(instanceMapper.getViewModel(controller.getClass()));
         setNewScene(event, root);
     }
 

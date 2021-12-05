@@ -1,17 +1,29 @@
 package gui;
 
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventEntityManager;
+import gui.model.EventModelManager;
+import gui.utility.InstanceMapper;
+import gui.utility.NavigationHelper;
+import gui.view.MonthlyCalendarController;
+import gui.view.WeeklyCalendarController;
+import gui.view_model.MonthlyCalendarViewModel;
+import gui.view_model.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.Snowflake;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class GUIDriver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        configure();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
@@ -21,5 +33,24 @@ public class GUIDriver extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void configure() {
+        Snowflake snowflake = new Snowflake(0, 0, 0);
+
+        CalendarManager calendarManager = new EventEntityManager(snowflake);
+        try {
+            calendarManager.loadEvents("EventData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        EventModelManager manager = new EventModelManager(calendarManager);
+        ViewModelFactory factory = new ViewModelFactory(manager);
+
+        InstanceMapper instanceMapper = new InstanceMapper();
+        instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
+        instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
+        NavigationHelper.setInstanceMap(instanceMapper);
     }
 }
