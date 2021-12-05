@@ -9,6 +9,8 @@ import services.task_presentation.TodoListPresenter;
 import services.task_presentation.TodoListsInfo;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +64,31 @@ public class TaskOutputterTest {
 
         @Override
         public void completeTask(long taskId) {
+
+        }
+
+        @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateDuration(long id, Duration newDuration) {
+
+        }
+
+        @Override
+        public void updateDeadline(long id, LocalDateTime newDeadline) {
+
+        }
+
+        @Override
+        public void addSubtask(long id, String subtask) {
+
+        }
+
+        @Override
+        public void removeSubtask(long id, String subtask) {
 
         }
 

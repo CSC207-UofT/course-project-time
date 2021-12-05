@@ -73,6 +73,31 @@ public class TaskAdderTest {
         }
 
         @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateDuration(long id, Duration newDuration) {
+
+        }
+
+        @Override
+        public void updateDeadline(long id, LocalDateTime newDeadline) {
+
+        }
+
+        @Override
+        public void addSubtask(long id, String subtask) {
+
+        }
+
+        @Override
+        public void removeSubtask(long id, String subtask) {
+
+        }
+
+        @Override
         public void loadTodo(String filepath) {
 
         }
