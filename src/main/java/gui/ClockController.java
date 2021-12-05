@@ -4,16 +4,18 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import services.pomodoro_running.PomodoroRunner;
+import services.pomodoro_running.TimeFormatter;
+
 
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 public class ClockController {
 
@@ -21,13 +23,17 @@ public class ClockController {
     private GraphicsContext gc;
     private final float brushSize = 30;
 
-    private final long workDuration = 1;
-    private final long breakDuration = 1;
+    private long workDuration = 25;
+    private long breakDuration = 5;
     private long currentDuration = workDuration;
     private boolean isBreak = false;
 
     private long startNano;
     private boolean newStart;
+
+    private final Alert error = new Alert(Alert.AlertType.ERROR);
+
+    static TimeFormatter timeFormatter = new TimeFormatter();
 
     @FXML
     private Canvas canvas;
@@ -47,6 +53,7 @@ public class ClockController {
         gc.setLineWidth(brushSize);
         setWork(gc);
 
+
         timer = new AnimationTimer() {
 
             @Override
@@ -57,16 +64,21 @@ public class ClockController {
                     newStart = false;
                 }
 
+                if (!workTimeText.getText().isEmpty()) {
+                    workDuration = Long.parseLong(workTimeText.getText());
+                }
+                else if (!breakTimeText.getText().isEmpty()) {
+                    breakDuration = Long.parseLong(breakTimeText.getText());
+                }
 
                 double elapsedTime = (double)(now - startNano);
                 double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
+                String timeLeft = timeFormatter.formatTime(elapsedTime, currentDuration);
 
-                //Need a way to format the elapsed time
-                String timeText = String.valueOf(TimeUnit.SECONDS.convert(now - startNano, TimeUnit.NANOSECONDS));
 
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-                drawTimer(gc, timeText);
+                drawTimer(gc, timeLeft);
                 gc.strokeArc(brushSize, brushSize, canvas.getWidth() - brushSize * 2,
                         canvas.getHeight() - brushSize * 2, 90, -angle, ArcType.OPEN);
 
@@ -107,26 +119,51 @@ public class ClockController {
     }
 
     @FXML
-    void updateBreakTime(InputMethodEvent event) {
-        // Update breakDuration
-    }
-
-    @FXML
-    void updateWorkTime(InputMethodEvent event) {
-        // Update workDuration
-    }
-
-
-    @FXML
     void startClock(MouseEvent event) {
+        if (!workTimeText.getText().isEmpty()) {
+            String potentialWorkTime = workTimeText.getText();
+            if (!userInputChecker(potentialWorkTime)){
+                error.setTitle("Invalid input");
+                error.setContentText("Pomodoro timer will be started with default work interval");
+                error.showAndWait();
+                workTimeText.clear();
+            }
+            else {
+                workDuration = Long.parseLong(potentialWorkTime);
+                currentDuration = workDuration;
+            }
+        }
+        else if (!breakTimeText.getText().isEmpty()) {
+            String potentialBreakTime = breakTimeText.getText();
+            if (!userInputChecker(potentialBreakTime)){
+                error.setTitle("Invalid input");
+                error.setContentText("Pomodoro timer will be started with default break interval");
+                error.showAndWait();
+                breakTimeText.clear();
+            }
+            else {
+                breakDuration = Long.parseLong(potentialBreakTime);
+            }
+        }
         newStart = true;
+        workTimeText.setEditable(false);
+        breakTimeText.setEditable(false);
         timer.start();
+    }
+
+    /**
+     * checks if the user input is an integer
+     */
+    boolean userInputChecker(String text) {
+        return text.matches("[0-9]*");
     }
 
     @FXML
     void resetClock(MouseEvent event) {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         timer.stop();
+        breakTimeText.setEditable(true);
+        workTimeText.setEditable(true);
     }
 
 }

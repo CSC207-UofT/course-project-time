@@ -24,8 +24,8 @@
                <Insets bottom="10.0" top="10.0" />
             </padding>
          </JFXButton>
-         <TextField fx:id="workTimeText" layoutX="43.0" layoutY="38.0" onInputMethodTextChanged="#updateWorkTime" />
-         <TextField fx:id="breakTimeText" layoutX="251.0" layoutY="38.0" onInputMethodTextChanged="#updateBreakTime" />
+         <TextField fx:id="workTimeText" layoutX="43.0" layoutY="38.0" promptText="25"/>
+         <TextField fx:id="breakTimeText" layoutX="251.0" layoutY="38.0" promptText="5"/>
          <Text layoutX="43.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WORK TIME (MIN)" />
          <Text layoutX="251.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BREAK TIME (MIN)" />
       </Pane>
