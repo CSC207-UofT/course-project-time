@@ -11,10 +11,12 @@ import java.io.IOException;
 
 public class NavigationCollapsedPanelController {
 
+    private final NavigationHelper navigationHelper = new NavigationHelper();
+
     @FXML
     void enterCalendarPage(MouseEvent event) {
         try {
-            NavigationHelper.enterMonthlyCalendarPage(event);
+            navigationHelper.enterMonthlyCalendarPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -23,7 +25,7 @@ public class NavigationCollapsedPanelController {
     @FXML
     void enterHomePage(MouseEvent event) {
         try {
-            NavigationHelper.enterHomePage(event);
+            navigationHelper.enterHomePage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -32,7 +34,7 @@ public class NavigationCollapsedPanelController {
     @FXML
     void enterPomodoroPage(MouseEvent event) {
         try {
-            NavigationHelper.enterPomodoroPage(event);
+            navigationHelper.enterPomodoroPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -41,7 +43,7 @@ public class NavigationCollapsedPanelController {
     @FXML
     void enterSettingsPage(MouseEvent event) {
         try {
-            NavigationHelper.enterSettingsPage(event);
+            navigationHelper.enterSettingsPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -50,7 +52,7 @@ public class NavigationCollapsedPanelController {
     @FXML
     void enterTodoListPage(MouseEvent event) {
         try {
-            NavigationHelper.enterTodoListPage(event);
+            navigationHelper.enterTodoListPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -63,5 +65,4 @@ public class NavigationCollapsedPanelController {
         extendedNavPanel.setVisible(true);
         extendedNavPanel.open();
     }
-
 }

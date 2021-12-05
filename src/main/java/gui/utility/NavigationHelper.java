@@ -15,13 +15,10 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A utility class that contains static methods
- * related to the navigation panel across all views.
+ * A helper class to switch between views and to initialize
+ * navigation panels when view pages are initially loaded.
  */
-public final class NavigationHelper {
-
-    private NavigationHelper() {
-    }
+public class NavigationHelper {
 
     /**
      * Initializes the navigation panels in a view page by adding them into the JFXDrawers.
@@ -50,8 +47,8 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    public static void enterMonthlyCalendarPage(Event event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
+    public void enterMonthlyCalendarPage(Event event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
         setNewScene(event, root);
     }
 
@@ -60,8 +57,8 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    private static void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
+    private void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/weeklyCalendar.fxml")));
         setNewScene(event, root);
     }
 
@@ -70,8 +67,8 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
+    private void enterDailyCalendarPage(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dailyCalendar.fxml")));
         setNewScene(event, root);
     }
 
@@ -81,14 +78,12 @@ public final class NavigationHelper {
      * @param calendarType the type of calendar page to switch to (weekly, monthly, and daily)
      * @throws IOException if the resource file cannot be found
      */
-    public static void switchCalendarPageType(ActionEvent event, String calendarType) throws IOException {
+    public void switchCalendarPageType(ActionEvent event, String calendarType) throws IOException {
         switch (calendarType) {
-            case "Month":
-                enterMonthlyCalendarPage(event);
-            case "Week":
-                enterWeeklyCalendarPage(event);
-            case "Day":
-                enterDailyCalendarPage(event);
+            case "Month" -> enterMonthlyCalendarPage(event);
+            case "Week" -> enterWeeklyCalendarPage(event);
+            case "Day" -> enterDailyCalendarPage(event);
+            default -> System.out.println("Should not have reached here");
         }
     }
 
@@ -97,8 +92,8 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    public static void enterHomePage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
+    public void enterHomePage(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
         setNewScene(event, root);
     }
 
@@ -107,7 +102,7 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    public static void enterPomodoroPage(MouseEvent event) throws IOException {
+    public void enterPomodoroPage(MouseEvent event) throws IOException {
 
     }
 
@@ -116,7 +111,7 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    public static void enterSettingsPage(MouseEvent event) throws IOException {
+    public void enterSettingsPage(MouseEvent event) throws IOException {
 
     }
 
@@ -125,7 +120,7 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @throws IOException if the resource file cannot be found
      */
-    public static void enterTodoListPage(MouseEvent event) throws IOException {
+    public void enterTodoListPage(MouseEvent event) throws IOException {
 
     }
 
@@ -134,7 +129,7 @@ public final class NavigationHelper {
      * @param event the event that triggered the request to change view
      * @param root the resource to change the view page to
      */
-    private static void setNewScene(Event event, Parent root) {
+    private void setNewScene(Event event, Parent root) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setScene(new Scene(root, 1000, 800));
         currentStage.show();
