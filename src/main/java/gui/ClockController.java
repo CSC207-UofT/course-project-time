@@ -1,7 +1,10 @@
 package gui;
 
+import com.jfoenix.controls.JFXDrawer;
+import gui.utility.NavigationHelper;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -14,9 +17,11 @@ import javafx.scene.text.TextAlignment;
 import services.pomodoro_running.TimeFormatter;
 
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
-public class ClockController {
+public class ClockController  {
 
     private AnimationTimer timer;
     private GraphicsContext gc;
@@ -43,11 +48,18 @@ public class ClockController {
 
     @FXML TextField workTimeText;
 
+    @FXML
+    private JFXDrawer collapsedNavPanel;
+
+    @FXML
+    private JFXDrawer extendedNavPanel;
+
 
 
     @FXML
     public void initialize() {
 
+        NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
         gc = canvas.getGraphicsContext2D();
         gc.setTextAlign(TextAlignment.CENTER);
 
@@ -65,7 +77,7 @@ public class ClockController {
                     newStart = false;
                 }
 
-                double elapsedTime = (double)(now - startNano) * 10;
+                double elapsedTime = (double)(now - startNano);
                 double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
                 String timeLeft = timeFormatter.formatTime(elapsedTime, currentDuration);
 
@@ -83,6 +95,10 @@ public class ClockController {
         };
     }
 
+    /**
+     * Set the clock to a work state
+     * @param gc The graphics context on which the clock is drawn
+     */
     private void setWork(GraphicsContext gc) {
         isBreak = false;
         gc.setStroke(Color.LIGHTGREEN);
@@ -90,6 +106,10 @@ public class ClockController {
         newStart = true;
     }
 
+    /**
+     * Set the clock to a break state
+     * @param gc The graphics context on which the clock is drawn
+     */
     private void setBreak(GraphicsContext gc) {
         isBreak = true;
         gc.setStroke(Color.TEAL);
@@ -97,6 +117,10 @@ public class ClockController {
         newStart = true;
     }
 
+    /**
+     * Switch between a break state and a work state
+     * @param gc The graphics context on which the circle is drawn
+     */
     private void switchCircle(GraphicsContext gc) {
         isBreak = !isBreak;
         if(isBreak) {
@@ -112,6 +136,10 @@ public class ClockController {
         gc.fillText(time, canvas.getWidth() / 2, canvas.getHeight() / 2, canvas.getWidth() * 0.5);
     }
 
+    /**
+     * Begin the clock, called by the start button
+     * @param event Mouse click event from JavaFX
+     */
     @FXML
     void startClock(MouseEvent event) {
         if (!workTimeText.getText().isEmpty()) {
@@ -162,5 +190,4 @@ public class ClockController {
         breakTimeText.setEditable(true);
         workTimeText.setEditable(true);
     }
-
 }
