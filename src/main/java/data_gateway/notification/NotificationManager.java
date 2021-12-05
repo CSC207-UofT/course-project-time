@@ -4,7 +4,6 @@ import services.notification.NotificationCreationModel;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface NotificationManager {

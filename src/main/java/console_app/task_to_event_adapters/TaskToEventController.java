@@ -1,6 +1,5 @@
 package console_app.task_to_event_adapters;
 
-import console_app.event_adapters.EventController;
 import services.event_from_task_creation.CalendarAnalyzer;
 import services.task_presentation.TaskInfo;
 
@@ -11,10 +10,7 @@ public class TaskToEventController {
 
     private final CalendarAnalyzer eventScheduler;
 
-    protected final EventController eventController;
-
-    public TaskToEventController(EventController eventController, CalendarAnalyzer eventScheduler) {
-        this.eventController = eventController;
+    public TaskToEventController(CalendarAnalyzer eventScheduler) {
         this.eventScheduler = eventScheduler;
     }
 

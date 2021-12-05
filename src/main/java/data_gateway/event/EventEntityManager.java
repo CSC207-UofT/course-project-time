@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -81,12 +82,7 @@ public class EventEntityManager implements CalendarManager{
      */
     @Override
     public void markEventAsCompleted(long eventId) {
-        for (Event event: eventList) {
-            if (event.getId() == eventId) {
-                event.setCompleted(true);
-                return;
-            }
-        }
+        getById(eventId).setCompleted(true);
     }
 
     @Override
@@ -99,4 +95,39 @@ public class EventEntityManager implements CalendarManager{
         }
         return eventReaderList;
     }
+
+    @Override
+    public void updateName(long id, String newName) {
+        getById(id).setEventName(newName);
+    }
+
+    @Override
+    public void updateStartTime(long id, LocalTime newStartTime) {
+        getById(id).setStartTime(newStartTime);
+    }
+
+    @Override
+    public void updateEndTime(long id, LocalTime newEndTime) {
+        getById(id).setEndTime(newEndTime);
+    }
+
+    @Override
+    public void addTag(long id, String tag) {
+        getById(id).addTag(tag);
+    }
+
+    @Override
+    public void removeTag(long id, String tag) {
+        getById(id).removeTag(tag);
+    }
+
+    private Event getById(long id){
+        for(Event event : eventList){
+            if(event.getId() == id){
+                return event;
+            }
+        }
+        return null;
+    }
+
 }

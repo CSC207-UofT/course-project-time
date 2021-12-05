@@ -3,16 +3,9 @@ package data_gateway.notification;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import data_gateway.task.JsonTaskAdapter;
-import entity.Event;
 import entity.Notification;
-import entity.Task;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Set;
 
 // Based on GSON type adapter documentation from
 // https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.1/com/google/gson/TypeAdapter.html
@@ -31,7 +24,7 @@ public class JsonNotificationAdapter extends TypeAdapter<Notification> {
 
 
     @Override
-    public Notification read(JsonReader jsonReader) throws IOException {
+    public Notification read(JsonReader jsonReader) {
         return null;
     }
 }

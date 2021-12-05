@@ -25,12 +25,16 @@ import java.util.Set;
 
 public class ApplicationDriver {
 
-    private final MainController controller;
+    private final console_app.MainController controller;
 
     private static final Map<String, String> queryMenu = createdQueryMap();
+    public TaskQuery taskQuery;
+    public EventQuery eventQuery;
 
     public ApplicationDriver() {
-        this.controller = new MainController(this);
+        this.controller = new console_app.MainController(this);
+        this.taskQuery = new TaskQuery(controller);
+        this.eventQuery = new EventQuery(controller);
     }
 
     /**
@@ -45,8 +49,8 @@ public class ApplicationDriver {
         queryMenu.put("3", "Create a new task");
         queryMenu.put("4", "Create a new event");
         queryMenu.put("5", "Turn a task into an event");
-        queryMenu.put("6", "Mark a task as completed");
-        queryMenu.put("7", "Mark an event as completed");
+        queryMenu.put("6", "Edit Task");
+        queryMenu.put("7", "Edit Event");
         queryMenu.put("8", "Save my Data");
         queryMenu.put("9", "Pomodoro timer");
         return queryMenu;
@@ -90,8 +94,8 @@ public class ApplicationDriver {
                 System.out.println("Task created");
                 break;
             case "4":
-                    handleCreateEvent();
-                    System.out.println("Event created");
+                handleCreateEvent();
+                System.out.println("Event created");
                 break;
             case "5":
                 Map<Integer, Long> positionToIdMapping = controller.presentAllTasksForUserSelection();
@@ -134,17 +138,14 @@ public class ApplicationDriver {
                 break;
             case "6":
                 positionToIdMapping = controller.presentAllTasksForUserSelection();
-                TaskInfo completedTask = chooseTask(positionToIdMapping);
-                long taskId = completedTask.getId();
-                controller.completeTask(taskId);
-                System.out.println("Task completed");
+                TaskInfo task = chooseTask(positionToIdMapping);
+                taskQuery.run(task);
+
                 break;
             case "7":
                 controller.presentAllEvents();
-                EventInfo completedEvent = chooseEvent();
-                controller.completeEvent(completedEvent.getId());
-
-                System.out.println("Event completed");
+                EventInfo event = chooseEvent();
+                eventQuery.run(event);
 
                 break;
             case "8":
@@ -213,7 +214,7 @@ public class ApplicationDriver {
         String format = "yyyy/MM/dd-HH:mm";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         System.out.print("Input deadline for task in (" + format + ") (24 hour time), " +
-                            "or 'n' if there is no deadline: ");
+                "or 'n' if there is no deadline: ");
         String deadlineResponse = input.nextLine(); // TODO exception handling
         LocalDateTime taskDeadline;
         if (Objects.equals(deadlineResponse, "n")) {
@@ -295,19 +296,6 @@ public class ApplicationDriver {
         } while (!(Integer.parseInt(chosen) <= mapping.size()));
 
         return controller.getTaskById(mapping.get(Integer.parseInt(chosen)));
-    }
-
-    /**
-     * Prompts the user to input a time
-     * @return the time the user inputted
-     */
-    private static LocalDateTime inputTime() {
-        String format = "yyyy/MM/dd-HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Input your desired time in (" + format + ") (24 hour time): ");
-        String timeString = scanner.nextLine();
-        return LocalDateTime.parse(timeString, formatter);
     }
 
     private static LocalDateTime inputDateWithOptionalTime(LocalTime defaultTime) {

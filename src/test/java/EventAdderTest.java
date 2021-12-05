@@ -24,7 +24,7 @@ public class EventAdderTest {
     MockCalendarManager manager;
     CalendarEventData calendarEventData;
 
-    LocalDateTime tomorrowNoon = LocalDate.now().plusDays(1).atTime(LocalTime.NOON);
+    final LocalDateTime tomorrowNoon = LocalDate.now().plusDays(1).atTime(LocalTime.NOON);
 
     @BeforeEach
     void setup() {
@@ -106,6 +106,31 @@ public class EventAdderTest {
         @Override
         public List<EventReader> getAllEvents() {
             return null;
+        }
+
+        @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
+        public void addTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTag(long id, String tag) {
+
         }
 
         @Override

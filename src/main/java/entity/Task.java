@@ -81,6 +81,10 @@ public class Task {
         this.deadline = deadline;
     }
 
+    public void addSubtask(String subtask){this.subTasks.add(subtask);}
+
+    public void removeSubtask(String subtask){this.subTasks.remove(subtask);}
+
     public long getId() {
         return id;
     }
