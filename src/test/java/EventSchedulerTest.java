@@ -1,15 +1,14 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_creation.CalendarEventModel;
 import services.event_from_task_creation.EventScheduler;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class EventSchedulerTest {
     EventScheduler eventScheduler;
     CalendarManager manager;
-    List<EventReader> events = new ArrayList<>();
+    final List<EventReader> events = new ArrayList<>();
 
     @BeforeEach
     void setup() {
@@ -85,31 +84,35 @@ public class EventSchedulerTest {
 
     @Test
     public void getAvailableTimeNoIgnore() {
-        LocalDateTime expected = LocalDateTime.of(2021, 11, 25, 14, 7);
+        LocalDateTime expected = LocalDateTime.now().plus(Duration.ofHours(2));
         LocalDateTime actual = eventScheduler.getAvailableTime(new ArrayList<>(), Duration.ofHours(1));
-        assertEquals(expected, actual);
+        assertEquals(toMinutes(expected), toMinutes(actual));
+    }
+
+    private LocalDateTime toMinutes(LocalDateTime dateTime) {
+        return dateTime.truncatedTo(ChronoUnit.MINUTES);
     }
 
     @Test
     public void getAvailableTimeIgnore() {
         List<LocalDateTime> timesToIgnore = new ArrayList<>();
-        timesToIgnore.add(LocalDateTime.of(2021, 11, 25, 14, 7));
+        LocalDateTime expected = LocalDate.now().plusDays(1).atTime(LocalTime.NOON);
+        timesToIgnore.add(expected.minus(Duration.ofHours(1)));
 
-        LocalDateTime expected = LocalDateTime.of(2021, 11, 25, 17, 0);
         LocalDateTime actual = eventScheduler.getAvailableTime(timesToIgnore, Duration.ofHours(1));
         assertEquals(expected, actual);
     }
 
-    private class MockCalendarManager implements CalendarManager {
-        List<EventReader> events;
+    private static class MockCalendarManager implements CalendarManager {
+        final List<EventReader> events;
 
         public MockCalendarManager(List<EventReader> events) {
             this.events = events;
         }
 
         @Override
-        public void addEvent(CalendarEventModel eventData) {
-
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+            return 0L;
         }
 
         @Override
@@ -123,23 +126,47 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void updateName(long id, String newName) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
+        public void addTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void loadEvents(String filePath) {
+        }
+
+        @Override
+        public void saveEvents(String savePath) {
 
         }
     }
 
-    private class MockEventReader implements EventReader {
-        long id;
-        String name;
-        LocalTime startTime;
-        LocalTime endTime;
-        Set<String> tags;
-        Set<LocalDate> dates;
+    private static class MockEventReader implements EventReader {
+        final long id;
+        final String name;
+        final LocalTime startTime;
+        final LocalTime endTime;
+        final Set<String> tags;
+        final Set<LocalDate> dates;
 
         public MockEventReader(long id, String name, LocalTime startTime, LocalTime endTime,
                                Set<String> tags, Set<LocalDate> dates) {

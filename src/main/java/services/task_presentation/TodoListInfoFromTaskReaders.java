@@ -1,6 +1,6 @@
 package services.task_presentation;
 
-import data_gateway.TaskReader;
+import data_gateway.task.TaskReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,4 +31,5 @@ public class TodoListInfoFromTaskReaders implements TodoListsInfo {
             taskInfos.add(new TaskInfoFromTaskReader(tr));
         return taskInfos;
     }
+
 }
