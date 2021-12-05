@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ObservableTaskEntityManager implements ObservableTaskManager {
+public class ObservableTaskEntityManager implements ObservableTaskRepository {
 
     private final TodoListManager taskManager;
 

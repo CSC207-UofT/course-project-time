@@ -12,7 +12,7 @@ import data_gateway.task.TodoEntityManager;
 import data_gateway.task.TodoListManager;
 import data_gateway.event.ObservableEventEntityManager;
 import data_gateway.task.ObservableTaskEntityManager;
-import data_gateway.task.ObservableTaskManager;
+import data_gateway.task.ObservableTaskRepository;
 import services.Snowflake;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventAdder;
@@ -64,7 +64,7 @@ public class MainController {
         CalendarAnalyzer eventScheduler = new EventScheduler(observableEventManager);
 
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
-        ObservableTaskManager observableTaskManager = new ObservableTaskEntityManager(todoListManager);
+        ObservableTaskRepository observableTaskManager = new ObservableTaskEntityManager(todoListManager);
         observableTaskManager.addCreationObserver(
                 (taskReader) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
         observableTaskManager.addUpdateObserver(
