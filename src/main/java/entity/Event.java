@@ -101,6 +101,8 @@ public class Event {
         this.tags.add(tag);
     }
 
+    public void removeTag(String tag){this.tags.remove(tag);}
+
     public long getId() {
         return id;
     }

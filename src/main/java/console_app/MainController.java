@@ -31,11 +31,14 @@ import services.task_presentation.TaskInfo;
 import services.task_presentation.TaskOutputter;
 import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
+import services.update_entities.EventUpdater;
+import services.update_entities.TaskUpdater;
 import services.task_presentation.TodoListRequestBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -77,16 +80,15 @@ public class MainController {
         CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
         EventGetter eventGetter = new EventGetter(observableEventManager, eventPresenter);
         EventSaver eventSaver = new EventSaver(observableEventManager);
-
-        eventController = new EventController(eventAdder, eventGetter,  eventSaver);
-
+        EventUpdater eventUpdater = new EventUpdater(observableEventManager);
+        eventController = new EventController(eventAdder, eventGetter, eventSaver, eventUpdater);
         TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
         TodoListRequestBoundary taskGetter = new TaskGetter(observableTaskManager);
         TodoListDisplayBoundary taskOutputter = new TaskOutputter(observableTaskManager, taskPresenter);
         TodoListTaskCreationBoundary taskAdder = new TaskAdder(observableTaskManager);
         TaskSaver taskSaver = new TaskSaver(observableTaskManager);
-        taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver);
-
+        TaskUpdater taskUpdater = new TaskUpdater(observableTaskManager);
+        taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver, taskUpdater);
         taskToEventController = new TaskToEventController(eventScheduler);
         pomodoroController = new PomodoroController();
     }
@@ -149,16 +151,71 @@ public class MainController {
      * creates a task and adds it to the todolist
      */
     public void createTask(String taskName, Duration timeNeeded, LocalDateTime deadline, List<String> subTasks) {
-         taskController.createTask(taskName, timeNeeded, deadline, subTasks);
+        taskController.createTask(taskName, timeNeeded, deadline, subTasks);
     }
 
     /**
      * sets completed attribute as true for the selected Task
-     * @param taskId the id of the completed Task
+     * @param id the id of Task
+     * @param newName new name of Task
      */
-    public void completeTask(long taskId) {
-        taskController.completeTask(taskId);
+    public void updateTaskName(long id, String newName){
+        taskController.updateName(id, newName);
     }
+
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param id the id of Task
+     * @param newDuration new duration of Task
+     */
+    public void updateTaskDuration(long id, Duration newDuration){
+        taskController.updateDuration(id, newDuration);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param id the id of Task
+     * @param newDeadline new deadline of Task
+     */
+    public void updateTaskDeadline(long id, LocalDateTime newDeadline){
+        taskController.updateDeadline(id, newDeadline);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param id the id of Task
+     * @param subtask new subtask to add to Task
+     */
+    public void addSubtask(long id, String subtask){
+        taskController.addSubtask(id, subtask);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param id the id of Task
+     * @param subtask subtask to remove from Task
+     */
+    public void removeSubtask(long id, String subtask){
+        taskController.removeSubtask(id, subtask);
+    }
+
+    /**
+     * sets completed attribute as true for the selected Task
+     * @param id the id of the completed Task
+     */
+    public void completeTask(long id) {
+        taskController.completeTask(id);
+    }
+
+    public void updateEventName(long id, String newName){eventController.updateName(id, newName);}
+
+    public void updateEventStartTime(long id, LocalTime newStartTime){eventController.updateStartTime(id, newStartTime);}
+
+    public void updateEventEndTime(long id, LocalTime newEndTime){eventController.updateEndTime(id, newEndTime);}
+
+    public void addTag(long id, String tag){eventController.addTag(id, tag);}
+
+    public void removeTag(long id, String tag){eventController.removeTag(id, tag);}
 
     /**
      * sets completed attribute as true for the selected Event
@@ -191,14 +248,14 @@ public class MainController {
         while (switchInterval) {
             switchInterval = pomodoroController.startTimer();
             if (switchInterval) {
-               if (work) {
-                   System.out.println("Break time!");
-                   work = false;
-               }
-               else {
-                   System.out.println("Work time!");
-                   work = true;
-               }
+                if (work) {
+                    System.out.println("Break time!");
+                    work = false;
+                }
+                else {
+                    System.out.println("Work time!");
+                    work = true;
+                }
             }
         }
         pomodoroController.stopTimer();
