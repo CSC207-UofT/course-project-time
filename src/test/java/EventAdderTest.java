@@ -109,6 +109,31 @@ public class EventAdderTest {
         }
 
         @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
+        public void addTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTag(long id, String tag) {
+
+        }
+
+        @Override
         public void loadEvents(String filePath) {
 
         }
