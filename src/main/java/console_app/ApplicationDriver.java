@@ -1,8 +1,5 @@
 package console_app;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import services.event_presentation.EventInfo;
 import services.strategy_building.DatesForm;
 import services.strategy_building.MultipleRuleFormBuilder;
@@ -412,42 +409,20 @@ public class ApplicationDriver {
 
 
     public static void main(String[] args) {
-//        ApplicationDriver applicationDriver = new ApplicationDriver();
-//
-//        boolean askForInput;
-//        do {
-//            System.out.println("\n###############");
-//            for(String key: queryMenu.keySet()) {
-//                System.out.println(key + "- " + queryMenu.get(key));
-//            }
-//
-//            String input = getQueryInput();
-//            askForInput = applicationDriver.handleQueryInput(input);
-//            // if the above line returns true, then ask for input again
-//        } while (askForInput);
-//
-//        System.out.println("Bye!");
+        ApplicationDriver applicationDriver = new ApplicationDriver();
 
+        boolean askForInput;
+        do {
+            System.out.println("\n###############");
+            for(String key: queryMenu.keySet()) {
+                System.out.println(key + "- " + queryMenu.get(key));
+            }
 
+            String input = getQueryInput();
+            askForInput = applicationDriver.handleQueryInput(input);
+            // if the above line returns true, then ask for input again
+        } while (askForInput);
 
-        ObservableList<SomeClass> lst = FXCollections.observableArrayList();
-        ListChangeListener<SomeClass> l = c -> System.out.println("Change happened!");
-        lst.addListener(l);
-
-        SomeClass s = new SomeClass();
-        lst.add(s);
-
-        s.setData("d");
-    }
-}
-
-class SomeClass {
-    private String data = "hi";
-    public void setData(String d) {
-        data = d;
-    }
-
-    public String getData() {
-        return data;
+        System.out.println("Bye!");
     }
 }
