@@ -1,8 +1,12 @@
 package services.notification_sending;
 
-import java.awt.*;
+import java.awt.SystemTray;
+import java.awt.Image;
+import java.awt.TrayIcon;
+import java.awt.Toolkit;
 import java.awt.TrayIcon.MessageType;
-import java.net.MalformedURLException;
+import java.awt.AWTException;
+
 
 /**
  * Sends out desktop push notifications.
