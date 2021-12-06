@@ -3,15 +3,21 @@ package data_gateway;
 import data_gateway.event.CalendarManager;
 import data_gateway.event.EventReader;
 import data_gateway.event.ObservableEventRepository;
+import org.joda.time.DateTime;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
 
 public class ICSExporter {
+
+
+    private final TimeZone local = TimeZone.getDefault();
 
     public void saveICS(ObservableEventRepository cal) throws IOException {
         List<EventReader> events = cal.getAllEvents();
@@ -36,21 +42,20 @@ public class ICSExporter {
     }
 
     String generateTimeZone() {
-        TimeZone local = TimeZone.getDefault();
 
         return "BEGIN:VTIMEZONE\n" +
-                "TZID:" + local.toString() + "\n" +
+                "TZID:" + local.getID() + "\n" +
                 "X-LIC-LOCATION:" + local.getDisplayName() + "\n" +
                 "BEGIN:STANDARD\n" +
-                "TZOFFSETFROM:" + formatOffset(local.getRawOffset()) +"\n" +
-                "TZOFFSETTO:" + formatOffset(local.getRawOffset() - 1) + "\n" +
+                "TZOFFSETFROM:" + formatOffset(-5) +"\n" +
+                "TZOFFSETTO:" + formatOffset(-5 - 1) + "\n" +
                 "TZNAME:" + local.getDisplayName(true, 0) + "\n" +
                 "DTSTART:19701025T020000\n" +
                 "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\n" +
                 "END:STANDARD\n" +
                 "BEGIN:DAYLIGHT\n" +
-                "TZOFFSETFROM:" + formatOffset(local.getRawOffset() - 1) + "\n" +
-                "TZOFFSETTO:" + formatOffset(local.getRawOffset()) +"\n" +
+                "TZOFFSETFROM:" + formatOffset(-5 - 1) + "\n" +
+                "TZOFFSETTO:" + formatOffset(-5) +"\n" +
                 "TZNAME:" + local.getDisplayName() + "\n" +
                 "DTSTART:19700329T010000\n" +
                 "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n" +
@@ -79,23 +84,45 @@ public class ICSExporter {
     String generateICSEvents(List<EventReader> events) {
 
         StringBuilder eventsString = new StringBuilder();
+
+
+
         for(EventReader event : events) {
-            eventsString.append("BEGIN:VEVENT\n" + "DTEND:");
-            eventsString.append(event.getStartTime()).append("DTSTAMP:");
-            eventsString.append(LocalDateTime.now()).append("\n");
+            LocalDate date = (LocalDate)event.getDates().toArray()[0];
+            LocalDateTime start = date.atTime(event.getStartTime());
+            LocalDateTime end = date.atTime(event.getEndTime());
+
+            eventsString.append("BEGIN:VEVENT\n");
             eventsString.append("UID:").append(event.getId()).append("\n");
-            eventsString.append("CREATED:").append(LocalDateTime.now()).append("\n");
+            eventsString.append("DTSTART:").append(formatDate(start)).append("\n");
+            eventsString.append("DTEND:").append(formatDate(end)).append("\n");
+            eventsString.append("DTSTAMP:").append(formatDate(LocalDateTime.now()));
             eventsString.append("DESCRIPTION:").append(formatTags(event.getTags())).append("\n");
-            eventsString.append("LAST-MODIFIED:").append(LocalDateTime.now()).append("\n");
-            eventsString.append("LOCATION:\n").append("SEQUENCE:0\n").append("STATUS:CONFIRMED\n");
-            eventsString.append("SUMMARY:").append(event.getName()).append("\n");
-            eventsString.append("TRANSP:OPAQUE\n").append("END:VEVENT\n");
+            eventsString.append("END:VEVENT\n");
+
+//            eventsString.append("BEGIN:VEVENT\n");
+//            eventsString.append("DTEND:").append(formatDate(end)).append("\n");
+//            eventsString.append("DTSTART:").append(formatDate(start)).append("\n");
+//            eventsString.append("UID:").append(event.getId()).append("\n");
+//            eventsString.append(event.getStartTime()).append("DTSTAMP:").append(DateTime.now().toString()).append("\n");
+//            eventsString.append("CREATED:").append(LocalDateTime.now()).append("\n");
+//            eventsString.append("DESCRIPTION:").append(formatTags(event.getTags())).append("\n");
+//            eventsString.append("LAST-MODIFIED:").append(LocalDateTime.now()).append("\n");
+//            eventsString.append("LOCATION:\n").append("SEQUENCE:0\n").append("STATUS:CONFIRMED\n");
+//            eventsString.append("SUMMARY:").append(event.getName()).append("\n");
+//            eventsString.append("TRANSP:OPAQUE\n").append("END:VEVENT\n");
         }
 
         return eventsString.toString();
     }
 
+    String formatDate(LocalDateTime dateTime) {
+
+        return dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss"));
+    }
+
     String formatTags(Set<String> tags) {
+
         StringBuilder stringTags = new StringBuilder();
 
         for(String tag : tags) {

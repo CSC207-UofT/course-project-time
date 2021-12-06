@@ -2,6 +2,7 @@ package gui.view_model;
 
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
+import data_gateway.ICSExporter;
 import data_gateway.event.EventReader;
 import data_gateway.event.ObservableEventRepository;
 import gui.utility.EventHelper;
@@ -113,6 +114,9 @@ public class MonthlyCalendarViewModel extends ViewModel {
     public void saveData() {
         try {
             this.repository.saveEvents("EventData.json");
+
+            ICSExporter ics = new ICSExporter();
+            ics.saveICS(repository);
         } catch (IOException e) {
             e.printStackTrace();
         }
