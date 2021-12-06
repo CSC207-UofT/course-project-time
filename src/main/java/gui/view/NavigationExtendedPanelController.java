@@ -63,5 +63,4 @@ public class NavigationExtendedPanelController {
         extendedNavPanel.setVisible(false);
         extendedNavPanel.close();
     }
-
 }

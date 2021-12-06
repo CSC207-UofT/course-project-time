@@ -1,11 +1,8 @@
 import data_gateway.event.CalendarManager;
 import data_gateway.event.EventReader;
-import entity.Event;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.event_creation.EventInfoFromReader;
-import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.EventGetter;
 import services.event_presentation.EventInfo;
 
@@ -17,17 +14,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EventGetterTest {
 
     EventGetter eventGetter;
     MockCalendarManager manager;
-    MockCalendarEventPresenter presenter;
 
     Set<String> tags1;
     Set<String> tags2;
@@ -66,8 +60,7 @@ public class EventGetterTest {
         allEvents.add(e2);
 
         manager = new MockCalendarManager();
-        presenter = new MockCalendarEventPresenter();
-        eventGetter = new EventGetter(manager, presenter);
+        eventGetter = new EventGetter(manager);
     }
 
     @Test
@@ -93,12 +86,6 @@ public class EventGetterTest {
         List<HashMap<String, String>> actual = eventGetter.getEvents();
 
         assertEquals(expected, actual);
-    }
-
-    @Test
-    void presentAllEvents() {
-        eventGetter.presentAllEvents();
-        assertTrue(presenter.isPresentAllEventsSuccess());
     }
 
     @Test
@@ -165,20 +152,6 @@ public class EventGetterTest {
         @Override
         public void saveEvents(String savePath) throws IOException {
 
-        }
-    }
-
-    private static class MockCalendarEventPresenter implements CalendarEventPresenter {
-
-        private boolean presentAllEventsSuccess = false;
-
-        @Override
-        public void presentAllEvents(List<EventInfo> eventInfos) {
-            presentAllEventsSuccess = true;
-        }
-
-        public boolean isPresentAllEventsSuccess() {
-            return presentAllEventsSuccess;
         }
     }
 

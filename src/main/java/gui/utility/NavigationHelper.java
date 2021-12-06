@@ -1,6 +1,7 @@
 package gui.utility;
 
 import com.jfoenix.controls.JFXDrawer;
+import gui.view.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -15,12 +16,18 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A utility class that contains static methods
- * related to the navigation panel across all views.
+ * A helper class to switch between views and to initialize
+ * navigation panels when view pages are initially loaded.
  */
 public final class NavigationHelper {
 
     private NavigationHelper() {
+    }
+
+    private static InstanceMapper instanceMapper = new InstanceMapper();
+
+    public static void setInstanceMap(InstanceMapper mapper) {
+        instanceMapper = mapper;
     }
 
     /**
@@ -51,8 +58,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterMonthlyCalendarPage(Event event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
-        setNewScene(event, root);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -61,8 +69,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     private static void enterWeeklyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
-        setNewScene(event, root);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/weeklyCalendar.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -71,8 +80,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
-        setNewScene(event, root);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -83,12 +93,10 @@ public final class NavigationHelper {
      */
     public static void switchCalendarPageType(ActionEvent event, String calendarType) throws IOException {
         switch (calendarType) {
-            case "Month":
-                enterMonthlyCalendarPage(event);
-            case "Week":
-                enterWeeklyCalendarPage(event);
-            case "Day":
-                enterDailyCalendarPage(event);
+            case "Month" -> enterMonthlyCalendarPage(event);
+            case "Week" -> enterWeeklyCalendarPage(event);
+            case "Day" -> enterDailyCalendarPage(event);
+            default -> System.out.println("Should not have reached here");
         }
     }
 
@@ -98,8 +106,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterHomePage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
-        setNewScene(event, root);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -133,9 +142,13 @@ public final class NavigationHelper {
     /**
      * Sets a new scene. Used by the other methods when handling requests to change view pages.
      * @param event the event that triggered the request to change view
-     * @param root the resource to change the view page to
+     * @param loader the FXMLLoader with its location set as the fxml file to be loaded
      */
-    private static void setNewScene(Event event, Parent root) {
+    private static void initializeControllerAndSetNewScene(Event event, FXMLLoader loader) throws IOException {
+        // Note: load() needs to be called before the associated controller is instantiated
+        Parent root = loader.load();
+        ViewModelBindingController controller = loader.getController();
+        controller.init(instanceMapper.getViewModel(controller.getClass()));
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setScene(new Scene(root, 1000, 800));
         currentStage.show();
