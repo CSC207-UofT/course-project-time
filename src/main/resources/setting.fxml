@@ -13,9 +13,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.SettingsController">
    <children>
-      <AnchorPane fx:id="mainBackground" layoutX="42.0" prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #E5E5E5;" AnchorPane.leftAnchor="42.0">
+      <AnchorPane fx:id="mainBackground" layoutX="42.0" prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #E5E5E5;" AnchorPane.leftAnchor="50.0">
          <children>
-            <HBox layoutX="135.0" layoutY="148.0" prefHeight="76.0" prefWidth="319.0" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="148.0">
+            <HBox layoutX="130.0" layoutY="148.0" prefHeight="76.0" prefWidth="319.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="148.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="76.0" prefWidth="314.0" text="Desktop Notifications">
                      <font>
@@ -25,7 +25,7 @@
                </children>
             </HBox>
             <Separator layoutX="135.0" layoutY="237.0" prefHeight="39.0" prefWidth="779.0" />
-            <HBox layoutX="135.0" layoutY="300.0" prefHeight="76.0" prefWidth="276.0">
+            <HBox layoutX="135.0" layoutY="298.0" prefHeight="76.0" prefWidth="276.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="76.0" prefWidth="415.0" text="Email Notifications">
                      <font>

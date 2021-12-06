@@ -4,9 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.MainPageController">
    <children>
@@ -50,10 +51,14 @@
             </HBox>
             <HBox layoutX="157.0" layoutY="535.0" prefHeight="200.0" prefWidth="750.0" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="535.0">
                <children>
-                  <ScrollPane prefHeight="200.0" prefWidth="772.0">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                    </content>
+                  <ScrollPane fx:id="taskScroll" prefHeight="200.0" prefWidth="754.0">
+                     <content>
+                        <GridPane fx:id="gridTask" prefHeight="0.0" prefWidth="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                        </GridPane>
+                     </content>
                   </ScrollPane>
                </children>
             </HBox>
