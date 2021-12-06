@@ -30,7 +30,7 @@ public class GUIDriver extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         configure();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/basicPage.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
