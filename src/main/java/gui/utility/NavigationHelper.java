@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -137,6 +138,12 @@ public final class NavigationHelper {
     public static void enterTodoListPage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/todoListPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
+    }
+
+    public static void enterTaskPage(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/taskBar.fxml")));
         initializeControllerAndSetNewScene(event, loader);
     }
 

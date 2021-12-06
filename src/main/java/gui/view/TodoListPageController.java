@@ -7,9 +7,11 @@ import gui.view_model.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,6 +37,14 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
         taskName.setMaxWidth(550);
         HBox task = new HBox(taskName, deadLine);
         todoList.getItems().add(task);
+    }
+
+    public void enterTaskPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterTaskPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override

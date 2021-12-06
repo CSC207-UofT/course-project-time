@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.TaskBarController">
+   <children>
+
+   </children>
+   <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0" />
+   <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0" />
+   <TextField fx:id="taskName" layoutX="140.0" layoutY="33.0" prefHeight="47.0" prefWidth="201.0" />
+   <TextArea fx:id="taskDetail" layoutX="140.0" layoutY="209.0" prefHeight="200.0" prefWidth="200.0" />
+</AnchorPane>
