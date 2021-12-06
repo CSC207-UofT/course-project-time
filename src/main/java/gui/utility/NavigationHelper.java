@@ -136,7 +136,7 @@ public final class NavigationHelper {
      */
     public static void enterTodoListPage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/todoList.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/todoListPage.fxml")));
         initializeControllerAndSetNewScene(event, loader);
     }
 

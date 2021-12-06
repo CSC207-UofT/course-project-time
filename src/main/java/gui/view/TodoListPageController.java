@@ -1,6 +1,7 @@
 package gui.view;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import gui.view_model.ViewModel;
 import javafx.fxml.FXML;
@@ -14,18 +15,15 @@ import javafx.scene.layout.HBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TodoListController implements Initializable, ViewModelBindingController {
+public class TodoListPageController implements Initializable, ViewModelBindingController {
     @FXML
-    private JFXButton addTask;
-
-    @FXML
-    private JFXListView<HBox> testList;
+    private JFXListView<HBox> todoList;
 
     public void addTask() {
         Label taskName = new Label("CSC207 Project");
         Label deadLine = new Label("December 8, 2021");
         HBox task = new HBox(350, taskName, deadLine);
-        testList.getItems().add(task);
+        todoList.getItems().add(task);
     }
 
     @Override
@@ -33,7 +31,7 @@ public class TodoListController implements Initializable, ViewModelBindingContro
         Label taskName = new Label("CSC207 Project");
         Label deadLine = new Label("December 8, 2021");
         HBox task = new HBox(350, taskName, deadLine);
-        testList.getItems().add(task);
+        todoList.getItems().add(task);
     }
 
     @Override
