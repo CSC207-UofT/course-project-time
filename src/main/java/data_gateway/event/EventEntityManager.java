@@ -6,16 +6,16 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import entity.Event;
 import services.Snowflake;
-import services.event_creation.CalendarEventModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -63,17 +63,16 @@ public class EventEntityManager implements CalendarManager{
 
     /**
      * Add a new event to eventList using data from eventData
-     * @param eventData the information of an event
+     * @param eventName     the name of the new event
+     * @param startTime     the time the event should start
+     * @param endTime       the time the event should end
+     * @param tags          the tags associated with the event
+     * @param date          the date the event should occur
      */
     @Override
-    public long addEvent(CalendarEventModel eventData) {
-        String name = eventData.getName();
-        LocalDateTime startTime = eventData.getStartTime();
-        LocalDateTime endTime = eventData.getEndTime();
-        HashSet<String> tags = eventData.getTags();
-        LocalDate date = eventData.getDate();
-
-        Event event = new Event(snowflake.nextId(), name, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+                         LocalDate date) {
+        Event event = new Event(snowflake.nextId(), eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
         eventList.add(event);
         return event.getId();
     }
@@ -83,12 +82,7 @@ public class EventEntityManager implements CalendarManager{
      */
     @Override
     public void markEventAsCompleted(long eventId) {
-        for (Event event: eventList) {
-            if (event.getId() == eventId) {
-                event.setCompleted(true);
-                return;
-            }
-        }
+        getById(eventId).setCompleted(true);
     }
 
     @Override
@@ -101,4 +95,39 @@ public class EventEntityManager implements CalendarManager{
         }
         return eventReaderList;
     }
+
+    @Override
+    public void updateName(long id, String newName) {
+        getById(id).setEventName(newName);
+    }
+
+    @Override
+    public void updateStartTime(long id, LocalTime newStartTime) {
+        getById(id).setStartTime(newStartTime);
+    }
+
+    @Override
+    public void updateEndTime(long id, LocalTime newEndTime) {
+        getById(id).setEndTime(newEndTime);
+    }
+
+    @Override
+    public void addTag(long id, String tag) {
+        getById(id).addTag(tag);
+    }
+
+    @Override
+    public void removeTag(long id, String tag) {
+        getById(id).removeTag(tag);
+    }
+
+    private Event getById(long id){
+        for(Event event : eventList){
+            if(event.getId() == id){
+                return event;
+            }
+        }
+        return null;
+    }
+
 }
