@@ -2,6 +2,7 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
+import gui.view_model.ViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DailyCalendarController implements Initializable {
+public class DailyCalendarController implements Initializable, ViewModelBindingController {
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -37,5 +38,10 @@ public class DailyCalendarController implements Initializable {
     void calendarTypeSelected(ActionEvent event) throws IOException {
         String selected = calendarType.getValue();
         NavigationHelper.switchCalendarPageType(event, selected);
+    }
+
+    @Override
+    public void init(ViewModel viewModel) {
+
     }
 }

@@ -63,5 +63,4 @@ public class NavigationCollapsedPanelController {
         extendedNavPanel.setVisible(true);
         extendedNavPanel.open();
     }
-
 }
