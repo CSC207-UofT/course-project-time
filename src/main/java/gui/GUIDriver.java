@@ -10,6 +10,7 @@ import data_gateway.task.TodoEntityManager;
 import data_gateway.task.TodoListManager;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
+import gui.view.MainPageController;
 import gui.view.MonthlyCalendarController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
@@ -61,6 +62,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
         instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
+        instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
     }
 }

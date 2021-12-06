@@ -42,6 +42,8 @@ public class MainPageController implements Initializable, ViewModelBindingContro
 
     @Override
     public void init(ViewModel viewModel) {
+        this.viewModel = (MainPageViewModel) viewModel;
+
         Label taskName = new Label("Sleeping");
         Label deadLine = new Label("Dec 20, 2021, 10:00 PM");
         taskName.setFont(new Font(labelFontSize));

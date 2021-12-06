@@ -9,12 +9,14 @@ public class ViewModelFactory {
     private final MonthlyCalendarViewModel monthlyCalendarViewModel;
     private final WeeklyCalendarViewModel weeklyCalendarViewModel;
     private final TodoListPageViewModel todoListPageViewModel;
+    private final MainPageViewModel mainPageViewModel;
 
     public ViewModelFactory(ObservableEventRepository eventRepository,
                             ObservableTaskRepository taskRepository) {
         this.monthlyCalendarViewModel = new MonthlyCalendarViewModel(eventRepository);
         this.weeklyCalendarViewModel = new WeeklyCalendarViewModel(eventRepository);
         this.todoListPageViewModel = new TodoListPageViewModel(taskRepository);
+        this.mainPageViewModel = new MainPageViewModel(taskRepository, eventRepository);
     }
 
     public MonthlyCalendarViewModel getMonthlyCalendarViewModel() {
@@ -26,5 +28,9 @@ public class ViewModelFactory {
     }
 
     public TodoListPageViewModel getTodoListPageViewModel() { return todoListPageViewModel; }
+
+    public MainPageViewModel getMainPageViewModel() {
+        return mainPageViewModel;
+    }
 
 }
