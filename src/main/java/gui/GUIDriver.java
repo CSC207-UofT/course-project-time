@@ -10,10 +10,7 @@ import data_gateway.task.TodoEntityManager;
 import data_gateway.task.TodoListManager;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
-import gui.view.MainPageController;
-import gui.view.MonthlyCalendarController;
-import gui.view.TodoListPageController;
-import gui.view.WeeklyCalendarController;
+import gui.view.*;
 import gui.view_model.TodoListPageViewModel;
 import gui.view_model.ViewModelFactory;
 import javafx.application.Application;
@@ -30,8 +27,12 @@ public class GUIDriver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        configure();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
+        ViewModelFactory viewModelFactory = configure();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
+        Parent root = loader.load();
+        ((ViewModelBindingController) loader.getController()).init(viewModelFactory.getMainPageViewModel());
+
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
@@ -42,7 +43,7 @@ public class GUIDriver extends Application {
         launch(args);
     }
 
-    private void configure() {
+    private ViewModelFactory configure() {
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
@@ -64,5 +65,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
+
+        return factory;
     }
 }
