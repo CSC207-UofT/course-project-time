@@ -61,7 +61,7 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     @FXML
     public void addTask() {
         Label taskName = new Label("Sleeping");
-        Label deadLine = new Label("December 20, 2021");
+        Label deadLine = new Label("Dec 20, 2021, 10:00 PM");
         taskName.setFont(new Font(labelFontSize));
         deadLine.setFont(new Font(labelFontSize));
 
