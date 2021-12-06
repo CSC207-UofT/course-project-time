@@ -45,6 +45,7 @@ public final class NavigationHelper {
         }
     }
 
+
     /**
      * Changes view to the monthly calendar page.
      * @param event the event that triggered the request to change view
@@ -98,7 +99,7 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterHomePage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/mainPage.fxml")));
         setNewScene(event, root);
     }
 
@@ -117,6 +118,8 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterSettingsPage(MouseEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/setting.fxml")));
+        setNewScene(event, root);
 
     }
 

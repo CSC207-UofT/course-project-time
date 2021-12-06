@@ -1,0 +1,18 @@
+.title-label{
+    -fx-background-color: #5974ff;
+    -fx-background-radius: 50;
+}
+
+.label{
+    -fx-background-color: #646890;
+    -fx-background-radius: 10;
+}
+
+.transparent{
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.search-box{
+    -fx-background-color:#FFFFFF;
+    -fx-background-radius: 100;
+}

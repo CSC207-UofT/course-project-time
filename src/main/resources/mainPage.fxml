@@ -1,37 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.MainPageController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="mainBackground" prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #E5E5E5;" AnchorPane.leftAnchor="50.0">
          <children>
-            <Text fill="#646890" layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcoming">
-               <font>
-                  <Font name="Haettenschweiler" size="24.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#646890" height="62.0" layoutX="16.0" layoutY="69.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.bottomAnchor="269.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="69.0" />
-            <Text fill="#f3f3f3" layoutX="32.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Events of the day" AnchorPane.leftAnchor="32.0">
-               <font>
-                  <Font name="Haettenschweiler" size="20.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="5.0" fill="WHITE" height="31.0" layoutX="16.0" layoutY="95.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="95.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="16.0" layoutY="105.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#646890" height="62.0" layoutX="16.0" layoutY="198.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
-            <Text fill="#f3f3f3" layoutX="31.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tasks due today" AnchorPane.leftAnchor="32.0">
-               <font>
-                  <Font name="Haettenschweiler" size="20.0" />
-               </font>
-            </Text>
-            <Rectangle arcHeight="5.0" fill="WHITE" height="31.0" layoutX="16.0" layoutY="224.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="53.0" layoutX="16.0" layoutY="234.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="570.0" AnchorPane.leftAnchor="15.0" />
+            <HBox layoutX="157.0" layoutY="41.0" prefHeight="66.0" prefWidth="240.0" styleClass="title-label" stylesheets="@style.css" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="41.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="65.0" prefWidth="255.0" styleClass="transparent" text="UPCOMING" textFill="#f1f1f1">
+                     <font>
+                        <Font name="Cambria Bold" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="157.0" layoutY="160.0" prefHeight="55.0" prefWidth="249.0" styleClass="label" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="160.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="55.0" prefWidth="335.0" text="Events of the day" textFill="#f1f1f1">
+                     <font>
+                        <Font name="Cambria" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="157.0" layoutY="223.0" prefHeight="200.0" prefWidth="750.0" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="223.0">
+               <children>
+                  <ScrollPane prefHeight="200.0" prefWidth="754.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </HBox>
+            <HBox layoutX="157.0" layoutY="466.0" prefHeight="55.0" prefWidth="249.0" styleClass="label" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="466.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="92.0" prefWidth="300.0" styleClass="transparent" text="Tasks due today" textFill="#f1f1f1">
+                     <font>
+                        <Font name="Cambria" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="157.0" layoutY="535.0" prefHeight="200.0" prefWidth="750.0" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="535.0">
+               <children>
+                  <ScrollPane prefHeight="200.0" prefWidth="772.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
+      <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" />
+      <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" />
    </children>
 </AnchorPane>
