@@ -1,14 +1,14 @@
 package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXTextArea;
 import gui.utility.NavigationHelper;
+import gui.view_model.TaskBarViewModel;
+import gui.view_model.TodoListPageViewModel;
 import gui.view_model.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TaskBarController implements Initializable, ViewModelBindingController {
+
+    private TaskBarViewModel viewModel;
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -60,7 +62,7 @@ public class TaskBarController implements Initializable, ViewModelBindingControl
 
     @Override
     public void init(ViewModel viewModel) {
-        taskName.setText("name of task");
+        this.viewModel = (TaskBarViewModel) viewModel;
     }
 
     @Override
