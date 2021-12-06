@@ -1,6 +1,8 @@
 package gui.view;
 
+import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
+import gui.utility.NavigationHelper;
 import gui.view_model.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +15,12 @@ import java.util.ResourceBundle;
 
 public class TodoListPageController implements Initializable, ViewModelBindingController {
     final double labelFontSize = 15;
+
+    @FXML
+    private JFXDrawer collapsedNavPanel;
+
+    @FXML
+    private JFXDrawer extendedNavPanel;
 
     @FXML
     private JFXListView<HBox> todoList;
@@ -44,6 +52,7 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
 
     }
 }
