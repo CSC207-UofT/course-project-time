@@ -1,11 +1,14 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
-import services.event_creation.CalendarEventModel;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import services.event_creation.EventSaver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,7 +35,7 @@ public class EventSaverTest {
         String savedEvent;
 
         @Override
-        public long addEvent(CalendarEventModel eventData) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
             return 0L;
         }
 
@@ -43,6 +46,31 @@ public class EventSaverTest {
         @Override
         public List<EventReader> getAllEvents() {
             return null;
+        }
+
+        @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
+        public void addTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTag(long id, String tag) {
+
         }
 
         @Override

@@ -1,13 +1,11 @@
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_creation.CalendarEventModel;
 import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
 import services.task_presentation.TaskInfo;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -87,10 +85,10 @@ public class CalendarAnalyzerTest {
         }
     }
 
-    private class MockCalendarManager implements CalendarManager {
+    private static class MockCalendarManager implements CalendarManager {
 
         @Override
-        public long addEvent(CalendarEventModel eventData) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
             return 0L;
         }
 
@@ -107,17 +105,41 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void updateName(long id, String newName) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
+        public void addTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void loadEvents(String filePath) {
+        }
+
+        @Override
+        public void saveEvents(String savePath) {
 
         }
     }
 
-    private class MockEventReader implements EventReader {
+    private static class MockEventReader implements EventReader {
 
         @Override
         public long getId() {

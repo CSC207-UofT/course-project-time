@@ -1,0 +1,38 @@
+package gui.view_model;
+
+import com.calendarfx.model.Entry;
+import data_gateway.event.EventReader;
+import data_gateway.event.ObservableEventRepository;
+import gui.utility.EventHelper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.List;
+
+public class MonthlyCalendarViewModel extends ViewModel {
+
+    private final ObservableEventRepository repository;
+
+    private final ObservableList<Entry<String>> entryList;
+
+    public MonthlyCalendarViewModel(ObservableEventRepository repository) {
+        this.repository = repository;
+        repository.addCreationObserver(this::handleCreation);
+        repository.addUpdateObserver(this::handleUpdate);
+
+        List<EventReader> eventReaderList = this.repository.getAllEvents();
+        this.entryList = FXCollections.observableArrayList(EventHelper.eventReaderToEntry(eventReaderList));
+    }
+
+    public ObservableList<Entry<String>> getEntryList() {
+        return this.entryList;
+    }
+
+    public void handleCreation(EventReader eventReader) {
+
+    }
+
+    public void handleUpdate(EventReader eventReader) {
+
+    }
+}

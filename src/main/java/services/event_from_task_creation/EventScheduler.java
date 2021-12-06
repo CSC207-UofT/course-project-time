@@ -1,7 +1,7 @@
 package services.event_from_task_creation;
 
-import data_gateway.CalendarManager;
-import data_gateway.EventReader;
+import data_gateway.event.CalendarManager;
+import data_gateway.event.EventReader;
 
 import java.time.Duration;
 import java.time.LocalDate;
