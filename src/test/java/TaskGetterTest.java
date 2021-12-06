@@ -3,9 +3,8 @@ import data_gateway.task.TodoListManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.task_creation.TodoListTaskCreationModel;
-import services.task_presentation.TaskOutputter;
-import services.task_presentation.TodoListPresenter;
-import services.task_presentation.TodoListsInfo;
+import services.task_presentation.TaskGetter;
+import services.task_presentation.TaskInfo;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -18,30 +17,26 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TaskOutputterTest {
+public class TaskGetterTest {
 
-    TaskOutputter taskOutputter;
+    TaskGetter taskGetter;
     MockTodoListManager manager;
-    MockTodoListPresenter presenter;
 
     @BeforeEach
     void setup() {
         manager = new MockTodoListManager();
-        presenter = new MockTodoListPresenter();
-        taskOutputter = new TaskOutputter(manager, presenter);
+        taskGetter = new TaskGetter(manager);
     }
 
     @Test
-    void presentAllTasks() {
-        taskOutputter.presentAllTasks();
-        assertTrue(presenter.isPresentTasksSuccess());
-    }
-
-    @Test
-    void presentAllTasksForUserSelection() {
-        Map<Integer, Long> expected = new HashMap<>();
-        Map<Integer, Long> actual = taskOutputter.presentAllTasksForUserSelection();
-        assertEquals(expected, actual);
+    void getTasksById() {
+        TaskInfo expected = taskGetter.getTaskById(1L);
+        assertEquals(expected.getId(), 1L);
+        assertTrue(expected.getCompleted());
+        assertEquals(expected.getDeadline(), LocalDateTime.of(2021, 12, 10, 12, 0));
+        assertEquals(expected.getDuration(), Duration.ofHours(1));
+        assertEquals(expected.getName(), "mock");
+        assertEquals(expected.getSubtasks(), new ArrayList<>());
     }
 
     private static class MockTodoListManager implements TodoListManager {
@@ -58,7 +53,12 @@ public class TaskOutputterTest {
 
         @Override
         public Map<Long, List<TaskReader>> getAllTasks() {
-            return new HashMap<>();
+            Map<Long, List<TaskReader>> tasksMap = new HashMap<>();
+            List<TaskReader> tasks = new ArrayList<>();
+            TaskReader task = new MockTaskReader();
+            tasks.add(task);
+            tasksMap.put(2L, tasks);
+            return tasksMap;
         }
 
         @Override
@@ -102,28 +102,36 @@ public class TaskOutputterTest {
         }
     }
 
-    private static class MockTodoListPresenter implements TodoListPresenter {
-
-        private boolean presentTasksSuccess = false;
+    private static class MockTaskReader implements TaskReader {
 
         @Override
-        public void presentTasks(TodoListsInfo todoListInfo) {
-            if (todoListInfo.getAllTasks().equals(new ArrayList<>())) {
-                presentTasksSuccess = true;
-            }
+        public long getId() {
+            return 1;
         }
 
         @Override
-        public Map<Integer, Long> presentTasksForUserSelection(TodoListsInfo todoListInfo) {
-            if (todoListInfo.getAllTasks().equals(new ArrayList<>())) {
-                return new HashMap<>();
-            } else {
-                return null;
-            }
+        public String getName() {
+            return "mock";
         }
 
-        public boolean isPresentTasksSuccess() {
-            return presentTasksSuccess;
+        @Override
+        public Duration getDuration() {
+            return Duration.ofHours(1);
+        }
+
+        @Override
+        public LocalDateTime getDeadline() {
+            return LocalDateTime.of(2021, 12, 10, 12, 0);
+        }
+
+        @Override
+        public List<String> getSubtasks() {
+            return new ArrayList<>();
+        }
+
+        @Override
+        public boolean getCompleted() {
+            return true;
         }
     }
 }
