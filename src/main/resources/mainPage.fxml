@@ -10,7 +10,7 @@
    <children>
       <AnchorPane fx:id="mainBackground" layoutX="36.0" prefHeight="800.0" prefWidth="740.0" style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="96.0" layoutY="49.0" prefHeight="54.0" prefWidth="202.0" text="Upcoming" textFill="#64698d" AnchorPane.bottomAnchor="706.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="723.0" AnchorPane.topAnchor="40.0">
+            <Label layoutX="96.0" layoutY="49.0" prefHeight="54.0" prefWidth="205.0" text="Upcoming" textFill="#64698d" AnchorPane.bottomAnchor="706.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="665.0" AnchorPane.topAnchor="40.0">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
