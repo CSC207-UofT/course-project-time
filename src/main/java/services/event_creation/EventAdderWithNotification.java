@@ -19,9 +19,4 @@ public class EventAdderWithNotification implements CalendarEventCreationBoundary
         notificationAdder.createNotification(eventData, eventId);
         return eventId;
     }
-
-    @Override
-    public void markEventAsCompleted(long eventId) {
-        service.markEventAsCompleted(eventId);
-    }
 }
