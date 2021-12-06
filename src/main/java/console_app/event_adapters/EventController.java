@@ -3,8 +3,8 @@ package console_app.event_adapters;
 
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
-import services.event_from_task_creation.CalendarAnalyzer;
-import services.event_presentation.EventGetter;
+import services.event_presentation.CalendarEventDisplayBoundary;
+import services.event_presentation.CalendarEventRequestBoundary;
 import services.event_presentation.EventInfo;
 import services.update_entities.EventUpdater;
 import services.update_entities.UpdateEventBoundary;
@@ -21,15 +21,17 @@ import java.util.List;
 public class EventController {
 
     private final CalendarEventCreationBoundary eventAdder;
-    private final EventGetter eventGetter;
+    private final CalendarEventRequestBoundary eventGetter;
+    private final CalendarEventDisplayBoundary eventOutputter;
     private final EventSaver eventSaver;
     private final UpdateEventBoundary eventUpdater;
 
 
-    public EventController(CalendarEventCreationBoundary eventAdder, EventGetter eventGetter, EventSaver eventSaver,
-                           EventUpdater eventUpdater) {
+    public EventController(CalendarEventCreationBoundary eventAdder, CalendarEventRequestBoundary eventGetter,
+                           CalendarEventDisplayBoundary eventOutputter, EventSaver eventSaver, EventUpdater eventUpdater) {
         this.eventAdder = eventAdder;
         this.eventGetter = eventGetter;
+        this.eventOutputter = eventOutputter;
         this.eventSaver = eventSaver;
         this.eventUpdater = eventUpdater;
     }
@@ -39,7 +41,7 @@ public class EventController {
      * and their corresponding values
      */
     public void presentAllEvents() {
-        eventGetter.presentAllEvents();
+        eventOutputter.presentAllEvents();
     }
 
     /**
