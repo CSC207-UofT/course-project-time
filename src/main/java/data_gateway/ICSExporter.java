@@ -2,6 +2,7 @@ package data_gateway;
 
 import data_gateway.event.CalendarManager;
 import data_gateway.event.EventReader;
+import data_gateway.event.ObservableEventRepository;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,10 +13,10 @@ import java.util.*;
 
 public class ICSExporter {
 
-    public void saveICS(CalendarManager cal) throws IOException {
+    public void saveICS(ObservableEventRepository cal) throws IOException {
         List<EventReader> events = cal.getAllEvents();
 
-        FileWriter writer = new FileWriter("time_calendar_export.ics");
+        FileWriter writer = new FileWriter("time_calendar_export.ics", false);
         writer.write(generateHeader());
         writer.write(generateTimeZone());
         writer.append(generateICSEvents(events));
@@ -54,7 +55,7 @@ public class ICSExporter {
                 "DTSTART:19700329T010000\n" +
                 "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\n" +
                 "END:DAYLIGHT\n" +
-                "END:VTIMEZONE";
+                "END:VTIMEZONE\n";
     }
 
     String formatOffset(int offset) {
