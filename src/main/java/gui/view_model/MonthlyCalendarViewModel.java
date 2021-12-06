@@ -2,47 +2,37 @@ package gui.view_model;
 
 import com.calendarfx.model.Entry;
 import data_gateway.event.EventReader;
-import gui.model.EventModelManager;
+import data_gateway.event.ObservableEventRepository;
+import gui.utility.EventHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MonthlyCalendarViewModel extends ViewModel {
 
-    private final EventModelManager manager;
+    private final ObservableEventRepository repository;
 
     private final ObservableList<Entry<String>> entryList;
 
-    public MonthlyCalendarViewModel(EventModelManager manager) {
-        this.manager = manager;
+    public MonthlyCalendarViewModel(ObservableEventRepository repository) {
+        this.repository = repository;
+        repository.addCreationObserver(this::handleCreation);
+        repository.addUpdateObserver(this::handleUpdate);
 
-        List<Entry<String>> newList = new ArrayList<>();
-
-        List<EventReader> eventReaderList = this.manager.getEvents();
-        for (EventReader er : eventReaderList) {
-            newList.add(eventReaderToEntry(er));
-        }
-
-        this.entryList = FXCollections.observableArrayList(newList);
-
-
+        List<EventReader> eventReaderList = this.repository.getAllEvents();
+        this.entryList = FXCollections.observableArrayList(EventHelper.eventReaderToEntry(eventReaderList));
     }
 
     public ObservableList<Entry<String>> getEntryList() {
-        System.out.println(this.entryList);
         return this.entryList;
     }
 
-    private Entry<String> eventReaderToEntry(EventReader eventReader) {
-        Entry<String> entry = new Entry<>(eventReader.getName());
-        entry.changeStartTime(eventReader.getStartTime());
-        entry.changeEndTime(eventReader.getEndTime());
-        LocalDate date = LocalDate.of(2021, 12, 8);
-        entry.changeStartDate(date);
-        entry.changeEndDate(date);
-        return entry;
+    public void handleCreation(EventReader eventReader) {
+
+    }
+
+    public void handleUpdate(EventReader eventReader) {
+
     }
 }
