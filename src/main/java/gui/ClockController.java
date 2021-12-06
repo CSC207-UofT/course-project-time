@@ -2,6 +2,8 @@ package gui;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
+import gui.view.ViewModelBindingController;
+import gui.view_model.ViewModel;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,7 +23,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
-public class ClockController  {
+public class ClockController implements ViewModelBindingController {
 
     private AnimationTimer timer;
     private GraphicsContext gc;
@@ -190,4 +192,7 @@ public class ClockController  {
         breakTimeText.setEditable(true);
         workTimeText.setEditable(true);
     }
+
+    @Override
+    public void init(ViewModel viewModel) { }
 }

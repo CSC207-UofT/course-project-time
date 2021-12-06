@@ -117,8 +117,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterPomodoroPage(MouseEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/pomodoroPage.fxml")));
-        setNewScene(event, root);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/pomodoroPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
