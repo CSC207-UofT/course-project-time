@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.*;
 
 public class WeeklyCalendarViewModel extends ViewModel {
@@ -104,5 +105,13 @@ public class WeeklyCalendarViewModel extends ViewModel {
 
     public void addEventFromView(Entry<String> newEntry) {
         this.entryList.add(newEntry);
+    }
+
+    public void saveData() {
+        try {
+            this.repository.saveEvents("EventData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

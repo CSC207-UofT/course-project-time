@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.event.ActionEvent;
 import javafx.util.Callback;
@@ -81,6 +82,11 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
 
     private void handleUpdateEntry(CalendarEvent event) {
         this.viewModel.updateEventFromView(event);
+    }
+
+    @FXML
+    public void saveData(MouseEvent mouseEvent) {
+        this.viewModel.saveData();
     }
 
     private record EventCreationHandler(

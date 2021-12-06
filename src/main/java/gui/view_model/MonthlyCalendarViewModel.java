@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -32,7 +33,6 @@ public class MonthlyCalendarViewModel extends ViewModel {
         this.entryList.addListener((ListChangeListener<Entry<String>>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
-                    System.out.println("event added! in monthly vm");
                     Entry<String> entry = c.getAddedSubList().get(0);
 
                     // if entryList and entryToEventIdMapping has the same size,
@@ -108,5 +108,13 @@ public class MonthlyCalendarViewModel extends ViewModel {
 
     public void addEventFromView(Entry<String> newEntry) {
         this.entryList.add(newEntry);
+    }
+
+    public void saveData() {
+        try {
+            this.repository.saveEvents("EventData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
