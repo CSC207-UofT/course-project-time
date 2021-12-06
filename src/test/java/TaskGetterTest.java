@@ -30,13 +30,13 @@ public class TaskGetterTest {
 
     @Test
     void getTasksById() {
-        TaskInfo expected = taskGetter.getTaskById(1L);
-        assertEquals(expected.getId(), 1L);
-        assertTrue(expected.getCompleted());
-        assertEquals(expected.getDeadline(), LocalDateTime.of(2021, 12, 10, 12, 0));
-        assertEquals(expected.getDuration(), Duration.ofHours(1));
-        assertEquals(expected.getName(), "mock");
-        assertEquals(expected.getSubtasks(), new ArrayList<>());
+        TaskInfo actual = taskGetter.getTaskById(1L);
+        assertEquals(actual.getId(), 1L);
+        assertTrue(actual.getCompleted());
+        assertEquals(actual.getDeadline(), LocalDateTime.of(2021, 12, 10, 12, 0));
+        assertEquals(actual.getDuration(), Duration.ofHours(1));
+        assertEquals(actual.getName(), "mock");
+        assertEquals(actual.getSubtasks(), new ArrayList<>());
     }
 
     private static class MockTodoListManager implements TodoListManager {
