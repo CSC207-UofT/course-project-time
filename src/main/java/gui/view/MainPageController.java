@@ -43,7 +43,14 @@ public class MainPageController implements Initializable, ViewModelBindingContro
     @Override
     public void init(ViewModel viewModel) {
         this.viewModel = (MainPageViewModel) viewModel;
+        // event example
+        Label noEvent = new Label("There is no upcoming event");
+        noEvent.setFont(new Font(labelFontSize));
 
+        HBox event = new HBox(noEvent);
+        eventList.getItems().add(event);
+
+        // task example
         Label taskName = new Label("Sleeping");
         Label deadLine = new Label("Dec 20, 2021, 10:00 PM");
         taskName.setFont(new Font(labelFontSize));
@@ -53,5 +60,7 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         taskName.setMaxWidth(550);
         HBox task = new HBox(taskName, deadLine);
         taskList.getItems().add(task);
+
+
     }
 }
