@@ -30,7 +30,6 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
-
         calendarType.getItems().addAll("Month", "Week", "Day");
     }
 
