@@ -76,21 +76,18 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
         monthPage.getCalendarSources().add(source);
 
         EventHandler<CalendarEvent> updateEntryHandler = this::handleUpdateEntry;
+        calendar.addEventHandler(updateEntryHandler);
 
         MonthView monthView = this.monthPage.getMonthView();
-        monthView.setEntryViewFactory(new EventCreationHandler(this.entryList, monthView));
+        monthView.setEntryViewFactory(new EventCreationHandler(this.entryList, this.viewModel));
     }
 
     private void handleUpdateEntry(CalendarEvent event) {
-        Entry<String> updatedEntry = (Entry<String>) event.getEntry();
-        System.out.println(event.getEntry().getTitle());
-        System.out.println(event.getEventType());
-        System.out.println(this.entryList);
-        System.out.println(this.viewModel.getEntryList());
+        this.viewModel.updateEventFromView(event);
     }
 
     private record EventCreationHandler(
-            ObservableList<Entry<String>> entryList, MonthView monthView) implements Callback<Entry<?>, MonthEntryView> {
+            ObservableList<Entry<String>> entryList, MonthlyCalendarViewModel viewModel) implements Callback<Entry<?>, MonthEntryView> {
 
         @Override
         public MonthEntryView call(Entry<?> param) {
@@ -99,9 +96,7 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
                 ids.add(Integer.valueOf(entry.getId()));
             }
             if (!ids.contains(Integer.valueOf(param.getId()))) {
-                entryList.add((Entry<String>) param);
-                System.out.println(this.entryList);
-                System.out.println(param.getCalendar());
+                viewModel.addEventFromView((Entry<String>) param);
             }
             return new MonthEntryView(param);
         }

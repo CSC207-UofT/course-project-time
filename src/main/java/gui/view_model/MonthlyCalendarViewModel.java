@@ -1,5 +1,6 @@
 package gui.view_model;
 
+import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
 import data_gateway.event.EventReader;
 import data_gateway.event.ObservableEventRepository;
@@ -32,22 +33,24 @@ public class MonthlyCalendarViewModel extends ViewModel {
             while (c.next()) {
                 if (c.wasAdded()) {
                     System.out.println("event added! in monthly vm");
-                    for (Entry<String> entry : c.getAddedSubList()) {
-                        // if entryList and entryToEventIdMapping has the same size,
-                        // entry added to entryList is due to changes in data in the
-                        // repository and can be ignored.
-                        if (entryList.size() == entryToEventIdMapping.size() + 1) {
-                            // the added entry is due to a change in the associated view.
-                            // need to propagate the change to the repository
-                            repository.addEvent(entry.getTitle(),
-                                    entry.getStartAsLocalDateTime(),
-                                    entry.getEndAsLocalDateTime(),
-                                    new HashSet<>(),
-                                    entry.getStartDate());
+                    Entry<String> entry = c.getAddedSubList().get(0);
 
-                        } else if (entryList.size() != entryToEventIdMapping.size()) {
-                            System.err.println("Event data may not be synchronized");
-                        }
+                    // if entryList and entryToEventIdMapping has the same size,
+                    // entry added to entryList is due to changes in data in the
+                    // repository and can be ignored as the mapping has been added.
+
+                    if (entryList.size() == entryToEventIdMapping.size() + 1) {
+                        // the added entry is due to a change in the associated view.
+                        // need to propagate the change to the repository
+                        long eventId = repository.addEvent(entry.getTitle(),
+                                        entry.getStartAsLocalDateTime(),
+                                        entry.getEndAsLocalDateTime(),
+                                        new HashSet<>(),
+                                        entry.getStartDate());
+                        entryToEventIdMapping.put(entry.getId(), eventId);
+
+                    } else if (entryList.size() != entryToEventIdMapping.size()) {
+                        System.err.println("Event data may not be synchronized");
                     }
                 } else if (c.wasRemoved()) {
                     for (Entry<String> entry : c.getAddedSubList()) {
@@ -78,22 +81,12 @@ public class MonthlyCalendarViewModel extends ViewModel {
      * @param eventReader data of new event created
      */
     public void handleCreation(EventReader eventReader) {
-        if (entryList.size() == entryToEventIdMapping.size() + 1) {
-            // event creation is propagated from this view model initially
-            // entry is in entry list, but mapping is not added
-            for (Entry<String> entry : entryList) {
-                if (!entryToEventIdMapping.containsKey(entry.getId())) {
-                    entryToEventIdMapping.put(entry.getId(), eventReader.getId());
-                    return;
-                }
-            }
-            System.err.println("Event data may not be synchronized");
-        } else if (entryList.size() == entryToEventIdMapping.size()) {
+        if (entryList.size() == entryToEventIdMapping.size()) {
             // event creation was due to other means
             Entry<String> newEntry = EventHelper.eventReaderToEntry(eventReader);
             entryToEventIdMapping.put(newEntry.getId(), eventReader.getId());
             this.entryList.add(newEntry);
-        } else {
+        } else if (entryList.size() != entryToEventIdMapping.size() + 1) {
             System.err.println("Event data may not be synchronized");
         }
     }
@@ -105,5 +98,15 @@ public class MonthlyCalendarViewModel extends ViewModel {
      */
     public void handleUpdate(EventReader eventReader) {
 
+    }
+
+    public void updateEventFromView(CalendarEvent event) {
+        Entry<String> updatedEntry = (Entry<String>) event.getEntry();
+        Entry<String> newEntry = new Entry<>("hello");
+        entryList.add(newEntry);
+    }
+
+    public void addEventFromView(Entry<String> newEntry) {
+        this.entryList.add(newEntry);
     }
 }

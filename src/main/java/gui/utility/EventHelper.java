@@ -6,6 +6,7 @@ import data_gateway.event.EventReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A helper class that contains methods related
@@ -18,7 +19,7 @@ public class EventHelper {
         Entry<String> entry = new Entry<>(eventReader.getName());
         entry.changeStartTime(eventReader.getStartTime());
         entry.changeEndTime(eventReader.getEndTime());
-        LocalDate date = LocalDate.of(2021, 12, 8);
+        LocalDate date = eventReader.getDates().iterator().next();
         entry.changeStartDate(date);
         entry.changeEndDate(date);
         return entry;
