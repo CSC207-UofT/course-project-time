@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class WeeklyCalendarViewModel extends ViewModel implements Observer<EventReader> {
+public class WeeklyCalendarViewModel extends ViewModel {
 
     private final ObservableEventRepository repository;
 
@@ -37,8 +37,4 @@ public class WeeklyCalendarViewModel extends ViewModel implements Observer<Event
 
     }
 
-    @Override
-    public void notifyObserver(EventReader entity) {
-
-    }
 }

@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 
-public class TodoListPageViewModel extends ViewModel implements Observer<TaskReader> {
+public class TodoListPageViewModel extends ViewModel {
 
     private final ObservableTaskRepository repository;
 
@@ -55,8 +55,4 @@ public class TodoListPageViewModel extends ViewModel implements Observer<TaskRea
 
     }
 
-    @Override
-    public void notifyObserver(TaskReader entity) {
-
-    }
 }
