@@ -1,4 +1,4 @@
-package gui.view_model;
+package gui.viewmodel;
 
 public class TaskBarViewModel extends ViewModel {
 

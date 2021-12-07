@@ -1,8 +1,9 @@
-package gui.view_model;
+package gui.viewmodel;
 
-import console_app.task_adapters.NewTodoListTaskData;
-import data_gateway.task.ObservableTaskRepository;
-import data_gateway.task.TaskReader;
+import consoleapp.taskadapters.NewTodoListTaskData;
+import datagateway.task.ObservableTaskRepository;
+import datagateway.task.TaskReader;
+import gui.viewmodel.ViewModel;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
