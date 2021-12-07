@@ -75,17 +75,6 @@ public final class NavigationHelper {
     }
 
     /**
-     * Changes view to the daily calendar page.
-     * @param event the event that triggered the request to change view
-     * @throws IOException if the resource file cannot be found
-     */
-    private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
-        initializeControllerAndSetNewScene(event, loader);
-    }
-
-    /**
      * Switches the page view based on the given calendar type
      * @param event the event that triggered the request to change view
      * @param calendarType the type of calendar page to switch to (weekly, monthly, and daily)
@@ -95,7 +84,6 @@ public final class NavigationHelper {
         switch (calendarType) {
             case "Month" -> enterMonthlyCalendarPage(event);
             case "Week" -> enterWeeklyCalendarPage(event);
-            case "Day" -> enterDailyCalendarPage(event);
             default -> System.out.println("Should not have reached here");
         }
     }
