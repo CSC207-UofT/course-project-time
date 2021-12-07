@@ -57,7 +57,15 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     public void saveTask(MouseEvent event) {
         Label messageLabel;
         HBox messageBox;
-        if (!dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
+        if ("".equals(taskName.getText())) {
+            messageLabel = new Label("Task creation failed: task name cannot be empty");
+            messageBox = new HBox(messageLabel);
+            message.setContent(messageBox);
+        } else if (dueDate.getValue() == null) {
+            messageLabel = new Label("Task creation failed: due date cannot be empty");
+            messageBox = new HBox(messageLabel);
+            message.setContent(messageBox);
+        } else if (!dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
             messageLabel = new Label("Task creation failed: invalid input for due time hours");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
