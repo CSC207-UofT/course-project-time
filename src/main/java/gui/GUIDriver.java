@@ -38,15 +38,15 @@ public class GUIDriver extends Application {
     private void configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
-        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
-        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
-
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");
             repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
 
         InstanceMapper instanceMapper = new InstanceMapper();
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
