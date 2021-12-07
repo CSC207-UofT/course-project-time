@@ -142,6 +142,18 @@ public final class NavigationHelper {
         initializeControllerAndSetNewScene(event, loader);
     }
 
+    public static void enterTaskPage(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/taskBar.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
+    }
+
+    public static void enterAddTaskPage(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/addTaskPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
+    }
+
     /**
      * Sets a new scene. Used by the other methods when handling requests to change view pages.
      * @param event the event that triggered the request to change view

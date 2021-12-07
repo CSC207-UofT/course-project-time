@@ -11,9 +11,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -39,6 +41,24 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
     }
 
+    public void enterTaskPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterTaskPage(event);
+            HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
+            System.out.println(clickedItem.getId());  // todo when id can be obtained, use id to find task info
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void enterAddTaskPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterAddTaskPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public void init(ViewModel viewModel) {
         this.viewModel = (TodoListPageViewModel) viewModel;
@@ -59,22 +79,4 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
             todoList.getItems().add(task);
         }
     }
-
-    @FXML
-    public void addTask() {
-        Label taskName = new Label("Sleeping");
-        Label deadLine = new Label("Dec 20, 2021, 10:00 PM");
-        taskName.setFont(new Font(labelFontSize));
-        deadLine.setFont(new Font(labelFontSize));
-
-        taskName.setMinWidth(550);
-        taskName.setMaxWidth(550);
-        HBox task = new HBox(taskName, deadLine);
-        task.setId("11111111111111");
-        todoList.getItems().add(task);
-    }
-
-
-
-
 }
