@@ -3,17 +3,19 @@ package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
-import gui.view_model.TodoListPageViewModel;
-import gui.view_model.ViewModel;
+import gui.viewmodel.TodoListPageViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -23,7 +25,7 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     final double labelFontSize = 15;
 
     private TodoListPageViewModel viewModel;
-    private final ObservableMap<String, String> taskInfoMap = FXCollections.observableHashMap();
+    private final ObservableList<Map<String, String>> taskInfoList = FXCollections.observableArrayList();
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -39,39 +41,42 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
     }
 
+    public void enterTaskPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterTaskPage(event);
+            HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
+            System.out.println(clickedItem.getId());  // todo when id can be obtained, use id to find task info
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void enterAddTaskPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterAddTaskPage(event);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public void init(ViewModel viewModel) {
         this.viewModel = (TodoListPageViewModel) viewModel;
 
-        Bindings.bindContentBidirectional(this.taskInfoMap, this.viewModel.getTaskInfoMap());
+        Bindings.bindContentBidirectional(this.taskInfoList, this.viewModel.getTaskInfoList());
 
-        for (Map.Entry<String, String> taskInfo : taskInfoMap.entrySet()) {
-            Label taskName = new Label(taskInfo.getKey());
-            Label deadLine = new Label(taskInfo.getValue());
+        for (Map<String, String> taskInfo : this.taskInfoList) {
+            Label taskName = new Label(taskInfo.get("taskName"));
+            Label deadLine = new Label(taskInfo.get("deadline"));
             taskName.setFont(new Font(labelFontSize));
             deadLine.setFont(new Font(labelFontSize));
 
             taskName.setMinWidth(550);
             taskName.setMaxWidth(550);
+
             HBox task = new HBox(taskName, deadLine);
+            task.setId(taskInfo.get("id"));
             todoList.getItems().add(task);
         }
     }
-
-    @FXML
-    public void addTask() {
-        Label taskName = new Label("Sleeping");
-        Label deadLine = new Label("Dec 20, 2021, 10:00 PM");
-        taskName.setFont(new Font(labelFontSize));
-        deadLine.setFont(new Font(labelFontSize));
-
-        taskName.setMinWidth(550);
-        taskName.setMaxWidth(550);
-        HBox task = new HBox(taskName, deadLine);
-        todoList.getItems().add(task);
-    }
-
-
-
-
 }

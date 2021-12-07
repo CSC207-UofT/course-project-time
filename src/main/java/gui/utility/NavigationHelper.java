@@ -1,7 +1,7 @@
 package gui.utility;
 
 import com.jfoenix.controls.JFXDrawer;
-import gui.view.*;
+import gui.view.ViewModelBindingController;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -144,6 +144,18 @@ public final class NavigationHelper {
     public static void enterTodoListPage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/todoListPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
+    }
+
+    public static void enterTaskPage(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/taskBar.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
+    }
+
+    public static void enterAddTaskPage(MouseEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/addTaskPage.fxml")));
         initializeControllerAndSetNewScene(event, loader);
     }
 

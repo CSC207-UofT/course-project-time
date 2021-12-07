@@ -1,6 +1,6 @@
 package gui.view;
 
-import gui.view_model.ViewModel;
+import gui.viewmodel.ViewModel;
 
 public interface ViewModelBindingController {
     void init(ViewModel viewModel);

@@ -2,11 +2,11 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
-import data_gateway.event.EventReader;
-import data_gateway.task.TaskReader;
+import datagateway.event.EventReader;
+import datagateway.task.TaskReader;
 import gui.utility.NavigationHelper;
-import gui.view_model.MainPageViewModel;
-import gui.view_model.ViewModel;
+import gui.viewmodel.MainPageViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
