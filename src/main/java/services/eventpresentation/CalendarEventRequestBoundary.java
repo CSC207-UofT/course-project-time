@@ -4,6 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface CalendarEventRequestBoundary {
-    List<HashMap<String, String>> getEvents();
+    List<EventInfo> getEvents();
     EventInfo getEventByName(String name);
 }
