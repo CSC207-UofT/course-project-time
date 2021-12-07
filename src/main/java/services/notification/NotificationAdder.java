@@ -1,7 +1,7 @@
 package services.notification;
 
-import services.event_creation.CalendarEventModel;
-import services.task_creation.TodoListTaskCreationModel;
+import services.eventcreation.CalendarEventModel;
+import services.taskcreation.TodoListTaskCreationModel;
 
 public class NotificationAdder {
 
