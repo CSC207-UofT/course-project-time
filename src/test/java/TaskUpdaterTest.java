@@ -1,9 +1,9 @@
-import data_gateway.task.TaskReader;
-import data_gateway.task.TodoListManager;
+import datagateway.task.TaskReader;
+import datagateway.task.TodoListManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.task_creation.TodoListTaskCreationModel;
-import services.update_entities.TaskUpdater;
+import services.taskcreation.TodoListTaskCreationModel;
+import services.updateentities.TaskUpdater;
 
 import java.io.IOException;
 import java.time.Duration;
