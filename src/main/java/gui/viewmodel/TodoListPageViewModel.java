@@ -19,7 +19,7 @@ import java.util.Map;
  *                 tasks without deadline will be put to the end of the list
  * taskInfoList: a list of maps of task info corresponding to taskReaderList
  */
-public class TodoListPageViewModel extends ViewModel{
+public class TodoListPageViewModel extends ViewModel implements Observer<TaskReader> {
 
     private final ObservableTaskRepository repository;
 
@@ -103,5 +103,10 @@ public class TodoListPageViewModel extends ViewModel{
 
     public void handleUpdate(TaskReader taskReader) {
 
+    }
+
+    @Override
+    public void notifyObserver(TaskReader entity) {
+        
     }
 }
