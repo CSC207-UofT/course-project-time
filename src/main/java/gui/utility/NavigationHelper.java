@@ -1,7 +1,7 @@
 package gui.utility;
 
 import com.jfoenix.controls.JFXDrawer;
-import gui.view.*;
+import gui.view.ViewModelBindingController;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;

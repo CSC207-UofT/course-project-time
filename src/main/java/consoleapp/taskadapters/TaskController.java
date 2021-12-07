@@ -3,7 +3,6 @@ package consoleapp.taskadapters;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
 import services.taskpresentation.TaskInfo;
-import services.updateentities.TaskUpdater;
 import services.updateentities.UpdateTaskBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
 import services.taskpresentation.TodoListRequestBoundary;
@@ -23,7 +22,7 @@ public class TaskController {
     private final UpdateTaskBoundary taskUpdater;
 
     public TaskController(TodoListRequestBoundary taskGetter, TodoListDisplayBoundary taskOutputter,
-                          TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver, TaskUpdater taskUpdater) {
+                          TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver, UpdateTaskBoundary taskUpdater) {
 
         this.taskGetter = taskGetter;
         this.taskOutputter = taskOutputter;
