@@ -38,7 +38,7 @@ public class JsonPomodoroAdaptor extends TypeAdapter<PomodoroTimer> {
                     startTime = jsonReader.nextLong();
                     read_so_far += 1;
                     break;
-                case "taskName":
+                case "isWorkTime":
                     read_so_far += 1;
                     isWork = jsonReader.nextBoolean();
                     break;

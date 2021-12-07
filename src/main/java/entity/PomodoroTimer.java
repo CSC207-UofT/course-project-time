@@ -31,6 +31,10 @@ public class PomodoroTimer {
         return workDuration;
     }
 
+    public boolean getNewStart() {
+        return newStart;
+    }
+
     public void setStartTime(long startTime) {
         this.startTime = startTime;
     }

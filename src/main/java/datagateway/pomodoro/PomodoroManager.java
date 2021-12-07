@@ -31,14 +31,14 @@ public class PomodoroManager {
             pomodoroTimer = gson.fromJson(reader, pomodoroType);
 
             if (pomodoroTimer == null) {
-                pomodoroTimer = new PomodoroTimer(
+                this.pomodoroTimer = new PomodoroTimer(
                         0, false, 0, 0, true);
             }
             reader.close();
         }
     }
 
-    public void saveTimer(String savePath) throws IOException {
+    public void saveTimer() throws IOException {
         FileWriter fw = new FileWriter("PomodoroData.json");
         String pomodoro_json = gson.toJson(this.pomodoroTimer);
         fw.write(pomodoro_json);
@@ -50,8 +50,12 @@ public class PomodoroManager {
         if(file.isFile()) {
             file.delete();
         }
+        this.pomodoroTimer = null;
     }
 
+    public void createTimer(long startTime, boolean isWork, long breakDuration, long workDuration, boolean newStart) {
+        this.pomodoroTimer = new PomodoroTimer(startTime, isWork, breakDuration, workDuration, newStart);
+    }
     public PomodoroTimer getPomodoroTimer(){
         return pomodoroTimer;
     }

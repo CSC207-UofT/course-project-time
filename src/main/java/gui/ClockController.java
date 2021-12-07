@@ -20,6 +20,7 @@ import datagateway.pomodoro.PomodoroManager;
 
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 public class ClockController implements ViewModelBindingController {
@@ -36,7 +37,7 @@ public class ClockController implements ViewModelBindingController {
     private boolean isBreak = false;
 
     private long startNano;
-    private boolean newStart;
+    private boolean newStart = true;
 
     private final Alert error = new Alert(Alert.AlertType.INFORMATION);
 
@@ -66,6 +67,7 @@ public class ClockController implements ViewModelBindingController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
         gc = canvas.getGraphicsContext2D();
         gc.setTextAlign(TextAlignment.CENTER);
@@ -100,6 +102,17 @@ public class ClockController implements ViewModelBindingController {
                 }
             }
         };
+        if (!(pomodoroManager.getPomodoroTimer() == null)) {
+            setDefaults();
+            timer.start();
+        }
+    }
+
+    private void setDefaults() {
+        workDuration = pomodoroManager.getPomodoroTimer().getWorkDuration();
+        breakDuration = pomodoroManager.getPomodoroTimer().getBreakDuration();
+        startNano = pomodoroManager.getPomodoroTimer().getStartTime();
+        //todo need to set up method that will do the math to figure out if we are on break or work and how long into it we are
     }
 
     /**
@@ -180,6 +193,13 @@ public class ClockController implements ViewModelBindingController {
         newStart = true;
         workTimeText.setEditable(false);
         breakTimeText.setEditable(false);
+
+        pomodoroManager.createTimer(Instant.now().toEpochMilli(),!isBreak, breakDuration, workDuration, newStart );
+        try {
+            pomodoroManager.saveTimer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         timer.start();
     }
 
