@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import services.services_factory.BasicObservableRepositoryFactory;
+import services.services_factory.NotificationServiceFactory;
 import services.services_factory.ObservableRepositoryFactory;
+import services.services_factory.ServicesFactory;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -36,6 +38,8 @@ public class GUIDriver extends Application {
     private void configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
 
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");
@@ -43,8 +47,6 @@ public class GUIDriver extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
 
         InstanceMapper instanceMapper = new InstanceMapper();
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
