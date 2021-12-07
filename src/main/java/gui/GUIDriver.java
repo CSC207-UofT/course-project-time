@@ -1,13 +1,5 @@
 package gui;
 
-import datagateway.event.CalendarManager;
-import datagateway.event.EventEntityManager;
-import datagateway.event.ObservableEventEntityManager;
-import datagateway.event.ObservableEventRepository;
-import datagateway.task.ObservableTaskEntityManager;
-import datagateway.task.ObservableTaskRepository;
-import datagateway.task.TodoEntityManager;
-import datagateway.task.TodoListManager;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
 import gui.view.MonthlyCalendarController;
@@ -19,7 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import services.Snowflake;
+import services.servicesfactory.BasicObservableRepositoryFactory;
+import services.servicesfactory.NotificationServiceFactory;
+import services.servicesfactory.ObservableRepositoryFactory;
+import services.servicesfactory.ServicesFactory;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -41,20 +36,17 @@ public class GUIDriver extends Application {
     }
 
     private void configure() {
-        Snowflake snowflake = new Snowflake(0, 0, 0);
 
-        CalendarManager calendarManager = new EventEntityManager(snowflake);
-        TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
+
         try {
-            calendarManager.loadEvents("EventData.json");
-            todoListManager.loadTodo("TaskData.json");
+            repositoryFactory.makeEventRepository().loadEvents("EventData.json");
+            repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ObservableEventRepository eventRepository = new ObservableEventEntityManager(calendarManager);
-        ObservableTaskRepository taskRepository = new ObservableTaskEntityManager(todoListManager);
-        ViewModelFactory factory = new ViewModelFactory(eventRepository, taskRepository);
 
         InstanceMapper instanceMapper = new InstanceMapper();
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());

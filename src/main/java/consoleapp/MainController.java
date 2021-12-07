@@ -5,38 +5,9 @@ import consoleapp.eventadapters.EventController;
 import consoleapp.taskadapters.ConsoleTaskPresenter;
 import consoleapp.taskadapters.TaskController;
 import consoleapp.tasktoeventadapters.TaskToEventController;
-import datagateway.event.CalendarManager;
-import datagateway.event.EventEntityManager;
-import datagateway.event.ObservableEventRepository;
-import datagateway.task.TodoEntityManager;
-import datagateway.task.TodoListManager;
-import datagateway.event.ObservableEventEntityManager;
-import datagateway.task.ObservableTaskEntityManager;
-import datagateway.task.ObservableTaskRepository;
-import services.Snowflake;
-import services.eventcreation.CalendarEventCreationBoundary;
-import services.eventcreation.EventAdder;
-import services.eventcreation.EventSaver;
-import services.eventfromtaskcreation.CalendarAnalyzer;
-import services.eventfromtaskcreation.EventScheduler;
-import services.eventpresentation.CalendarEventDisplayBoundary;
-import services.eventpresentation.CalendarEventPresenter;
-import services.eventpresentation.CalendarEventRequestBoundary;
-import services.eventpresentation.EventGetter;
 import services.eventpresentation.EventInfo;
-import services.eventpresentation.EventOutputter;
 import services.strategybuilding.DatesForm;
-import services.taskcreation.TaskAdder;
-import services.taskcreation.TaskSaver;
-import services.taskcreation.TodoListTaskCreationBoundary;
-import services.taskpresentation.TaskGetter;
 import services.taskpresentation.TaskInfo;
-import services.taskpresentation.TaskOutputter;
-import services.taskpresentation.TodoListDisplayBoundary;
-import services.taskpresentation.TodoListPresenter;
-import services.updateentities.EventUpdater;
-import services.updateentities.TaskUpdater;
-import services.taskpresentation.TodoListRequestBoundary;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -53,48 +24,11 @@ public class MainController {
     private final TaskToEventController taskToEventController;
     private final PomodoroController pomodoroController;
 
-    public MainController(ApplicationDriver applicationDriver) {
-
-        Snowflake snowflake = new Snowflake(0, 0, 0);
-
-        CalendarManager calendarManager = new EventEntityManager(snowflake);
-        ObservableEventRepository observableEventManager = new ObservableEventEntityManager(calendarManager);
-        observableEventManager.addCreationObserver(
-                (eventReader) -> System.out.println("New event \"" + eventReader.getName() + "\" was created"));
-        observableEventManager.addUpdateObserver(
-                (eventReader) -> System.out.println(eventReader.getName() + "was updated!"));
-        CalendarEventCreationBoundary eventAdder = new EventAdder(observableEventManager);
-        CalendarAnalyzer eventScheduler = new EventScheduler(observableEventManager);
-
-        TodoListManager todoListManager = new TodoEntityManager(snowflake);
-        ObservableTaskRepository observableTaskManager = new ObservableTaskEntityManager(todoListManager);
-        observableTaskManager.addCreationObserver(
-                (taskReader) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
-        observableTaskManager.addUpdateObserver(
-                (taskReader) -> System.out.println(taskReader.getName() + "was updated"));
-
-        try {
-            observableEventManager.loadEvents("EventData.json");
-            observableTaskManager.loadTodo("TaskData.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        CalendarEventPresenter eventPresenter = new ConsoleEventPresenter(applicationDriver);
-        CalendarEventRequestBoundary eventGetter = new EventGetter(observableEventManager);
-        CalendarEventDisplayBoundary eventOutputter = new EventOutputter(observableEventManager, eventPresenter);
-        EventSaver eventSaver = new EventSaver(observableEventManager);
-        EventUpdater eventUpdater = new EventUpdater(observableEventManager);
-        eventController = new EventController(eventAdder, eventGetter, eventOutputter, eventSaver, eventUpdater);
-        TodoListPresenter taskPresenter = new ConsoleTaskPresenter(applicationDriver);
-        TodoListRequestBoundary taskGetter = new TaskGetter(observableTaskManager);
-        TodoListDisplayBoundary taskOutputter = new TaskOutputter(observableTaskManager, taskPresenter);
-        TodoListTaskCreationBoundary taskAdder = new TaskAdder(observableTaskManager);
-        TaskSaver taskSaver = new TaskSaver(observableTaskManager);
-        TaskUpdater taskUpdater = new TaskUpdater(observableTaskManager);
-        taskController = new TaskController(taskGetter, taskOutputter, taskAdder, taskSaver, taskUpdater);
-        taskToEventController = new TaskToEventController(eventScheduler);
-        pomodoroController = new PomodoroController();
+    public MainController(ApplicationDriver applicationDriver, ConsoleAppFactory consoleAppFactory) {
+        eventController = consoleAppFactory.makeEventController(new ConsoleEventPresenter(applicationDriver));
+        taskController = consoleAppFactory.makeTaskController(new ConsoleTaskPresenter(applicationDriver));
+        taskToEventController = consoleAppFactory.makeTaskToEventController();
+        pomodoroController = consoleAppFactory.makePomodoroController();
     }
 
     /**
