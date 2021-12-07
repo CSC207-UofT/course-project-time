@@ -7,8 +7,11 @@ import services.event_creation.EventAdder;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_from_task_creation.EventScheduler;
+import services.event_presentation.CalendarEventDisplayBoundary;
 import services.event_presentation.CalendarEventPresenter;
+import services.event_presentation.CalendarEventRequestBoundary;
 import services.event_presentation.EventGetter;
+import services.event_presentation.EventOutputter;
 import services.task_creation.TaskAdder;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
@@ -17,6 +20,10 @@ import services.task_presentation.TaskOutputter;
 import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListPresenter;
 import services.task_presentation.TodoListRequestBoundary;
+import services.update_entities.EventUpdater;
+import services.update_entities.TaskUpdater;
+import services.update_entities.UpdateEventBoundary;
+import services.update_entities.UpdateTaskBoundary;
 
 public class BasicServiceFactory implements ServicesFactory {
 
@@ -25,12 +32,15 @@ public class BasicServiceFactory implements ServicesFactory {
 
     private CalendarAnalyzer cachedAnalyzer;
     private CalendarEventCreationBoundary cachedEventCreator;
-    private EventGetter cachedEventOutputter;
+    private CalendarEventDisplayBoundary cachedEventOutputter;
+    private CalendarEventRequestBoundary cachedEventGetter;
     private EventSaver cachedEventSaver;
+    private UpdateEventBoundary cachedEventUpdater;
     private TodoListTaskCreationBoundary cachedTaskCreator;
     private TodoListDisplayBoundary cachedTaskOutputter;
     private TodoListRequestBoundary cachedTaskGetter;
     private TaskSaver cachedTaskSaver;
+    private UpdateTaskBoundary cachedTaskUpdater;
 
 
     public BasicServiceFactory(RepositoryFactory repositoryFactory) {
@@ -53,10 +63,17 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
-    public EventGetter makeEventOutputter(CalendarEventPresenter eventPresenter) {
+    public CalendarEventDisplayBoundary makeEventOutputter(CalendarEventPresenter eventPresenter) {
         if (cachedEventOutputter == null)
-            cachedEventOutputter = new EventGetter(eventRepository, eventPresenter);
+            cachedEventOutputter = new EventOutputter(eventRepository, eventPresenter);
         return cachedEventOutputter;
+    }
+
+    @Override
+    public CalendarEventRequestBoundary makeEventGetter() {
+        if (cachedEventGetter == null)
+            cachedEventGetter = new EventGetter(eventRepository);
+        return cachedEventGetter;
     }
 
     @Override
@@ -64,6 +81,13 @@ public class BasicServiceFactory implements ServicesFactory {
         if (cachedEventSaver == null)
             cachedEventSaver = new EventSaver(eventRepository);
         return cachedEventSaver;
+    }
+
+    @Override
+    public UpdateEventBoundary makeEventUpdater() {
+        if (cachedEventUpdater == null)
+            cachedEventUpdater = new EventUpdater(eventRepository);
+        return cachedEventUpdater;
     }
 
     @Override
@@ -92,5 +116,12 @@ public class BasicServiceFactory implements ServicesFactory {
         if (cachedTaskSaver == null)
             cachedTaskSaver = new TaskSaver(taskRepository);
         return cachedTaskSaver;
+    }
+
+    @Override
+    public UpdateTaskBoundary makeTaskUpdater() {
+        if (cachedTaskUpdater == null)
+            cachedTaskUpdater = new TaskUpdater(taskRepository);
+        return cachedTaskUpdater;
     }
 }

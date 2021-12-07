@@ -8,13 +8,18 @@ import console_app.task_to_event_adapters.TaskToEventController;
 import services.event_creation.CalendarEventCreationBoundary;
 import services.event_creation.EventSaver;
 import services.event_from_task_creation.CalendarAnalyzer;
+import services.event_presentation.CalendarEventDisplayBoundary;
 import services.event_presentation.CalendarEventPresenter;
+import services.event_presentation.CalendarEventRequestBoundary;
 import services.event_presentation.EventGetter;
+import services.event_presentation.EventOutputter;
 import services.services_factory.ServicesFactory;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListRequestBoundary;
+import services.update_entities.UpdateEventBoundary;
+import services.update_entities.UpdateTaskBoundary;
 
 public class ConsoleAppFactory {
 
@@ -36,7 +41,8 @@ public class ConsoleAppFactory {
             TodoListRequestBoundary taskGetter = servicesFactory.makeTaskGetter();
             TodoListTaskCreationBoundary taskCreator = servicesFactory.makeTaskCreator();
             TaskSaver taskSaver = servicesFactory.makeTaskSaver();
-            cachedTaskController = new TaskController(taskGetter, taskOutputter, taskCreator, taskSaver);
+            UpdateTaskBoundary taskUpdater = servicesFactory.makeTaskUpdater();
+            cachedTaskController = new TaskController(taskGetter, taskOutputter, taskCreator, taskSaver, taskUpdater);
         }
         return cachedTaskController;
     }
@@ -44,9 +50,11 @@ public class ConsoleAppFactory {
     public EventController makeEventController(CalendarEventPresenter eventPresenter) {
         if (cachedEventController == null ) {
             CalendarEventCreationBoundary eventCreator = servicesFactory.makeEventCreator();
-            EventGetter eventGetter = servicesFactory.makeEventOutputter(eventPresenter);
+            CalendarEventDisplayBoundary eventOutputter = servicesFactory.makeEventOutputter(eventPresenter);
+            CalendarEventRequestBoundary eventGetter = servicesFactory.makeEventGetter();
             EventSaver eventSaver = servicesFactory.makeEventSaver();
-            cachedEventController = new EventController(eventCreator, eventGetter, eventSaver);
+            UpdateEventBoundary eventUpdater = servicesFactory.makeEventUpdater();
+            cachedEventController = new EventController(eventCreator, eventGetter, eventOutputter, eventSaver, eventUpdater);
         }
         return cachedEventController;
     }
