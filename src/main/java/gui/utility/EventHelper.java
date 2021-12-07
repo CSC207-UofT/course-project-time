@@ -1,7 +1,7 @@
 package gui.utility;
 
 import com.calendarfx.model.Entry;
-import data_gateway.event.EventReader;
+import datagateway.event.EventReader;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
