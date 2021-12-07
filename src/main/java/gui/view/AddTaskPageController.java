@@ -47,7 +47,7 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     @FXML
     private Button save;
 
-    private Pattern dueTimeHoursPattern = Pattern.compile("1?[0-9]|2[0-4]");
+    private Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
     private Pattern dueTimeMinutesPattern = Pattern.compile("[0-5][0-9]");
     private Pattern durationPattern = Pattern.compile("[0-9]+");
 

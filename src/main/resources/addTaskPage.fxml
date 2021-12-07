@@ -33,15 +33,15 @@
                         <Font size="20.0" />
                     </font>
                 </Text>
-                <DatePicker fx:id="dueDate" layoutX="280.0" layoutY="141.0" />
-                <TextField fx:id="dueTimeHours" layoutX="281.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" />
+                <DatePicker fx:id="dueDate" editable="false" layoutX="280.0" layoutY="141.0" />
+                <TextField fx:id="dueTimeHours" layoutX="281.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" text="00" />
                 <Text layoutX="328.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
                     <font>
                         <Font size="20.0" />
                     </font>
                 </Text>
-                <TextField fx:id="dueTimeMinutes" layoutX="340.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" />
-                <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" />
+                <TextField fx:id="dueTimeMinutes" layoutX="340.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" text="00" />
+                <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" text="60" />
                 <Button fx:id="addSubtask" layoutX="279.0" layoutY="402.0" mnemonicParsing="false" text="Add" />
                 <Button fx:id="save" layoutX="111.0" layoutY="609.0" mnemonicParsing="false" onMouseClicked="#saveTask" text="Save" />
                 <TextField fx:id="taskName" layoutX="107.0" layoutY="71.0" promptText="Name of your task">
