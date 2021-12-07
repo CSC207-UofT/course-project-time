@@ -11,7 +11,8 @@ import java.time.format.FormatStyle;
 import java.util.*;
 
 /***
- * taskReaderList: a sorted list based on the deadline of tasks
+ * taskReaderList: a sorted list based on the deadline of tasks.
+ *                 tasks without deadline will be put to the end of the list
  * taskInfoList: a list of maps of task info corresponding to taskReaderList
  */
 public class TodoListPageViewModel extends ViewModel{
