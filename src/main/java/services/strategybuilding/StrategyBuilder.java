@@ -2,15 +2,8 @@ package services.strategybuilding;
 
 import entity.dates.CompositeDateStrategy;
 import entity.dates.DateStrategy;
-import entity.dates.OrStrategy;
-import services.strategybuilding.strategies.EndRestrictionDecorator;
-import services.strategybuilding.strategies.SingleDateStrategy;
-import services.strategybuilding.strategies.StartRestrictionDecorator;
-import services.strategybuilding.strategies.WeeklyStrategy;
+import entity.dates.DecoratorStrategy;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Stack;
 
 /**
@@ -21,38 +14,25 @@ public class StrategyBuilder {
     private DateStrategy currentStrategy = null;
     private final Stack<CompositeDateStrategy> compositeStrategiesStack = new Stack<>();
 
-    public void startWeeklyStrategy(DayOfWeek dayOfWeek, LocalTime timeOfDay) {
-        currentStrategy = new WeeklyStrategy(dayOfWeek, timeOfDay);
+    public void startBaseStrategy(DateStrategy strategy) {
+        currentStrategy = strategy;
     }
 
-    public void startSingleDateStrategy(LocalDateTime dateTime) {
-        currentStrategy = new SingleDateStrategy(dateTime);
-    }
-
-    public void startUnionStrategy() {
-        CompositeDateStrategy unionStrategy = new OrStrategy();
+    public void startCompositeStrategy(CompositeDateStrategy compositeStrategy) {
         currentStrategy = null;
         compositeStrategiesStack.clear();
-        compositeStrategiesStack.add(unionStrategy);
+        compositeStrategiesStack.add(compositeStrategy);
     }
 
-    public void addEndingRestriction(LocalDateTime endTime) {
-        if (currentStrategy != null)
-            currentStrategy = new EndRestrictionDecorator(currentStrategy, endTime);
-        else if (!compositeStrategiesStack.isEmpty())
-            currentStrategy = new EndRestrictionDecorator(compositeStrategiesStack.pop(), endTime);
-    }
-
-    public void addStartingRestriction(LocalDateTime startTime) {
-        if (currentStrategy != null)
-            currentStrategy = new StartRestrictionDecorator(currentStrategy, startTime);
-        else if (!compositeStrategiesStack.isEmpty())
-            currentStrategy = new StartRestrictionDecorator(compositeStrategiesStack.pop(), startTime);
-    }
-
-    public void addRangeRestriction(LocalDateTime startTime, LocalDateTime endTime) {
-        addStartingRestriction(startTime);
-        addEndingRestriction(endTime);
+    public void addDecorator(DecoratorStrategy decorator) {
+        if (currentStrategy != null) {
+            decorator.setStrategy(currentStrategy);
+            currentStrategy = decorator;
+        }
+        else if (!compositeStrategiesStack.isEmpty()) {
+            decorator.setStrategy(compositeStrategiesStack.pop());
+            currentStrategy = decorator;
+        }
     }
 
     public void finishCurrentStrategy() {
