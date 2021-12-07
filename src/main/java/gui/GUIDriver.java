@@ -5,6 +5,7 @@ import gui.utility.NavigationHelper;
 import gui.view.MonthlyCalendarController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
+import gui.viewmodel.MonthlyCalendarViewModel;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +24,11 @@ public class GUIDriver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        configure();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+        ViewModelFactory factory = configure();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml"))); // TODO: change it to main page view
+        Parent root = loader.load();
+        ((MonthlyCalendarController) loader.getController()).init(factory.getMonthlyCalendarViewModel()); // TODO: change it to main page controller
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
@@ -35,11 +39,11 @@ public class GUIDriver extends Application {
         launch(args);
     }
 
-    private void configure() {
+    private ViewModelFactory configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
-        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
         ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory, servicesFactory);
 
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");
