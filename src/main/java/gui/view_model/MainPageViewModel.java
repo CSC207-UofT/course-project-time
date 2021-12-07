@@ -5,86 +5,159 @@ import data_gateway.event.EventReader;
 import data_gateway.event.ObservableEventRepository;
 import data_gateway.task.ObservableTaskRepository;
 import data_gateway.task.TaskReader;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 
-public class MainPageViewModel extends ViewModel{
+public class MainPageViewModel extends ViewModel implements Runnable{
     private final ObservableTaskRepository taskRepository;
     private final ObservableEventRepository eventRepository;
-    private final ObservableMap<String, String> taskInfoMap;
-    private final ObservableMap<String, String> eventInfoMap;
+    private final List<TaskReader> relevantTasks = new ArrayList<>();
+    private final List<EventReader> relevantEvents = new ArrayList<>();
+    private final List<Consumer<Readers>> observers = new ArrayList<>();
 
-    public MainPageViewModel(ObservableTaskRepository taskRepository, ObservableEventRepository eventRepository){
-        this.taskRepository = taskRepository;
-        this.eventRepository = eventRepository;
+    public MainPageViewModel(ObservableTaskRepository observableTaskRepository, ObservableEventRepository observableEventRepository){
+        this.taskRepository = observableTaskRepository;
+        this.eventRepository = observableEventRepository;
 
-        taskRepository.addCreationObserver(this::handleCreation);
-        taskRepository.addUpdateObserver(this::handleUpdate);
+        observableTaskRepository.addCreationObserver(this::handleCreation);
+        observableTaskRepository.addUpdateObserver(this::handleUpdate);
 
+        observableEventRepository.addCreationObserver(this::handleCreation);
+        observableEventRepository.addUpdateObserver(this::handleUpdate);
+
+        updateRelevantTasks();
+        updateRelevantEvents();
+
+        new Thread(this).start();
+    }
+
+    /**
+     * Flushes out current relevant tasks with data live from the {@link ObservableTaskRepository}
+     */
+    private void updateRelevantTasks() {
         List<TaskReader> tasks = taskRepository.getAllTasks().get(0L);
+        relevantTasks.clear();
+        for (TaskReader tr : tasks) {
+            boolean taskEndsToday = tr.getDeadline() != null && tr.getDeadline().toLocalDate().equals(LocalDate.now());
+            if (taskEndsToday)
+                relevantTasks.add(tr);
+        }
+        notifyObservers();
+    }
+
+    /**
+     * Flushes out current relevant events with data live from the {@link ObservableEventRepository}
+     */
+    private void updateRelevantEvents() {
         List<EventReader> events = eventRepository.getAllEvents();
-        this.taskInfoMap = generateTaskMap(tasks);
-        this.eventInfoMap = generateEventMap(events);
-    }
-
-    private ObservableMap<String, String> generateTaskMap(List<TaskReader> taskReader) {
-        ObservableMap<String, String> taskMap = FXCollections.observableHashMap();
-        if (taskReader.isEmpty()){
-            taskMap.put("No Scheduled Tasks", null);
+        relevantEvents.clear();
+        for(EventReader er: events){
+            for(LocalDate date: er.getDates())
+                if (date.equals(LocalDate.now())){
+                    relevantEvents.add(er);
+                }
         }
-        for (TaskReader task: taskReader) {
-            String taskName = task.getName();
-
-            String deadline = new String("No Deadline");
-            if (task.getDeadline() != null) {
-                deadline = task.getDeadline().format(
-                        DateTimeFormatter.ofLocalizedDateTime(
-                                FormatStyle.MEDIUM,
-                                FormatStyle.SHORT));
-            }
-
-            taskMap.put(taskName, deadline);
-        }
-        return taskMap;
+        notifyObservers();
     }
 
-    private ObservableMap<String, String> generateEventMap(List<EventReader> eventReader) {
-        ObservableMap<String, String> eventMap = FXCollections.observableHashMap();
-        if (eventReader.isEmpty()){
-            eventMap.put("No Scheduled Events", null);
-        }
-
-        for (EventReader event: eventReader) {
-            String eventName = event.getName();
-
-            String startTime = event.getStartTime().format(
-                    DateTimeFormatter.ofLocalizedDateTime(
-                            FormatStyle.MEDIUM,
-                            FormatStyle.SHORT));
-
-            eventMap.put(eventName, startTime);
-        }
-        return eventMap;
+    public void addObserver(Consumer<Readers> observer) {
+        observers.add(observer);
     }
 
-    public ObservableMap<String, String> getTaskInfoMap() {
-        return this.taskInfoMap;
+    private void notifyObservers() {
+        observers.forEach(o -> o.accept(new Readers(relevantEvents, relevantTasks)));
     }
 
-    public ObservableMap<String, String> getEventInfoMap() {
-        return this.eventInfoMap;
+    public List<TaskReader> getRelevantTasks() {
+        return new ArrayList<>(relevantTasks);
     }
 
+    public List<EventReader> getRelevantEvents() {
+        return new ArrayList<>(relevantEvents);
+    }
+
+    /**
+     * A method listening to the {@link ObservableTaskRepository} on task creation event
+     *
+     * Adds the newly created task if it's relevant
+     * @param taskReader the newly created task
+     */
     public void handleCreation(TaskReader taskReader) {
+        if (taskReader.getDeadline() != null && taskReader.getDeadline().toLocalDate().equals(LocalDate.now())){
+            relevantTasks.add(taskReader);
+            notifyObservers();
+        }
+    }
+
+    /**
+     * A method listening to the {@link ObservableTaskRepository} on task update event
+     *
+     * Removes the updated task if it's not longer relevant and replaces it otherwise
+     * @param taskReader the task that was updated
+     */
+    public void handleUpdate(TaskReader taskReader) {
+        LocalDate todayDate = LocalDate.now();
+        relevantTasks.removeIf(tr -> tr.getName().equals(taskReader.getName()));
+        if (taskReader.getDeadline().toLocalDate().equals(todayDate)){
+            relevantTasks.add(taskReader);
+        }
+
+        notifyObservers();
+    }
+
+    private void handleUpdate(EventReader eventReader) {
+        LocalDate todayDate = LocalDate.now();
+        relevantEvents.removeIf(er -> er.getName().equals(eventReader.getName()));
+        for (LocalDate date : eventReader.getDates()) {
+            if (date.equals(todayDate)) {
+                relevantEvents.add(eventReader);
+            }
+            notifyObservers();
+        }
+    }
+
+    private void handleCreation(EventReader eventReader) {
+        for (LocalDate date : eventReader.getDates()){
+            if (date.equals(LocalDate.now())){
+                notifyObservers();
+            }
+        }
+    }
+
+    /**
+     * Background thread which refreshes the cached relevant readers when the day changes.
+     */
+    @Override
+    public void run() {
+        LocalDate todayDate = LocalDate.now();
+        while(!Thread.interrupted()){
+            if(LocalDate.now().equals(todayDate.plusDays(1))){
+                todayDate = LocalDate.now();
+                updateRelevantTasks();
+                updateRelevantEvents();
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
-    public void handleUpdate(TaskReader taskReader) {
-
+    /**
+     * Just a data class containing both families of readers.
+     */
+    public static class Readers {
+        public final List<EventReader> eventReaders;
+        public final List<TaskReader> taskReaders;
+        public Readers(List<EventReader> eventReaders, List<TaskReader> taskReaders) {
+            this.eventReaders = eventReaders;
+            this.taskReaders = taskReaders;
+        }
     }
 }
