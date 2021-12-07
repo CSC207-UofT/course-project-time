@@ -13,6 +13,7 @@ import services.strategybuilding.DatesForm;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -84,6 +85,17 @@ public class EventController {
     }
 
     public List<HashMap<String, String>> getEvents() {
-        return eventGetter.getEvents();
+        List<HashMap<String, String>> hashMapList = new ArrayList<>();
+        List<EventInfo> eventInfos = eventGetter.getEvents();
+        for (EventInfo info : eventInfos) {
+            HashMap<String, String> infoMap = new HashMap<>();
+            infoMap.put("name", info.getName());
+            infoMap.put("start", info.getStartTime().toString());
+            infoMap.put("end", info.getEndTime().toString());
+            infoMap.put("tags", info.getTags().toString());
+            infoMap.put("dates", info.getDates().toString());
+            hashMapList.add(infoMap);
+        }
+        return hashMapList;
     }
 }
