@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import entity.Task;
 import services.Snowflake;
-import services.taskcreation.TodoListTaskCreationModel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,12 +36,7 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public long addTask(TodoListTaskCreationModel taskData) {
-        String name = taskData.getName();
-        Duration duration = taskData.getDuration();
-        LocalDateTime deadline = taskData.getDeadline();
-        List<String> subtasks = taskData.getSubtasks();
-
+    public long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
         taskCounter++;
         Task task = new Task(snowflake.nextId(), name, duration, deadline, subtasks);
 

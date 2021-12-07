@@ -132,7 +132,7 @@ public class ApplicationDriver {
                     formBuilder.addSingleOccurrence(userSuggestedTime);
                     DatesForm form = formBuilder.getForm();
 
-                    controller.createEvent(taskInfo.getName(), taskInfo.getDuration(), form);
+                    controller.createEvent(taskInfo.getId(), form);
                     System.out.println("Event created from task");
                 }
                 break;

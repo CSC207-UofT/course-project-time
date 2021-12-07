@@ -21,13 +21,8 @@ class EventTest {
         startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
         endTime = LocalTime.of(16, 0);
         task = new Task(0, "Math Homework");
-        event = new Event(0, task, startDate, endTime);
+        event = new Event(0, task.getId(), startDate, endTime);
 
-    }
-
-    @Test
-    void getEventName() {
-        assertEquals("Math Homework", event.getEventName());
     }
 
     @Test
@@ -38,17 +33,6 @@ class EventTest {
     @Test
     void getEndTime() {
         assertEquals(endTime, event.getEndTime());
-    }
-
-    @Test
-    void getTask() {
-        assertEquals(task, event.getTask());
-    }
-
-    @Test
-    void setEventName() {
-        event.setEventName("CSC207 Project");
-        assertEquals("CSC207 Project", event.getEventName());
     }
 
     @Test

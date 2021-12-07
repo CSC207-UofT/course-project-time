@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EventAdder implements CalendarEventCreationBoundary {
 
@@ -22,7 +23,7 @@ public class EventAdder implements CalendarEventCreationBoundary {
     public long addEvent(CalendarEventModel eventData) {
 
         String eventName = eventData.getName();
-        HashSet<String> tags = eventData.getTags();
+        Set<String> tags = eventData.getTags();
         DatesForm form = eventData.getForm();
         Duration eventDuration = eventData.getDuration();
 
@@ -32,6 +33,21 @@ public class EventAdder implements CalendarEventCreationBoundary {
         LocalDateTime startTime = times.get(0);
 
         return calendarManager.addEvent(eventName, startTime, startTime.plus(eventDuration), tags, startTime.toLocalDate());
+    }
+
+    @Override
+    public long addEvent(EventFromTaskModel eventData) {
+
+        Set<String> tags = eventData.getTags();
+        DatesForm form = eventData.getForm();
+        long taskId = eventData.getTaskId();
+
+        StrategyBuilderDirector director = new StrategyBuilderDirector();
+        DateStrategy strategy = director.createStrategy(form);
+        List<LocalDateTime> times = strategy.datesBetween(LocalDateTime.now(), LocalDateTime.now().plusYears(1));
+        LocalDateTime startTime = times.get(0);
+
+        return calendarManager.addEvent(taskId, startTime, tags, startTime.toLocalDate());
     }
 
 }

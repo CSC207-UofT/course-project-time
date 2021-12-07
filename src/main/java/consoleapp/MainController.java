@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MainController {
     private final EventController eventController;
@@ -57,7 +58,14 @@ public class MainController {
 
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
-        CalendarManager calendarManager = new EventEntityManager(snowflake);
+        TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        ObservableTaskRepository observableTaskManager = new ObservableTaskEntityManager(todoListManager);
+        observableTaskManager.addCreationObserver(
+                (taskReader) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
+        observableTaskManager.addUpdateObserver(
+                (taskReader) -> System.out.println(taskReader.getName() + "was updated"));
+
+        CalendarManager calendarManager = new EventEntityManager(snowflake, todoListManager);
         ObservableEventRepository observableEventManager = new ObservableEventEntityManager(calendarManager);
         observableEventManager.addCreationObserver(
                 (eventReader) -> System.out.println("New event \"" + eventReader.getName() + "\" was created"));
@@ -65,13 +73,6 @@ public class MainController {
                 (eventReader) -> System.out.println(eventReader.getName() + "was updated!"));
         CalendarEventCreationBoundary eventAdder = new EventAdder(observableEventManager);
         CalendarAnalyzer eventScheduler = new EventScheduler(observableEventManager);
-
-        TodoListManager todoListManager = new TodoEntityManager(snowflake);
-        ObservableTaskRepository observableTaskManager = new ObservableTaskEntityManager(todoListManager);
-        observableTaskManager.addCreationObserver(
-                (taskReader) -> System.out.println("New task \"" + taskReader.getName() + "\" was created"));
-        observableTaskManager.addUpdateObserver(
-                (taskReader) -> System.out.println(taskReader.getName() + "was updated"));
 
         try {
             observableEventManager.loadEvents("EventData.json");
@@ -128,18 +129,19 @@ public class MainController {
     public EventInfo getEventByName(String name) {
         return eventController.getEventByName(name);
     }
+    
     /**
-     * @see consoleapp.eventadapters.EventController#createEvent(String, Duration, DatesForm, HashSet)
+     * @see EventController#createEvent(String, Duration, DatesForm, Set)
      */
-    public void createEvent(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
+    public void createEvent(String eventName, Duration duration, DatesForm form, Set<String> tags) {
         eventController.createEvent(eventName, duration, form, tags);
     }
 
     /**
-     * @see consoleapp.eventadapters.EventController#createEvent(String, Duration, DatesForm)
+     * @see EventController#createEvent(long, DatesForm, Set)
      */
-    public void createEvent(String eventName, Duration duration, DatesForm form) {
-        eventController.createEvent(eventName, duration, form);
+    public void createEvent(long taskId, DatesForm form) {
+        eventController.createEvent(taskId, form, new HashSet<>());
     }
 
     public void saveData()

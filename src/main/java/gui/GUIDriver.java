@@ -43,8 +43,8 @@ public class GUIDriver extends Application {
     private void configure() {
         Snowflake snowflake = new Snowflake(0, 0, 0);
 
-        CalendarManager calendarManager = new EventEntityManager(snowflake);
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        CalendarManager calendarManager = new EventEntityManager(snowflake, todoListManager);
         try {
             calendarManager.loadEvents("EventData.json");
             todoListManager.loadTodo("TaskData.json");

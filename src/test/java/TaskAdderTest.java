@@ -49,18 +49,23 @@ public class TaskAdderTest {
 
     private static class MockTodoListManager implements TodoListManager {
 
-        private TodoListTaskCreationModel sentTask;
+        private String name;
+        private Duration duration;
+        private LocalDateTime deadline;
+        private List<String> subtasks;
 
         @Override
-        public long addTask(TodoListTaskCreationModel taskData) {
-            sentTask = taskData;
-            return 0L;
-        }
-
+        public long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
+                this.name = name;
+                this.duration = duration;
+                this.deadline = deadline;
+                this.subtasks = subtasks;
+                return 0L;
+            }
 
         @Override
         public TaskReader getTask(long taskId) {
-            return new MockTaskReader(sentTask);
+            return new MockTaskReader(name, duration, deadline, subtasks);
         }
 
         @Override
@@ -109,9 +114,17 @@ public class TaskAdderTest {
     }
 
     private static class MockTaskReader implements TaskReader {
-        private final TodoListTaskCreationModel taskData;
-        public MockTaskReader(TodoListTaskCreationModel taskData) {
-            this.taskData = taskData;
+
+        private final String name;
+        private final Duration duration;
+        private final LocalDateTime deadline;
+        private final List<String> subtasks;
+
+        public MockTaskReader(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
+            this.name = name;
+            this.duration = duration;
+            this.deadline = deadline;
+            this.subtasks = subtasks;
         }
 
         @Override
@@ -121,22 +134,22 @@ public class TaskAdderTest {
 
         @Override
         public String getName() {
-            return taskData.getName();
+            return name;
         }
 
         @Override
         public Duration getDuration() {
-            return taskData.getDuration();
+            return duration;
         }
 
         @Override
         public LocalDateTime getDeadline() {
-            return taskData.getDeadline();
+            return deadline;
         }
 
         @Override
         public List<String> getSubtasks() {
-            return taskData.getSubtasks();
+            return subtasks;
         }
 
         @Override
