@@ -25,8 +25,12 @@ public class GUIDriver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        configure();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
+        ViewModelFactory factory = configure();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
+        Parent root = loader.load();
+        ((MainPageController) loader.getController()).init(factory.getMainPageViewModel());
+
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
@@ -37,18 +41,18 @@ public class GUIDriver extends Application {
         launch(args);
     }
 
-    private void configure() {
+    private ViewModelFactory configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
-        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
-        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
-
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");
             repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
 
         InstanceMapper instanceMapper = new InstanceMapper();
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
@@ -57,5 +61,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
+
+        return factory;
     }
 }
