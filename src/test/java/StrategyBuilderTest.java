@@ -1,6 +1,6 @@
 import entity.dates.DateStrategy;
 import org.junit.jupiter.api.Test;
-import services.strategy_building.StrategyBuilder;
+import services.strategybuilding.StrategyBuilder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
