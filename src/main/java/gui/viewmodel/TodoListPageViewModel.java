@@ -47,7 +47,19 @@ public class TodoListPageViewModel extends ViewModel{
     }
 
     public void handleCreation(TaskReader taskReader) {
+        String taskName = taskReader.getName();
+        String deadline;
+        if (taskReader.getDeadline() != null) {
+            deadline = taskReader.getDeadline().format(
+                    DateTimeFormatter.ofLocalizedDateTime(
+                            FormatStyle.MEDIUM, // The format for date
+                            FormatStyle.SHORT)
+            );
+        } else {
+            deadline = "No Deadline";
+        }
 
+        taskInfoMap.put(taskName, deadline);
     }
 
     public void handleUpdate(TaskReader taskReader) {
