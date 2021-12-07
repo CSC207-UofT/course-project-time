@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.source.tree.BreakTree;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
 import gui.view.AddTaskPageController;
@@ -24,8 +25,12 @@ public class GUIDriver extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        configure();
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+        ViewModelFactory factory = configure();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+        Parent root = loader.load();
+        ((MonthlyCalendarController) loader.getController()).init(factory.getMonthlyCalendarViewModel());
+
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
@@ -36,12 +41,9 @@ public class GUIDriver extends Application {
         launch(args);
     }
 
-    private void configure() {
+    private ViewModelFactory configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
-        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
-        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
-
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");
             repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
@@ -49,11 +51,16 @@ public class GUIDriver extends Application {
             e.printStackTrace();
         }
 
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
+
         InstanceMapper instanceMapper = new InstanceMapper();
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
         instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
+
+        return factory;
     }
 }
