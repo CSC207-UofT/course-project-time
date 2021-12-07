@@ -10,16 +10,30 @@ public class ViewModelFactory {
     private final MonthlyCalendarViewModel monthlyCalendarViewModel;
     private final WeeklyCalendarViewModel weeklyCalendarViewModel;
     private final TodoListPageViewModel todoListPageViewModel;
+    private final ObservableRepositoryFactory repositoryFactory;
 
-    public ViewModelFactory(ObservableEventRepository eventRepository,
-                            ObservableTaskRepository taskRepository) {
+    public ViewModelFactory(ObservableRepositoryFactory repositoryFactory) {
+        this.repositoryFactory = repositoryFactory;
+        ObservableEventRepository eventRepository = repositoryFactory.makeEventRepository();
+        ObservableTaskRepository taskRepository = repositoryFactory.makeTaskRepository();
+
         this.monthlyCalendarViewModel = new MonthlyCalendarViewModel(eventRepository);
         this.weeklyCalendarViewModel = new WeeklyCalendarViewModel(eventRepository);
         this.todoListPageViewModel = new TodoListPageViewModel(taskRepository);
+        addObserversToRepositories();
     }
 
-    public ViewModelFactory(ObservableRepositoryFactory repositoryFactory) {
-        this(repositoryFactory.makeEventRepository(), repositoryFactory.makeTaskRepository());
+    private void addObserversToRepositories() {
+        ObservableEventRepository eventRepository = repositoryFactory.makeEventRepository();
+        ObservableTaskRepository taskRepository = repositoryFactory.makeTaskRepository();
+
+        eventRepository.addCreationObserver(monthlyCalendarViewModel);
+        eventRepository.addUpdateObserver(monthlyCalendarViewModel);
+        eventRepository.addCreationObserver(weeklyCalendarViewModel);
+        eventRepository.addUpdateObserver(weeklyCalendarViewModel);
+
+        taskRepository.addCreationObserver(todoListPageViewModel);
+        taskRepository.addUpdateObserver(todoListPageViewModel);
     }
 
     public MonthlyCalendarViewModel getMonthlyCalendarViewModel() {

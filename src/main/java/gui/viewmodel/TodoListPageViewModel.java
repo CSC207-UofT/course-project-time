@@ -1,5 +1,6 @@
 package gui.viewmodel;
 
+import datagateway.Observer;
 import datagateway.task.ObservableTaskRepository;
 import datagateway.task.TaskReader;
 import javafx.collections.FXCollections;
@@ -9,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 
-public class TodoListPageViewModel extends ViewModel{
+public class TodoListPageViewModel extends ViewModel implements Observer<TaskReader> {
 
     private final ObservableTaskRepository repository;
 
@@ -54,4 +55,8 @@ public class TodoListPageViewModel extends ViewModel{
 
     }
 
+    @Override
+    public void notifyObserver(TaskReader entity) {
+
+    }
 }

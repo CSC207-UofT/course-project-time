@@ -1,6 +1,7 @@
 package gui.viewmodel;
 
 import com.calendarfx.model.Entry;
+import datagateway.Observer;
 import datagateway.event.EventReader;
 import datagateway.event.ObservableEventRepository;
 import gui.utility.EventHelper;
@@ -9,7 +10,7 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class MonthlyCalendarViewModel extends ViewModel {
+public class MonthlyCalendarViewModel extends ViewModel implements Observer<EventReader> {
 
     private final ObservableEventRepository repository;
 
@@ -33,6 +34,11 @@ public class MonthlyCalendarViewModel extends ViewModel {
     }
 
     public void handleUpdate(EventReader eventReader) {
+
+    }
+
+    @Override
+    public void notifyObserver(EventReader entity) {
 
     }
 }
