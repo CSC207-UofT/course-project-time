@@ -29,11 +29,6 @@ public class PomodoroManager {
             JsonReader reader = new JsonReader(new FileReader(filePath));
             Type pomodoroType = new TypeToken<PomodoroTimer>(){}.getType();
             pomodoroTimer = gson.fromJson(reader, pomodoroType);
-
-            if (pomodoroTimer == null) {
-                this.pomodoroTimer = new PomodoroTimer(
-                        0, false, 0, 0, true);
-            }
             reader.close();
         }
     }

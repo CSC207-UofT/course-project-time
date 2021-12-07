@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.abs;
+
 public class ClockController implements ViewModelBindingController {
 
     private AnimationTimer timer;
@@ -104,6 +106,8 @@ public class ClockController implements ViewModelBindingController {
         };
         if (!(pomodoroManager.getPomodoroTimer() == null)) {
             setDefaults();
+            workTimeText.setEditable(false);
+            breakTimeText.setEditable(false);
             timer.start();
         }
     }
@@ -111,8 +115,37 @@ public class ClockController implements ViewModelBindingController {
     private void setDefaults() {
         workDuration = pomodoroManager.getPomodoroTimer().getWorkDuration();
         breakDuration = pomodoroManager.getPomodoroTimer().getBreakDuration();
-        startNano = pomodoroManager.getPomodoroTimer().getStartTime();
-        //todo need to set up method that will do the math to figure out if we are on break or work and how long into it we are
+
+        startNano = calculateCurrentIntervalsStartTime(
+                pomodoroManager.getPomodoroTimer().getIsWork(), pomodoroManager.getPomodoroTimer().getStartTime());
+
+        if (!isBreak) {
+            currentDuration = workDuration;
+        }
+        else{
+            currentDuration = breakDuration;
+        }
+
+        newStart = false;
+    }
+
+    private long calculateCurrentIntervalsStartTime(boolean isWork, long startTime) {
+        long elapsedTime = Instant.now().toEpochMilli() - startTime;
+        long remainder = 0;
+        while (elapsedTime > 0) {
+            if (isWork) {
+                elapsedTime = elapsedTime - workDuration;
+            }
+            else {
+                elapsedTime = elapsedTime - breakDuration;
+            }
+            isWork = !isWork;
+            if (elapsedTime < 0) {
+                remainder = abs(elapsedTime);
+            }
+        }
+        isBreak = !isWork;
+        return Instant.now().toEpochMilli() - remainder;
     }
 
     /**
@@ -194,12 +227,13 @@ public class ClockController implements ViewModelBindingController {
         workTimeText.setEditable(false);
         breakTimeText.setEditable(false);
 
-        pomodoroManager.createTimer(Instant.now().toEpochMilli(),!isBreak, breakDuration, workDuration, newStart );
+        pomodoroManager.createTimer(Instant.now().toEpochMilli(),!isBreak, breakDuration, workDuration, newStart);
         try {
             pomodoroManager.saveTimer();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         timer.start();
     }
 
