@@ -1,5 +1,12 @@
 package services.strategybuilding;
 
+import entity.dates.DecoratorStrategy;
+import entity.dates.OrStrategy;
+import services.strategybuilding.strategies.EndRestrictionDecorator;
+import services.strategybuilding.strategies.SingleDateStrategy;
+import services.strategybuilding.strategies.StartRestrictionDecorator;
+import services.strategybuilding.strategies.WeeklyStrategy;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,7 +34,7 @@ public class Rules {
 
         @Override
         public void execute(StrategyBuilder sb) {
-            sb.startSingleDateStrategy(dateTime);
+            sb.startBaseStrategy(new SingleDateStrategy(dateTime));
         }
     }
 
@@ -43,7 +50,7 @@ public class Rules {
 
         @Override
         public void execute(StrategyBuilder sb) {
-            sb.startWeeklyStrategy(day, timeOfDay);
+            sb.startBaseStrategy(new WeeklyStrategy(day, timeOfDay));
         }
     }
 
@@ -51,7 +58,7 @@ public class Rules {
 
         @Override
         public void execute(StrategyBuilder sb) {
-            sb.startUnionStrategy();
+            sb.startCompositeStrategy(new OrStrategy());
         }
     }
 
@@ -69,10 +76,14 @@ public class Rules {
 
         @Override
         public void execute(StrategyBuilder sb) {
-            if (startRestriction)
-                sb.addStartingRestriction(bound);
-            else
-                sb.addEndingRestriction(bound);
+            if (startRestriction) {
+                DecoratorStrategy startStrategy = new StartRestrictionDecorator(bound);
+                sb.addDecorator(startStrategy);
+            }
+            else {
+                DecoratorStrategy endStrategy = new EndRestrictionDecorator(bound);
+                sb.addDecorator(endStrategy);
+            }
         }
     }
 
@@ -87,7 +98,10 @@ public class Rules {
 
         @Override
         public void execute(StrategyBuilder sb) {
-            sb.addRangeRestriction(startFrom, endAt);
+            DecoratorStrategy startStrategy = new StartRestrictionDecorator(startFrom);
+            sb.addDecorator(startStrategy);
+            DecoratorStrategy endStrategy = new EndRestrictionDecorator(endAt);
+            sb.addDecorator(endStrategy);
         }
     }
 }
