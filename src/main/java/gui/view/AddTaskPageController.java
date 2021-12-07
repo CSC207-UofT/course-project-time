@@ -1,11 +1,10 @@
 package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
 import gui.viewmodel.AddTaskPageViewModel;
 import gui.viewmodel.ViewModel;
-import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,10 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -48,11 +47,38 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     private TextField duration;
 
     @FXML
+    private Text subtaskText;
+
+    @FXML
+    private JFXListView<TextField> subtaskList;
+
+    @FXML
+    private Button removeSubtaskButton;
+
+    @FXML
     private DialogPane message;
 
     private final Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
     private final Pattern dueTimeMinutesPattern = Pattern.compile("[0-5][0-9]");
     private final Pattern durationPattern = Pattern.compile("[0-9]+");
+
+    public void addSubtask() {
+        subtaskText.setVisible(true);
+        subtaskList.setVisible(true);
+        removeSubtaskButton.setVisible(true);
+        TextField newSubtask = new TextField();
+        subtaskList.getItems().add(newSubtask);
+    }
+
+    public void removeSubtask() {
+        try {
+            subtaskList.getItems().remove(subtaskList.getItems().size() - 1);
+        } catch (IndexOutOfBoundsException e) {
+            Label messageLabel = new Label("No more subtasks to remove!");
+            HBox messageBox = new HBox(messageLabel);
+            message.setContent(messageBox);
+        }
+    }
 
     public void saveTask(MouseEvent event) {
         Label messageLabel;
