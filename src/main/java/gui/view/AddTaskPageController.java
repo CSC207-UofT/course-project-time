@@ -65,17 +65,14 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     private final Pattern durationPattern = Pattern.compile("[0-9]+");
 
     public void addSubtask() {
-        subtaskText.setVisible(true);
-        subtaskList.setVisible(true);
-        removeSubtaskButton.setVisible(true);
         TextField newSubtask = new TextField();
         subtaskList.getItems().add(newSubtask);
     }
 
     public void removeSubtask() {
-        try {
+        if (subtaskList.getItems().size() - 1 >= 0) {
             subtaskList.getItems().remove(subtaskList.getItems().size() - 1);
-        } catch (IndexOutOfBoundsException e) {
+        } else {
             Label messageLabel = new Label("No more subtasks to remove!");
             HBox messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
