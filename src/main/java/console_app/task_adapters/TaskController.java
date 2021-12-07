@@ -3,7 +3,6 @@ package console_app.task_adapters;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
 import services.task_presentation.TaskInfo;
-import services.update_entities.TaskUpdater;
 import services.update_entities.UpdateTaskBoundary;
 import services.task_presentation.TodoListDisplayBoundary;
 import services.task_presentation.TodoListRequestBoundary;

@@ -6,7 +6,6 @@ import services.event_creation.EventSaver;
 import services.event_presentation.CalendarEventDisplayBoundary;
 import services.event_presentation.CalendarEventRequestBoundary;
 import services.event_presentation.EventInfo;
-import services.update_entities.EventUpdater;
 import services.update_entities.UpdateEventBoundary;
 import services.strategy_building.DatesForm;
 

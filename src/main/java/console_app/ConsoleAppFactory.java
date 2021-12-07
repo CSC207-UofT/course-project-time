@@ -11,8 +11,6 @@ import services.event_from_task_creation.CalendarAnalyzer;
 import services.event_presentation.CalendarEventDisplayBoundary;
 import services.event_presentation.CalendarEventPresenter;
 import services.event_presentation.CalendarEventRequestBoundary;
-import services.event_presentation.EventGetter;
-import services.event_presentation.EventOutputter;
 import services.services_factory.ServicesFactory;
 import services.task_creation.TaskSaver;
 import services.task_creation.TodoListTaskCreationBoundary;
