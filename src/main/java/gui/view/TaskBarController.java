@@ -3,7 +3,6 @@ package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
 import gui.viewmodel.TaskBarViewModel;
-import gui.viewmodel.TodoListPageViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;

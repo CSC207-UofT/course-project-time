@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -104,8 +106,14 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
         } else {
+            // convert the subtasks JFXListView to Java List
+            List<String> subTasks = new ArrayList<>();
+            for (TextField item : subtaskList.getItems()) {
+                subTasks.add(item.getText());
+            }
+
             viewModel.addTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
-                    dueTimeMinutes.getText(), duration.getText());
+                    dueTimeMinutes.getText(), duration.getText(), subTasks);
 
             enterTodoListPage(event);
         }
