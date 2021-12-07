@@ -27,4 +27,11 @@ public class AddTaskPageViewModel extends ViewModel {
         repository.addTask(newTask);
     }
 
+    // Add task that have no deadline
+    public void addTask(String taskName, String duration, List<String> subtasks) {
+        Duration timeNeeded = Duration.ofMinutes(Long.parseLong(duration));
+        TodoListTaskCreationModel newTask = new NewTodoListTaskData(taskName, timeNeeded, null, subtasks);
+        repository.addTask(newTask);
+    }
+
 }

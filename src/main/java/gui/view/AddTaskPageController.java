@@ -86,15 +86,13 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
             messageLabel = new Label("Task creation failed: task name cannot be empty");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
-        } else if (dueDate.getValue() == null) {
-            messageLabel = new Label("Task creation failed: due date cannot be empty");
-            messageBox = new HBox(messageLabel);
-            message.setContent(messageBox);
-        } else if (!dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
+        } else if (dueDate.getValue() != null && !dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
+            // do not check for due time if there is no due date
+            // since without due date we would not need the due time either
             messageLabel = new Label("Task creation failed: invalid input for due time hours");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
-        } else if (!dueTimeMinutesPattern.matcher(dueTimeMinutes.getText()).matches()) {
+        } else if (dueDate.getValue() != null && !dueTimeMinutesPattern.matcher(dueTimeMinutes.getText()).matches()) {
             messageLabel = new Label("Task creation failed: invalid input for due time minutes");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
@@ -109,8 +107,14 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
                 subTasks.add(item.getText());
             }
 
-            viewModel.addTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
-                    dueTimeMinutes.getText(), duration.getText(), subTasks);
+            if (dueDate.getValue() == null) {
+                viewModel.addTask(taskName.getText(), duration.getText(), subTasks);
+            } else {
+                viewModel.addTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
+                        dueTimeMinutes.getText(), duration.getText(), subTasks);
+            }
+
+
 
             enterTodoListPage(event);
         }
