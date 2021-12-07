@@ -57,7 +57,7 @@ can depend on inner layers but not vice versa. The imports in our files are cons
 
 __A scenario walk through that demonstrates clean architecture__
 
-Upon running the `ApplicationDriver` of `console_app`, user is prompted to choose an action. 
+Upon running the `ApplicationDriver` of `consoleapp`, user is prompted to choose an action. 
 Assuming the user chooses to view all Events, `ApplicationDriver` passes this request to the `MainController`, which,
 as a facade, passes the request to the `EventController`. `EventController` calls `EventGetter` to retrieve all the
 events from the database by interacting with the database gateway, the `CalendarManager` interface. The gateway returns 
@@ -73,7 +73,7 @@ __Violation of clean architecture__
 
 However, there may be a violation of clean architecture when interacting with the outer layer. 
 
-In `ApplicationDriver` of `console_app`, it can be seen that if the user chooses action 5 or 6 
+In `ApplicationDriver` of `consoleapp`, it can be seen that if the user chooses action 5 or 6 
 (to automatically or manually schedule a task as an event), the `MainController` will be called to present the list of 
 tasks and at the same time, retrieve a mappings of the tasks' position in the list and their actual id. 
 However, retrieval of output data from use cases should be a responsibility of presenters and in our code, 
@@ -158,8 +158,8 @@ in phase 2.
 In phase 0, we organized our code by layers (entities, use case etc). However, as more functionalities 
 are added, this way of packaging becomes confusing. In pull request #68, we repackaged our code 
 and organized classes by responsibilities. For example, all classes related to the interaction with 
-the database are packaged under `data_gateway`, while classes that are specific to the command line 
-interface are packaged under `console_app`.  
+the database are packaged under `datagateway`, while classes that are specific to the command line 
+interface are packaged under `consoleapp`.  
 
 In the package `services`, we further organized the classes through inner packages. 
 Each inner package contains classes that are responsible for the same functionalities, 

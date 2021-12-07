@@ -1,7 +1,7 @@
 package gui.utility;
 
 import gui.view.ViewModelBindingController;
-import gui.view_model.ViewModel;
+import gui.viewmodel.ViewModel;
 
 import java.util.HashMap;
 import java.util.Map;

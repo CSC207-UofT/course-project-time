@@ -1,7 +1,7 @@
-import data_gateway.task.TaskReader;
+import datagateway.task.TaskReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.task_presentation.TaskInfoFromTaskReader;
+import services.taskpresentation.TaskInfoFromTaskReader;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
