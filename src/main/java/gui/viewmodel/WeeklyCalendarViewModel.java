@@ -31,7 +31,7 @@ public class WeeklyCalendarViewModel extends ViewModel {
         this.eventGetter = eventGetter;
         this.eventUpdater = eventUpdater;
         this.eventSaver = eventSaver;
-        List<EventInfo> eventInfoList = new ArrayList<>(); // TODO: change this to be getting events from EventGetter
+        List<EventInfo> eventInfoList = eventGetter.getEvents();
         this.entryList = FXCollections.observableArrayList(EventHelper.eventInfoToEntry(eventInfoList));
     }
 
