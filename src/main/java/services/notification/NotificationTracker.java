@@ -1,9 +1,9 @@
 package services.notification;
 
-import data_gateway.notification.NotificationManager;
-import data_gateway.notification.NotificationReader;
+import datagateway.notification.NotificationManager;
+import datagateway.notification.NotificationReader;
 import entity.Notification;
-import services.notification_sending.NotificationPresenter;
+import services.notificationsending.NotificationPresenter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -28,8 +28,7 @@ public class NotificationTracker implements Runnable {
      * @param time the notification time of the target notification
      */
     public void deleteNotification(int id, LocalDateTime time) {
-        notificationList.removeIf(notification ->
-                id == notification.getAssociatedId() && time == notification.getNotificationDateTime());
+
     }
 
     /**
@@ -37,7 +36,6 @@ public class NotificationTracker implements Runnable {
      * @param id the associated id that decide which notifications to delete
      */
     public void deleteNotifications(int id) {
-        notificationList.removeIf(notification -> id == notification.getAssociatedId());
     }
 
     /***
@@ -45,15 +43,7 @@ public class NotificationTracker implements Runnable {
      * @param newNotification the notification that will be added
      */
     public void addNotification(Notification newNotification) {
-        LocalDateTime newNotificationTime = newNotification.getNotificationDateTime();
-        for (int i = 0; i < notificationList.size(); i++) {
-            if (newNotificationTime.isBefore(notificationList.get(i).getNotificationDateTime())) {
-                notificationList.add(i, newNotification);
-                return ;
-            }
-        }
-        // either <notifications> is empty or it has been checked to the end
-        notificationList.add(newNotification);
+
     }
 
     /***
@@ -65,11 +55,7 @@ public class NotificationTracker implements Runnable {
      *         null if the notification does not exists.
      */
     public Duration getNotificationTimeInAdvance(long associatedId) {
-        for (Notification notification : notificationList) {
-            if (notification.getAssociatedId() == associatedId) {
-                return notification.getNotificationTimeInAdvance();
-            }
-        }
+
         return null;
     }
 
@@ -82,15 +68,7 @@ public class NotificationTracker implements Runnable {
     @Override
     public void run() {
         // TODO: rerun the run() when notificationList is no longer empty
-        while (true) {
-            // remove overdue notifications
-            if (upcomingNotification.getNotificationDateTime().isAfter(LocalDateTime.now())) {
-                notificationList.remove(0);
-            } else if (notificationList.get(0).getNotificationDateTime().equals(LocalDateTime.now())) {
-                updateObservers(notificationList.get(0).getMessage());
-                notificationList.remove(0);
-            }
-        }
+
     }
 
     /***
