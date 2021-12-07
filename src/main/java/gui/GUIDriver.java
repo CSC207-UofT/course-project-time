@@ -4,6 +4,7 @@ import datagateway.event.CalendarManager;
 import datagateway.event.EventEntityManager;
 import datagateway.event.ObservableEventEntityManager;
 import datagateway.event.ObservableEventRepository;
+import datagateway.pomodoro.PomodoroManager;
 import datagateway.task.ObservableTaskEntityManager;
 import datagateway.task.ObservableTaskRepository;
 import datagateway.task.TodoEntityManager;
@@ -45,12 +46,15 @@ public class GUIDriver extends Application {
 
         CalendarManager calendarManager = new EventEntityManager(snowflake);
         TodoListManager todoListManager = new TodoEntityManager(snowflake);
+        PomodoroManager pomodoroManager = new PomodoroManager();
         try {
             calendarManager.loadEvents("EventData.json");
             todoListManager.loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        pomodoroManager.deleteTimer("PomodoroData.json");
 
         ObservableEventRepository eventRepository = new ObservableEventEntityManager(calendarManager);
         ObservableTaskRepository taskRepository = new ObservableTaskEntityManager(todoListManager);

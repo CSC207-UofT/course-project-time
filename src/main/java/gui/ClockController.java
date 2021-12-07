@@ -16,8 +16,10 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import services.pomodororunning.TimeFormatter;
+import datagateway.pomodoro.PomodoroManager;
 
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class ClockController implements ViewModelBindingController {
@@ -38,6 +40,8 @@ public class ClockController implements ViewModelBindingController {
 
     private final Alert error = new Alert(Alert.AlertType.INFORMATION);
 
+    private PomodoroManager pomodoroManager = new PomodoroManager();
+
     static final TimeFormatter timeFormatter = new TimeFormatter();
 
     @FXML
@@ -57,7 +61,11 @@ public class ClockController implements ViewModelBindingController {
 
     @FXML
     public void initialize() {
-
+        try {
+            pomodoroManager.loadTimer("PomodoroData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
         gc = canvas.getGraphicsContext2D();
         gc.setTextAlign(TextAlignment.CENTER);
