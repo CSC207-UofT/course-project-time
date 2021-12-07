@@ -119,7 +119,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterPomodoroPage(MouseEvent event) throws IOException {
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/pomodoroPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
@@ -140,7 +142,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterTodoListPage(MouseEvent event) throws IOException {
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/todoListPage.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**
