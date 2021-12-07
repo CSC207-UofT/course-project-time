@@ -31,7 +31,7 @@ public class TaskBarController implements Initializable, ViewModelBindingControl
     private AnchorPane mainBackground;
 
     @FXML
-    private Text taskName;
+    private TextField taskName;
 
     @FXML
     private DatePicker dueDate;

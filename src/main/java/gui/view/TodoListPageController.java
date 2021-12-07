@@ -44,6 +44,16 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     public void enterTaskPage(MouseEvent event) {
         try {
             NavigationHelper.enterTaskPage(event);
+            HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
+            System.out.println(clickedItem.getId());  // todo when id can be obtained, use id to find task info
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void enterAddTaskPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterAddTaskPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -67,21 +77,4 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
             todoList.getItems().add(task);
         }
     }
-
-    @FXML
-    public void addTask() {
-        Label taskName = new Label("Sleeping");
-        Label deadLine = new Label("Dec 20, 2021, 10:00 PM");
-        taskName.setFont(new Font(labelFontSize));
-        deadLine.setFont(new Font(labelFontSize));
-
-        taskName.setMinWidth(550);
-        taskName.setMaxWidth(550);
-        HBox task = new HBox(taskName, deadLine);
-        todoList.getItems().add(task);
-    }
-
-
-
-
 }

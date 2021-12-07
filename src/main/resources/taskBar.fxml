@@ -13,11 +13,6 @@
    <children>
       <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0" style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fx:id="taskName" layoutX="110.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name" wrappingWidth="175.16043090820312">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
             <Text layoutX="108.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due date:">
                <font>
                   <Font size="20.0" />
@@ -57,6 +52,11 @@
             <Button fx:id="scheduleAsEvent" layoutX="111.0" layoutY="609.0" mnemonicParsing="false" text="Schedule as Event" />
             <Button fx:id="updateTask" layoutX="286.0" layoutY="609.0" mnemonicParsing="false" text="Update" />
             <Button fx:id="deleteTask" layoutX="115.0" layoutY="688.0" mnemonicParsing="false" text="Delete Task" />
+            <TextField fx:id="taskName" layoutX="105.0" layoutY="66.0" text="Name">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
          </children></AnchorPane>
       <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0" />
       <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0" />

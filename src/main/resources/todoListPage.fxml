@@ -12,7 +12,7 @@
    <children>
       <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0" style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton fx:id="addTask" layoutX="726.0" layoutY="42.0" onAction="#addTask" prefHeight="52.0" prefWidth="147.0" style="-fx-background-color: #5c78f6; -fx-background-radius: 7px;" text="Add Task" textFill="WHITE" AnchorPane.bottomAnchor="706.0" AnchorPane.leftAnchor="723.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="40.0">
+            <JFXButton fx:id="addTask" layoutX="726.0" layoutY="42.0" onMouseClicked="#enterAddTaskPage" prefHeight="52.0" prefWidth="147.0" style="-fx-background-color: #5c78f6; -fx-background-radius: 7px;" text="Add Task" textFill="WHITE" AnchorPane.bottomAnchor="706.0" AnchorPane.leftAnchor="723.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="40.0">
                <font>
                   <Font size="25.0" />
                </font>
