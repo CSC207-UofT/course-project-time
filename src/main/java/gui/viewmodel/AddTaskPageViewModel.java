@@ -17,8 +17,6 @@ public class AddTaskPageViewModel extends ViewModel {
 
     public AddTaskPageViewModel(ObservableTaskRepository repository) {
         this.repository = repository;
-        repository.addCreationObserver(this::handleCreation);
-        repository.addCreationObserver(this::handleUpdate);
     }
 
     public void addTask(String taskName, LocalDate dueDate, String dueTimeHours, String dueTimeMinutes, String duration) {
@@ -27,14 +25,6 @@ public class AddTaskPageViewModel extends ViewModel {
         LocalDateTime deadline = LocalDateTime.of(dueDate, dueTime);
         TodoListTaskCreationModel newTask = new NewTodoListTaskData(taskName, timeNeeded, deadline, new ArrayList<>());
         repository.addTask(newTask);
-    }
-
-    public void handleCreation(TaskReader taskReader) {
-
-    }
-
-    public void handleUpdate(TaskReader taskReader) {
-
     }
 
 }
