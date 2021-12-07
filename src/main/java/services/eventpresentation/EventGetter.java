@@ -21,25 +21,13 @@ public class EventGetter implements CalendarEventRequestBoundary {
      * pass the events as DTOs to the presenter to present all events.
      */
     @Override
-    public List<HashMap<String, String>> getEvents() {
-        List<HashMap<String, String>> event_data = new ArrayList<>();
-        for(EventReader event : calendarManager.getAllEvents()) {
-            event_data.add(getEvent(event));
+    public List<EventInfo> getEvents() {
+        List<EventInfo> eventInfos = new ArrayList<>();
+        for(EventReader eventReader : calendarManager.getAllEvents()) {
+            eventInfos.add(new EventInfoFromReader(eventReader));
         }
 
-        return event_data;
-    }
-
-    private HashMap<String, String> getEvent(EventReader event) {
-        HashMap<String, String> event_data = new HashMap<>();
-        event_data.put("name", event.getName());
-        event_data.put("start", event.getStartTime().toString());
-        event_data.put("end", event.getEndTime().toString());
-        event_data.put("tags", event.getTags().toString());
-        event_data.put("dates", event.getDates().toString());
-
-        return event_data;
-
+        return eventInfos;
     }
 
     @Override
