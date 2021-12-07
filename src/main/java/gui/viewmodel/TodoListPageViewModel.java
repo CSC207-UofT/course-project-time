@@ -104,9 +104,4 @@ public class TodoListPageViewModel extends ViewModel{
     public void handleUpdate(TaskReader taskReader) {
 
     }
-
-    @Override
-    public void notifyObserver(TaskReader entity) {
-
-    }
 }
