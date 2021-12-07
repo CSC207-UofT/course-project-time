@@ -12,6 +12,8 @@ public interface TodoListManager {
 
     long addTask(TodoListTaskCreationModel taskData);
 
+    void deleteTask(long taskId);
+
     TaskReader getTask(long taskId);
 
     Map<Long, List<TaskReader>> getAllTasks();

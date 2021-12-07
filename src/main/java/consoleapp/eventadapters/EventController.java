@@ -3,6 +3,7 @@ package consoleapp.eventadapters;
 
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventSaver;
+import services.eventdeletion.EventDeletionBoundary;
 import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
@@ -25,15 +26,18 @@ public class EventController {
     private final CalendarEventDisplayBoundary eventOutputter;
     private final EventSaver eventSaver;
     private final UpdateEventBoundary eventUpdater;
+    private final EventDeletionBoundary eventDeleter;
 
 
     public EventController(CalendarEventCreationBoundary eventAdder, CalendarEventRequestBoundary eventGetter,
-                           CalendarEventDisplayBoundary eventOutputter, EventSaver eventSaver, UpdateEventBoundary eventUpdater) {
+                           CalendarEventDisplayBoundary eventOutputter, EventSaver eventSaver, UpdateEventBoundary eventUpdater,
+                           EventDeletionBoundary eventDeleter) {
         this.eventAdder = eventAdder;
         this.eventGetter = eventGetter;
         this.eventOutputter = eventOutputter;
         this.eventSaver = eventSaver;
         this.eventUpdater = eventUpdater;
+        this.eventDeleter = eventDeleter;
     }
 
     /**
@@ -97,5 +101,9 @@ public class EventController {
             hashMapList.add(infoMap);
         }
         return hashMapList;
+    }
+
+    public void deleteEvent(long eventId) {
+        eventDeleter.deleteEvent(eventId);
     }
 }

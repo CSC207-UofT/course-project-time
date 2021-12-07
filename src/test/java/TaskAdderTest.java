@@ -57,6 +57,11 @@ public class TaskAdderTest {
             return 0L;
         }
 
+        @Override
+        public void deleteTask(long taskId) {
+
+        }
+
 
         @Override
         public TaskReader getTask(long taskId) {

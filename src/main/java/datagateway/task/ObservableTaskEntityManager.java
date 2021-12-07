@@ -16,6 +16,7 @@ public class ObservableTaskEntityManager implements ObservableTaskRepository {
 
     private final List<Observer<TaskReader>> onCreationObservers = new ArrayList<>();
     private final List<Observer<TaskReader>> onUpdateObservers = new ArrayList<>();
+    private final List<Observer<TaskReader>> onDeleteObservers = new ArrayList<>();
 
 
     public ObservableTaskEntityManager(TodoListManager taskManager) {
@@ -33,6 +34,11 @@ public class ObservableTaskEntityManager implements ObservableTaskRepository {
         onUpdateObservers.add(observer);
     }
 
+    @Override
+    public void addDeleteObservers(Observer<TaskReader> observer) {
+        onDeleteObservers.add(observer);
+    }
+
     private void notifyCreationObservers(TaskReader tr) {
         onCreationObservers.forEach(o -> o.notifyObserver(tr));
     }
@@ -41,12 +47,23 @@ public class ObservableTaskEntityManager implements ObservableTaskRepository {
         onUpdateObservers.forEach(o -> o.notifyObserver(tr));
     }
 
+    private void notifyDeleteObservers(TaskReader tr) {
+        onDeleteObservers.forEach(o -> o.notifyObserver(tr));
+    }
+
     @Override
     public long addTask(TodoListTaskCreationModel taskData) {
         long newTaskId = taskManager.addTask(taskData);
         TaskReader newTask = getTask(newTaskId);
         notifyCreationObservers(newTask);
         return newTaskId;
+    }
+
+    @Override
+    public void deleteTask(long taskId) {
+        TaskReader deletedTask = taskManager.getTask(taskId);
+        taskManager.deleteTask(taskId);
+        notifyDeleteObservers(deletedTask);
     }
 
     @Override

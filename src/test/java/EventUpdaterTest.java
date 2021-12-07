@@ -75,6 +75,11 @@ public class EventUpdaterTest {
         }
 
         @Override
+        public void deleteEvent(long eventId) {
+
+        }
+
+        @Override
         public void markEventAsCompleted(long eventId) {
             if (eventId == 15L) {
                 markEventAsCompletedSuccess = true;

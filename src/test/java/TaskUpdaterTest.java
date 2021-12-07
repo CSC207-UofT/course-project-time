@@ -75,6 +75,11 @@ public class TaskUpdaterTest {
         }
 
         @Override
+        public void deleteTask(long taskId) {
+
+        }
+
+        @Override
         public TaskReader getTask(long taskId) {
             return null;
         }

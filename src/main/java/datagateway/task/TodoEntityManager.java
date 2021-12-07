@@ -51,6 +51,11 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
+    public void deleteTask(long taskId) {
+        taskArrayList.removeIf(t -> t.getId() == taskId);
+    }
+
+    @Override
     public TaskReader getTask(long taskId){
         for (Task t : taskArrayList)
             if (t.getId() == taskId)

@@ -43,6 +43,11 @@ public class EventOutputterTest {
         }
 
         @Override
+        public void deleteEvent(long eventId) {
+
+        }
+
+        @Override
         public void markEventAsCompleted(long eventId) {
 
         }
