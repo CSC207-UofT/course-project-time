@@ -96,6 +96,7 @@ public class TodoListPageViewModel extends ViewModel{
     }
 
     public void handleCreation(TaskReader taskReader) {
+        String id = String.valueOf(taskReader.getId());
         String taskName = taskReader.getName();
         String deadline;
         if (taskReader.getDeadline() != null) {
@@ -108,7 +109,12 @@ public class TodoListPageViewModel extends ViewModel{
             deadline = "No Deadline";
         }
 
-        taskInfoMap.put(taskName, deadline);
+        Map<String, String> taskInfoMap = new HashMap<>();
+        taskInfoMap.put("id", id);
+        taskInfoMap.put("taskName", taskName);
+        taskInfoMap.put("deadline", deadline);
+
+        this.taskInfoList.add(taskInfoMap);
     }
 
     public void handleUpdate(TaskReader taskReader) {
