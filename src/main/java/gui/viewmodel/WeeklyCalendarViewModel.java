@@ -1,7 +1,6 @@
 package gui.viewmodel;
 
 import com.calendarfx.model.Entry;
-import datagateway.Observer;
 import datagateway.event.EventReader;
 import gui.utility.EventHelper;
 import javafx.collections.FXCollections;
@@ -15,7 +14,7 @@ import services.updateentities.UpdateEventBoundary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeeklyCalendarViewModel extends ViewModel implements Observer<EventReader> {
+public class WeeklyCalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final CalendarEventRequestBoundary eventGetter;
@@ -40,8 +39,11 @@ public class WeeklyCalendarViewModel extends ViewModel implements Observer<Event
         return this.entryList;
     }
 
-    @Override
-    public void notifyObserver(EventReader entity) {
+    public void handleCreation(EventReader eventReader) {
+
+    }
+
+    public void handleUpdate(EventReader eventReader) {
 
     }
 }

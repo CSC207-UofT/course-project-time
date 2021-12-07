@@ -15,7 +15,7 @@ import services.updateentities.UpdateEventBoundary;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonthlyCalendarViewModel extends ViewModel implements Observer<EventReader> {
+public class MonthlyCalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final CalendarEventRequestBoundary eventGetter;
@@ -41,8 +41,4 @@ public class MonthlyCalendarViewModel extends ViewModel implements Observer<Even
     }
 
 
-    @Override
-    public void notifyObserver(EventReader entity) {
-
-    }
 }

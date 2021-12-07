@@ -13,6 +13,7 @@ public class ViewModelFactory {
     private final MonthlyCalendarViewModel monthlyCalendarViewModel;
     private final WeeklyCalendarViewModel weeklyCalendarViewModel;
     private final TodoListPageViewModel todoListPageViewModel;
+    private final AddTaskPageViewModel addTaskPageViewModel;
 
     public ViewModelFactory(ObservableRepositoryFactory repositoryFactory, ServicesFactory servicesFactory) {
         this.servicesFactory = servicesFactory;
@@ -22,18 +23,19 @@ public class ViewModelFactory {
         this.monthlyCalendarViewModel = makeMonthlyCalendarViewModel();
         this.weeklyCalendarViewModel = makeWeeklyCalendarViewModel();
         this.todoListPageViewModel = new TodoListPageViewModel(taskRepository);
+        this.addTaskPageViewModel = new AddTaskPageViewModel(taskRepository);
         addObserversToRepositories(eventRepository, taskRepository);
     }
 
     private void addObserversToRepositories(ObservableEventRepository eventRepository,
                                             ObservableTaskRepository taskRepository) {
-        eventRepository.addCreationObserver(monthlyCalendarViewModel);
-        eventRepository.addUpdateObserver(monthlyCalendarViewModel);
-        eventRepository.addCreationObserver(weeklyCalendarViewModel);
-        eventRepository.addUpdateObserver(weeklyCalendarViewModel);
-
-        taskRepository.addCreationObserver(todoListPageViewModel);
-        taskRepository.addUpdateObserver(todoListPageViewModel);
+//        eventRepository.addCreationObserver(monthlyCalendarViewModel);
+//        eventRepository.addUpdateObserver(monthlyCalendarViewModel);
+//        eventRepository.addCreationObserver(weeklyCalendarViewModel);
+//        eventRepository.addUpdateObserver(weeklyCalendarViewModel);
+//
+//        taskRepository.addCreationObserver(todoListPageViewModel);
+//        taskRepository.addUpdateObserver(todoListPageViewModel);
     }
 
     private MonthlyCalendarViewModel makeMonthlyCalendarViewModel() {
@@ -56,4 +58,7 @@ public class ViewModelFactory {
 
     public TodoListPageViewModel getTodoListPageViewModel() { return todoListPageViewModel; }
 
+    public AddTaskPageViewModel getAddTaskPageViewModel() {
+        return addTaskPageViewModel;
+    }
 }
