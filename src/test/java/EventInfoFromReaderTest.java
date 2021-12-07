@@ -1,5 +1,5 @@
-import data_gateway.event.EventReader;
-import services.event_creation.EventInfoFromReader;
+import datagateway.event.EventReader;
+import services.eventcreation.EventInfoFromReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

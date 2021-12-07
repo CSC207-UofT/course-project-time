@@ -1,10 +1,10 @@
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_from_task_creation.CalendarAnalyzer;
-import services.event_from_task_creation.EventScheduler;
-import services.task_presentation.TaskInfo;
+import services.eventfromtaskcreation.CalendarAnalyzer;
+import services.eventfromtaskcreation.EventScheduler;
+import services.taskpresentation.TaskInfo;
 
 import java.time.Duration;
 import java.time.LocalDate;

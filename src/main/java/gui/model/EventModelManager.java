@@ -1,7 +1,7 @@
 package gui.model;
 
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
 
 import java.util.List;
 

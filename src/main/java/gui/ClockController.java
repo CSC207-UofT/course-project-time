@@ -3,10 +3,9 @@ package gui;
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
 import gui.view.ViewModelBindingController;
-import gui.view_model.ViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -16,11 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import services.pomodoro_running.TimeFormatter;
+import services.pomodororunning.TimeFormatter;
 
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 public class ClockController implements ViewModelBindingController {
