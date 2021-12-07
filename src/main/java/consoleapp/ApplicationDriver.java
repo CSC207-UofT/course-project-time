@@ -324,7 +324,7 @@ public class ApplicationDriver {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
             return LocalDateTime.parse(timeString, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
             return LocalDate.parse(timeString, dateFormatter).atTime(defaultTime);
         }
     }
