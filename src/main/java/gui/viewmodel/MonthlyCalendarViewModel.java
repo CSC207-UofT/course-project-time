@@ -1,7 +1,6 @@
 package gui.viewmodel;
 
 import com.calendarfx.model.Entry;
-import datagateway.Observer;
 import datagateway.event.EventReader;
 import datagateway.event.ObservableEventRepository;
 import gui.utility.EventHelper;
@@ -36,5 +35,4 @@ public class MonthlyCalendarViewModel extends ViewModel {
     public void handleUpdate(EventReader eventReader) {
 
     }
-
 }
