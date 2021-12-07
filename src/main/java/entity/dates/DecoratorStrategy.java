@@ -8,9 +8,9 @@ import java.util.List;
  */
 abstract public class DecoratorStrategy implements DateStrategy {
 
-    private final DateStrategy strategy;
+    private DateStrategy strategy;
 
-    public DecoratorStrategy(DateStrategy strategy) {
+    public void setStrategy(DateStrategy strategy) {
         this.strategy = strategy;
     }
 

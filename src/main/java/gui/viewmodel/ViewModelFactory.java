@@ -1,6 +1,7 @@
 package gui.viewmodel;
 
 
+import services.servicesfactory.ObservableRepositoryFactory;
 import datagateway.event.ObservableEventRepository;
 import datagateway.task.ObservableTaskRepository;
 
@@ -15,6 +16,10 @@ public class ViewModelFactory {
         this.monthlyCalendarViewModel = new MonthlyCalendarViewModel(eventRepository);
         this.weeklyCalendarViewModel = new WeeklyCalendarViewModel(eventRepository);
         this.todoListPageViewModel = new TodoListPageViewModel(taskRepository);
+    }
+
+    public ViewModelFactory(ObservableRepositoryFactory repositoryFactory) {
+        this(repositoryFactory.makeEventRepository(), repositoryFactory.makeTaskRepository());
     }
 
     public MonthlyCalendarViewModel getMonthlyCalendarViewModel() {

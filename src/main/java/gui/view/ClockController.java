@@ -1,9 +1,7 @@
-package gui;
+package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.view.ViewModelBindingController;
-import gui.viewmodel.ViewModel;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -20,7 +18,7 @@ import services.pomodororunning.TimeFormatter;
 
 import java.util.concurrent.TimeUnit;
 
-public class ClockController implements ViewModelBindingController {
+public class ClockController {
 
     private AnimationTimer timer;
     private GraphicsContext gc;
@@ -189,7 +187,4 @@ public class ClockController implements ViewModelBindingController {
         breakTimeText.setEditable(true);
         workTimeText.setEditable(true);
     }
-
-    @Override
-    public void init(ViewModel viewModel) { }
 }

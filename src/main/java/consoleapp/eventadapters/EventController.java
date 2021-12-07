@@ -7,7 +7,6 @@ import services.eventcreation.EventSaver;
 import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
-import services.updateentities.EventUpdater;
 import services.updateentities.UpdateEventBoundary;
 import services.strategybuilding.DatesForm;
 
@@ -30,7 +29,7 @@ public class EventController {
 
 
     public EventController(CalendarEventCreationBoundary eventAdder, CalendarEventRequestBoundary eventGetter,
-                           CalendarEventDisplayBoundary eventOutputter, EventSaver eventSaver, EventUpdater eventUpdater) {
+                           CalendarEventDisplayBoundary eventOutputter, EventSaver eventSaver, UpdateEventBoundary eventUpdater) {
         this.eventAdder = eventAdder;
         this.eventGetter = eventGetter;
         this.eventOutputter = eventOutputter;
