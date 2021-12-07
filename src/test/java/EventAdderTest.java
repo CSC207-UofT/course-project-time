@@ -1,12 +1,12 @@
-import console_app.event_adapters.CalendarEventData;
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
+import consoleapp.eventadapters.CalendarEventData;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_creation.EventAdder;
-import services.strategy_building.DatesForm;
-import services.strategy_building.Rule;
-import services.strategy_building.Rules;
+import services.eventcreation.EventAdder;
+import services.strategybuilding.DatesForm;
+import services.strategybuilding.Rule;
+import services.strategybuilding.Rules;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -106,6 +106,31 @@ public class EventAdderTest {
         @Override
         public List<EventReader> getAllEvents() {
             return null;
+        }
+
+        @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateStartTime(long id, LocalTime newStartTime) {
+
+        }
+
+        @Override
+        public void updateEndTime(long id, LocalTime newEndTime) {
+
+        }
+
+        @Override
+        public void addTag(long id, String tag) {
+
+        }
+
+        @Override
+        public void removeTag(long id, String tag) {
+
         }
 
         @Override

@@ -1,11 +1,11 @@
 
 
-import data_gateway.task.TaskReader;
-import data_gateway.task.TodoListManager;
-import console_app.task_adapters.NewTodoListTaskData;
-import services.task_creation.TaskAdder;
-import services.task_creation.TodoListTaskCreationBoundary;
-import services.task_creation.TodoListTaskCreationModel;
+import datagateway.task.TaskReader;
+import datagateway.task.TodoListManager;
+import consoleapp.taskadapters.NewTodoListTaskData;
+import services.taskcreation.TaskAdder;
+import services.taskcreation.TodoListTaskCreationBoundary;
+import services.taskcreation.TodoListTaskCreationModel;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -70,6 +70,31 @@ public class TaskAdderTest {
 
         @Override
         public void completeTask(long taskId) {
+        }
+
+        @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateDuration(long id, Duration newDuration) {
+
+        }
+
+        @Override
+        public void updateDeadline(long id, LocalDateTime newDeadline) {
+
+        }
+
+        @Override
+        public void addSubtask(long id, String subtask) {
+
+        }
+
+        @Override
+        public void removeSubtask(long id, String subtask) {
+
         }
 
         @Override

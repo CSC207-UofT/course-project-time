@@ -1,14 +1,15 @@
-import data_gateway.task.TaskReader;
-import data_gateway.task.TodoListManager;
+import datagateway.task.TaskReader;
+import datagateway.task.TodoListManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.task_creation.TaskSaver;
-import services.task_creation.TodoListTaskCreationModel;
+import services.taskcreation.TaskSaver;
+import services.taskcreation.TodoListTaskCreationModel;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,6 +51,31 @@ public class TaskSaverTest {
 
         @Override
         public void completeTask(long taskId) {
+
+        }
+
+        @Override
+        public void updateName(long id, String newName) {
+
+        }
+
+        @Override
+        public void updateDuration(long id, Duration newDuration) {
+
+        }
+
+        @Override
+        public void updateDeadline(long id, LocalDateTime newDeadline) {
+
+        }
+
+        @Override
+        public void addSubtask(long id, String subtask) {
+
+        }
+
+        @Override
+        public void removeSubtask(long id, String subtask) {
 
         }
 

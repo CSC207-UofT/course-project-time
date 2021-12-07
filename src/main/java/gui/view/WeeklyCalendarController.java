@@ -2,6 +2,7 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
+import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class WeeklyCalendarController implements Initializable {
+public class WeeklyCalendarController implements Initializable, ViewModelBindingController {
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -29,7 +30,6 @@ public class WeeklyCalendarController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
-
         calendarType.getItems().addAll("Month", "Week", "Day");
     }
 
@@ -37,5 +37,10 @@ public class WeeklyCalendarController implements Initializable {
     void calendarTypeSelected(ActionEvent event) throws IOException {
         String selected = calendarType.getValue();
         NavigationHelper.switchCalendarPageType(event, selected);
+    }
+
+    @Override
+    public void init(ViewModel viewModel) {
+
     }
 }
