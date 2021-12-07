@@ -2,6 +2,7 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
+import gui.view_model.AddTaskPageViewModel;
 import gui.view_model.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,8 @@ import java.util.ResourceBundle;
 
 public class AddTaskPageController implements Initializable, ViewModelBindingController {
 
+    private AddTaskPageViewModel viewModel;
+
     @FXML
     private JFXDrawer collapsedNavPanel;
 
@@ -19,7 +22,7 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
 
     @Override
     public void init(ViewModel viewModel) {
-
+        this.viewModel = (AddTaskPageViewModel) viewModel;
     }
 
     @Override
