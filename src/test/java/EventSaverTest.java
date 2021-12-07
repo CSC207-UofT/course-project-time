@@ -1,6 +1,6 @@
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
-import services.event_creation.EventSaver;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
+import services.eventcreation.EventSaver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

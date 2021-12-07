@@ -2,7 +2,7 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.view_model.ViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
