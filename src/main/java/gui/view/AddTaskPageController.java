@@ -2,8 +2,8 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.view_model.AddTaskPageViewModel;
-import gui.view_model.ViewModel;
+import gui.viewmodel.AddTaskPageViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 

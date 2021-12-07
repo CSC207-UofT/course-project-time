@@ -2,9 +2,9 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.view_model.TaskBarViewModel;
-import gui.view_model.TodoListPageViewModel;
-import gui.view_model.ViewModel;
+import gui.viewmodel.TaskBarViewModel;
+import gui.viewmodel.TodoListPageViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
