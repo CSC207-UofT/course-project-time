@@ -4,15 +4,21 @@ import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
 import gui.viewmodel.AddTaskPageViewModel;
 import gui.viewmodel.ViewModel;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -42,22 +48,27 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     private TextField duration;
 
     @FXML
-    private Button addSubtask;
+    private DialogPane message;
 
-    @FXML
-    private Button save;
-
-    private Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
-    private Pattern dueTimeMinutesPattern = Pattern.compile("[0-5][0-9]");
-    private Pattern durationPattern = Pattern.compile("[0-9]+");
+    private final Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
+    private final Pattern dueTimeMinutesPattern = Pattern.compile("[0-5][0-9]");
+    private final Pattern durationPattern = Pattern.compile("[0-9]+");
 
     public void saveTask(MouseEvent event) {
+        Label messageLabel;
+        HBox messageBox;
         if (!dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
-            System.out.println("Invalid input for due time hours");
+            messageLabel = new Label("Task creation failed: invalid input for due time hours");
+            messageBox = new HBox(messageLabel);
+            message.setContent(messageBox);
         } else if (!dueTimeMinutesPattern.matcher(dueTimeMinutes.getText()).matches()) {
-            System.out.println("Invalid input for due time minutes");
+            messageLabel = new Label("Task creation failed: invalid input for due time minutes");
+            messageBox = new HBox(messageLabel);
+            message.setContent(messageBox);
         } else if (!durationPattern.matcher(duration.getText()).matches()) {
-            System.out.println("Invalid input for duration");
+            messageLabel = new Label("Task creation failed: invalid input for duration");
+            messageBox = new HBox(messageLabel);
+            message.setContent(messageBox);
         } else {
             viewModel.addTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
                     dueTimeMinutes.getText(), duration.getText());
