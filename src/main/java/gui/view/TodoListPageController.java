@@ -7,6 +7,7 @@ import gui.view_model.TodoListPageViewModel;
 import gui.view_model.ViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,7 +24,7 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     final double labelFontSize = 15;
 
     private TodoListPageViewModel viewModel;
-    private final ObservableMap<String, String> taskInfoMap = FXCollections.observableHashMap();
+    private final ObservableList<Map<String, String>> taskInfoList = FXCollections.observableArrayList();
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -43,17 +44,19 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     public void init(ViewModel viewModel) {
         this.viewModel = (TodoListPageViewModel) viewModel;
 
-        Bindings.bindContentBidirectional(this.taskInfoMap, this.viewModel.getTaskInfoMap());
+        Bindings.bindContentBidirectional(this.taskInfoList, this.viewModel.getTaskInfoList());
 
-        for (Map.Entry<String, String> taskInfo : taskInfoMap.entrySet()) {
-            Label taskName = new Label(taskInfo.getKey());
-            Label deadLine = new Label(taskInfo.getValue());
+        for (Map<String, String> taskInfo : this.taskInfoList) {
+            Label taskName = new Label(taskInfo.get("taskName"));
+            Label deadLine = new Label(taskInfo.get("deadline"));
             taskName.setFont(new Font(labelFontSize));
             deadLine.setFont(new Font(labelFontSize));
 
             taskName.setMinWidth(550);
             taskName.setMaxWidth(550);
+
             HBox task = new HBox(taskName, deadLine);
+            task.setId(taskInfo.get("id"));
             todoList.getItems().add(task);
         }
     }
@@ -68,6 +71,7 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
         taskName.setMinWidth(550);
         taskName.setMaxWidth(550);
         HBox task = new HBox(taskName, deadLine);
+        task.setId("11111111111111");
         todoList.getItems().add(task);
     }
 

@@ -3,30 +3,73 @@ package gui.view_model;
 import data_gateway.task.ObservableTaskRepository;
 import data_gateway.task.TaskReader;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableList;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.List;
+import java.util.*;
 
+/***
+ * taskReaderList: a sorted list based on the deadline of tasks
+ * taskInfoList: a list of maps of task info corresponding to taskReaderList
+ */
 public class TodoListPageViewModel extends ViewModel{
 
     private final ObservableTaskRepository repository;
 
-    private final ObservableMap<String, String> taskInfoMap;
+    private final ObservableList<TaskReader> taskReaderList;
+    private final ObservableList<Map<String, String>> taskInfoList;
 
     public TodoListPageViewModel(ObservableTaskRepository repository) {
         this.repository = repository;
         repository.addCreationObserver(this::handleCreation);
         repository.addUpdateObserver(this::handleUpdate);
 
+        // initialize sorted taskReaderList
         List<TaskReader> taskList = repository.getAllTasks().get(0L);
-        this.taskInfoMap = generateTaskNameDeadlineMap(taskList);
+        this.taskReaderList = FXCollections.observableArrayList();
+        for (TaskReader taskReader : taskList) {
+            this.insertTaskReader(taskReader);
+        }
+        // initialize taskInfoList accordingly
+        this.taskInfoList = FXCollections.observableArrayList();
+        this.updateTaskInfoList();
     }
 
-    private ObservableMap<String, String> generateTaskNameDeadlineMap(List<TaskReader> taskList) {
-        ObservableMap<String, String> nameDeadlineMap = FXCollections.observableHashMap();
-        for (TaskReader taskReader : taskList) {
+    /***
+     * helper function to sort the taskReaderList based on the deadline
+     * @param taskReader to inserted to taskReadList
+     */
+    private void insertTaskReader(TaskReader taskReader) {
+        // put the non-deadline task to the end of the list
+        if (taskReader.getDeadline() != null) {
+            LocalDateTime deadline = taskReader.getDeadline();
+            int i = 0;
+            while (i < this.taskReaderList.size()) {
+                if (taskReaderList.get(i).getDeadline() != null) {
+                    if (deadline.isEqual(taskReaderList.get(i).getDeadline()) ||
+                            (deadline.isBefore(taskReaderList.get(i).getDeadline()))) {
+                        taskReaderList.add(i, taskReader);
+                        return;
+                    }
+                } else {
+                    taskReaderList.add(i, taskReader);
+                    return;
+                }
+                i = i + 1;
+            }
+        }
+        taskReaderList.add(taskReader);
+    }
+
+    /***
+     * Update TaskInfoList to make it consistent with taskReaderList
+     */
+    public void updateTaskInfoList() {
+        this.taskInfoList.clear();
+        for (TaskReader taskReader : this.taskReaderList) {
+            String id = String.valueOf(taskReader.getId());
             String taskName = taskReader.getName();
 
             String deadline = new String("No Deadline");
@@ -37,13 +80,16 @@ public class TodoListPageViewModel extends ViewModel{
                                 FormatStyle.SHORT)); // The format for time
             }
 
-            nameDeadlineMap.put(taskName, deadline);
+            Map<String, String> taskInfo = new HashMap<String, String>();
+            taskInfo.put("id", id);
+            taskInfo.put("taskName", taskName);
+            taskInfo.put("deadline", deadline);
+            this.taskInfoList.add(taskInfo);
         }
-        return nameDeadlineMap;
     }
 
-    public ObservableMap<String, String> getTaskInfoMap() {
-        return this.taskInfoMap;
+    public ObservableList<Map<String, String>> getTaskInfoList() {
+        return taskInfoList;
     }
 
     public void handleCreation(TaskReader taskReader) {
