@@ -57,5 +57,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
+
+        return factory;
     }
 }
