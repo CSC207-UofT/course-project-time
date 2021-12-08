@@ -4,6 +4,7 @@ import datagateway.task.TaskReader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.taskpresentation.TaskInfo;
+import services.taskpresentation.TaskInfoFromTaskReader;
 import services.taskpresentation.TodoListRequestBoundary;
 
 import java.time.LocalDateTime;
@@ -117,6 +118,16 @@ public class TodoListPageViewModel extends ViewModel {
     }
 
     public void handleUpdate(TaskReader taskReader) {
+        long taskId = taskReader.getId();
 
+        // delete the outdated task before putting in the new one
+        taskInfoList.removeIf(taskInfo -> taskInfo.getId() == taskId);
+
+        // put the updated task into the taskInfoList
+        TaskInfo updatedTask = new TaskInfoFromTaskReader(taskReader);
+        insertTaskInfo(updatedTask);
+
+        // update the view
+        updateViewInfoList();
     }
 }

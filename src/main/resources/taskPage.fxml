@@ -51,9 +51,9 @@
             <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" />
             <ToggleButton fx:id="completed" layoutX="281.0" layoutY="388.0" mnemonicParsing="false" text="Yes" />
             <Button fx:id="addSubtask" onMouseClicked="#addSubtask" layoutX="612.0" layoutY="177.0" mnemonicParsing="false" text="Add" />
-            <Button fx:id="scheduleAsEvent" layoutX="191.0" layoutY="654.0" mnemonicParsing="false" text="Schedule as Event" />
-            <Button fx:id="updateTask" onMouseClicked="#updateTask" layoutX="115.0" layoutY="654.0" mnemonicParsing="false" text="Update" />
-            <Button fx:id="deleteTask" layoutX="332.0" layoutY="654.0" mnemonicParsing="false" text="Delete Task" />
+            <Button layoutX="191.0" layoutY="654.0" mnemonicParsing="false" text="Schedule as Event" />
+            <Button onMouseClicked="#updateTask" layoutX="115.0" layoutY="654.0" mnemonicParsing="false" text="Update" />
+            <Button layoutX="332.0" layoutY="654.0" mnemonicParsing="false" text="Delete Task" />
             <TextField fx:id="taskName" layoutX="105.0" layoutY="66.0">
                <font>
                   <Font size="20.0" />

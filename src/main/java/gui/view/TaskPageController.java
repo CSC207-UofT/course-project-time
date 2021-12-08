@@ -18,6 +18,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -68,6 +69,8 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
 
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    private List<String> oldSubtaskList;  // track the subtasks before updating
+
     public void addSubtask() {
         TextField newSubtask = new TextField();
         subtaskList.getItems().add(newSubtask);
@@ -97,6 +100,7 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
         completed.setSelected("yes".equals(taskInfoMap.get("completed")));
 
         String subtasks = taskInfoMap.get("subtasks");
+        oldSubtaskList = new ArrayList<>();
         if (subtasks != null) {
             String[] subtaskArray = subtasks.split(" ");
             for (String s : subtaskArray) {
@@ -104,6 +108,7 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
                 newSubtask.setText(s);
                 subtaskList.getItems().add(newSubtask);
             }
+            oldSubtaskList.addAll(List.of(subtaskArray));  // record the subtasks before any changes
         }
     }
 
@@ -111,34 +116,52 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
         Label messageLabel;
         HBox messageBox;
         if ("".equals(taskName.getText())) {
-            messageLabel = new Label("Task creation failed: task name cannot be empty");
+            messageLabel = new Label("Task modification failed: task name cannot be empty");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else if (dueDate.getValue() != null && !dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
             // do not check for due time if there is no due date
             // since without due date we would not need the due time either
-            messageLabel = new Label("Task creation failed: invalid input for due time hours");
+            messageLabel = new Label("Task modification failed: invalid input for due time hours");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else if (dueDate.getValue() != null && !dueTimeMinutesPattern.matcher(dueTimeMinutes.getText()).matches()) {
-            messageLabel = new Label("Task creation failed: invalid input for due time minutes");
+            messageLabel = new Label("Task modification failed: invalid input for due time minutes");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else if (!durationPattern.matcher(duration.getText()).matches()) {
-            messageLabel = new Label("Task creation failed: invalid input for duration");
+            messageLabel = new Label("Task modification failed: invalid input for duration");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else {
             // convert the subtasks JFXListView to Java List
-            List<String> subTasks = new ArrayList<>();
+            List<String> newSubtaskList = new ArrayList<>();
             for (TextField item : subtaskList.getItems()) {
-                subTasks.add(item.getText());
+                newSubtaskList.add(item.getText());
             }
 
+            if (dueDate.getValue() == null) {
+                viewModel.updateTask(taskName.getText(), duration.getText(), oldSubtaskList, newSubtaskList,
+                        completed.isSelected());
+            } else {
+                viewModel.updateTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
+                        dueTimeMinutes.getText(), duration.getText(), oldSubtaskList, newSubtaskList,
+                        completed.isSelected());
+            }
+
+            enterTodoListPage(event);
+        }
+    }
+
+    public void enterTodoListPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterTodoListPage(event);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

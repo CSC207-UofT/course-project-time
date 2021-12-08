@@ -107,6 +107,35 @@ public class TaskPageViewModel extends ViewModel implements PropertyChangeListen
         }
     }
 
+    /**
+     * Update the selected task (which has id taskId) that does not have a deadline
+     * @param taskName new name of task
+     * @param duration duration needed for the task in minutes
+     * @param oldSubtasks list of subtasks before the change
+     * @param newSubtasks list of subtasks after the change
+     * @param completed whether the task is completed
+     */
+    public void updateTask(String taskName, String duration, List<String> oldSubtasks, List<String> newSubtasks,
+                           boolean completed) {
+        taskUpdater.updateName(taskId, taskName);
+
+        Duration timeNeeded = Duration.ofMinutes(Long.parseLong(duration));
+        taskUpdater.updateDuration(taskId, timeNeeded);
+
+        taskUpdater.updateDeadline(taskId, null);
+
+        for (String oldSubtask : oldSubtasks) {
+            taskUpdater.removeSubtask(taskId, oldSubtask);
+        }
+        for (String newSubtask : newSubtasks) {
+            taskUpdater.addSubtask(taskId, newSubtask);
+        }
+
+        if (completed) {
+            taskUpdater.completeTask(taskId);
+        }
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         taskId = (long) evt.getNewValue();
