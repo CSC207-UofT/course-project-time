@@ -29,7 +29,7 @@ public class EventAdderWithNotification implements CalendarEventCreationBoundary
                 null,
                 null);
 
-        // TODO: get timeInAdvance, notificationTimeInAdvance, notificationDateTime
+        // TODO: get notificationTimeInAdvance, notificationDateTime
         NotificationCreationModel notificationData = new NotificationData(
                 eventId,
                 null,
