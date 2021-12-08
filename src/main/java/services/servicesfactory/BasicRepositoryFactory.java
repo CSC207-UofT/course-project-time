@@ -2,7 +2,7 @@ package services.servicesfactory;
 
 import datagateway.event.CalendarManager;
 import database.EventEntityManager;
-import datagateway.task.TodoEntityManager;
+import database.TodoEntityManager;
 import datagateway.task.TodoListManager;
 import services.Snowflake;
 

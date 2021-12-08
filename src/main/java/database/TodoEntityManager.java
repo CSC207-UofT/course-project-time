@@ -1,10 +1,11 @@
-package datagateway.task;
+package database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import entity.Task;
+import datagateway.task.TaskReader;
+import datagateway.task.TodoListManager;
 import services.Snowflake;
 import services.taskcreation.TodoListTaskCreationModel;
 
@@ -21,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TodoEntityManager implements TodoListManager{
-    private final List<Task> taskArrayList= new ArrayList<>();
+public class TodoEntityManager implements TodoListManager {
+    private final List<TaskDataClass> taskArrayList= new ArrayList<>();
     int taskCounter;
     private final Snowflake snowflake;
 
@@ -32,7 +33,7 @@ public class TodoEntityManager implements TodoListManager{
         taskCounter = 0;
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Task.class, new JsonTaskAdapter());
+        builder.registerTypeAdapter(TaskDataClass.class, new JsonTaskAdapter());
         gson = builder.create();
     }
 
@@ -44,7 +45,7 @@ public class TodoEntityManager implements TodoListManager{
         List<String> subtasks = taskData.getSubtasks();
 
         taskCounter++;
-        Task task = new Task(snowflake.nextId(), name, duration, deadline, subtasks);
+        TaskDataClass task = new TaskDataClass(snowflake.nextId(), name, duration, deadline, subtasks);
 
         taskArrayList.add(task);
         return task.getId();
@@ -52,9 +53,9 @@ public class TodoEntityManager implements TodoListManager{
 
     @Override
     public TaskReader getTask(long taskId){
-        for (Task t : taskArrayList)
+        for (TaskDataClass t : taskArrayList)
             if (t.getId() == taskId)
-                return new TaskToTaskReader(t);
+                return new TaskDataToReader(t);
         return null;
     }
 
@@ -62,8 +63,8 @@ public class TodoEntityManager implements TodoListManager{
     public Map<Long, List<TaskReader>> getAllTasks() {
         Map<Long, List<TaskReader>> taskMap = new HashMap<>();
         List<TaskReader> todoListTaskReaders = new ArrayList<>();
-        for (Task t : taskArrayList)
-            todoListTaskReaders.add(new TaskToTaskReader(t));
+        for (TaskDataClass t : taskArrayList)
+            todoListTaskReaders.add(new TaskDataToReader(t));
         // 0 because there is one todolist
         taskMap.put(0L, todoListTaskReaders);
         return taskMap;
@@ -100,8 +101,8 @@ public class TodoEntityManager implements TodoListManager{
         getById(id).removeSubtask(subtask);
     }
 
-    private Task getById(long id){
-        for(Task task : taskArrayList){
+    private TaskDataClass getById(long id){
+        for(TaskDataClass task : taskArrayList){
             if(task.getId() == id){
                 return task;
             }
@@ -122,8 +123,8 @@ public class TodoEntityManager implements TodoListManager{
         if (file.exists()) {
             JsonReader reader = new JsonReader(new FileReader(filePath));
 
-            Type listType = new TypeToken<List<Task>>() {}.getType();
-            List<Task> tasks = gson.fromJson(reader, listType);
+            Type listType = new TypeToken<List<TaskDataClass>>() {}.getType();
+            List<TaskDataClass> tasks = gson.fromJson(reader, listType);
 
             if(tasks != null)
             {

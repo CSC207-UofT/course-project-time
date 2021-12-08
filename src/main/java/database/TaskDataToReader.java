@@ -1,16 +1,17 @@
-package datagateway.task;
+package database;
 
+import datagateway.task.TaskReader;
 import entity.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TaskToTaskReader implements TaskReader{
+public class TaskDataToReader implements TaskReader {
 
-    private final Task task;
+    private final TaskDataClass task;
 
-    public TaskToTaskReader(Task task) {
+    public TaskDataToReader(TaskDataClass task) {
         this.task = task;
     }
 
