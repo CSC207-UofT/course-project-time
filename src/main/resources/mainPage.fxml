@@ -11,7 +11,7 @@
    <children>
       <AnchorPane fx:id="mainBackground" prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #E5E5E5;" AnchorPane.leftAnchor="50.0">
          <children>
-            <HBox layoutX="157.0" layoutY="41.0" prefHeight="66.0" prefWidth="240.0" styleClass="title-label" stylesheets="@style.css" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="41.0">
+            <HBox layoutX="157.0" layoutY="41.0" prefHeight="66.0" prefWidth="240.0" styleClass="main-page-title-label" stylesheets="@style.css" AnchorPane.leftAnchor="157.0" AnchorPane.topAnchor="41.0">
                <children>
                   <Label alignment="CENTER" prefHeight="65.0" prefWidth="255.0" styleClass="transparent" text="UPCOMING" textFill="#f1f1f1">
                      <font>
