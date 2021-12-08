@@ -129,5 +129,9 @@ public class TodoListPageViewModel extends ViewModel {
 
         // update the view
         updateViewInfoList();
+
+        // touch the task id to trigger observer effect so that when entering the task details page,
+        // the new values are auto-filled (rather than the old values)
+        taskDataBinding.setTaskId(taskId);
     }
 }

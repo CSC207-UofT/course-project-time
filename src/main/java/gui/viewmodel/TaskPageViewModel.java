@@ -138,7 +138,10 @@ public class TaskPageViewModel extends ViewModel implements PropertyChangeListen
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        taskId = (long) evt.getNewValue();
+        if (evt.getPropertyName().equals("taskId")) {
+            // only update taskId when taskId is the changed attribute triggering the observer update
+            taskId = (long) evt.getNewValue();
+        }
         updateTaskInfoMap();
     }
 
