@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import entity.Notification;
 import services.Snowflake;
-import services.notification.NotificationCreationModel;
 
 import java.io.File;
 import java.io.FileReader;
@@ -28,16 +27,8 @@ public class NotificationEntityManager implements NotificationManager {
         builder.registerTypeAdapter(Notification.class, new JsonNotificationAdapter());
         gson = builder.create();
     }
-
-    /**
-     * Adds a notification to the database.
-     * @param model the DTO that contains all the information to create a notification
-     */
     @Override
-    public void addNotification(NotificationCreationModel model) {
-        Notification notification = new Notification(model.getAssociatedId(), model.getTimeInAdvance(),
-                model.getNotificationDateTime(), model.getMessage());
-
+    public void addNotification(Notification notification) {
         notifications.add(notification);
     }
 
@@ -57,8 +48,8 @@ public class NotificationEntityManager implements NotificationManager {
         }
     }
 
-    /***
-     * Deletes notifications with associatedId
+    /**
+     * Deletes all notifications with associatedId
      * @param associatedId the id of the associated object that the notification is for
      */
     @Override

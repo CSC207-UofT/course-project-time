@@ -29,14 +29,14 @@ public class NotificationController {
         this.settingsManager = settingsManager;
     }
 
-    /***
+    /**
      * run notificationTracker to track the upcoming notifications
      */
     public void startTracking() {
         notificationTracker.run();
     }
 
-    /***
+    /**
      * Update the notification settings
      * @param newSettings a map of settings with keys being "email" and "desktop"
      *                    and values being boolean
@@ -45,7 +45,7 @@ public class NotificationController {
         settingsManager.setNotificationSettings(newSettings);
     }
 
-    /***
+    /**
      * return a list of NotificationReaders with associated id being associatedId
      * @param associatedId the associated id
      * @return a list of NotificationReaders
@@ -54,11 +54,7 @@ public class NotificationController {
         return notificationManager.getNotificationsForAssociatedObject(associatedId);
     }
 
-    public void addNotification() {
-
-    }
-
-    /***
+    /**
      * Deletes notifications with associatedId
      * @param associatedId the id of the associated object that the notification is for
      */

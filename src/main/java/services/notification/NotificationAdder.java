@@ -1,9 +1,10 @@
 package services.notification;
 
 import datagateway.notification.NotificationManager;
-import services.eventcreation.CalendarEventModel;
-import services.eventcreation.EventFromTaskModel;
-import services.taskcreation.TodoListTaskCreationModel;
+import entity.Notification;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class NotificationAdder {
 
@@ -15,29 +16,20 @@ public class NotificationAdder {
         this.notificationTracker = notificationTracker;
     }
 
-    /***
-     * Create an event notification using the date from eventData and the event id eventId
-     * @param eventData the event data passed down from the user interface
-     *                  when the user creates a new event
-     * @param eventId the id of the event
-     */
-    public void createNotification(CalendarEventModel eventData, long eventId) {
+    public void addNotification(NotificationCreationModel notificationCreationData) {
+        long associatedId = notificationCreationData.getAssociatedId();
+        Duration notificationTimeInAdvance = notificationCreationData.getNotificationTimeInAdvance();
+        LocalDateTime notificationDateTime = notificationCreationData.getNotificationDateTime();
+        String message = notificationCreationData.getMessage();
 
-        notificationTracker.updateUpcomingNotification();
-    }
+        Notification notification = new Notification(
+                associatedId,
+                notificationTimeInAdvance,
+                notificationDateTime,
+                message
+        );
 
-    public void createNotification(EventFromTaskModel eventData, long eventId) {
-
-        notificationTracker.updateUpcomingNotification();
-    }
-
-    /***
-     * Create a task notification using the date from taskData and the task id tasktId
-     * @param taskData the task data passed down from the user interface
-     *                 when the user creates a new event
-     * @param taskId the id of the task
-     */
-    public void createNotification(TodoListTaskCreationModel taskData, long taskId) {
+        notificationManager.addNotification(notification);
 
         notificationTracker.updateUpcomingNotification();
     }

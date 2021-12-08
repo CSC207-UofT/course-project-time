@@ -1,5 +1,6 @@
 package datagateway.notification;
 
+import entity.Notification;
 import services.notification.NotificationCreationModel;
 
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.time.Duration;
 import java.util.List;
 
 public interface NotificationManager {
-    void addNotification(NotificationCreationModel model);
+    void addNotification(Notification notification);
 
     void deleteNotification(long associatedId, Duration timeInAdvance);
 

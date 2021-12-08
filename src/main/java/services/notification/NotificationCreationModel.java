@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public interface NotificationCreationModel {
     long getAssociatedId();
-    Duration getTimeInAdvance();
+    Duration getNotificationTimeInAdvance();
     LocalDateTime getNotificationDateTime();
+    String getMessage();
 }

@@ -6,13 +6,15 @@ import java.time.LocalDateTime;
 public class NotificationData implements NotificationCreationModel{
 
     private final long associatedId;
-    private final Duration timeInAdvance;
+    private final Duration notificationTimeInAdvance;
     private final LocalDateTime notificationDateTime;
+    private final String message;
 
-    public NotificationData(long associatedId, Duration timeInAdvance, LocalDateTime notificationDateTime) {
+    public NotificationData(long associatedId, Duration timeInAdvance, LocalDateTime notificationDateTime, String message) {
         this.associatedId = associatedId;
-        this.timeInAdvance = timeInAdvance;
+        this.notificationTimeInAdvance = timeInAdvance;
         this.notificationDateTime = notificationDateTime;
+        this.message = message;
     }
 
     @Override
@@ -21,12 +23,17 @@ public class NotificationData implements NotificationCreationModel{
     }
 
     @Override
-    public Duration getTimeInAdvance() {
-        return timeInAdvance;
+    public Duration getNotificationTimeInAdvance() {
+        return notificationTimeInAdvance;
     }
 
     @Override
     public LocalDateTime getNotificationDateTime() {
         return notificationDateTime;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }
