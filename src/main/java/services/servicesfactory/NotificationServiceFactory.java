@@ -1,7 +1,5 @@
 package services.servicesfactory;
 
-import datagateway.notification.NotificationEntityManager;
-import datagateway.notification.NotificationManager;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdderWithNotification;
 import services.eventcreation.EventSaver;
@@ -10,10 +8,6 @@ import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventPresenter;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.notification.NotificationAdder;
-import services.notification.NotificationTracker;
-import services.notificationsending.DesktopNotificationPresenter;
-import services.notificationsending.EmailNotificationPresenter;
-import services.notificationsending.NotificationPresenter;
 import services.taskcreation.TaskAdderWithNotification;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
@@ -22,9 +16,6 @@ import services.taskpresentation.TodoListPresenter;
 import services.taskpresentation.TodoListRequestBoundary;
 import services.updateentities.UpdateEventBoundary;
 import services.updateentities.UpdateTaskBoundary;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Factory for services with the Notification proxies

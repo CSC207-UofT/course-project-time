@@ -10,9 +10,10 @@ public class NotificationData implements NotificationCreationModel{
     private final LocalDateTime notificationDateTime;
     private final String message;
 
-    public NotificationData(long associatedId, Duration timeInAdvance, LocalDateTime notificationDateTime, String message) {
+    public NotificationData(long associatedId, Duration notificationTimeInAdvance,
+                            LocalDateTime notificationDateTime, String message) {
         this.associatedId = associatedId;
-        this.notificationTimeInAdvance = timeInAdvance;
+        this.notificationTimeInAdvance = notificationTimeInAdvance;
         this.notificationDateTime = notificationDateTime;
         this.message = message;
     }
