@@ -54,14 +54,18 @@ public class TaskAdderTest {
         private LocalDateTime deadline;
         private List<String> subtasks;
 
-        @Override
         public long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
-                this.name = name;
-                this.duration = duration;
-                this.deadline = deadline;
-                this.subtasks = subtasks;
-                return 0L;
-            }
+            this.name = name;
+            this.duration = duration;
+            this.deadline = deadline;
+            this.subtasks = subtasks;
+            return 0L;
+        }
+
+        @Override
+        public void deleteTask(long taskId) {
+
+        }
 
         @Override
         public TaskReader getTask(long taskId) {

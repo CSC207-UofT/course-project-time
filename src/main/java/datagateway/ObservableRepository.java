@@ -10,4 +10,6 @@ public interface ObservableRepository<E> {
 
     void addUpdateObserver(Observer<E> observer);
 
+    void addDeleteObservers(Observer<E> observer);
+
 }
