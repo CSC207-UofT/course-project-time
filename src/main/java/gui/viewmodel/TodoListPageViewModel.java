@@ -1,9 +1,10 @@
 package gui.viewmodel;
 
-import datagateway.task.ObservableTaskRepository;
 import datagateway.task.TaskReader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import services.taskpresentation.TaskInfo;
+import services.taskpresentation.TodoListRequestBoundary;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,87 +13,78 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/***
- * taskReaderList: a sorted list based on the deadline of tasks.
- *                 tasks without deadline will be put to the end of the list
- * taskInfoList: a list of maps of task info corresponding to taskReaderList
- */
-public class TodoListPageViewModel extends ViewModel{
 
-    private final ObservableTaskRepository repository;
+public class TodoListPageViewModel extends ViewModel {
 
-    private final ObservableList<TaskReader> taskReaderList;
-    private final ObservableList<Map<String, String>> taskInfoList;
+    private final ObservableList<TaskInfo> taskInfoList;
+    private final ObservableList<Map<String, String>> viewInfoList;
 
-    public TodoListPageViewModel(ObservableTaskRepository repository) {
-        this.repository = repository;
-        repository.addCreationObserver(this::handleCreation);
-        repository.addUpdateObserver(this::handleUpdate);
+    public TodoListPageViewModel(TodoListRequestBoundary taskGetter) {
 
-        // initialize sorted taskReaderList
-        List<TaskReader> taskList = repository.getAllTasks().get(0L);
-        this.taskReaderList = FXCollections.observableArrayList();
-        for (TaskReader taskReader : taskList) {
-            this.insertTaskReader(taskReader);
-        }
-        // initialize taskInfoList accordingly
+        // initialize sorted taskInfoList
+        List<TaskInfo> taskList = taskGetter.getTasks();
         this.taskInfoList = FXCollections.observableArrayList();
-        this.updateTaskInfoList();
+        for (TaskInfo taskInfo : taskList) {
+            this.insertTaskInfo(taskInfo);
+        }
+        // initialize viewInfoList accordingly
+        this.viewInfoList = FXCollections.observableArrayList();
+        this.updateViewInfoList();
     }
 
     /***
-     * helper function to sort the taskReaderList based on the deadline
-     * @param taskReader to inserted to taskReadList
+     * helper function to sort the taskInfoList based on the deadline
+     * @param taskInfo to inserted to taskInfoList
      */
-    private void insertTaskReader(TaskReader taskReader) {
-        // put the non-deadline task to the end of the list
-        if (taskReader.getDeadline() != null) {
-            LocalDateTime deadline = taskReader.getDeadline();
+    private void insertTaskInfo(TaskInfo taskInfo) {
+        // put tasks with no deadlines to the end of the list
+        if (taskInfo.getDeadline() != null) {
+            LocalDateTime deadline = taskInfo.getDeadline();
             int i = 0;
-            while (i < this.taskReaderList.size()) {
-                if (taskReaderList.get(i).getDeadline() != null) {
-                    if (deadline.isEqual(taskReaderList.get(i).getDeadline()) ||
-                            (deadline.isBefore(taskReaderList.get(i).getDeadline()))) {
-                        taskReaderList.add(i, taskReader);
+            while (i < this.taskInfoList.size()) {
+                if (taskInfoList.get(i).getDeadline() != null) {
+                    if (deadline.isEqual(taskInfoList.get(i).getDeadline()) ||
+                            (deadline.isBefore(taskInfoList.get(i).getDeadline()))) {
+                        taskInfoList.add(i, taskInfo);
                         return;
                     }
                 } else {
-                    taskReaderList.add(i, taskReader);
+                    taskInfoList.add(i, taskInfo);
                     return;
                 }
                 i = i + 1;
             }
         }
-        taskReaderList.add(taskReader);
+        taskInfoList.add(taskInfo);
     }
 
     /***
-     * Update TaskInfoList to make it consistent with taskReaderList
+     * Update viewInfoList to make it consistent with taskReaderList
      */
-    public void updateTaskInfoList() {
-        this.taskInfoList.clear();
-        for (TaskReader taskReader : this.taskReaderList) {
-            String id = String.valueOf(taskReader.getId());
-            String taskName = taskReader.getName();
+    public void updateViewInfoList() {
+        this.viewInfoList.clear();
+        for (TaskInfo taskInfo : taskInfoList) {
+            String id = String.valueOf(taskInfo.getId());
+            String taskName = taskInfo.getName();
 
             String deadline = new String("No Deadline");
-            if (taskReader.getDeadline() != null) {
-                deadline = taskReader.getDeadline().format(
+            if (taskInfo.getDeadline() != null) {
+                deadline = taskInfo.getDeadline().format(
                         DateTimeFormatter.ofLocalizedDateTime(
                                 FormatStyle.MEDIUM, // The format for date
                                 FormatStyle.SHORT)); // The format for time
             }
 
-            Map<String, String> taskInfo = new HashMap<String, String>();
-            taskInfo.put("id", id);
-            taskInfo.put("taskName", taskName);
-            taskInfo.put("deadline", deadline);
-            this.taskInfoList.add(taskInfo);
+            Map<String, String> taskViewInfo = new HashMap<String, String>();
+            taskViewInfo.put("id", id);
+            taskViewInfo.put("taskName", taskName);
+            taskViewInfo.put("deadline", deadline);
+            this.viewInfoList.add(taskViewInfo);
         }
     }
 
     public ObservableList<Map<String, String>> getTaskInfoList() {
-        return taskInfoList;
+        return viewInfoList;
     }
 
     public void handleCreation(TaskReader taskReader) {
@@ -114,11 +106,10 @@ public class TodoListPageViewModel extends ViewModel{
         taskInfoMap.put("taskName", taskName);
         taskInfoMap.put("deadline", deadline);
 
-        this.taskInfoList.add(taskInfoMap);
+        this.viewInfoList.add(taskInfoMap);
     }
 
     public void handleUpdate(TaskReader taskReader) {
 
     }
-
 }
