@@ -1,7 +1,16 @@
 package gui.viewmodel;
 
-public class SettingsViewModel extends ViewModel{
-    void exportToICS() {
+import services.eventcreation.ICSSaver;
 
+public class SettingsViewModel extends ViewModel{
+
+    private final ICSSaver saver;
+
+    public SettingsViewModel(ICSSaver saver) {
+        this.saver = saver;
+    }
+
+    void exportToICS() {
+        saver.export();
     }
 }

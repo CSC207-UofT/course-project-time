@@ -74,7 +74,7 @@ public class ViewModelFactory {
     }
     public SettingsViewModel getSettingViewModel() {
         if (settingsViewModel == null) {
-            settingsViewModel = new SettingsViewModel();
+            settingsViewModel = new SettingsViewModel(servicesFactory.makeICSSaver());
         }
         return settingsViewModel;
     }

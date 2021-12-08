@@ -1,8 +1,8 @@
-package data_gateway;
+package datagateway;
 
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
-import data_gateway.event.ObservableEventRepository;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
+import datagateway.event.ObservableEventRepository;
 import org.joda.time.DateTime;
 
 import java.io.FileWriter;
@@ -13,21 +13,26 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
-
-public class ICSExporter {
+// ICS exporter based on documentation by https://icalendar.org/
+public class ICSExporter implements ICSGateway {
 
 
     private final TimeZone local = TimeZone.getDefault();
 
-    public void saveICS(ObservableEventRepository cal) throws IOException {
+    public void saveICS(CalendarManager cal) {
         List<EventReader> events = cal.getAllEvents();
 
-        FileWriter writer = new FileWriter("time_calendar_export.ics", false);
-        writer.write(generateHeader());
-        writer.write(generateTimeZone());
-        writer.append(generateICSEvents(events));
-        writer.append("END:VCALENDAR");
-        writer.close();
+        FileWriter writer;
+        try {
+            writer = new FileWriter("time_calendar_export.ics", false);
+            writer.write(generateHeader());
+            writer.write(generateTimeZone());
+            writer.append(generateICSEvents(events));
+            writer.append("END:VCALENDAR");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     String generateHeader() {
@@ -81,6 +86,11 @@ public class ICSExporter {
         return formatted + "00";
     }
 
+    /**
+     * For a list of events as ics strings
+     * @param events the events to be formated
+     * @return a string containing a sequence of ics file events
+     */
     String generateICSEvents(List<EventReader> events) {
 
         StringBuilder eventsString = new StringBuilder();
@@ -100,17 +110,6 @@ public class ICSExporter {
             eventsString.append("DESCRIPTION:").append(formatTags(event.getTags())).append("\n");
             eventsString.append("END:VEVENT\n");
 
-//            eventsString.append("BEGIN:VEVENT\n");
-//            eventsString.append("DTEND:").append(formatDate(end)).append("\n");
-//            eventsString.append("DTSTART:").append(formatDate(start)).append("\n");
-//            eventsString.append("UID:").append(event.getId()).append("\n");
-//            eventsString.append(event.getStartTime()).append("DTSTAMP:").append(DateTime.now().toString()).append("\n");
-//            eventsString.append("CREATED:").append(LocalDateTime.now()).append("\n");
-//            eventsString.append("DESCRIPTION:").append(formatTags(event.getTags())).append("\n");
-//            eventsString.append("LAST-MODIFIED:").append(LocalDateTime.now()).append("\n");
-//            eventsString.append("LOCATION:\n").append("SEQUENCE:0\n").append("STATUS:CONFIRMED\n");
-//            eventsString.append("SUMMARY:").append(event.getName()).append("\n");
-//            eventsString.append("TRANSP:OPAQUE\n").append("END:VEVENT\n");
         }
 
         return eventsString.toString();
