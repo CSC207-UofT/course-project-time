@@ -146,12 +146,23 @@ not clear on what they do at first glance. We have also documented some classes 
 some explanation of its responsibilities. The methods that are not documented were the methods we felt had
 sufficient explanation in their names, such as getters and setters.
 
-## Testing (give an example)
+## Testing
 
 Most of the components are easy to test because we follow the clean architecture closely and ensured that
 classes are decoupled. Many of the classes rely on other classes through interfaces.
 This makes our code easy to test as we can easily create a mock class that implements the
-interface that the class is using.
+interface that the class is using. An example is `TaskInfoFromTaskReaderTest`, which tests the class
+`TestInfoFromTaskReader`. The class being tested depends on `TaskReader`, which is an interface. By
+creating a mock-class of the `TaskReader` interface, the tests become very straightforward since we
+do not need to worry about dependencies in our tests, where on the other hand if `TaskReader` was to be a
+concrete class, we would also have to worry about the classes which `TaskReader` depend on as well.
+Additionally, since interfaces are a lot less likely to be changed rather than concrete classes implementing
+them, the tests we wrote are resistant to changes, and therefore is effective as long as there are
+no major changes on the interfaces side,
+
+Coverage-wise, our tests covers almost all methods in the `services` package. All of our tests passing guarantees
+that the classes are working properly. If any use cases are changed and there is a subtle bug, our tests could
+effectively locate the bug and determine the cause, saving much debugging time and avoiding much nuisance.
 
 ## Refactoring
 
