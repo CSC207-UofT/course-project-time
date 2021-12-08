@@ -40,12 +40,13 @@ public class NotificationTracker implements Runnable {
     }
 
     /***
-     * Helper method used by <run> method to update the <upcomingNotification>
-     *     after a notification is sent out.
-     *     If there is no upcoming notification, set <upcomingNotification>
-     *         to be null
+     * Update the <upcomingNotification> after
+     *      1. a notification is sent out or
+     *      2. a new notification is created or
+     *      3. a notification is deleted
+     * If there is no upcoming notification, set <upcomingNotification> to be null
      */
-    private void updateUpcomingNotification() {
+    public void updateUpcomingNotification() {
         List<NotificationReader> notificationReaders = notificationManager.getAllNotifications();
         if (notificationReaders.isEmpty()) {
             this.upcomingNotification = null;
