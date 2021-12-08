@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -61,6 +62,12 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
     private JFXListView<TextField> subtaskList;
 
     @FXML
+    private Button addSubtask;
+
+    @FXML
+    private Button removeSubtask;
+
+    @FXML
     private DialogPane message;
 
     private final Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
@@ -90,6 +97,9 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
     public void displayTask() {
         taskName.setText(taskInfoMap.get("taskName"));
 
+        boolean taskIsCompleted = "yes".equals(taskInfoMap.get("completed"));
+        setEditable(!taskIsCompleted);
+
         if (!"".equals(taskInfoMap.get("dueDate"))) {
             dueDate.setValue(LocalDate.parse(taskInfoMap.get("dueDate"), dateFormat));
             dueTimeHours.setText(taskInfoMap.get("dueTimeHours"));
@@ -97,7 +107,7 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
         }
 
         duration.setText(taskInfoMap.get("duration"));
-        completed.setSelected("yes".equals(taskInfoMap.get("completed")));
+        completed.setSelected(taskIsCompleted);
 
         String subtasks = taskInfoMap.get("subtasks");
         oldSubtaskList = new ArrayList<>();
@@ -110,6 +120,29 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
             }
             oldSubtaskList.addAll(List.of(subtaskArray));  // record the subtasks before any changes
         }
+    }
+
+    /**
+     * Set the editable status of the following boxes to the input
+     * - due date box
+     * - due time hour box
+     * - due time minute box
+     * - duration box
+     * - completed button
+     * - subtask addition button
+     * - subtask removal button
+     * - subtask names
+     * @param editable whether we want the above boxes to be editable
+     */
+    private void setEditable(boolean editable) {
+        dueDate.setDisable(!editable);
+        dueTimeHours.setDisable(!editable);
+        dueTimeMinutes.setDisable(!editable);
+        duration.setDisable(!editable);
+        completed.setDisable(!editable);
+        addSubtask.setDisable(!editable);
+        removeSubtask.setDisable(!editable);
+        subtaskList.setDisable(!editable);
     }
 
     public void updateTask(MouseEvent event) {
