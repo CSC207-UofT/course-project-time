@@ -19,6 +19,7 @@ public class ViewModelFactory {
     private TaskPageViewModel taskPageViewModel;
 
     private final TaskDataBinding taskDataBinding = new TaskDataBinding();
+    private SettingsViewModel settingsViewModel;
 
     public ViewModelFactory(ObservableRepositoryFactory repositoryFactory, ServicesFactory servicesFactory) {
         this.servicesFactory = servicesFactory;
@@ -69,4 +70,11 @@ public class ViewModelFactory {
         }
         return taskPageViewModel;
     }
+    public SettingsViewModel getSettingViewModel() {
+        if (settingsViewModel == null) {
+            settingsViewModel = new SettingsViewModel();
+        }
+        return settingsViewModel;
+    }
+
 }
