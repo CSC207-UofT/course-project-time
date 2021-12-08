@@ -2,7 +2,6 @@ package gui.viewmodel;
 
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
-import consoleapp.eventadapters.CalendarEventData;
 import datagateway.event.EventReader;
 import gui.utility.EventHelper;
 import javafx.collections.FXCollections;
@@ -20,7 +19,6 @@ import java.util.*;
 public class MonthlyCalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
-    private final CalendarEventRequestBoundary eventGetter;
     private final UpdateEventBoundary eventUpdater;
     private final EventSaver eventSaver;
 
@@ -37,7 +35,6 @@ public class MonthlyCalendarViewModel extends ViewModel {
                                     UpdateEventBoundary eventUpdater,
                                     EventSaver eventSaver) {
         this.eventAdder = eventAdder;
-        this.eventGetter = eventGetter;
         this.eventUpdater = eventUpdater;
         this.eventSaver = eventSaver;
 

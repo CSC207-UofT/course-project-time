@@ -1,12 +1,17 @@
 package gui.utility;
 
 import com.calendarfx.model.Entry;
+import com.calendarfx.model.Interval;
+import consoleapp.eventadapters.CalendarEventData;
 import datagateway.event.EventReader;
 import services.eventcreation.CalendarEventModel;
 import services.eventpresentation.EventInfo;
+import services.strategybuilding.MultipleRuleFormBuilder;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +40,17 @@ public class EventHelper {
         return entries;
     }
 
+    /**
+     * Returns an event model from the name and time of the entry, with a default form.
+     * @param entry the entry created from a view
+     * @return an event model (DTO)
+     */
     public static CalendarEventModel entryToCalendarEventModel(Entry<String> entry) {
-        return null; // TODO: implement this
+        Duration duration = Duration.between(entry.getStartAsLocalDateTime(), entry.getEndAsLocalDateTime());
+        MultipleRuleFormBuilder builder = new MultipleRuleFormBuilder();
+        builder.addSingleOccurrence(entry.getStartAsLocalDateTime());
+        return new CalendarEventData(entry.getTitle(),
+                duration, builder.getForm(), new HashSet<>());
     }
 
     private static void updateEntryWithEventReader(Entry<String> entry, EventReader eventReader) {

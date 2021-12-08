@@ -22,7 +22,6 @@ import java.util.Map;
 public class WeeklyCalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
-    private final CalendarEventRequestBoundary eventGetter;
     private final UpdateEventBoundary eventUpdater;
     private final EventSaver eventSaver;
 
@@ -39,7 +38,6 @@ public class WeeklyCalendarViewModel extends ViewModel {
                                    UpdateEventBoundary eventUpdater,
                                    EventSaver eventSaver) {
         this.eventAdder = eventAdder;
-        this.eventGetter = eventGetter;
         this.eventUpdater = eventUpdater;
         this.eventSaver = eventSaver;
 
@@ -63,6 +61,7 @@ public class WeeklyCalendarViewModel extends ViewModel {
             while (c.next()) {
                 if (c.wasAdded()) {
                     Entry<String> entry = c.getAddedSubList().get(0);
+                    System.out.println("smthg was added to list");
                     onCreation(entry);
                 } else if (c.wasRemoved()) {
                     Entry<String> entry = c.getRemoved().get(0);
