@@ -2,6 +2,7 @@ package gui.viewmodel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TaskInfo;
 import services.taskpresentation.TodoListRequestBoundary;
 import services.updateentities.UpdateTaskBoundary;
@@ -19,14 +20,17 @@ public class TaskPageViewModel extends ViewModel implements PropertyChangeListen
 
     private final TodoListRequestBoundary taskGetter;
     private final UpdateTaskBoundary taskUpdater;
+    private final TaskDeletionBoundary taskDeleter;
 
     private final ObservableMap<String, String> taskInfoMap;
 
     private long taskId;
 
-    public TaskPageViewModel(TodoListRequestBoundary taskGetter, UpdateTaskBoundary taskUpdater) {
+    public TaskPageViewModel(TodoListRequestBoundary taskGetter, UpdateTaskBoundary taskUpdater,
+                             TaskDeletionBoundary taskDeleter) {
         this.taskGetter = taskGetter;
         this.taskUpdater = taskUpdater;
+        this.taskDeleter = taskDeleter;
 
         // initialize taskInfoMap
         taskInfoMap = FXCollections.observableHashMap();
@@ -136,8 +140,11 @@ public class TaskPageViewModel extends ViewModel implements PropertyChangeListen
         }
     }
 
+    /**
+     * Delete the selected task (i.e. whose ID is taskId)
+     */
     public void deleteTask() {
-
+        taskDeleter.deleteTask(taskId);
     }
 
     @Override

@@ -64,7 +64,8 @@ public class ViewModelFactory {
 
     public TaskPageViewModel getTaskPageViewModel() {
         if (taskPageViewModel == null) {
-            taskPageViewModel = new TaskPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskUpdater());
+            taskPageViewModel = new TaskPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskUpdater(),
+                    servicesFactory.makeTaskDeleter());
             taskDataBinding.addObserver(taskPageViewModel);
         }
         return taskPageViewModel;
