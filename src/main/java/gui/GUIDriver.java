@@ -1,13 +1,11 @@
 package gui;
 
-import com.sun.source.tree.BreakTree;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
 import gui.view.AddTaskPageController;
 import gui.view.MonthlyCalendarController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
-import gui.viewmodel.MonthlyCalendarViewModel;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +30,7 @@ public class GUIDriver extends Application {
         Parent root = loader.load();
         ((MonthlyCalendarController) loader.getController()).init(factory.getMonthlyCalendarViewModel());
 
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
