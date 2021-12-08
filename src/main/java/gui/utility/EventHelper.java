@@ -32,14 +32,6 @@ public class EventHelper {
         return entry;
     }
 
-    public static List<Entry<String>> eventInfoToEntry(List<EventInfo> eventInfos) {
-        List<Entry<String>> entries = new ArrayList<>();
-        for (EventInfo eventInfo : eventInfos) {
-            entries.add(EventHelper.eventInfoToEntry(eventInfo));
-        }
-        return entries;
-    }
-
     /**
      * Returns an event model from the name and time of the entry, with a default form.
      * @param entry the entry created from a view
@@ -51,51 +43,6 @@ public class EventHelper {
         builder.addSingleOccurrence(entry.getStartAsLocalDateTime());
         return new CalendarEventData(entry.getTitle(),
                 duration, builder.getForm(), new HashSet<>());
-    }
-
-    private static void updateEntryWithEventReader(Entry<String> entry, EventReader eventReader) {
-        if (!entry.getTitle().equals(eventReader.getName())) {
-            entry.setTitle(eventReader.getName());
-        }
-        if (!entry.getStartDate().equals(eventReader.getDates().iterator().next())) {
-            entry.changeStartDate(eventReader.getDates().iterator().next());
-        }
-        if (!entry.getEndDate().equals(eventReader.getDates().iterator().next())) {
-            entry.changeEndDate(eventReader.getDates().iterator().next());
-        }
-        if (!entry.getStartAsLocalDateTime().toLocalTime().equals(eventReader.getStartTime())) {
-            entry.changeStartTime(eventReader.getStartTime());
-        }
-        if (!entry.getEndAsLocalDateTime().toLocalTime().equals(eventReader.getEndTime())) {
-            entry.changeStartTime(eventReader.getEndTime());
-        }
-    }
-
-    private static Entry<String> getEntryFromEvent(Map<String, Long> entryToEventIdMapping,
-                                                   EventReader eventReader,
-                                                   List<Entry<String>> entryList) {
-        for (String entryId : entryToEventIdMapping.keySet()) {
-            if (eventReader.getId() == entryToEventIdMapping.get(entryId)) {
-                for (Entry<String> entry : entryList) {
-                    if (entryId.equals(entry.getId())) {
-                        return entry;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public static void updateEntry(Map<String, Long> entryToEventIdMapping,
-                                   List<Entry<String>> entryList,
-                                   EventReader eventReader) {
-        if (entryToEventIdMapping.containsValue(eventReader.getId())) {
-            Entry<String> entry = EventHelper.getEntryFromEvent(entryToEventIdMapping, eventReader, entryList);
-            assert entry != null;
-            EventHelper.updateEntryWithEventReader(entry, eventReader);
-        } else {
-            System.err.println("Event data may not be synchronized");
-        }
     }
 
     public static Entry<String> eventReaderToEntry(EventReader eventReader) {

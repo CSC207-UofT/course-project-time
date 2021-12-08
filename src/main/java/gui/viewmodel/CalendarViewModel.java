@@ -121,7 +121,7 @@ public class CalendarViewModel extends ViewModel {
      */
     public void handleUpdate(EventReader eventReader) {
         if (!eventUpdatedFromView) {
-            EventHelper.updateEntry(entryToEventIdMapping, entryList, eventReader);
+            this.updateEntry(entryToEventIdMapping, entryList, eventReader);
         } else {
             eventUpdatedFromView = false;
         }
@@ -162,6 +162,49 @@ public class CalendarViewModel extends ViewModel {
             eventSaver.saveEventData("EventData.json");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updateEntry(Map<String, Long> entryToEventIdMapping,
+                                   List<Entry<String>> entryList,
+                                   EventReader eventReader) {
+        if (entryToEventIdMapping.containsValue(eventReader.getId())) {
+            Entry<String> entry = this.getEntryFromEvent(eventReader);
+            assert entry != null;
+            this.updateEntryWithEventReader(entry, eventReader);
+        } else {
+            System.err.println("Event data may not be synchronized");
+        }
+    }
+
+    private Entry<String> getEntryFromEvent(EventReader eventReader) {
+        for (String entryId : entryToEventIdMapping.keySet()) {
+            if (eventReader.getId() == entryToEventIdMapping.get(entryId)) {
+                for (Entry<String> entry : entryList) {
+                    if (entryId.equals(entry.getId())) {
+                        return entry;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private void updateEntryWithEventReader(Entry<String> entry, EventReader eventReader) {
+        if (!entry.getTitle().equals(eventReader.getName())) {
+            entry.setTitle(eventReader.getName());
+        }
+        if (!entry.getStartDate().equals(eventReader.getDates().iterator().next())) {
+            entry.changeStartDate(eventReader.getDates().iterator().next());
+        }
+        if (!entry.getEndDate().equals(eventReader.getDates().iterator().next())) {
+            entry.changeEndDate(eventReader.getDates().iterator().next());
+        }
+        if (!entry.getStartAsLocalDateTime().toLocalTime().equals(eventReader.getStartTime())) {
+            entry.changeStartTime(eventReader.getStartTime());
+        }
+        if (!entry.getEndAsLocalDateTime().toLocalTime().equals(eventReader.getEndTime())) {
+            entry.changeStartTime(eventReader.getEndTime());
         }
     }
 }
