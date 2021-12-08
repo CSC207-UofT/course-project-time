@@ -178,6 +178,7 @@ public class ClockController {
 
         String seconds = Integer.toString((int)timeLeft % 60);
         String minutes = Integer.toString(((int)timeLeft % 3600)/60);
+        String hours = Integer.toString((int)timeLeft / 3600);
 
         if (seconds.length() < 2) {
             seconds = "0" + seconds;
@@ -185,8 +186,11 @@ public class ClockController {
         else if (minutes.length() < 2) {
             minutes = "0" + minutes;
         }
+        else if (hours.length() < 2) {
+            hours = "0" + hours;
+        }
 
-        return minutes + ':' + seconds;
+        return hours + ":" + minutes + ":" + seconds;
     }
 
     /**
@@ -242,7 +246,6 @@ public class ClockController {
                 error.setTitle("Invalid input");
                 error.setContentText("Pomodoro timer will be started with default work interval");
                 error.showAndWait();
-                workTimeText.clear();
                 workDuration = DEFAULT_WORK;
             }
             else {
@@ -257,7 +260,6 @@ public class ClockController {
                 error.setTitle("Invalid input");
                 error.setContentText("Pomodoro timer will be started with default break interval");
                 error.showAndWait();
-                breakTimeText.clear();
                 breakDuration = DEFAULT_BREAK;
             }
             else {
@@ -265,6 +267,8 @@ public class ClockController {
             }
         }
         newStart = true;
+        workTimeText.clear();
+        breakTimeText.clear();
         workTimeText.setEditable(false);
         breakTimeText.setEditable(false);
 
@@ -275,7 +279,8 @@ public class ClockController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println(workDuration);
+        System.out.println(currentDuration);
         timer.start();
     }
 
@@ -292,6 +297,9 @@ public class ClockController {
         timer.stop();
         breakTimeText.setEditable(true);
         workTimeText.setEditable(true);
+        workDuration = DEFAULT_WORK;
+        breakDuration = DEFAULT_BREAK;
+        currentDuration = workDuration;
         pomodoroManager.deleteTimer("PomodoroData.json");
     }
 }
