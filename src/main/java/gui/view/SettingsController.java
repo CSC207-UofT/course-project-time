@@ -2,9 +2,12 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
+import gui.viewmodel.SettingsViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -21,6 +24,10 @@ public class SettingsController implements Initializable, ViewModelBindingContro
     @FXML
     private AnchorPane mainBackground;
 
+    @FXML
+    private Button exportButton;
+    private SettingsViewModel viewModel;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -29,7 +36,11 @@ public class SettingsController implements Initializable, ViewModelBindingContro
 
     @Override
     public void init(ViewModel viewModel) {
+        this.viewModel = (SettingsViewModel)viewModel;
+    }
 
+    public void exportICS(MouseEvent event) {
+        viewModel.exportICS();
     }
 
 }

@@ -59,6 +59,11 @@
                   <Font size="28.0" />
                </font>
             </JFXToggleButton>
+            <Button fx:id="exportButton" accessibleText="Export Calendar data to ICS" contentDisplay="CENTER" layoutX="551.0" layoutY="662.0" mnemonicParsing="false" onMouseClicked="#exportICS" prefHeight="51.0" prefWidth="166.0" text="Export to ICS">
+               <font>
+                  <Font name="Cambria" size="20.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" />
