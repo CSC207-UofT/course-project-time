@@ -119,13 +119,13 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         }
         for (TaskReader task: taskReaders) {
             String taskName = task.getName();
-            String deadline = formatDuration(task.getDeadline());
+            String deadline = formatDeadline(task.getDeadline());
             taskMap.put(taskName, deadline);
         }
         return taskMap;
     }
 
-    private String formatDuration(LocalDateTime localDateTime) {
+    private String formatDeadline(LocalDateTime localDateTime) {
         return localDateTime.format(
                 DateTimeFormatter.ofLocalizedDateTime(
                         FormatStyle.MEDIUM,
