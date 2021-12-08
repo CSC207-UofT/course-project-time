@@ -25,7 +25,7 @@ public class ViewModelFactory {
         taskRepository = repositoryFactory.makeTaskRepository();
     }
 
-    public CalendarViewModel getCalendarViewModel() {
+    public CalendarViewModel getMonthlyCalendarViewModel() {
         if (calendarViewModel == null) {
             calendarViewModel = new CalendarViewModel(servicesFactory.makeEventCreator(),
                     servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater(), servicesFactory.makeEventSaver());
@@ -33,6 +33,15 @@ public class ViewModelFactory {
             eventRepository.addUpdateObserver(calendarViewModel::handleUpdate);
         }
         return calendarViewModel;
+    }
+
+    /**
+     * Returns a view model for the weekly calendar view, which is implemented as being the same as that of
+     * the monthly calendar view.
+     * @return a view model
+     */
+    public CalendarViewModel getWeeklyCalendarViewModel() {
+        return getMonthlyCalendarViewModel();
     }
 
     public TodoListPageViewModel getTodoListPageViewModel() {
