@@ -1,6 +1,11 @@
 import entity.dates.DateStrategy;
+import entity.dates.DecoratorStrategy;
+import entity.dates.OrStrategy;
 import org.junit.jupiter.api.Test;
-import services.strategy_building.StrategyBuilder;
+import services.strategybuilding.StrategyBuilder;
+import services.strategybuilding.strategies.EndRestrictionDecorator;
+import services.strategybuilding.strategies.StartRestrictionDecorator;
+import services.strategybuilding.strategies.WeeklyStrategy;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,7 +24,7 @@ public class StrategyBuilderTest {
     @Test
     public void testWeeklyStrategyAcrossTwoWeeks() {
         StrategyBuilder sb = new StrategyBuilder();
-        sb.startWeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT);
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT));
         sb.finishCurrentStrategy();
         DateStrategy strategy = sb.compileStrategy();
 
@@ -44,12 +49,12 @@ public class StrategyBuilderTest {
     @Test
     public void testTwoDifferentWeeklyStrategies() {
         StrategyBuilder sb = new StrategyBuilder();
-        sb.startUnionStrategy();
+        sb.startCompositeStrategy(new OrStrategy());
 
-        sb.startWeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT);
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT));
         sb.finishCurrentStrategy();
 
-        sb.startWeeklyStrategy(DayOfWeek.TUESDAY, LocalTime.NOON);
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.TUESDAY, LocalTime.NOON));
         sb.finishCurrentStrategy();
         sb.finishCurrentStrategy();
 
@@ -77,11 +82,12 @@ public class StrategyBuilderTest {
     @Test
     public void testEndRestrictionOnWeekly() {
         StrategyBuilder sb = new StrategyBuilder();
-        sb.startUnionStrategy();
-        sb.startWeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT);
+        sb.startCompositeStrategy(new OrStrategy());
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT));
 
         LocalDate mondayAfterFirstSunday = arbitraryFriday.plusDays(3);
-        sb.addEndingRestriction(mondayAfterFirstSunday.atStartOfDay());
+        DecoratorStrategy endStrategy = new EndRestrictionDecorator(mondayAfterFirstSunday.atStartOfDay());
+        sb.addDecorator(endStrategy);
         sb.finishCurrentStrategy();
 
         sb.finishCurrentStrategy();
@@ -109,14 +115,15 @@ public class StrategyBuilderTest {
     @Test
     public void testEndRestrictionOnComposite() {
         StrategyBuilder sb = new StrategyBuilder();
-        sb.startUnionStrategy();
-        sb.startWeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT);
+        sb.startCompositeStrategy(new OrStrategy());
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT));
         sb.finishCurrentStrategy();
-        sb.startWeeklyStrategy(DayOfWeek.TUESDAY, LocalTime.NOON);
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.TUESDAY, LocalTime.NOON));
         sb.finishCurrentStrategy();
 
         LocalDate monday = arbitraryFriday.plusDays(3);
-        sb.addEndingRestriction(monday.atStartOfDay());
+        DecoratorStrategy endStrategy = new EndRestrictionDecorator(monday.atStartOfDay());
+        sb.addDecorator(endStrategy);
         sb.finishCurrentStrategy();
 
         DateStrategy strategy = sb.compileStrategy();
@@ -139,11 +146,12 @@ public class StrategyBuilderTest {
     @Test
     public void testStartRestrictionOnWeekly() {
         StrategyBuilder sb = new StrategyBuilder();
-        sb.startUnionStrategy();
-        sb.startWeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT);
+        sb.startCompositeStrategy(new OrStrategy());
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT));
 
         LocalDate mondayAfterFirstSunday = arbitraryFriday.plusDays(3);
-        sb.addStartingRestriction(mondayAfterFirstSunday.atStartOfDay());
+        DecoratorStrategy startStrategy = new StartRestrictionDecorator(mondayAfterFirstSunday.atStartOfDay());
+        sb.addDecorator(startStrategy);
         sb.finishCurrentStrategy();
 
         sb.finishCurrentStrategy();
@@ -171,12 +179,15 @@ public class StrategyBuilderTest {
     @Test
     public void testRangeRestrictionOnWeekly() {
         StrategyBuilder sb = new StrategyBuilder();
-        sb.startUnionStrategy();
-        sb.startWeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT);
+        sb.startCompositeStrategy(new OrStrategy());
+        sb.startBaseStrategy(new WeeklyStrategy(DayOfWeek.SUNDAY, LocalTime.MIDNIGHT));
 
         LocalDate mondayAfterFirstSunday = arbitraryFriday.plusDays(3);
         LocalDate secondMondayAfterFirstSunday = mondayAfterFirstSunday.plusDays(7);
-        sb.addRangeRestriction(mondayAfterFirstSunday.atStartOfDay(), secondMondayAfterFirstSunday.atStartOfDay());
+        DecoratorStrategy startStrategy = new StartRestrictionDecorator(mondayAfterFirstSunday.atStartOfDay());
+        DecoratorStrategy endStrategy = new EndRestrictionDecorator(secondMondayAfterFirstSunday.atStartOfDay());
+        sb.addDecorator(startStrategy);
+        sb.addDecorator(endStrategy);
         sb.finishCurrentStrategy();
 
         sb.finishCurrentStrategy();

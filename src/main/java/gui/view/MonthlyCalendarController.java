@@ -9,8 +9,8 @@ import com.calendarfx.view.MonthView;
 import com.calendarfx.view.page.MonthPage;
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.view_model.MonthlyCalendarViewModel;
-import gui.view_model.ViewModel;
+import gui.viewmodel.MonthlyCalendarViewModel;
+import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,7 +54,7 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
     public void initialize(URL location, ResourceBundle resources) {
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
 
-        calendarType.getItems().addAll("Month", "Week", "Day");
+        calendarType.getItems().addAll("Month", "Week");
     }
 
     @FXML

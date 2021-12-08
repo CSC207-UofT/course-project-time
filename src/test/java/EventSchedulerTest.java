@@ -1,8 +1,8 @@
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_from_task_creation.EventScheduler;
+import services.eventfromtaskcreation.EventScheduler;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -111,8 +111,18 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
-            return 0L;
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
+            return 0;
+        }
+
+        @Override
+        public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+            return 0;
+        }
+
+        @Override
+        public void deleteEvent(long eventId) {
+
         }
 
         @Override

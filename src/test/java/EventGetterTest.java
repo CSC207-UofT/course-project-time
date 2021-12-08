@@ -1,10 +1,10 @@
-import data_gateway.event.CalendarManager;
-import data_gateway.event.EventReader;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.event_creation.EventInfoFromReader;
-import services.event_presentation.EventGetter;
-import services.event_presentation.EventInfo;
+import services.eventcreation.EventInfoFromReader;
+import services.eventpresentation.EventGetter;
+import services.eventpresentation.EventInfo;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -64,28 +64,37 @@ public class EventGetterTest {
     }
 
     @Test
-    void getEvent() {
-        HashMap<String, String> map1 = new HashMap<>();
-        map1.put("name", "mock1");
-        map1.put("start", LocalTime.of(12, 0).toString());
-        map1.put("end", LocalTime.of(14, 0).toString());
-        map1.put("tags", tags1.toString());
-        map1.put("dates", nov25Nov27.toString());
+    void getEvents() {
+        MockEventReader eventReader1 = new MockEventReader(1L, "mock1",
+                LocalTime.of(12, 0), LocalTime.of(14, 0), tags1, nov25Nov27);
+        EventInfo eventInfo1 = new EventInfoFromReader(eventReader1);
+        MockEventReader eventReader2 = new MockEventReader(2L, "mock2",
+                LocalTime.of(14, 0), LocalTime.of(16, 0), tags2, nov25Nov26);
+        EventInfo eventInfo2 = new EventInfoFromReader(eventReader2);
 
-        HashMap<String, String> map2 = new HashMap<>();
-        map2.put("name", "mock2");
-        map2.put("start", LocalTime.of(14, 0).toString());
-        map2.put("end", LocalTime.of(16, 0).toString());
-        map2.put("tags", tags2.toString());
-        map2.put("dates", nov25Nov26.toString());
+        List<EventInfo> expected = new ArrayList<>();
+        expected.add(eventInfo1);
+        expected.add(eventInfo2);
 
-        List<HashMap<String, String>> expected = new ArrayList<>();
-        expected.add(map1);
-        expected.add(map2);
+        List<EventInfo> actual = eventGetter.getEvents();
 
-        List<HashMap<String, String>> actual = eventGetter.getEvents();
+        assertEquals(expected.size(), actual.size());
 
-        assertEquals(expected, actual);
+        assertEquals(eventInfo1.getId(), actual.get(0).getId());
+        assertEquals(eventInfo1.getName(), actual.get(0).getName());
+        assertEquals(eventInfo1.getCompleted(), actual.get(0).getCompleted());
+        assertEquals(eventInfo1.getDates(), actual.get(0).getDates());
+        assertEquals(eventInfo1.getEndTime(), actual.get(0).getEndTime());
+        assertEquals(eventInfo1.getStartTime(), actual.get(0).getStartTime());
+        assertEquals(eventInfo1.getTags(), actual.get(0).getTags());
+
+        assertEquals(eventInfo2.getId(), actual.get(1).getId());
+        assertEquals(eventInfo2.getName(), actual.get(1).getName());
+        assertEquals(eventInfo2.getCompleted(), actual.get(1).getCompleted());
+        assertEquals(eventInfo2.getDates(), actual.get(1).getDates());
+        assertEquals(eventInfo2.getEndTime(), actual.get(1).getEndTime());
+        assertEquals(eventInfo2.getStartTime(), actual.get(1).getStartTime());
+        assertEquals(eventInfo2.getTags(), actual.get(1).getTags());
     }
 
     @Test
@@ -105,8 +114,18 @@ public class EventGetterTest {
     private class MockCalendarManager implements CalendarManager {
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
             return 0;
+        }
+
+        @Override
+        public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+            return 0;
+        }
+
+        @Override
+        public void deleteEvent(long eventId) {
+
         }
 
         @Override
