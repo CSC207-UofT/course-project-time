@@ -23,6 +23,11 @@ public class PomodoroManager {
         gson = builder.create();
     }
 
+    /**
+     * loads timer from specified file
+     * @param filePath the file the data would be found in
+     * @throws IOException if the specified file cannot be accessed
+     */
     public void loadTimer(String filePath) throws IOException {
         File file = new File(filePath);
         if(file.isFile()) {

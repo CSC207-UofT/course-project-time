@@ -101,6 +101,8 @@ public class ClockController implements ViewModelBindingController {
                 }
             }
         };
+        // if the user is returning to the pomodoro menu after already starting a timer, this will restart the timer
+        // based off the time it would be now if it was running in the background
         if (!(pomodoroManager.getPomodoroTimer() == null)) {
             setDefaults();
             workTimeText.setEditable(false);
@@ -109,6 +111,9 @@ public class ClockController implements ViewModelBindingController {
         }
     }
 
+    /**
+     * sets all the pomodoro variables to what they would be now if the user had never left the pomodoro page
+     */
     private void setDefaults() {
         workDuration = pomodoroManager.getPomodoroTimer().getWorkDuration();
         breakDuration = pomodoroManager.getPomodoroTimer().getBreakDuration();
@@ -128,6 +133,12 @@ public class ClockController implements ViewModelBindingController {
         newStart = false;
     }
 
+    /**
+     * Calculates what would have been the start time of this interval if the user had never left the pomodoro page
+     * @param isWork true if the user is on a work interval, false if on a break interval
+     * @param startTime the start time of the timer when the user first started the timer
+     * @return the start time that this interval would have started at in nanoseconds
+     */
     private long calculateCurrentIntervalsStartTime(boolean isWork, long startTime) {
         long elapsedTime = System.nanoTime() - startTime;
         long remainder = 0;
@@ -239,6 +250,7 @@ public class ClockController implements ViewModelBindingController {
         workTimeText.setEditable(false);
         breakTimeText.setEditable(false);
 
+        // saves the timer so that the user can leave the pomodoro page and come back without restarting their pomodoro
         pomodoroManager.createTimer(System.nanoTime(),!isBreak, breakDuration, workDuration, newStart);
         try {
             pomodoroManager.saveTimer();
