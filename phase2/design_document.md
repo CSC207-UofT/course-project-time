@@ -13,7 +13,17 @@ satisfying SRP.
 
 
 ### The Open–closed principle
-
+Classes were written such that they are easy to extend. We have been avoiding extensive
+conditional control flow in lower layers in favor of classes. Although some classes
+are still concrete, interfaces are easily extractable which allows us to take advantage
+of polymorphism. Across phases 1 and 2, we have added a notification system to our program, which 
+is to notify users when an event or task deadline is upcoming. Notifications might seem to be a concept 
+bundled with events and tasks, but it was not designed as an attribute when we first drafted the CRC
+model for `Event` and `Task`. In order to follow OCP, we created a `Notification` entity class which 
+references the `id` attribute of `Event` and `Task` instead, and all classes and interfaces written were
+an extension of existing classes. `EventNotificationCreationModel` which extends `CalendarEventModel`
+and `EventNotificationCreationBoundary` which extends `CalendarEventCreationBoundary` are examples of how we 
+followed OCP in the implementation of the notification system.
 
 ### The Liskov substitution principle
 Our classes do not modify or remove behaviours from the interface they are
@@ -56,12 +66,32 @@ We organized our code according to the various layers as outlined in Clean Archi
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
 
+In the graphical user interface that we have implemented in phase 2, we have used the MVVM pattern to decouple
+the user interface and the rest of the application.
+
 __A scenario walk through that demonstrates clean architecture__
 
 
 
 ## Design Patterns
 
+In the command line interface that we used in phase 1, 
+we have used the **facade design pattern** with the `MainController` in `consoleapp` being
+the facade. It routes requests from the `ApplicationDriver` to the respective controllers and acts as a facade.
+We chose to use the facade design pattern to separate concerns of which controllers to call away from
+the `ApplicationDriver`, whose main responsibility is to interact with the user.
+
+We have used the **observer pattern** as part of our notification system which
+notifies users if there is an upcoming event or task due.
+
+In the notification system, we are also using the **proxy pattern** to add an event to the program,
+together with its notification time. In phase 0, we only have an `EventAdder` in `services\eventcreation` package,
+which adds an event to the program. As mentioned in the OCP section, we created an additional entity `Notification`
+which has reference to the `id` of an `Event`, so the event creation process would also need
+to create a `Notification` instance that corresponds to the event. This design pattern was chosen as we
+needed a wrapper of the `EventAdder`, that both creates an event and a task, but we needed to hide this creation
+process from the client code. Proxy would be the most suitable choice here, allowing the client code to remain
+the same, while getting the `Notification` instance created.
 
 
 ## Use of GitHub Features (add in github actions)
@@ -113,6 +143,6 @@ Moreover, when functionalities are added or changed, the changes will likely be 
 
 In phase 2, when the GUI was added in, it was easy to organize the code by having all classes and interfaces
 related to the GUI in the `gui` package which represents the view. Since we were utilizing the MVVM pattern
-for the frontend, we then decided to seperate the classes into `view`, `viewmodel`, and a `utility` package
+for the frontend, we then decided to separate the classes into `view`, `viewmodel`, and a `utility` package
 with helper classes. `model` was left out as we were using the gateway classes directly as our `model` in the
 MVVM pattern.

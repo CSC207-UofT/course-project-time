@@ -14,7 +14,7 @@ public class Calendar {
         TodoList todoList = new TodoList();
 
         for(Event event : events) {
-            Task task = new Task(event.getId(), event.getEventName());
+            Task task = new Task(event.getId(), "");
             todoList.addTask(task);
         }
     }

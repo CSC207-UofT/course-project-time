@@ -114,8 +114,18 @@ public class EventGetterTest {
     private class MockCalendarManager implements CalendarManager {
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
             return 0;
+        }
+
+        @Override
+        public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+            return 0;
+        }
+
+        @Override
+        public void deleteEvent(long eventId) {
+
         }
 
         @Override

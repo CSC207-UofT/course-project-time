@@ -7,15 +7,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class ObservableEventEntityManager implements ObservableEventRepository {
 
     private final CalendarManager calendarManager;
     private final List<Observer<EventReader>> onCreationObservers = new ArrayList<>();
     private final List<Observer<EventReader>> onUpdateObservers = new ArrayList<>();
+    private final List<Observer<EventReader>> onDeleteObservers = new ArrayList<>();
 
     public ObservableEventEntityManager(CalendarManager calendarManager) {
         this.calendarManager = calendarManager;
@@ -31,6 +32,11 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
         onUpdateObservers.add(observer);
     }
 
+    @Override
+    public void addDeleteObservers(Observer<EventReader> observer) {
+        onDeleteObservers.add(observer);
+    }
+
     private void notifyCreationObservers(EventReader er) {
         onCreationObservers.forEach(o -> o.notifyObserver(er));
     }
@@ -39,12 +45,31 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
         onUpdateObservers.forEach(o -> o.notifyObserver(er));
     }
 
+    private void notifyDeleteObservers(EventReader er) {
+        onDeleteObservers.forEach(o -> o.notifyObserver(er));
+    }
+
     @Override
-    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
         long newEventId = calendarManager.addEvent(eventName, startTime, endTime, tags, date);
         EventReader newEvent = getById(newEventId);
         notifyCreationObservers(newEvent);
         return newEventId;
+    }
+
+    @Override
+    public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+        long newEventId = calendarManager.addEvent(taskId, startTime, tags, date);
+        EventReader newEvent = getById(newEventId);
+        notifyCreationObservers(newEvent);
+        return newEventId;
+    }
+
+    @Override
+    public void deleteEvent(long eventId) {
+        EventReader deletedEvent = getById(eventId);
+        calendarManager.deleteEvent(eventId);
+        notifyDeleteObservers(deletedEvent);
     }
 
     @Override

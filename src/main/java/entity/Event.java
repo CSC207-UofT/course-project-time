@@ -1,6 +1,5 @@
 package entity;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,71 +17,59 @@ public class Event {
     private LocalTime startTime;
     private LocalTime endTime;
     private final Set<String> tags;
-    private final Task task;
+    private final long taskId;
     private final Set<LocalDate> dates;
-    private boolean completed;
 
     /**
      * Construct an event based on a task.
      * @param id unique id of event
-     * @param task the main task that will be changed into an event
      * @param startTime the start time of the event
      * @param endTime the end time the event
      */
-    public Event(long id, Task task, LocalDateTime startTime, LocalTime endTime) {
+    public Event(long id, long taskId, LocalDateTime startTime, LocalTime endTime) {
         this.id = id;
-        this.task = task;
+        this.taskId = taskId;
         this.startTime = startTime.toLocalTime();
         this.endTime = endTime;
         this.tags = new HashSet<>();
         this.dates = new HashSet<>();
         this.dates.add(startTime.toLocalDate());
-        this.completed = task.getCompleted();
     }
 
     /**
      * Construct an event based on a task.
      * @param id unique id of event
-     * @param task the main task that will be changed into an event
      * @param startTime the start time of the event
      * @param endTime the end time the event
      */
-    public Event(long id, Task task, LocalTime startTime, LocalTime endTime,
+    public Event(long id, long taskId, LocalTime startTime, LocalTime endTime,
                  Set<LocalDate> dates) {
         this.id = id;
-        this.task = task;
+        this.taskId = taskId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = new HashSet<>();
         this.dates = dates;
-        this.completed = task.getCompleted();
     }
 
     /**
      * Construct an event directly, with the event name, start time,
      * end time, and the date
      * @param id unique id of event
-     * @param eventName the name of the event
      * @param startTime the start time of the event (without date)
      * @param endTime the end time of the event (without date)
      * @param tags the tags of the event
      * @param date the date time of the event
      */
-    public Event(long id, String eventName, LocalTime startTime, LocalTime endTime,
-                 HashSet<String> tags, LocalDate date) {
+    public Event(long id, LocalTime startTime, LocalTime endTime,
+                 Set<String> tags, LocalDate date, long taskId) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.tags = tags;
-        Duration timeNeeded = Duration.between(startTime, endTime);
-        this.task = new Task(id, eventName, timeNeeded);
+        this.taskId = taskId;
         this.dates = new HashSet<>();
         this.dates.add(date);
-        this.completed = false;
-    }
-
-    public void setEventName(String newName) {
-        this.task.setTaskName(newName);
     }
 
     public void setStartTime(LocalTime startTime) {
@@ -91,10 +78,6 @@ public class Event {
 
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
     }
 
     public void addTag(String tag) {
@@ -107,8 +90,8 @@ public class Event {
         return id;
     }
 
-    public String getEventName() {
-        return this.task.getTaskName();
+    public long getTaskId() {
+        return taskId;
     }
 
     public LocalTime getStartTime() {
@@ -123,15 +106,7 @@ public class Event {
         return this.tags;
     }
 
-    public Task getTask() {
-        return this.task;
-    }
-
     public Set<LocalDate> getDates() {
         return this.dates;
-    }
-
-    public boolean getCompleted() {
-        return this.completed;
     }
 }

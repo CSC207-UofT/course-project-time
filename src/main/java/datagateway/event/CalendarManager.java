@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public interface CalendarManager {
 
-    long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+    long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags,
                   LocalDate date);
+
+    long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date);
+
+    void deleteEvent(long eventId);
 
     void markEventAsCompleted(long eventId);
 

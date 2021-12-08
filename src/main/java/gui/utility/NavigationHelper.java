@@ -133,7 +133,7 @@ public final class NavigationHelper {
 
     public static void enterTaskPage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/taskBar.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/taskPage.fxml")));
         initializeControllerAndSetNewScene(event, loader);
     }
 
