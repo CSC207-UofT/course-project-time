@@ -1,10 +1,11 @@
-package datagateway.event;
+package database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import entity.Event;
+import datagateway.event.CalendarManager;
+import datagateway.event.EventReader;
 import services.Snowflake;
 
 import java.io.File;
@@ -21,8 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class EventEntityManager implements CalendarManager{
-    private final ArrayList<Event> eventList;
+public class EventEntityManager implements CalendarManager {
+    private final ArrayList<EventDataClass> eventList;
     private final Gson gson;
     private final Snowflake snowflake;
 
@@ -30,7 +31,7 @@ public class EventEntityManager implements CalendarManager{
         this.eventList = new ArrayList<>();
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Event.class, new JsonEventAdapter());
+        builder.registerTypeAdapter(EventDataClass.class, new JsonEventAdapter());
         gson = builder.create();
     }
 
@@ -42,17 +43,17 @@ public class EventEntityManager implements CalendarManager{
     }
 
     /**
-     * Loads event data from specified json file, gson code based on examples from
+     * Loads EventDataClass data from specified json file, gson code based on examples from
      * //www.baeldung.com/gson-list
-     * @param filePath The location of the json file containing event data
+     * @param filePath The location of the json file containing EventDataClass data
      * @throws FileNotFoundException if the specified file cannot be accessed
      */
     public void loadEvents(String filePath) throws IOException {
         File file = new File(filePath);
         if(file.isFile()) {
             JsonReader reader = new JsonReader(new FileReader(filePath));
-            Type listType = new TypeToken<List<Event>>(){}.getType();
-            List<Event> events = gson.fromJson(reader, listType);
+            Type listType = new TypeToken<List<EventDataClass>>(){}.getType();
+            List<EventDataClass> events = gson.fromJson(reader, listType);
 
             if(events != null) {
                 this.eventList.addAll(events);
@@ -62,19 +63,19 @@ public class EventEntityManager implements CalendarManager{
     }
 
     /**
-     * Add a new event to eventList using data from eventData
-     * @param eventName     the name of the new event
-     * @param startTime     the time the event should start
-     * @param endTime       the time the event should end
-     * @param tags          the tags associated with the event
-     * @param date          the date the event should occur
+     * Add a new EventDataClass to eventList using data from eventData
+     * @param eventName     the name of the new EventDataClass
+     * @param startTime     the time the EventDataClass should start
+     * @param endTime       the time the EventDataClass should end
+     * @param tags          the tags associated with the EventDataClass
+     * @param date          the date the EventDataClass should occur
      */
     @Override
     public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
                          LocalDate date) {
-        Event event = new Event(snowflake.nextId(), eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
-        eventList.add(event);
-        return event.getId();
+        EventDataClass EventDataClass = new EventDataClass(snowflake.nextId(), eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+        eventList.add(EventDataClass);
+        return EventDataClass.getId();
     }
 
     /**
@@ -89,8 +90,8 @@ public class EventEntityManager implements CalendarManager{
     public List<EventReader> getAllEvents() {
         List<EventReader> eventReaderList = new ArrayList<>();
 
-        for(Event event: eventList){
-            EventReader eventReader = new EventToEventReader(event);
+        for(EventDataClass EventDataClass: eventList){
+            EventReader eventReader = new EventDataClassToReader(EventDataClass);
             eventReaderList.add(eventReader);
         }
         return eventReaderList;
@@ -121,10 +122,10 @@ public class EventEntityManager implements CalendarManager{
         getById(id).removeTag(tag);
     }
 
-    private Event getById(long id){
-        for(Event event : eventList){
-            if(event.getId() == id){
-                return event;
+    private EventDataClass getById(long id){
+        for(EventDataClass EventDataClass : eventList){
+            if(EventDataClass.getId() == id){
+                return EventDataClass;
             }
         }
         return null;

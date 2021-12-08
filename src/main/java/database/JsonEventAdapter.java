@@ -1,12 +1,10 @@
-package datagateway.event;
+package database;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import datagateway.task.JsonTaskAdapter;
-import entity.Event;
 import entity.Task;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,31 +13,31 @@ import java.util.Set;
 
 // Based on GSON type adapter documentation from
 // https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.1/com/google/gson/TypeAdapter.html
-public class JsonEventAdapter extends TypeAdapter<Event> {
+public class JsonEventAdapter extends TypeAdapter<EventDataClass> {
 
     private final JsonTaskAdapter jsonTaskAdapter = new JsonTaskAdapter();
 
     @Override
-    public void write(JsonWriter jsonWriter, Event event) throws IOException {
+    public void write(JsonWriter jsonWriter, EventDataClass EventDataClass) throws IOException {
         jsonWriter.beginObject();
         jsonWriter.setIndent("    ");
-        jsonWriter.name("id").value(event.getId());
-        jsonWriter.name("startTime").value(event.getStartTime().toString());
-        jsonWriter.name("endTime").value(event.getEndTime().toString());
+        jsonWriter.name("id").value(EventDataClass.getId());
+        jsonWriter.name("startTime").value(EventDataClass.getStartTime().toString());
+        jsonWriter.name("endTime").value(EventDataClass.getEndTime().toString());
         jsonWriter.name("tags");
         jsonWriter.beginArray();
-        for (String tag : event.getTags()) {
+        for (String tag : EventDataClass.getTags()) {
             jsonWriter.value(tag);
         }
         jsonWriter.endArray();
 
         jsonWriter.name("task");
-        jsonTaskAdapter.write(jsonWriter, event.getTask());
+        jsonTaskAdapter.write(jsonWriter, EventDataClass.getTask());
 
         jsonWriter.name("dates");
         jsonWriter.beginArray();
-        if (event.getDates() != null) {
-            for (LocalDate date : event.getDates()) {
+        if (EventDataClass.getDates() != null) {
+            for (LocalDate date : EventDataClass.getDates()) {
                 jsonWriter.value(date.toString());
             }
         } else {
@@ -50,7 +48,7 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
     }
 
     @Override
-    public Event read(JsonReader jsonReader) throws IOException {
+    public EventDataClass read(JsonReader jsonReader) throws IOException {
         long id = 0;
         LocalTime startTime = null;
         LocalTime endTime = null;
@@ -101,12 +99,12 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
 
         int MIN_EVENT_ATTRIBUTES = 3;
         if (read_so_far == MIN_EVENT_ATTRIBUTES && task != null) {
-            Event event = new Event(id, task, startTime, endTime, dates);
+            EventDataClass EventDataClass = new EventDataClass(id, task, startTime, endTime, dates);
             for (String tag : tags) {
-                event.addTag(tag);
+                EventDataClass.addTag(tag);
             }
 
-            return event;
+            return EventDataClass;
         }
         return null;
     }
