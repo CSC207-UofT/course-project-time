@@ -4,8 +4,13 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import entity.Event;
+import entity.dates.DateStrategy;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashSet;
@@ -30,20 +35,19 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
         jsonWriter.name("taskId");
         jsonWriter.value(event.getTaskId());
 
-        jsonWriter.name("dates");
-        jsonWriter.beginArray();
-        jsonWriter.endArray();
+        jsonWriter.name("strategy");
+
+        jsonWriter.value(serializeStrategy(event.getDateStrategy()));
+
         jsonWriter.endObject();
     }
 
     @Override
     public Event read(JsonReader jsonReader) throws IOException {
         long id = 0;
-        LocalTime startTime = null;
-        LocalTime endTime = null;
         Set<String> tags = new HashSet<>();
         long taskId = -1;
-        Set<LocalDate> dates = new HashSet<>();
+        DateStrategy strategy = null;
 
         int read_so_far = 0;
         jsonReader.beginObject();
@@ -55,14 +59,6 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
                     id = jsonReader.nextLong();
                     read_so_far += 1;
                     break;
-                case "startTime":
-                    read_so_far += 1;
-                    startTime = LocalTime.parse(jsonReader.nextString());
-                    break;
-                case "endTime":
-                    read_so_far += 1;
-                    endTime = LocalTime.parse(jsonReader.nextString());
-                    break;
                 case "tags":
                     jsonReader.beginArray();
                     while (jsonReader.hasNext()) {
@@ -73,28 +69,33 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
                 case "taskId":
                     taskId = Long.parseLong(jsonReader.nextString());
                     break;
-                case "dates":
-                    if (jsonReader.peek() != null) {
-                        jsonReader.beginArray();
-                        while (jsonReader.hasNext()) {
-                            dates.add(LocalDate.parse(jsonReader.nextString()));
-                        }
-                        jsonReader.endArray();
-                        break;
+                case "strategy":
+                    try {
+                        strategy = deserializeStrategy(jsonReader.nextString());
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
             }
         }
         jsonReader.endObject();
 
-        int MIN_EVENT_ATTRIBUTES = 3;
-//        if (read_so_far == MIN_EVENT_ATTRIBUTES && taskId >= 0) {
-//            Event event = new Event(id, taskId, startTime, endTime, dates);
-//            for (String tag : tags) {
-//                event.addTag(tag);
-//            }
-//
-//            return event;
-//        }
-        return null;
+        return new Event(id, taskId, strategy, tags);
     }
+
+    private String serializeStrategy(DateStrategy strategy) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ObjectOutputStream serializer = new ObjectOutputStream(outputStream);
+        serializer.writeObject(strategy);
+        serializer.close();
+        return outputStream.toString();
+    }
+
+    private DateStrategy deserializeStrategy(String strategySerialization) throws IOException, ClassNotFoundException {
+        byte[] strategyBytes = strategySerialization.getBytes();
+        ObjectInputStream serializationReader = new ObjectInputStream(new ByteArrayInputStream(strategyBytes));
+        DateStrategy strategy = (DateStrategy) serializationReader.readObject();
+        serializationReader.close();
+        return strategy;
+    }
+
 }

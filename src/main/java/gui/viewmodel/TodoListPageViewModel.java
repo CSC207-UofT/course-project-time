@@ -4,6 +4,7 @@ import datagateway.task.TaskReader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.taskpresentation.TaskInfo;
+import services.taskpresentation.TaskInfoFromTaskReader;
 import services.taskpresentation.TodoListRequestBoundary;
 
 import java.time.LocalDateTime;
@@ -18,8 +19,11 @@ public class TodoListPageViewModel extends ViewModel {
 
     private final ObservableList<TaskInfo> taskInfoList;
     private final ObservableList<Map<String, String>> viewInfoList;
+    private final TaskDataBinding taskDataBinding;
 
-    public TodoListPageViewModel(TodoListRequestBoundary taskGetter) {
+    public TodoListPageViewModel(TodoListRequestBoundary taskGetter, TaskDataBinding taskDataBinding) {
+
+        this.taskDataBinding = taskDataBinding;
 
         // initialize sorted taskInfoList
         List<TaskInfo> taskList = taskGetter.getTasks();
@@ -66,6 +70,7 @@ public class TodoListPageViewModel extends ViewModel {
         for (TaskInfo taskInfo : taskInfoList) {
             String id = String.valueOf(taskInfo.getId());
             String taskName = taskInfo.getName();
+            String completed = Boolean.toString(taskInfo.getCompleted());
 
             String deadline = new String("No Deadline");
             if (taskInfo.getDeadline() != null) {
@@ -79,8 +84,14 @@ public class TodoListPageViewModel extends ViewModel {
             taskViewInfo.put("id", id);
             taskViewInfo.put("taskName", taskName);
             taskViewInfo.put("deadline", deadline);
+            taskViewInfo.put("completed", completed);
+
             this.viewInfoList.add(taskViewInfo);
         }
+    }
+
+    public void taskSelected(long taskId) {
+        taskDataBinding.setTaskId(taskId);
     }
 
     public ObservableList<Map<String, String>> getTaskInfoList() {
@@ -88,28 +99,31 @@ public class TodoListPageViewModel extends ViewModel {
     }
 
     public void handleCreation(TaskReader taskReader) {
-        String id = String.valueOf(taskReader.getId());
-        String taskName = taskReader.getName();
-        String deadline;
-        if (taskReader.getDeadline() != null) {
-            deadline = taskReader.getDeadline().format(
-                    DateTimeFormatter.ofLocalizedDateTime(
-                            FormatStyle.MEDIUM, // The format for date
-                            FormatStyle.SHORT)
-            );
-        } else {
-            deadline = "No Deadline";
-        }
+        TaskInfo newTask = new TaskInfoFromTaskReader(taskReader);
+        insertTaskInfo(newTask);
 
-        Map<String, String> taskInfoMap = new HashMap<>();
-        taskInfoMap.put("id", id);
-        taskInfoMap.put("taskName", taskName);
-        taskInfoMap.put("deadline", deadline);
+        // update the view
+        updateViewInfoList();
 
-        this.viewInfoList.add(taskInfoMap);
+        // trigger observer effect
+        taskDataBinding.setTaskId(taskReader.getId());
     }
 
     public void handleUpdate(TaskReader taskReader) {
+        long taskId = taskReader.getId();
 
+        // delete the outdated task before putting in the new one
+        taskInfoList.removeIf(taskInfo -> taskInfo.getId() == taskId);
+
+        // put the updated task into the taskInfoList
+        TaskInfo updatedTask = new TaskInfoFromTaskReader(taskReader);
+        insertTaskInfo(updatedTask);
+
+        // update the view
+        updateViewInfoList();
+
+        // touch the task id to trigger observer effect so that when entering the task details page,
+        // the new values are auto-filled (rather than the old values)
+        taskDataBinding.setTaskId(taskId);
     }
 }

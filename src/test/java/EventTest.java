@@ -30,10 +30,11 @@ class EventTest {
     @Test
     void getStrategy() {
         assertEquals(strategy.toString(), event.getDateStrategy().toString());
+
     }
 
     @Test
-    void setStartTime() {
+    void setStrategy() {
         DateStrategy newStrategy = new SingleDateStrategy(startDate.plusDays(1));
         event.setDateStrategy(newStrategy);
         assertEquals(newStrategy, event.getDateStrategy());

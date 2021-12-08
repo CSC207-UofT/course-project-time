@@ -17,8 +17,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ public class EventEntityManager implements CalendarManager{
     private final Snowflake snowflake;
     private final TodoListManager taskManager;
 
-    public EventEntityManager(Snowflake snowflake, TodoListManager taskManager){
+    public EventEntityManager(Snowflake snowflake, TodoListManager taskManager) {
         this.eventList = new ArrayList<>();
         this.snowflake = snowflake;
         this.taskManager = taskManager;
