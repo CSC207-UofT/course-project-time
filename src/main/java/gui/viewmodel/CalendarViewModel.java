@@ -121,7 +121,7 @@ public class CalendarViewModel extends ViewModel {
      */
     public void handleUpdate(EventReader eventReader) {
         if (!eventUpdatedFromView) {
-            this.updateEntry(entryToEventIdMapping, entryList, eventReader);
+            this.updateEntry(eventReader);
         } else {
             eventUpdatedFromView = false;
         }
@@ -157,6 +157,9 @@ public class CalendarViewModel extends ViewModel {
         entryList.add(newEntry);
     }
 
+    /**
+     * Persists data into the database
+     */
     public void saveData() {
         try {
             eventSaver.saveEventData("EventData.json");
@@ -165,9 +168,12 @@ public class CalendarViewModel extends ViewModel {
         }
     }
 
-    private void updateEntry(Map<String, Long> entryToEventIdMapping,
-                                   List<Entry<String>> entryList,
-                                   EventReader eventReader) {
+    /**
+     * Finds the corresponding entry to the eventReader and updates the information of the entry.
+     * The entry is guaranteed to exist in entryToEventIdMapping and entryList.
+     * @param eventReader the reader that holds relevant information that corresponds to an entry
+     */
+    private void updateEntry(EventReader eventReader) {
         if (entryToEventIdMapping.containsValue(eventReader.getId())) {
             Entry<String> entry = this.getEntryFromEvent(eventReader);
             assert entry != null;
@@ -177,6 +183,11 @@ public class CalendarViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Find an entry that corresponds to the eventReader
+     * @param eventReader the reader that holds relevant information that corresponds to an entry
+     * @return an entry
+     */
     private Entry<String> getEntryFromEvent(EventReader eventReader) {
         for (String entryId : entryToEventIdMapping.keySet()) {
             if (eventReader.getId() == entryToEventIdMapping.get(entryId)) {
@@ -190,6 +201,12 @@ public class CalendarViewModel extends ViewModel {
         return null;
     }
 
+    /**
+     * Given an entry and a reader, updates the entry such that
+     * it matches information in the reader
+     * @param entry the entry to be updated
+     * @param eventReader the reader with the information
+     */
     private void updateEntryWithEventReader(Entry<String> entry, EventReader eventReader) {
         if (!entry.getTitle().equals(eventReader.getName())) {
             entry.setTitle(eventReader.getName());

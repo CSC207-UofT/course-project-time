@@ -18,7 +18,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.event.ActionEvent;
 import javafx.util.Callback;
 
@@ -40,9 +39,6 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
 
     @FXML
     private JFXDrawer extendedNavPanel;
-
-    @FXML
-    private AnchorPane mainBackground;
 
     @FXML
     private ComboBox<String> calendarType;
@@ -94,6 +90,12 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
             CalendarViewModel viewModel)
             implements Callback<DateControl.CreateEntryParameter, Entry<?>> {
 
+        /**
+         * Handles the entry creation by intercepting it and passing
+         * it to the view model, then continue with its creation
+         * @param param the parameter passed to the entry factory to create an entry
+         * @return the entry created
+         */
         @Override
         public Entry<?> call(DateControl.CreateEntryParameter param) {
             Entry<?> defaultEntry = defaultFactory.call(param);

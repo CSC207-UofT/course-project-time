@@ -20,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -38,16 +37,11 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
 
     private final ObservableList<Entry<String>> entryList = FXCollections.observableArrayList();
 
-    private Calendar calendar;
-
     @FXML
     private JFXDrawer collapsedNavPanel;
 
     @FXML
     private JFXDrawer extendedNavPanel;
-
-    @FXML
-    private AnchorPane mainBackground;
 
     @FXML
     private ComboBox<String> calendarType;
@@ -98,6 +92,12 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
     private record EventCreationHandler(
             ObservableList<Entry<String>> entryList, CalendarViewModel viewModel) implements Callback<Entry<?>, MonthEntryView> {
 
+        /**
+         * Handles the entry creation by intercepting it and passing
+         * it to the view model, then continue with its creation
+         * @param param the entry created
+         * @return the entry created, specific for the view
+         */
         @Override
         public MonthEntryView call(Entry<?> param) {
             List<Integer> ids = new ArrayList<>();

@@ -1,7 +1,6 @@
 package gui.utility;
 
 import com.calendarfx.model.Entry;
-import com.calendarfx.model.Interval;
 import consoleapp.eventadapters.CalendarEventData;
 import datagateway.event.EventReader;
 import services.eventcreation.CalendarEventModel;
@@ -10,10 +9,7 @@ import services.strategybuilding.MultipleRuleFormBuilder;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A helper class that contains methods related
@@ -22,6 +18,11 @@ import java.util.Map;
  */
 public class EventHelper {
 
+    /**
+     * Given an EventInfo, extract relevant information and create and new entry for the view
+     * @param eventInfo DTO that holds relevant information for creating an Entry
+     * @return an entry for the view to present
+     */
     public static Entry<String> eventInfoToEntry(EventInfo eventInfo) {
         Entry<String> entry = new Entry<>(eventInfo.getName());
         entry.changeStartTime(eventInfo.getStartTime());
@@ -45,6 +46,11 @@ public class EventHelper {
                 duration, builder.getForm(), new HashSet<>());
     }
 
+    /**
+     * Given an EventReader, extract relevant information and create and new entry for the view
+     * @param eventReader DTO that holds relevant information for creating an Entry
+     * @return an entry for the view to present
+     */
     public static Entry<String> eventReaderToEntry(EventReader eventReader) {
         Entry<String> entry = new Entry<>(eventReader.getName());
         entry.changeStartTime(eventReader.getStartTime());
