@@ -79,7 +79,7 @@ public class ViewModelFactory {
     public TaskPageViewModel getTaskPageViewModel() {
         if (taskPageViewModel == null) {
             taskPageViewModel = new TaskPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskUpdater(),
-                    servicesFactory.makeTaskDeleter());
+                    servicesFactory.makeTaskDeleter(), servicesFactory.makeEventCreator(), servicesFactory.makeCalendarAnalyzer());
             taskDataBinding.addObserver(taskPageViewModel);
         }
         return taskPageViewModel;
