@@ -44,10 +44,10 @@ public class EventInfoFromReaderTest {
         private final LocalTime startTime = LocalTime.of(12, 0);
         private final LocalTime endTime = LocalTime.of(14, 0);
         private final Set<String> tags = new HashSet<>();
-        private final Set<LocalDate> dates = new HashSet<>();
 
         public MockEventReader() {
             tags.add("CSC207");
+            Set<LocalDate> dates = new HashSet<>();
             dates.add(LocalDate.of(2021, 11, 15));
         }
 

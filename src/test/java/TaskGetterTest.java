@@ -2,7 +2,6 @@ import datagateway.task.TaskReader;
 import datagateway.task.TodoListManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import services.taskcreation.TodoListTaskCreationModel;
 import services.taskpresentation.TaskGetter;
 import services.taskpresentation.TaskInfo;
 

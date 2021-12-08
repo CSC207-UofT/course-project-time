@@ -17,7 +17,7 @@ class EventTest {
     Event event;
     DateStrategy strategy;
 
-    LocalDateTime startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
+    final LocalDateTime startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
     @BeforeEach
     void setUp() {
         LocalTime endTime = LocalTime.of(16, 0);
