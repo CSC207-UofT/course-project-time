@@ -82,8 +82,12 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         eventListView.getItems().clear();
         for (Map.Entry<String, List<String>> eventInfo : map.entrySet()) {
             Label eventName = new Label(eventInfo.getKey());
-            Label startTime = new Label("Start Time is " + eventInfo.getValue().get(0));
-            Label endTime = new Label("End Time is " + eventInfo.getValue().get(1));
+            Label startTime = new Label();
+            Label endTime = new Label();
+            if (!(eventInfo.getValue() == null)){
+                startTime = new Label("Start Time is " + eventInfo.getValue().get(0));
+                endTime = new Label("End Time is " + eventInfo.getValue().get(1));
+            }
             eventName.setFont(new Font(labelFontSize));
             startTime.setFont(new Font(labelFontSize));
             endTime.setFont(new Font(labelFontSize));
