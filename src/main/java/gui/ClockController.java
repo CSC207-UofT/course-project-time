@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import services.pomodororunning.TimeFormatter;
 import datagateway.pomodoro.PomodoroManager;
 
 import java.io.IOException;
@@ -41,8 +40,6 @@ public class ClockController implements ViewModelBindingController {
     private final Alert error = new Alert(Alert.AlertType.INFORMATION);
 
     private final PomodoroManager pomodoroManager = new PomodoroManager();
-
-    static final TimeFormatter timeFormatter = new TimeFormatter();
 
     @FXML
     private Canvas canvas;
@@ -87,7 +84,7 @@ public class ClockController implements ViewModelBindingController {
 
                 double elapsedTime = (double)(now - startNano);
                 double angle = elapsedTime / TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES) * 360;
-                String timeLeft = timeFormatter.formatTime(elapsedTime, currentDuration);
+                String timeLeft = formatTime(elapsedTime, currentDuration);
 
 
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -169,6 +166,23 @@ public class ClockController implements ViewModelBindingController {
         }
         isBreak = isWork;
         return System.nanoTime() - remainder;
+    }
+
+    public String formatTime(double elapsedTime, long currentDuration) {
+        double totalTime = (double) TimeUnit.SECONDS.convert(currentDuration, TimeUnit.MINUTES);
+        double timeLeft = totalTime - (double)TimeUnit.SECONDS.convert((long)elapsedTime, TimeUnit.NANOSECONDS);
+
+        String seconds = Integer.toString((int)timeLeft % 60);
+        String minutes = Integer.toString(((int)timeLeft % 3600)/60);
+
+        if (seconds.length() < 2) {
+            seconds = "0" + seconds;
+        }
+        else if (minutes.length() < 2) {
+            minutes = "0" + minutes;
+        }
+
+        return minutes + ':' + seconds;
     }
 
     /**
