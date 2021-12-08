@@ -7,5 +7,4 @@ public interface NotificationCreationModel {
     long getAssociatedId();
     Duration getTimeInAdvance();
     LocalDateTime getNotificationDateTime();
-    String getMessage();
 }
