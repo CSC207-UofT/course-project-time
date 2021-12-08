@@ -13,7 +13,17 @@ satisfying SRP.
 
 
 ### The Open–closed principle
-
+Classes were written such that they are easy to extend. We have been avoiding extensive
+conditional control flow in lower layers in favor of classes. Although some classes
+are still concrete, interfaces are easily extractable which allows us to take advantage
+of polymorphism. Across phases 1 and 2, we have added a notification system to our program, which 
+is to notify users when an event or task deadline is upcoming. Notifications might seem to be a concept 
+bundled with events and tasks, but it was not designed as an attribute when we first drafted the CRC
+model for `Event` and `Task`. In order to follow OCP, we created a `Notification` entity class which 
+references the `id` attribute of `Event` and `Task` instead, and all classes and interfaces written were
+an extension of existing classes. `EventNotificationCreationModel` which extends `CalendarEventModel`
+and `EventNotificationCreationBoundary` which extends `CalendarEventCreationBoundary` are examples of how we 
+followed OCP in the implementation of the notification system.
 
 ### The Liskov substitution principle
 Our classes do not modify or remove behaviours from the interface they are
@@ -62,6 +72,11 @@ __A scenario walk through that demonstrates clean architecture__
 
 ## Design Patterns
 
+In the command line interface that we used in phase 1, 
+we have used the **facade design pattern** with the `MainController` in `consoleapp` being
+the facade. It routes requests from the `ApplicationDriver` to the respective controllers and acts as a facade.
+We chose to use the facade design pattern to separate concerns of which controllers to call away from
+the `ApplicationDriver`, whose main responsibility is to interact with the user.
 
 
 ## Use of GitHub Features (add in github actions)
@@ -113,6 +128,6 @@ Moreover, when functionalities are added or changed, the changes will likely be 
 
 In phase 2, when the GUI was added in, it was easy to organize the code by having all classes and interfaces
 related to the GUI in the `gui` package which represents the view. Since we were utilizing the MVVM pattern
-for the frontend, we then decided to seperate the classes into `view`, `viewmodel`, and a `utility` package
+for the frontend, we then decided to separate the classes into `view`, `viewmodel`, and a `utility` package
 with helper classes. `model` was left out as we were using the gateway classes directly as our `model` in the
 MVVM pattern.
