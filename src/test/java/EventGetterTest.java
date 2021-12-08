@@ -1,5 +1,7 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.eventcreation.EventInfoFromReader;
@@ -7,6 +9,7 @@ import services.eventpresentation.EventGetter;
 import services.eventpresentation.EventInfo;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -83,17 +86,11 @@ public class EventGetterTest {
         assertEquals(eventInfo1.getId(), actual.get(0).getId());
         assertEquals(eventInfo1.getName(), actual.get(0).getName());
         assertEquals(eventInfo1.getCompleted(), actual.get(0).getCompleted());
-        assertEquals(eventInfo1.getDates(), actual.get(0).getDates());
-        assertEquals(eventInfo1.getEndTime(), actual.get(0).getEndTime());
-        assertEquals(eventInfo1.getStartTime(), actual.get(0).getStartTime());
         assertEquals(eventInfo1.getTags(), actual.get(0).getTags());
 
         assertEquals(eventInfo2.getId(), actual.get(1).getId());
         assertEquals(eventInfo2.getName(), actual.get(1).getName());
         assertEquals(eventInfo2.getCompleted(), actual.get(1).getCompleted());
-        assertEquals(eventInfo2.getDates(), actual.get(1).getDates());
-        assertEquals(eventInfo2.getEndTime(), actual.get(1).getEndTime());
-        assertEquals(eventInfo2.getStartTime(), actual.get(1).getStartTime());
         assertEquals(eventInfo2.getTags(), actual.get(1).getTags());
     }
 
@@ -105,16 +102,17 @@ public class EventGetterTest {
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getCompleted(), actual.getCompleted());
-        assertEquals(expected.getDates(), actual.getDates());
-        assertEquals(expected.getEndTime(), actual.getEndTime());
-        assertEquals(expected.getStartTime(), actual.getStartTime());
         assertEquals(expected.getTags(), actual.getTags());
     }
 
     private class MockCalendarManager implements CalendarManager {
+        @Override
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+            return 0;
+        }
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
             return 0;
         }
 
@@ -193,13 +191,8 @@ public class EventGetterTest {
         }
 
         @Override
-        public LocalTime getStartTime() {
-            return this.startTime;
-        }
-
-        @Override
-        public LocalTime getEndTime() {
-            return this.endTime;
+        public Duration getDuration() {
+            return null;
         }
 
         @Override
@@ -208,8 +201,13 @@ public class EventGetterTest {
         }
 
         @Override
-        public Set<LocalDate> getDates() {
-            return this.dates;
+        public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
+            return null;
+        }
+
+        @Override
+        public String getWhen() {
+            return null;
         }
 
         @Override

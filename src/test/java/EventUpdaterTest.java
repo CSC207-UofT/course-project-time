@@ -1,15 +1,18 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.updateentities.EventUpdater;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -70,7 +73,12 @@ public class EventUpdaterTest {
         private boolean markEventAsCompletedSuccess = false;
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+            return 0;
+        }
+
+        @Override
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
             return 0;
         }
 

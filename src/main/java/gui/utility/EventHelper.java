@@ -17,8 +17,8 @@ public class EventHelper {
 
     public static Entry<String> eventInfoToEntry(EventInfo eventInfo) {
         Entry<String> entry = new Entry<>(eventInfo.getName());
-        entry.changeStartTime(eventInfo.getStartTime());
-        entry.changeEndTime(eventInfo.getEndTime());
+//        entry.changeStartTime(eventInfo.getStartTime());
+//        entry.changeEndTime(eventInfo.getEndTime());
         LocalDate date = LocalDate.of(2021, 12, 8);
         entry.changeStartDate(date);
         entry.changeEndDate(date);

@@ -1,19 +1,24 @@
 package datagateway.event;
 
-import datagateway.strategy.SessionDateStrategy;
 import entity.Event;
+import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class EventToEventReader implements EventReader{
     private final Event event;
-    private final SessionDateStrategy sessionDateStrategy;
 
-    public EventToEventReader(Event event, SessionDateStrategy sessionDateStrategy ){
+    private final String name;
+    private final boolean completed;
+
+    public EventToEventReader(Event event, String name, boolean completed){
         this.event = event;
-        this.sessionDateStrategy = sessionDateStrategy;
+        this.name = name;
+        this.completed = completed;
     }
 
     @Override
@@ -23,7 +28,7 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public String getName() {
-        return event.getEventName();
+        return name;
     }
 
     @Override
@@ -37,12 +42,17 @@ public class EventToEventReader implements EventReader{
     }
 
     @Override
-    public Set<LocalDateTime> getDates() {
-        return event.getDates();
+    public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
+        return new HashSet<>(event.getDateStrategy().datesBetween(startTime, endTime, getDuration()));
+    }
+
+    @Override
+    public String getWhen() {
+        return event.getDateStrategy().toString();
     }
 
     @Override
     public boolean getCompleted() {
-        return event.getCompleted();
+        return completed;
     }
 }

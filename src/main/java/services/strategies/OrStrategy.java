@@ -1,4 +1,8 @@
-package entity.dates;
+package services.strategies;
+
+import entity.dates.CompositeDateStrategy;
+import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,6 +26,13 @@ public class OrStrategy extends CompositeDateStrategy {
             acceptedDates.addAll(strategy.datesBetween(startDateTime, endDateTime, eventDuration));
 
         return new ArrayList<>(acceptedDates);
+    }
+
+    @Override
+    public String toString() {
+        List<String> innerStrings = new ArrayList<>();
+        getStrategies().forEach(s -> innerStrings.add(s.toString()));
+        return String.join(" and ", innerStrings);
     }
 
 }

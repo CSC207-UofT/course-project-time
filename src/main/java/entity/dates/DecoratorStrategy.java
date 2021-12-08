@@ -19,4 +19,9 @@ abstract public class DecoratorStrategy implements DateStrategy {
     public List<TimeFrame> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, Duration eventDuration) {
         return strategy.datesBetween(startDateTime, endDateTime, eventDuration);
     }
+
+    @Override
+    public String toString() {
+        return strategy.toString();
+    }
 }

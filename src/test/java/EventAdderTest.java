@@ -1,6 +1,7 @@
 import consoleapp.eventadapters.CalendarEventData;
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.eventcreation.EventAdder;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,10 +46,8 @@ public class EventAdderTest {
         eventAdder.addEvent(calendarEventData);
         EventBuffer output = manager.output;
         assertEquals("Work on project", output.eventName);
-        assertEquals(tomorrowNoon, output.startTime);
-        assertEquals(tomorrowNoon.plusHours(2), output.endTime);
+        assertEquals(calendarEventData.getDuration(), output.duration);
         assertEquals(0, output.tags.size());
-        assertEquals(tomorrowNoon.toLocalDate(), output.date);
     }
 
     private static class MockDatesForm implements DatesForm {
@@ -73,18 +73,15 @@ public class EventAdderTest {
 
     private static class EventBuffer {
         public final String eventName;
-        public final LocalDateTime startTime;
-        public final LocalDateTime endTime;
-        public final HashSet<String> tags;
-        public final LocalDate date;
+        public final DateStrategy strategy;
+        public final Duration duration;
+        public final Set<String> tags;
 
-        public EventBuffer(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
-                           LocalDate date) {
+        public EventBuffer(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
             this.eventName = eventName;
-            this.startTime = startTime;
-            this.endTime = endTime;
+            this.strategy = strategy;
+            this.duration = duration;
             this.tags = tags;
-            this.date = date;
         }
     }
 
@@ -93,10 +90,14 @@ public class EventAdderTest {
         public EventBuffer output;
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
-                             LocalDate date) {
-            output = new EventBuffer(eventName, startTime, endTime, tags, date);
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+            output = new EventBuffer(eventName, strategy, duration, tags);
             return 0L;
+        }
+
+        @Override
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
+            return 0;
         }
 
         @Override

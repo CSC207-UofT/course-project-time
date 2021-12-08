@@ -1,4 +1,4 @@
-package services.strategybuilding.strategies;
+package services.strategies;
 
 import entity.dates.DateStrategy;
 import entity.dates.TimeFrame;
@@ -43,5 +43,10 @@ public class WeeklyStrategy implements DateStrategy {
         LocalDateTime firstDateTime = LocalDateTime.of(firstDate, timeOfDay);
 
         return firstDateTime.isAfter(startDateTime) ? firstDateTime : firstDateTime.plusDays(7);
+    }
+
+    @Override
+    public String toString() {
+        return "occur every week on " + dayOfWeek.toString() + " at " + timeOfDay.toString();
     }
 }

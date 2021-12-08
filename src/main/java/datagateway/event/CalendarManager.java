@@ -1,16 +1,20 @@
 package datagateway.event;
 
+import entity.dates.DateStrategy;
+
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public interface CalendarManager {
 
-    long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
-                  LocalDate date);
+    long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags);
+
+    long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags);
 
     void markEventAsCompleted(long eventId);
 

@@ -1,5 +1,7 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.eventfromtaskcreation.CalendarAnalyzer;
@@ -88,8 +90,13 @@ public class CalendarAnalyzerTest {
     private static class MockCalendarManager implements CalendarManager {
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
-            return 0L;
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+            return 0;
+        }
+
+        @Override
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
+            return 0;
         }
 
         @Override
@@ -152,12 +159,7 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public LocalTime getStartTime() {
-            return null;
-        }
-
-        @Override
-        public LocalTime getEndTime() {
+        public Duration getDuration() {
             return null;
         }
 
@@ -167,8 +169,13 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public Set<LocalDate> getDates() {
+        public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
             return new HashSet<>();
+        }
+
+        @Override
+        public String getWhen() {
+            return null;
         }
 
         @Override

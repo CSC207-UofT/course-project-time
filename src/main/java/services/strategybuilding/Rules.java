@@ -1,11 +1,11 @@
 package services.strategybuilding;
 
 import entity.dates.DecoratorStrategy;
-import entity.dates.OrStrategy;
-import services.strategybuilding.strategies.EndRestrictionDecorator;
-import services.strategybuilding.strategies.SingleDateStrategy;
-import services.strategybuilding.strategies.StartRestrictionDecorator;
-import services.strategybuilding.strategies.WeeklyStrategy;
+import services.strategies.OrStrategy;
+import services.strategies.EndRestrictionDecorator;
+import services.strategies.SingleDateStrategy;
+import services.strategies.StartRestrictionDecorator;
+import services.strategies.WeeklyStrategy;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

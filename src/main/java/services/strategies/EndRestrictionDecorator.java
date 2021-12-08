@@ -1,4 +1,4 @@
-package services.strategybuilding.strategies;
+package services.strategies;
 
 import entity.dates.DecoratorStrategy;
 import entity.dates.TimeFrame;
@@ -22,9 +22,14 @@ public class EndRestrictionDecorator extends DecoratorStrategy {
 
         List<TimeFrame> wrappedDates = super.datesBetween(startDateTime, endDateTime, eventDuration);
         for (TimeFrame date : wrappedDates)
-            if (date.endTime.isBefore(rangeEnd))
+            if (date.startTime.plus(date.duration).isBefore(rangeEnd))
                 acceptedDates.add(date);
 
         return acceptedDates;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " until " + rangeEnd.toString();
     }
 }

@@ -4,7 +4,9 @@ import entity.Event;
 import entity.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.strategies.SingleDateStrategy;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -20,10 +22,10 @@ class CalendarTest {
     void setUp() {
         timesToIgnore = new ArrayList<>();
         timesToIgnore.add(LocalDateTime.of(2021, 10, 14, 12, 0, 0));
-        LocalDateTime startDate = LocalDateTime.of(2021, 10, 14, 14, 0, 0);
+        LocalDateTime startDate = LocalDateTime.of(2021, 10, 14, 14, 0);
         LocalTime endTime = LocalTime.of(16, 0);
-        Task task = new Task(0, "Math Homework");
-        Event event = new Event(0, task, startDate, endTime);
+        Task task = new Task(0, "Math Homework", Duration.between(startDate, endTime.atDate(startDate.toLocalDate())));
+        Event event = new Event(0, task.getId(), new SingleDateStrategy(startDate));
         List<Event> eventlst = new ArrayList<>();
         eventlst.add(event);
         calendar = new Calendar("New Calendar", eventlst);

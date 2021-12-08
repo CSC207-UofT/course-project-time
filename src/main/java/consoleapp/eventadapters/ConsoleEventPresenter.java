@@ -25,17 +25,15 @@ public class ConsoleEventPresenter implements CalendarEventPresenter {
         for (EventInfo ei : eventInfos) {
 
             String name = ei.getName();
-            String startTime = ei.getStartTime().toString();
-            String endTime = ei.getEndTime().toString();
             String tags = ei.getTags().toString();
-            String dates = ei.getDates().toString();
+            String when = ei.getWhen();
+            String duration = ei.getDuration().toString();
             boolean completed = ei.getCompleted();
 
             String output = "Event: " + name + ", "
-                    + "start time = " + startTime + ", "
-                    + "end time = " + endTime + ", "
+                    + "when = " + when + ", "
+                    + "duration = " + duration + ", "
                     + "tags = " + tags + ", "
-                    + "dates = " + dates + ", "
                     + "completed = " + completed;
             eventFormattedInfo.add(output);
         }

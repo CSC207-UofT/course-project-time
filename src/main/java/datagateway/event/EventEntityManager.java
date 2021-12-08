@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import datagateway.strategy.DateStrategyManager;
+import datagateway.task.TaskReader;
+import datagateway.task.TodoListManager;
 import entity.Event;
+import entity.dates.DateStrategy;
 import services.Snowflake;
 
 import java.io.File;
@@ -14,29 +16,28 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class EventEntityManager implements CalendarManager{
     private final ArrayList<Event> eventList;
     private final Gson gson;
     private final Snowflake snowflake;
+    private final TodoListManager taskManager;
 
-    private final DateStrategyManager strategyManager;
-
-    public EventEntityManager(Snowflake snowflake, DateStrategyManager strategyManager){
+    public EventEntityManager(Snowflake snowflake, TodoListManager taskManager){
         this.eventList = new ArrayList<>();
         this.snowflake = snowflake;
+        this.taskManager = taskManager;
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Event.class, new JsonEventAdapter());
         gson = builder.create();
-
-        this.strategyManager = strategyManager;
     }
 
     public void saveEvents(String savePath) throws IOException {
@@ -66,18 +67,26 @@ public class EventEntityManager implements CalendarManager{
         }
     }
 
+
+    @Override
+    public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+        long taskId = taskManager.addTask(eventName, duration, null, new ArrayList<>());
+        Event event = new Event(snowflake.nextId(), taskId, strategy, tags);
+        return 0;
+    }
+
+
     /**
-     * Add a new event to eventList using data from eventData
-     * @param eventName     the name of the new event
-     * @param startTime     the time the event should start
-     * @param endTime       the time the event should end
+     * Add a new event using an existing Task's data
+     * @param taskId        the associative task's id
+     * @param startTime     the time the event should stsart
      * @param tags          the tags associated with the event
      * @param date          the date the event should occur
+     * @return              the id of the newly created event
      */
     @Override
-    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
-                         LocalDate date) {
-        Event event = new Event(snowflake.nextId(), eventName, startTime.toLocalTime(), endTime.toLocalTime(), tags, date);
+    public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
+        Event event = new Event(snowflake.nextId(), taskId, dateStrategy, tags);
         eventList.add(event);
         return event.getId();
     }
@@ -87,7 +96,7 @@ public class EventEntityManager implements CalendarManager{
      */
     @Override
     public void markEventAsCompleted(long eventId) {
-        getById(eventId).setCompleted(true);
+        taskManager.completeTask(getById(eventId).getTaskId());
     }
 
     @Override
@@ -95,7 +104,10 @@ public class EventEntityManager implements CalendarManager{
         List<EventReader> eventReaderList = new ArrayList<>();
 
         for(Event event: eventList){
-            EventReader eventReader = new EventToEventReader(event, strategyManager.getStrategy(event.getStrategyId()));
+            TaskReader tr = taskManager.getTask(event.getTaskId());
+            String name = tr.getName();
+            boolean completed = tr.getCompleted();
+            EventReader eventReader = new EventToEventReader(event, name, completed);
             eventReaderList.add(eventReader);
         }
         return eventReaderList;
@@ -103,17 +115,15 @@ public class EventEntityManager implements CalendarManager{
 
     @Override
     public void updateName(long id, String newName) {
-        getById(id).setEventName(newName);
+        taskManager.updateName(getById(id).getTaskId(), newName);
     }
 
     @Override
     public void updateStartTime(long id, LocalTime newStartTime) {
-        getById(id).setStartTime(newStartTime);
     }
 
     @Override
     public void updateEndTime(long id, LocalTime newEndTime) {
-        getById(id).setEndTime(newEndTime);
     }
 
     @Override

@@ -1,5 +1,7 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.eventfromtaskcreation.EventScheduler;
@@ -21,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class EventSchedulerTest {
     EventScheduler eventScheduler;
     CalendarManager manager;
-    final List<EventReader> events = new ArrayList<>();
+    static final List<EventReader> events = new ArrayList<>();
 
     @BeforeEach
     void setup() {
@@ -111,8 +113,13 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
-            return 0L;
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+            return 0;
+        }
+
+        @Override
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
+            return 0;
         }
 
         @Override
@@ -189,13 +196,8 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public LocalTime getStartTime() {
-            return this.startTime;
-        }
-
-        @Override
-        public LocalTime getEndTime() {
-            return this.endTime;
+        public Duration getDuration() {
+            return null;
         }
 
         @Override
@@ -204,8 +206,15 @@ public class EventSchedulerTest {
         }
 
         @Override
-        public Set<LocalDate> getDates() {
-            return this.dates;
+        public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
+            Set<TimeFrame> s = new HashSet<>();
+            dates.forEach(d -> s.add(new TimeFrame(d.atTime(this.startTime), Duration.between(this.startTime, this.endTime))));
+            return s;
+        }
+
+        @Override
+        public String getWhen() {
+            return null;
         }
 
         @Override

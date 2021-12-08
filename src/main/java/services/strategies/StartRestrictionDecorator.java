@@ -1,4 +1,4 @@
-package services.strategybuilding.strategies;
+package services.strategies;
 
 import entity.dates.DecoratorStrategy;
 import entity.dates.TimeFrame;
@@ -26,5 +26,10 @@ public class StartRestrictionDecorator extends DecoratorStrategy {
                 acceptedDates.add(date);
 
         return acceptedDates;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " from " + rangeStart.toString();
     }
 }

@@ -1,10 +1,11 @@
 package services.eventcreation;
 
 import datagateway.event.EventReader;
+import entity.dates.TimeFrame;
 import services.eventpresentation.EventInfo;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class EventInfoFromReader implements EventInfo {
@@ -26,13 +27,8 @@ public class EventInfoFromReader implements EventInfo {
     }
 
     @Override
-    public LocalTime getStartTime() {
-        return eventReader.getStartTime();
-    }
-
-    @Override
-    public LocalTime getEndTime() {
-        return eventReader.getEndTime();
+    public Duration getDuration() {
+        return null;
     }
 
     @Override
@@ -41,8 +37,13 @@ public class EventInfoFromReader implements EventInfo {
     }
 
     @Override
-    public Set<LocalDate> getDates() {
-        return eventReader.getDates();
+    public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
+        return eventReader.getDatesBetween(startTime, endTime);
+    }
+
+    @Override
+    public String getWhen() {
+        return eventReader.getWhen();
     }
 
     @Override

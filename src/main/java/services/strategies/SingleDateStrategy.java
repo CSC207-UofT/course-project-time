@@ -1,4 +1,4 @@
-package services.strategybuilding.strategies;
+package services.strategies;
 
 import entity.dates.DateStrategy;
 import entity.dates.TimeFrame;
@@ -23,5 +23,10 @@ public class SingleDateStrategy implements DateStrategy {
         if (eventTime.isAfter(startDateTime) && eventTime.isBefore(endDateTime))
             dates.add(new TimeFrame(eventTime, eventTime.plus(eventDuration)));
         return dates;
+    }
+
+    @Override
+    public String toString() {
+        return "occur at " + eventTime.toString();
     }
 }

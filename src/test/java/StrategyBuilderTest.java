@@ -1,12 +1,12 @@
 import entity.dates.DateStrategy;
 import entity.dates.DecoratorStrategy;
-import entity.dates.OrStrategy;
+import services.strategies.OrStrategy;
 import entity.dates.TimeFrame;
 import org.junit.jupiter.api.Test;
 import services.strategybuilding.StrategyBuilder;
-import services.strategybuilding.strategies.EndRestrictionDecorator;
-import services.strategybuilding.strategies.StartRestrictionDecorator;
-import services.strategybuilding.strategies.WeeklyStrategy;
+import services.strategies.EndRestrictionDecorator;
+import services.strategies.StartRestrictionDecorator;
+import services.strategies.WeeklyStrategy;
 
 import java.time.DayOfWeek;
 import java.time.Duration;

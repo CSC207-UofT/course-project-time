@@ -1,15 +1,17 @@
 package datagateway.event;
 
 import datagateway.Observer;
+import entity.dates.DateStrategy;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class ObservableEventEntityManager implements ObservableEventRepository {
 
@@ -40,8 +42,16 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
     }
 
     @Override
-    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
-        long newEventId = calendarManager.addEvent(eventName, startTime, endTime, tags, date);
+    public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+        long newEventId = calendarManager.addEvent(eventName, strategy, duration, tags);
+        EventReader newEvent = getById(newEventId);
+        notifyCreationObservers(newEvent);
+        return newEventId;
+    }
+
+    @Override
+    public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
+        long newEventId = calendarManager.addEvent(taskId, dateStrategy, tags);
         EventReader newEvent = getById(newEventId);
         notifyCreationObservers(newEvent);
         return newEventId;
