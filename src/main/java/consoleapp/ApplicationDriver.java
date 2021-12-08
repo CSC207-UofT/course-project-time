@@ -66,8 +66,10 @@ public class ApplicationDriver {
         queryMenu.put("5", "Turn a task into an event");
         queryMenu.put("6", "Edit Task");
         queryMenu.put("7", "Edit Event");
-        queryMenu.put("8", "Save my Data");
-        queryMenu.put("9", "Pomodoro timer");
+        queryMenu.put("8", "Delete Task");
+        queryMenu.put("9", "Delete Event");
+        queryMenu.put("10", "Save my Data");
+        queryMenu.put("11", "Pomodoro timer");
         return queryMenu;
     }
 
@@ -164,9 +166,22 @@ public class ApplicationDriver {
 
                 break;
             case "8":
-                controller.saveData();
+                positionToIdMapping = controller.presentAllTasksForUserSelection();
+                TaskInfo chosenTask = chooseTask(positionToIdMapping);
+                controller.deleteTask(chosenTask.getId());
                 break;
             case "9":
+                controller.presentAllEvents();
+                System.out.println("Choose a task by name (case sensitive)");
+                Scanner sc = new Scanner(System.in);
+                String choice = sc.nextLine();
+                EventInfo eventInfo = controller.getEventByName(choice);
+                controller.deleteEvent(eventInfo.getId());
+                break;
+            case "10":
+                controller.saveData();
+                break;
+            case "11":
                 int[] intervals = inputPomodoroTime();
                 System.out.println("Timer started!");
                 System.out.println("Input \"c\" to end pomodoro timer");

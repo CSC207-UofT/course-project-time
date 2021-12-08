@@ -102,6 +102,11 @@ public class EventEntityManager implements CalendarManager{
         return event.getId();
     }
 
+    @Override
+    public void deleteEvent(long eventId) {
+        eventList.removeIf(e -> e.getId() == eventId);
+    }
+
     /**
      * Return a list of eventReader
      */
