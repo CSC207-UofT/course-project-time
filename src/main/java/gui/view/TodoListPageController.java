@@ -3,6 +3,7 @@ package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
+import gui.viewmodel.TaskDataBinding;
 import gui.viewmodel.TodoListPageViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
@@ -13,16 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class TodoListPageController implements Initializable, ViewModelBindingController {
-
-    final double labelFontSize = 15;
 
     private TodoListPageViewModel viewModel;
     private final ObservableList<Map<String, String>> taskInfoList = FXCollections.observableArrayList();
@@ -43,9 +42,9 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
 
     public void enterTaskPage(MouseEvent event) {
         try {
-            NavigationHelper.enterTaskPage(event);
             HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
-            System.out.println(clickedItem.getId());  // todo when id can be obtained, use id to find task info
+            viewModel.taskSelected(Long.parseLong(clickedItem.getId()));
+            NavigationHelper.enterTaskPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -65,17 +64,23 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
 
         Bindings.bindContentBidirectional(this.taskInfoList, this.viewModel.getTaskInfoList());
 
+        todoList.getStylesheets().add("todoListPage.css");
+
         for (Map<String, String> taskInfo : this.taskInfoList) {
             Label taskName = new Label(taskInfo.get("taskName"));
             Label deadLine = new Label(taskInfo.get("deadline"));
-            taskName.setFont(new Font(labelFontSize));
-            deadLine.setFont(new Font(labelFontSize));
 
             taskName.setMinWidth(550);
             taskName.setMaxWidth(550);
 
             HBox task = new HBox(taskName, deadLine);
             task.setId(taskInfo.get("id"));
+            if (Objects.equals(taskInfo.get("completed"), "true")) {
+                task.getStyleClass().add("completedTask");
+            } else {
+                task.getStyleClass().add("uncompletedTask");
+            }
+
             todoList.getItems().add(task);
         }
     }

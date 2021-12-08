@@ -10,6 +10,8 @@ public interface TodoListManager {
 
     long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks);
 
+    void deleteTask(long taskId);
+
     TaskReader getTask(long taskId);
 
     Map<Long, List<TaskReader>> getAllTasks();

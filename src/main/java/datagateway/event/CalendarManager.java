@@ -14,6 +14,8 @@ public interface CalendarManager {
 
     long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date);
 
+    void deleteEvent(long eventId);
+
     void markEventAsCompleted(long eventId);
 
     List<EventReader> getAllEvents();
