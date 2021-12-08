@@ -20,9 +20,7 @@ public interface CalendarManager {
 
     void updateName(long id, String newName);
 
-    void updateStartTime(long id, LocalTime newStartTime);
-
-    void updateEndTime(long id, LocalTime newEndTime);
+    void updateDateStrategy(long id, DateStrategy strategy);
 
     void addTag(long id, String tag);
 

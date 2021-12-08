@@ -1,12 +1,16 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
 import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.strategybuilding.MultipleRuleFormBuilder;
 import services.updateentities.EventUpdater;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
@@ -31,15 +35,11 @@ public class EventUpdaterTest {
     }
 
     @Test
-    void updateStartTime() {
-        eventUpdater.updateStartTime(11L, LocalTime.of(3, 14));
-        assertTrue(manager.isUpdateStartTimeSuccess());
-    }
-
-    @Test
-    void updateEndTime() {
-        eventUpdater.updateEndTime(12L, LocalTime.of(12, 25));
-        assertTrue(manager.isUpdateEndTimeSuccess());
+    void updateDateStrategy() {
+        MultipleRuleFormBuilder formBuilder = new MultipleRuleFormBuilder();
+        formBuilder.addSingleOccurrence(LocalTime.of(3, 14).atDate(LocalDate.now()));
+        eventUpdater.updateDateStrategy(11L, formBuilder.getForm());
+        assertTrue(manager.isUpdatedDateStrategySuccess());
     }
 
     @Test
@@ -63,8 +63,7 @@ public class EventUpdaterTest {
     private static class MockCalendarManager implements CalendarManager {
 
         private boolean updateNameSuccess = false;
-        private boolean updateStartTimeSuccess = false;
-        private boolean updateEndTimeSuccess = false;
+        private boolean updatedDateStrategySuccess = false;
         private boolean addTagSuccess = false;
         private boolean removeTagSuccess = false;
         private boolean markEventAsCompletedSuccess = false;
@@ -99,17 +98,10 @@ public class EventUpdaterTest {
         }
 
         @Override
-        public void updateStartTime(long id, LocalTime newStartTime) {
-            if (id == 11L && newStartTime.equals(LocalTime.of(3, 14))) {
-                updateStartTimeSuccess = true;
-            }
-        }
-
-        @Override
-        public void updateEndTime(long id, LocalTime newEndTime) {
-            if (id == 12L && newEndTime.equals(LocalTime.of(12, 25))) {
-                updateEndTimeSuccess = true;
-            }
+        public void updateDateStrategy(long id, DateStrategy strategy) {
+            List<TimeFrame> times = strategy.datesBetween(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1), Duration.ofMinutes(5));
+            if (id == 11L && times.size() > 0 && times.get(0).startTime.toLocalTime().equals(LocalTime.of(3, 14)))
+                updatedDateStrategySuccess = true;
         }
 
         @Override
@@ -140,12 +132,8 @@ public class EventUpdaterTest {
             return updateNameSuccess;
         }
 
-        public boolean isUpdateStartTimeSuccess() {
-            return updateStartTimeSuccess;
-        }
-
-        public boolean isUpdateEndTimeSuccess() {
-            return updateEndTimeSuccess;
+        public boolean isUpdatedDateStrategySuccess() {
+            return updatedDateStrategySuccess;
         }
 
         public boolean isAddTagSuccess() {

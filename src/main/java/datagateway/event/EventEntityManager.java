@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -114,11 +113,8 @@ public class EventEntityManager implements CalendarManager{
     }
 
     @Override
-    public void updateStartTime(long id, LocalTime newStartTime) {
-    }
-
-    @Override
-    public void updateEndTime(long id, LocalTime newEndTime) {
+    public void updateDateStrategy(long id, DateStrategy strategy) {
+        getById(id).setDateStrategy(strategy);
     }
 
     @Override

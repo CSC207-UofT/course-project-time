@@ -68,9 +68,7 @@ public class EventController {
 
     public void updateName(long id, String newName){eventUpdater.updateName(id, newName);}
 
-    public void updateStartTime(long id, LocalTime newStartTime){eventUpdater.updateStartTime(id, newStartTime);}
-
-    public void updateEndTime(long id, LocalTime newEndTime){eventUpdater.updateEndTime(id, newEndTime);}
+    public void updateDateStrategy(long id, DatesForm datesForm){eventUpdater.updateDateStrategy(id, datesForm);}
 
     public void addTag(long id, String tag){eventUpdater.addTag(id, tag);}
 

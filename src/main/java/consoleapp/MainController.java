@@ -12,7 +12,6 @@ import services.taskpresentation.TaskInfo;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -149,9 +148,7 @@ public class MainController {
 
     public void updateEventName(long id, String newName){eventController.updateName(id, newName);}
 
-    public void updateEventStartTime(long id, LocalTime newStartTime){eventController.updateStartTime(id, newStartTime);}
-
-    public void updateEventEndTime(long id, LocalTime newEndTime){eventController.updateEndTime(id, newEndTime);}
+    public void updateEventDateStrategy(long id, DatesForm datesForm){eventController.updateDateStrategy(id, datesForm);}
 
     public void addTag(long id, String tag){eventController.addTag(id, tag);}
 

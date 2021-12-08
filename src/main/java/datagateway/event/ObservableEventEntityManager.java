@@ -75,15 +75,8 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
     }
 
     @Override
-    public void updateStartTime(long id, LocalTime newStartTime) {
-        calendarManager.updateStartTime(id, newStartTime);
-        EventReader updatedEvent = getById(id);
-        notifyUpdateObservers(updatedEvent);
-    }
-
-    @Override
-    public void updateEndTime(long id, LocalTime newEndTime) {
-        calendarManager.updateEndTime(id, newEndTime);
+    public void updateDateStrategy(long id, DateStrategy strategy) {
+        calendarManager.updateDateStrategy(id, strategy);
         EventReader updatedEvent = getById(id);
         notifyUpdateObservers(updatedEvent);
     }

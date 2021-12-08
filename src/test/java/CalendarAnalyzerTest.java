@@ -116,12 +116,7 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public void updateStartTime(long id, LocalTime newStartTime) {
-
-        }
-
-        @Override
-        public void updateEndTime(long id, LocalTime newEndTime) {
+        public void updateDateStrategy(long id, DateStrategy strategy) {
 
         }
 
