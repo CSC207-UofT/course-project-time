@@ -94,7 +94,7 @@ process from the client code. Proxy would be the most suitable choice here, allo
 the same, while getting the `Notification` instance created.
 
 
-## Use of GitHub Features (add in github actions)
+## Use of GitHub Features
 
 Our group utilised various features of Github to improve our efficiency and keep ourselves organized.
 We set up different **branches** when developing various features for our program. When a feature has been developed,
@@ -107,6 +107,10 @@ Also, we have taken note of various problems that we have to fix in the future b
 To better visualize our progress, we used **Projects** to keep track of our tasks. For each feature that we
 plan to develop, we created a “column” for it and added cards to the column to break down what we have to do,
 or to indicate things to take note of when developing that feature.
+
+To ensure that our pull requests wouldn't break our program when merged in, we used github actions to run our test suite every time
+a PR wasopened, reopened, marked ready for review, or committed to. This allowed us to quickly and easily see what needed to be fixed. 
+We implemented this by changing our project to a Gradle project, which was done by adding a build.gradle file. 
 
 ## Code Style and Documentation
 
