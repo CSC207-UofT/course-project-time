@@ -2,7 +2,7 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.viewmodel.TaskBarViewModel;
+import gui.viewmodel.TaskPageViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,9 +15,9 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TaskBarController implements Initializable, ViewModelBindingController {
+public class TaskPageController implements Initializable, ViewModelBindingController {
 
-    private TaskBarViewModel viewModel;
+    private TaskPageViewModel viewModel;
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -58,9 +58,13 @@ public class TaskBarController implements Initializable, ViewModelBindingControl
     @FXML
     private Button deleteTask;
 
+    public void displayTask(long taskId) {
+
+    }
+
     @Override
     public void init(ViewModel viewModel) {
-        this.viewModel = (TaskBarViewModel) viewModel;
+        this.viewModel = (TaskPageViewModel) viewModel;
     }
 
     @Override

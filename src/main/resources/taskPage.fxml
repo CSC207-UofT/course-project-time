@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TextField?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.TaskBarController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.TaskPageController">
    <children>
       <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0" style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -33,7 +34,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text layoutX="111.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sub-tasks:">
+            <Text layoutX="611.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtasks">
                <font>
                   <Font size="20.0" />
                </font>
@@ -48,15 +49,17 @@
             <TextField fx:id="dueTimeMinutes" layoutX="340.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" />
             <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" />
             <ToggleButton fx:id="completed" layoutX="281.0" layoutY="388.0" mnemonicParsing="false" text="Yes" />
-            <Button fx:id="addSubtask" layoutX="282.0" layoutY="490.0" mnemonicParsing="false" text="Add" />
-            <Button fx:id="scheduleAsEvent" layoutX="111.0" layoutY="609.0" mnemonicParsing="false" text="Schedule as Event" />
-            <Button fx:id="updateTask" layoutX="286.0" layoutY="609.0" mnemonicParsing="false" text="Update" />
-            <Button fx:id="deleteTask" layoutX="115.0" layoutY="688.0" mnemonicParsing="false" text="Delete Task" />
-            <TextField fx:id="taskName" layoutX="105.0" layoutY="66.0" text="Name">
+            <Button fx:id="addSubtask" layoutX="612.0" layoutY="177.0" mnemonicParsing="false" text="Add" />
+            <Button fx:id="scheduleAsEvent" layoutX="191.0" layoutY="654.0" mnemonicParsing="false" text="Schedule as Event" />
+            <Button fx:id="updateTask" layoutX="115.0" layoutY="654.0" mnemonicParsing="false" text="Update" />
+            <Button fx:id="deleteTask" layoutX="332.0" layoutY="654.0" mnemonicParsing="false" text="Delete Task" />
+            <TextField fx:id="taskName" layoutX="105.0" layoutY="66.0">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
+            <Button layoutX="691.0" layoutY="177.0" mnemonicParsing="false" text="Remove" />
+            <JFXListView layoutX="613.0" layoutY="229.0" prefHeight="334.0" prefWidth="200.0" />
          </children></AnchorPane>
       <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0" />
       <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0" />
