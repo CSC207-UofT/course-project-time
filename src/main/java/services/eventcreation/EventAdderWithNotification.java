@@ -5,7 +5,12 @@ import services.notification.NotificationCreationModel;
 import services.notification.NotificationData;
 import services.notification.NotificationFormatter;
 
-public class EventAdderWithNotification implements CalendarEventCreationBoundary {
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+public class EventAdderWithNotification implements EventWithNotificationCreationBoundary {
 
     private final CalendarEventCreationBoundary service;
     private final NotificationAdder notificationAdder;
@@ -17,26 +22,39 @@ public class EventAdderWithNotification implements CalendarEventCreationBoundary
         this.notificationFormatter = notificationFormatter;
     }
 
-    @Override
-    public long addEvent(CalendarEventModel eventData) {
+    public long addEvent(EventWithNotificationModel eventData) {
         long eventId = service.addEvent(eventData);
         String eventName = eventData.getName();
+        LocalDate eventDate = eventData.getEventDate();
+        LocalTime eventStartTime = eventData.getEventStartTime();
+        LocalTime eventEndTime = eventData.getEventEndTime();
 
-        // TODO: get date, startTime, endTime
         String message = notificationFormatter.formatEventNotificationMessage(
                 eventName,
-                null,
-                null,
-                null);
+                eventDate,
+                eventStartTime,
+                eventEndTime);
 
-        // TODO: get notificationTimeInAdvance, notificationDateTime
+        Duration notificationTimeInAdvance = eventData.getNotificationTimeInAdvance();
+        LocalDateTime eventStartDateTime = LocalDateTime.of(eventDate, eventStartTime);
+        LocalDateTime notificationDateTime = eventStartDateTime.minus(notificationTimeInAdvance);
         NotificationCreationModel notificationData = new NotificationData(
                 eventId,
-                null,
-                null,
+                notificationTimeInAdvance,
+                notificationDateTime,
                 message);
 
         notificationAdder.addNotification(notificationData);
         return eventId;
+    }
+
+    @Override
+    public long addEvent(CalendarEventModel eventData) {
+        return service.addEvent(eventData);
+    }
+
+    @Override
+    public long addEvent(EventFromTaskModel eventData) {
+        return service.addEvent(eventData);
     }
 }
