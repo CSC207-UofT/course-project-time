@@ -2,6 +2,7 @@ package services.servicesfactory;
 
 
 import datagateway.event.CalendarManager;
+import datagateway.notification.NotificationManager;
 import datagateway.task.TodoListManager;
 
 /**
@@ -11,5 +12,5 @@ public interface RepositoryFactory {
 
     CalendarManager makeEventRepository();
     TodoListManager makeTaskRepository();
-
+    NotificationManager makeNotificationRepository();
 }

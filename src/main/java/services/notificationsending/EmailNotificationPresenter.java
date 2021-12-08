@@ -30,6 +30,11 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
         this.subject = subject;
     }
 
+    public EmailNotificationPresenter() {
+        this(true, "TimeTeam207@gmail.com",
+                "CSC207CSC207!", "lin507892@gmail.com", "CSC207 Project Time Notification");
+    }
+
     @Override
     public void presentNotification(String message) {
         if (enabled) {

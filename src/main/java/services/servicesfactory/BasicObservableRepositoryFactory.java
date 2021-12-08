@@ -2,6 +2,7 @@ package services.servicesfactory;
 
 import datagateway.event.ObservableEventEntityManager;
 import datagateway.event.ObservableEventRepository;
+import datagateway.notification.NotificationManager;
 import datagateway.task.ObservableTaskEntityManager;
 import datagateway.task.ObservableTaskRepository;
 
@@ -32,5 +33,10 @@ public class BasicObservableRepositoryFactory implements ObservableRepositoryFac
         if (cachedTaskRepository == null)
             cachedTaskRepository = new ObservableTaskEntityManager(innerRepositoryFactory.makeTaskRepository());
         return cachedTaskRepository;
+    }
+
+    @Override
+    public NotificationManager makeNotificationRepository() {
+        return innerRepositoryFactory.makeNotificationRepository();
     }
 }

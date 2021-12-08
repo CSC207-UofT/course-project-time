@@ -1,25 +1,30 @@
 package gui;
 
-import com.sun.source.tree.BreakTree;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
 import gui.view.AddTaskPageController;
 import gui.view.MonthlyCalendarController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
-import gui.viewmodel.MonthlyCalendarViewModel;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.notification.NotificationFormatter;
+import services.notification.BasicNotificationFormatter;
+import services.notificationsending.DesktopNotificationPresenter;
+import services.notificationsending.EmailNotificationPresenter;
+import services.notificationsending.NotificationPresenter;
 import services.servicesfactory.BasicObservableRepositoryFactory;
 import services.servicesfactory.NotificationServiceFactory;
 import services.servicesfactory.ObservableRepositoryFactory;
 import services.servicesfactory.ServicesFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GUIDriver extends Application {
@@ -45,7 +50,11 @@ public class GUIDriver extends Application {
     private ViewModelFactory configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
-        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
+        NotificationFormatter notificationFormatter = new BasicNotificationFormatter();
+        List<NotificationPresenter> notificationPresenters = new ArrayList<>();
+        notificationPresenters.add(new DesktopNotificationPresenter());
+        notificationPresenters.add(new EmailNotificationPresenter());
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory, notificationFormatter, notificationPresenters);
         ViewModelFactory factory = new ViewModelFactory(repositoryFactory, servicesFactory);
 
         try {

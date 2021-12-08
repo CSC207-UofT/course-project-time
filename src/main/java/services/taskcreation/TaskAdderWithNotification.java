@@ -3,7 +3,7 @@ package services.taskcreation;
 import services.notification.NotificationAdder;
 import services.notification.NotificationCreationModel;
 import services.notification.NotificationData;
-import services.notification.NotificationFormat;
+import services.notification.NotificationFormatter;
 
 import java.time.LocalDateTime;
 
@@ -11,12 +11,12 @@ public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
 
     private final TodoListTaskCreationBoundary service;
     private final NotificationAdder notificationAdder;
-    private final NotificationFormat notificationFormat;
+    private final NotificationFormatter notificationFormatter;
 
-    public TaskAdderWithNotification(TodoListTaskCreationBoundary service, NotificationAdder notificationAdder, NotificationFormat notificationFormat) {
+    public TaskAdderWithNotification(TodoListTaskCreationBoundary service, NotificationAdder notificationAdder, NotificationFormatter notificationFormatter) {
         this.service = service;
         this.notificationAdder = notificationAdder;
-        this.notificationFormat = notificationFormat;
+        this.notificationFormatter = notificationFormatter;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
         long taskId = service.addTask(taskData);
         String taskName = taskData.getName();
         LocalDateTime deadline = taskData.getDeadline();
-        String message = notificationFormat.formatTaskNotificationMessage(taskName, deadline);
+        String message = notificationFormatter.formatTaskNotificationMessage(taskName, deadline);
 
         // TODO: get notificationTimeInAdvance, notificationDateTime
         NotificationCreationModel notificationData = new NotificationData(

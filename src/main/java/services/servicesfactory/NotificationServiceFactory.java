@@ -1,5 +1,6 @@
 package services.servicesfactory;
 
+import datagateway.notification.NotificationManager;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdderWithNotification;
 import services.eventcreation.EventSaver;
@@ -8,6 +9,9 @@ import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventPresenter;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.notification.NotificationAdder;
+import services.notification.NotificationFormatter;
+import services.notification.NotificationTracker;
+import services.notificationsending.NotificationPresenter;
 import services.taskcreation.TaskAdderWithNotification;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
@@ -17,6 +21,8 @@ import services.taskpresentation.TodoListRequestBoundary;
 import services.updateentities.UpdateEventBoundary;
 import services.updateentities.UpdateTaskBoundary;
 
+import java.util.List;
+
 /**
  * Factory for services with the Notification proxies
  *
@@ -24,18 +30,38 @@ import services.updateentities.UpdateTaskBoundary;
  */
 public class NotificationServiceFactory implements ServicesFactory {
 
+    private final NotificationManager notificationManager;
+
     private CalendarEventCreationBoundary cachedNotifEventAdder;
     private TodoListTaskCreationBoundary cachedNotifTaskAdder;
+    private NotificationTracker cachedNotifTracker;
+    private NotificationAdder cachedNotificationAdder;
 
-    private final NotificationAdder notificationAdder = new NotificationAdder();
+    private final NotificationFormatter notificationFormatter;
+    private final List<NotificationPresenter> presenters;
     private final ServicesFactory innerFactory;
 
-    public NotificationServiceFactory(ServicesFactory innerFactory) {
-        this.innerFactory = innerFactory;
+    public NotificationServiceFactory(RepositoryFactory repositoryFactory,
+                                      NotificationFormatter formatter,
+                                      List<NotificationPresenter> presenters) {
+        notificationManager = repositoryFactory.makeNotificationRepository();
+        this.notificationFormatter = formatter;
+        this.presenters = presenters;
+        this.innerFactory = new BasicServiceFactory(repositoryFactory);
     }
 
-    public NotificationServiceFactory(RepositoryFactory repositoryFactory) {
-        this(new BasicServiceFactory(repositoryFactory));
+    public NotificationTracker makeNotificationTracker() {
+        if (cachedNotifTracker == null) {
+            cachedNotifTracker = new NotificationTracker(presenters, notificationManager);
+        }
+        return cachedNotifTracker;
+    }
+
+    public NotificationAdder makeNotificationAdder() {
+        if (cachedNotificationAdder == null) {
+            cachedNotificationAdder = new NotificationAdder(notificationManager, makeNotificationTracker());
+        }
+        return cachedNotificationAdder;
     }
 
     @Override
@@ -46,7 +72,8 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public CalendarEventCreationBoundary makeEventCreator() {
         if (cachedNotifEventAdder == null)
-            cachedNotifEventAdder = new EventAdderWithNotification(innerFactory.makeEventCreator(), notificationAdder);
+            cachedNotifEventAdder = new EventAdderWithNotification(innerFactory.makeEventCreator(),
+                    makeNotificationAdder(), notificationFormatter);
         return cachedNotifEventAdder;
     }
 
@@ -73,7 +100,8 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedNotifTaskAdder == null)
-            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(), notificationAdder);
+            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(),
+                    makeNotificationAdder(), notificationFormatter);
         return cachedNotifTaskAdder;
     }
 

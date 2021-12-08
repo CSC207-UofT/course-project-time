@@ -3,18 +3,18 @@ package services.eventcreation;
 import services.notification.NotificationAdder;
 import services.notification.NotificationCreationModel;
 import services.notification.NotificationData;
-import services.notification.NotificationFormat;
+import services.notification.NotificationFormatter;
 
 public class EventAdderWithNotification implements CalendarEventCreationBoundary {
 
     private final CalendarEventCreationBoundary service;
     private final NotificationAdder notificationAdder;
-    private final NotificationFormat notificationFormat;
+    private final NotificationFormatter notificationFormatter;
 
-    public EventAdderWithNotification(CalendarEventCreationBoundary service, NotificationAdder notificationAdder, NotificationFormat notificationFormat) {
+    public EventAdderWithNotification(CalendarEventCreationBoundary service, NotificationAdder notificationAdder, NotificationFormatter notificationFormatter) {
         this.service = service;
         this.notificationAdder = notificationAdder;
-        this.notificationFormat = notificationFormat;
+        this.notificationFormatter = notificationFormatter;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class EventAdderWithNotification implements CalendarEventCreationBoundary
         String eventName = eventData.getName();
 
         // TODO: get date, startTime, endTime
-        String message = notificationFormat.formatEventNotificationMessage(
+        String message = notificationFormatter.formatEventNotificationMessage(
                 eventName,
                 null,
                 null,
