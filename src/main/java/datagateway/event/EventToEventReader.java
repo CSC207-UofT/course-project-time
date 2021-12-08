@@ -1,7 +1,7 @@
 package datagateway.event;
 
+import datagateway.task.TaskReader;
 import entity.Event;
-import entity.dates.DateStrategy;
 import entity.dates.TimeFrame;
 
 import java.time.Duration;
@@ -11,14 +11,11 @@ import java.util.Set;
 
 public class EventToEventReader implements EventReader{
     private final Event event;
+    private final TaskReader task;
 
-    private final String name;
-    private final boolean completed;
-
-    public EventToEventReader(Event event, String name, boolean completed){
+    public EventToEventReader(Event event, TaskReader associatedTask){
         this.event = event;
-        this.name = name;
-        this.completed = completed;
+        this.task = associatedTask;
     }
 
     @Override
@@ -28,12 +25,12 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public String getName() {
-        return name;
+        return task.getName();
     }
 
     @Override
     public Duration getDuration() {
-        return null;
+        return task.getDuration();
     }
 
     @Override
@@ -53,6 +50,6 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public boolean getCompleted() {
-        return completed;
+        return task.getCompleted();
     }
 }

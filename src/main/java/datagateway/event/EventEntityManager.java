@@ -72,16 +72,15 @@ public class EventEntityManager implements CalendarManager{
     public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
         long taskId = taskManager.addTask(eventName, duration, null, new ArrayList<>());
         Event event = new Event(snowflake.nextId(), taskId, strategy, tags);
-        return 0;
+        return event.getId();
     }
 
 
     /**
      * Add a new event using an existing Task's data
      * @param taskId        the associative task's id
-     * @param startTime     the time the event should stsart
+     * @param dateStrategy  the strategy used to generate the dates this event will occur
      * @param tags          the tags associated with the event
-     * @param date          the date the event should occur
      * @return              the id of the newly created event
      */
     @Override
@@ -105,9 +104,7 @@ public class EventEntityManager implements CalendarManager{
 
         for(Event event: eventList){
             TaskReader tr = taskManager.getTask(event.getTaskId());
-            String name = tr.getName();
-            boolean completed = tr.getCompleted();
-            EventReader eventReader = new EventToEventReader(event, name, completed);
+            EventReader eventReader = new EventToEventReader(event, tr);
             eventReaderList.add(eventReader);
         }
         return eventReaderList;

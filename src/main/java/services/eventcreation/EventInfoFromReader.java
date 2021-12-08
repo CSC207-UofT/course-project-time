@@ -28,7 +28,7 @@ public class EventInfoFromReader implements EventInfo {
 
     @Override
     public Duration getDuration() {
-        return null;
+        return eventReader.getDuration();
     }
 
     @Override

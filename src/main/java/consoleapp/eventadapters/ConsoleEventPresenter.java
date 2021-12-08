@@ -27,7 +27,7 @@ public class ConsoleEventPresenter implements CalendarEventPresenter {
             String name = ei.getName();
             String tags = ei.getTags().toString();
             String when = ei.getWhen();
-            String duration = ei.getDuration().toString();
+            String duration = ei.getDuration() == null ? "No duration" : ei.getDuration().toMinutes() + " minutes";
             boolean completed = ei.getCompleted();
 
             String output = "Event: " + name + ", "
