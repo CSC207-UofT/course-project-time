@@ -169,7 +169,6 @@ public class TaskPageViewModel extends ViewModel implements PropertyChangeListen
         formBuilder.addSingleOccurrence(availableTime);
         EventFromTaskModel eventData = new EventFromTaskData(new HashSet<>(), formBuilder.getForm(), taskId);
         eventCreator.addEvent(eventData);
-        System.out.println(eventData.getTaskId());  //todo remove
     }
 
     @Override

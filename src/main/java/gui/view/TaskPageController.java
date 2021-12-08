@@ -68,6 +68,9 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
     private Button removeSubtask;
 
     @FXML
+    private Button schedule;
+
+    @FXML
     private DialogPane message;
 
     private final Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
@@ -132,6 +135,7 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
      * - subtask addition button
      * - subtask removal button
      * - subtask names
+     * If not editable, the "schedule as event" button will disappear
      * @param editable whether we want the above boxes to be editable
      */
     private void setEditable(boolean editable) {
@@ -143,6 +147,7 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
         addSubtask.setDisable(!editable);
         removeSubtask.setDisable(!editable);
         subtaskList.setDisable(!editable);
+        schedule.setVisible(editable);
     }
 
     public void updateTask(MouseEvent event) {
