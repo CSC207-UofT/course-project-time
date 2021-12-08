@@ -75,17 +75,6 @@ public final class NavigationHelper {
     }
 
     /**
-     * Changes view to the daily calendar page.
-     * @param event the event that triggered the request to change view
-     * @throws IOException if the resource file cannot be found
-     */
-    private static void enterDailyCalendarPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/dailyCalendar.fxml")));
-        initializeControllerAndSetNewScene(event, loader);
-    }
-
-    /**
      * Switches the page view based on the given calendar type
      * @param event the event that triggered the request to change view
      * @param calendarType the type of calendar page to switch to (weekly, monthly, and daily)
@@ -95,7 +84,6 @@ public final class NavigationHelper {
         switch (calendarType) {
             case "Month" -> enterMonthlyCalendarPage(event);
             case "Week" -> enterWeeklyCalendarPage(event);
-            case "Day" -> enterDailyCalendarPage(event);
             default -> System.out.println("Should not have reached here");
         }
     }
@@ -107,7 +95,7 @@ public final class NavigationHelper {
      */
     public static void enterHomePage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/basicPage.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
         initializeControllerAndSetNewScene(event, loader);
     }
 
@@ -117,9 +105,10 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterPomodoroPage(MouseEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/pomodoroPage.fxml")));
-        initializeControllerAndSetNewScene(event, loader);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(NavigationHelper.class.getResource("/pomodoroPage.fxml")));
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setScene(new Scene(root, 1000, 800));
+        currentStage.show();
     }
 
     /**
@@ -155,7 +144,8 @@ public final class NavigationHelper {
     }
 
     /**
-     * Sets a new scene. Used by the other methods when handling requests to change view pages.
+     * Initializes the controller by injecting a view model into it, and then sets a new scene.
+     * Used by the other methods when handling requests to change view pages.
      * @param event the event that triggered the request to change view
      * @param loader the FXMLLoader with its location set as the fxml file to be loaded
      */
