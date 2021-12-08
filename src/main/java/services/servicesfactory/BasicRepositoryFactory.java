@@ -1,8 +1,8 @@
 package services.servicesfactory;
 
 import datagateway.event.CalendarManager;
-import database.EventEntityManager;
-import database.TodoEntityManager;
+import database.EventDataAccess;
+import database.TodoDataAccess;
 import datagateway.task.TodoListManager;
 import services.Snowflake;
 
@@ -19,14 +19,14 @@ public class BasicRepositoryFactory implements RepositoryFactory {
     @Override
     public CalendarManager makeEventRepository() {
         if (cachedEventRepository == null)
-            cachedEventRepository = new EventEntityManager(snowflake);
+            cachedEventRepository = new EventDataAccess(snowflake);
         return cachedEventRepository;
     }
 
     @Override
     public TodoListManager makeTaskRepository() {
         if (cachedTaskRepository == null)
-            cachedTaskRepository = new TodoEntityManager(snowflake);
+            cachedTaskRepository = new TodoDataAccess(snowflake);
         return cachedTaskRepository;
     }
 }

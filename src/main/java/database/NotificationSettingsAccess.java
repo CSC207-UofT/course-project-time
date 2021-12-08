@@ -5,11 +5,11 @@ import datagateway.notification.SettingsManager;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NotificationSettingsManager implements SettingsManager {
+public class NotificationSettingsAccess implements SettingsManager {
     private String email;
     private final Map<String, Boolean> notificationSettings;
 
-    public NotificationSettingsManager() {
+    public NotificationSettingsAccess() {
         this.email = "testtime@gmail.com";
         notificationSettings = new HashMap<>();
         notificationSettings.put("email", true);

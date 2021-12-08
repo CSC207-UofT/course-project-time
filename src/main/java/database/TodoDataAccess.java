@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TodoEntityManager implements TodoListManager {
+public class TodoDataAccess implements TodoListManager {
     private final List<TaskDataClass> taskArrayList= new ArrayList<>();
     int taskCounter;
     private final Snowflake snowflake;
 
     private final Gson gson;
 
-    public TodoEntityManager(Snowflake snowflake){
+    public TodoDataAccess(Snowflake snowflake){
         taskCounter = 0;
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();

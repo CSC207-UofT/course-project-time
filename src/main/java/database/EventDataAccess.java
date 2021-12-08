@@ -22,12 +22,12 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class EventEntityManager implements CalendarManager {
+public class EventDataAccess implements CalendarManager {
     private final ArrayList<EventDataClass> eventList;
     private final Gson gson;
     private final Snowflake snowflake;
 
-    public EventEntityManager(Snowflake snowflake){
+    public EventDataAccess(Snowflake snowflake){
         this.eventList = new ArrayList<>();
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();

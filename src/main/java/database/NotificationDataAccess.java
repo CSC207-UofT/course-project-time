@@ -19,11 +19,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationEntityManager implements NotificationManager {
+public class NotificationDataAccess implements NotificationManager {
     private final List<NotificationDataClass> notifications;
     private final Gson gson;
 
-    public NotificationEntityManager(Snowflake snowflake) {
+    public NotificationDataAccess(Snowflake snowflake) {
         this.notifications = new ArrayList<>();
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(NotificationDataClass.class, new JsonNotificationAdapter());
