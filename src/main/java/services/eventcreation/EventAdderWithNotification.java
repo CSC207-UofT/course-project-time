@@ -3,7 +3,6 @@ package services.eventcreation;
 import services.notification.NotificationAdder;
 import services.notification.NotificationCreationModel;
 import services.notification.NotificationData;
-import services.notification.NotificationFormatter;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -14,9 +13,11 @@ public class EventAdderWithNotification implements EventWithNotificationCreation
 
     private final CalendarEventCreationBoundary service;
     private final NotificationAdder notificationAdder;
-    private final NotificationFormatter notificationFormatter;
+    private final EventNotificationFormatter notificationFormatter;
 
-    public EventAdderWithNotification(CalendarEventCreationBoundary service, NotificationAdder notificationAdder, NotificationFormatter notificationFormatter) {
+    public EventAdderWithNotification(CalendarEventCreationBoundary service,
+                                      NotificationAdder notificationAdder,
+                                      EventNotificationFormatter notificationFormatter) {
         this.service = service;
         this.notificationAdder = notificationAdder;
         this.notificationFormatter = notificationFormatter;
@@ -29,7 +30,7 @@ public class EventAdderWithNotification implements EventWithNotificationCreation
         LocalTime eventStartTime = eventData.getEventStartTime();
         LocalTime eventEndTime = eventData.getEventEndTime();
 
-        String message = notificationFormatter.formatEventNotificationMessage(
+        String message = notificationFormatter.formatMessage(
                 eventName,
                 eventDate,
                 eventStartTime,

@@ -12,8 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import services.notification.NotificationFormatter;
-import services.notification.BasicNotificationFormatter;
+import services.eventcreation.BasicEventNotificationFormatter;
+import services.eventcreation.EventNotificationFormatter;
 import services.notificationsending.DesktopNotificationPresenter;
 import services.notificationsending.EmailNotificationPresenter;
 import services.notificationsending.NotificationPresenter;
@@ -21,6 +21,8 @@ import services.servicesfactory.BasicObservableRepositoryFactory;
 import services.servicesfactory.NotificationServiceFactory;
 import services.servicesfactory.ObservableRepositoryFactory;
 import services.servicesfactory.ServicesFactory;
+import services.taskcreation.BasicTaskNotificationFormatter;
+import services.taskcreation.TaskNotificationFormatter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,11 +52,16 @@ public class GUIDriver extends Application {
     private ViewModelFactory configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
-        NotificationFormatter notificationFormatter = new BasicNotificationFormatter();
+        TaskNotificationFormatter taskNotificationFormatter = new BasicTaskNotificationFormatter();
+        EventNotificationFormatter eventNotificationFormatter = new BasicEventNotificationFormatter();
         List<NotificationPresenter> notificationPresenters = new ArrayList<>();
         notificationPresenters.add(new DesktopNotificationPresenter());
         notificationPresenters.add(new EmailNotificationPresenter());
-        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory, notificationFormatter, notificationPresenters);
+        ServicesFactory servicesFactory = new NotificationServiceFactory(
+                repositoryFactory,
+                taskNotificationFormatter,
+                eventNotificationFormatter,
+                notificationPresenters);
         ViewModelFactory factory = new ViewModelFactory(repositoryFactory, servicesFactory);
 
         try {

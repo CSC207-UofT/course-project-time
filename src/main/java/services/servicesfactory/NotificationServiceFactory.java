@@ -3,16 +3,17 @@ package services.servicesfactory;
 import datagateway.notification.NotificationManager;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdderWithNotification;
+import services.eventcreation.EventNotificationFormatter;
 import services.eventcreation.EventSaver;
 import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventPresenter;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.notification.NotificationAdder;
-import services.notification.NotificationFormatter;
 import services.notification.NotificationTracker;
 import services.notificationsending.NotificationPresenter;
 import services.taskcreation.TaskAdderWithNotification;
+import services.taskcreation.TaskNotificationFormatter;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
@@ -37,15 +38,18 @@ public class NotificationServiceFactory implements ServicesFactory {
     private NotificationTracker cachedNotifTracker;
     private NotificationAdder cachedNotificationAdder;
 
-    private final NotificationFormatter notificationFormatter;
+    private final TaskNotificationFormatter taskNotificationFormatter;
+    private final EventNotificationFormatter eventNotificationFormatter;
     private final List<NotificationPresenter> presenters;
     private final ServicesFactory innerFactory;
 
     public NotificationServiceFactory(RepositoryFactory repositoryFactory,
-                                      NotificationFormatter formatter,
+                                      TaskNotificationFormatter taskNotificationFormatter,
+                                      EventNotificationFormatter eventNotificationFormatter,
                                       List<NotificationPresenter> presenters) {
         notificationManager = repositoryFactory.makeNotificationRepository();
-        this.notificationFormatter = formatter;
+        this.taskNotificationFormatter = taskNotificationFormatter;
+        this.eventNotificationFormatter = eventNotificationFormatter;
         this.presenters = presenters;
         this.innerFactory = new BasicServiceFactory(repositoryFactory);
     }
@@ -73,7 +77,7 @@ public class NotificationServiceFactory implements ServicesFactory {
     public CalendarEventCreationBoundary makeEventCreator() {
         if (cachedNotifEventAdder == null)
             cachedNotifEventAdder = new EventAdderWithNotification(innerFactory.makeEventCreator(),
-                    makeNotificationAdder(), notificationFormatter);
+                    makeNotificationAdder(), eventNotificationFormatter);
         return cachedNotifEventAdder;
     }
 
@@ -101,7 +105,7 @@ public class NotificationServiceFactory implements ServicesFactory {
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedNotifTaskAdder == null) {
             cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(),
-                    makeNotificationAdder(), notificationFormatter);
+                    makeNotificationAdder(), taskNotificationFormatter);
         }
         return cachedNotifTaskAdder;
     }
