@@ -45,7 +45,9 @@ public class MainPageViewModel extends ViewModel implements Runnable{
         List<TaskInfo> tasks = taskRepository.getTasks();
         relevantTasks.clear();
         for (TaskInfo taskInfo : tasks) {
-            boolean taskEndsToday = taskInfo.getDeadline() != null && taskInfo.getDeadline().toLocalDate().equals(LocalDate.now());
+            boolean taskEndsToday =
+                    taskInfo.getDeadline() != null
+                    && taskInfo.getDeadline().toLocalDate().equals(LocalDate.now());
             if (taskEndsToday)
                 relevantTasks.add(taskInfo);
         }
@@ -68,10 +70,8 @@ public class MainPageViewModel extends ViewModel implements Runnable{
     }
 
     public String formatDeadline(LocalDateTime localDateTime) {
-        return localDateTime.format(
-                DateTimeFormatter.ofLocalizedDateTime(
-                        FormatStyle.MEDIUM,
-                        FormatStyle.SHORT));
+        return localDateTime.toLocalTime().format(
+                DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM));
     }
 
     public void addObserver(Consumer<Infos> observer) {
