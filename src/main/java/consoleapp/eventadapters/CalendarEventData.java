@@ -4,16 +4,16 @@ import services.eventcreation.CalendarEventModel;
 import services.strategybuilding.DatesForm;
 
 import java.time.Duration;
-import java.util.HashSet;
+import java.util.Set;
 
 public class CalendarEventData implements CalendarEventModel {
 
     private final String eventName;
     private final Duration duration;
     private final DatesForm form;
-    private final HashSet<String> tags;
+    private final Set<String> tags;
 
-    public CalendarEventData(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
+    public CalendarEventData(String eventName, Duration duration, DatesForm form, Set<String> tags) {
         this.eventName = eventName;
         this.duration = duration;
         this.form = form;
@@ -36,7 +36,7 @@ public class CalendarEventData implements CalendarEventModel {
     }
 
     @Override
-    public HashSet<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 

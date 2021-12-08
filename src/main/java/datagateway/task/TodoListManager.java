@@ -1,7 +1,5 @@
 package datagateway.task;
 
-import services.taskcreation.TodoListTaskCreationModel;
-
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -10,7 +8,7 @@ import java.util.Map;
 
 public interface TodoListManager {
 
-    long addTask(TodoListTaskCreationModel taskData);
+    long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks);
 
     TaskReader getTask(long taskId);
 
