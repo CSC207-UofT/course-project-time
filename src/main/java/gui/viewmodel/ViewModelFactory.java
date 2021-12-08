@@ -12,8 +12,7 @@ public class ViewModelFactory {
     private final ObservableEventRepository eventRepository;
     private final ObservableTaskRepository taskRepository;
 
-    private MonthlyCalendarViewModel monthlyCalendarViewModel;
-    private WeeklyCalendarViewModel weeklyCalendarViewModel;
+    private CalendarViewModel calendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
 
@@ -23,24 +22,14 @@ public class ViewModelFactory {
         taskRepository = repositoryFactory.makeTaskRepository();
     }
 
-    public MonthlyCalendarViewModel getMonthlyCalendarViewModel() {
-        if (monthlyCalendarViewModel == null) {
-            monthlyCalendarViewModel = new MonthlyCalendarViewModel(servicesFactory.makeEventCreator(),
+    public CalendarViewModel getCalendarViewModel() {
+        if (calendarViewModel == null) {
+            calendarViewModel = new CalendarViewModel(servicesFactory.makeEventCreator(),
                     servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater(), servicesFactory.makeEventSaver());
-            eventRepository.addCreationObserver(monthlyCalendarViewModel::handleCreation);
-            eventRepository.addUpdateObserver(monthlyCalendarViewModel::handleUpdate);
+            eventRepository.addCreationObserver(calendarViewModel::handleCreation);
+            eventRepository.addUpdateObserver(calendarViewModel::handleUpdate);
         }
-        return monthlyCalendarViewModel;
-    }
-
-    public WeeklyCalendarViewModel getWeeklyCalendarViewModel() {
-        if (weeklyCalendarViewModel == null) {
-            weeklyCalendarViewModel = new WeeklyCalendarViewModel(servicesFactory.makeEventCreator(),
-                    servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater(), servicesFactory.makeEventSaver());
-            eventRepository.addCreationObserver(weeklyCalendarViewModel::handleCreation);
-            eventRepository.addUpdateObserver(weeklyCalendarViewModel::handleUpdate);
-        }
-        return weeklyCalendarViewModel;
+        return calendarViewModel;
     }
 
     public TodoListPageViewModel getTodoListPageViewModel() {

@@ -9,7 +9,7 @@ import com.calendarfx.view.MonthView;
 import com.calendarfx.view.page.MonthPage;
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.viewmodel.MonthlyCalendarViewModel;
+import gui.viewmodel.CalendarViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class MonthlyCalendarController implements Initializable, ViewModelBindingController {
 
-    private MonthlyCalendarViewModel viewModel;
+    private CalendarViewModel viewModel;
 
     @FXML
     private MonthPage monthPage;
@@ -67,7 +67,7 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
 
     @Override
     public void init(ViewModel viewModel) {
-        this.viewModel = (MonthlyCalendarViewModel) viewModel;
+        this.viewModel = (CalendarViewModel) viewModel;
         Bindings.bindContentBidirectional(this.entryList, this.viewModel.getEntryList());
 
 
@@ -96,7 +96,7 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
     }
 
     private record EventCreationHandler(
-            ObservableList<Entry<String>> entryList, MonthlyCalendarViewModel viewModel) implements Callback<Entry<?>, MonthEntryView> {
+            ObservableList<Entry<String>> entryList, CalendarViewModel viewModel) implements Callback<Entry<?>, MonthEntryView> {
 
         @Override
         public MonthEntryView call(Entry<?> param) {

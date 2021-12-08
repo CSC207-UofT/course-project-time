@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WeeklyCalendarViewModel extends ViewModel {
+public class CalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final UpdateEventBoundary eventUpdater;
@@ -33,10 +33,10 @@ public class WeeklyCalendarViewModel extends ViewModel {
     private boolean eventUpdatedFromView;
     private boolean eventCreatedFromView;
 
-    public WeeklyCalendarViewModel(CalendarEventCreationBoundary eventAdder,
-                                   CalendarEventRequestBoundary eventGetter,
-                                   UpdateEventBoundary eventUpdater,
-                                   EventSaver eventSaver) {
+    public CalendarViewModel(CalendarEventCreationBoundary eventAdder,
+                             CalendarEventRequestBoundary eventGetter,
+                             UpdateEventBoundary eventUpdater,
+                             EventSaver eventSaver) {
         this.eventAdder = eventAdder;
         this.eventUpdater = eventUpdater;
         this.eventSaver = eventSaver;
@@ -44,24 +44,11 @@ public class WeeklyCalendarViewModel extends ViewModel {
         this.entryList = FXCollections.observableArrayList(new ArrayList<>());
         this.entryToEventIdMapping = new HashMap<>();
         initializeIdMappingAndEntryList(eventGetter.getEvents());
-    }
-
-    /**
-     * Initializes the mapping between entries id from the view and event id from the program.
-     * @param infoList the list of event info received from the program
-     */
-    private void initializeIdMappingAndEntryList(List<EventInfo> infoList) {
-        for (EventInfo eventInfo : infoList) {
-            Entry<String> entry = EventHelper.eventInfoToEntry(eventInfo);
-            entryToEventIdMapping.put(entry.getId(), eventInfo.getId());
-            entryList.add(entry);
-        }
 
         this.entryList.addListener((ListChangeListener<Entry<String>>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
                     Entry<String> entry = c.getAddedSubList().get(0);
-                    System.out.println("smthg was added to list");
                     onCreation(entry);
                 } else if (c.wasRemoved()) {
                     Entry<String> entry = c.getRemoved().get(0);
@@ -85,6 +72,18 @@ public class WeeklyCalendarViewModel extends ViewModel {
 
     private void onDeletion(Entry<String> entry) {
 
+    }
+
+    /**
+     * Initializes the mapping between entries id from the view and event id from the program.
+     * @param infoList the list of event info received from the program
+     */
+    private void initializeIdMappingAndEntryList(List<EventInfo> infoList) {
+        for (EventInfo eventInfo : infoList) {
+            Entry<String> entry = EventHelper.eventInfoToEntry(eventInfo);
+            entryToEventIdMapping.put(entry.getId(), eventInfo.getId());
+            entryList.add(entry);
+        }
     }
 
     public ObservableList<Entry<String>> getEntryList() {

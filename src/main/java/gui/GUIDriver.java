@@ -28,7 +28,7 @@ public class GUIDriver extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
         Parent root = loader.load();
-        ((MonthlyCalendarController) loader.getController()).init(factory.getMonthlyCalendarViewModel());
+        ((MonthlyCalendarController) loader.getController()).init(factory.getCalendarViewModel());
 
         primaryStage.setResizable(false);
         primaryStage.setTitle("Project Time");
@@ -55,8 +55,8 @@ public class GUIDriver extends Application {
         }
 
         InstanceMapper instanceMapper = new InstanceMapper();
-        instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
-        instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
+        instanceMapper.addMapping(MonthlyCalendarController.class, factory.getCalendarViewModel());
+        instanceMapper.addMapping(WeeklyCalendarController.class, factory.getCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);

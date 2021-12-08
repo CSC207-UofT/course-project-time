@@ -8,9 +8,8 @@ import com.calendarfx.view.DateControl;
 import com.calendarfx.view.page.WeekPage;
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.viewmodel.MonthlyCalendarViewModel;
+import gui.viewmodel.CalendarViewModel;
 import gui.viewmodel.ViewModel;
-import gui.viewmodel.WeeklyCalendarViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class WeeklyCalendarController implements Initializable, ViewModelBindingController {
 
-    private WeeklyCalendarViewModel viewModel;
+    private CalendarViewModel viewModel;
 
     @FXML
     private WeekPage weekPage;
@@ -62,7 +61,7 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
 
     @Override
     public void init(ViewModel viewModel) {
-        this.viewModel = (WeeklyCalendarViewModel) viewModel;
+        this.viewModel = (CalendarViewModel) viewModel;
         Bindings.bindContentBidirectional(this.entryList, this.viewModel.getEntryList());
 
         Calendar calendar = new Calendar("all");
@@ -77,7 +76,7 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
         calendar.addEventHandler(updateEntryHandler);
 
         Callback<DateControl.CreateEntryParameter, Entry<?>> defaultFactory = weekPage.getEntryFactory();
-        weekPage.setEntryFactory(new EventCreationHandler(this.entryList, defaultFactory, (WeeklyCalendarViewModel) viewModel));
+        weekPage.setEntryFactory(new EventCreationHandler(this.entryList, defaultFactory, (CalendarViewModel) viewModel));
     }
 
     private void handleUpdateEntry(CalendarEvent event) {
@@ -92,7 +91,7 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
     private record EventCreationHandler(
             ObservableList<Entry<String>> entryList,
             Callback<DateControl.CreateEntryParameter, Entry<?>> defaultFactory,
-            WeeklyCalendarViewModel viewModel)
+            CalendarViewModel viewModel)
             implements Callback<DateControl.CreateEntryParameter, Entry<?>> {
 
         @Override
