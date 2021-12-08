@@ -16,7 +16,6 @@ public class ViewModelFactory {
     private WeeklyCalendarViewModel weeklyCalendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
-    private MainPageViewModel mainPageViewModel;
     private TaskPageViewModel taskPageViewModel;
 
     private final TaskDataBinding taskDataBinding = new TaskDataBinding();
@@ -55,18 +54,6 @@ public class ViewModelFactory {
             taskRepository.addDeleteObservers(todoListPageViewModel::handleDeletion);
         }
         return todoListPageViewModel;
-    }
-
-    public MainPageViewModel getMainPageViewModel()  {
-        if (mainPageViewModel == null) {
-            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeEventGetter());
-            taskRepository.addCreationObserver(mainPageViewModel::handleCreation);
-            taskRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
-
-            eventRepository.addCreationObserver(mainPageViewModel::handleCreation);
-            eventRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
-        }
-        return mainPageViewModel;
     }
 
     public AddTaskPageViewModel getAddTaskPageViewModel() {
