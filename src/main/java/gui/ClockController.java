@@ -61,6 +61,7 @@ public class ClockController implements ViewModelBindingController {
 
     @FXML
     public void initialize() {
+        // load in previous timer if user has already used the pomodoro timer in this session
         try {
             pomodoroManager.loadTimer("PomodoroData.json");
         } catch (IOException e) {
@@ -261,6 +262,7 @@ public class ClockController implements ViewModelBindingController {
         timer.stop();
         breakTimeText.setEditable(true);
         workTimeText.setEditable(true);
+        pomodoroManager.deleteTimer("PomodoroData.json");
     }
 
     @Override
