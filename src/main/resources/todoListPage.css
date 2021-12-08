@@ -1,0 +1,8 @@
+.completedTask .label .text {
+    -fx-strikethrough: true;
+    -fx-font-size: 15;
+}
+
+.uncompletedTask .label .text {
+    -fx-font-size: 15;
+}
