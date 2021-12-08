@@ -56,6 +56,7 @@ public class NotificationController {
 
     /**
      * Deletes notifications with associatedId
+     * This method is called when a task or event is deleted
      * @param associatedId the id of the associated object that the notification is for
      */
     public void deleteNotification(long associatedId) {
@@ -64,6 +65,7 @@ public class NotificationController {
 
     /**
      * Deletes a notification
+     * This method is called when a task notification or event notification is deleted
      * @param associatedId the id of the associated object that the notification is for
      * @param notificationTimeInAdvance the duration in advance that the notification is to be sent out
      */
