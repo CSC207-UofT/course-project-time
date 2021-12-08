@@ -7,7 +7,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ObservableTaskEntityManager implements ObservableTaskRepository {
 
@@ -71,7 +70,7 @@ public class ObservableTaskEntityManager implements ObservableTaskRepository {
     }
 
     @Override
-    public Map<Long, List<TaskReader>> getAllTasks() {
+    public List<TaskReader> getAllTasks() {
         return taskManager.getAllTasks();
     }
 

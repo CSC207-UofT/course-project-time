@@ -2,9 +2,9 @@ import datagateway.task.TaskReader;
 import datagateway.task.TodoListManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.taskpresentation.TaskInfo;
 import services.taskpresentation.TaskOutputter;
 import services.taskpresentation.TodoListPresenter;
-import services.taskpresentation.TodoListsInfo;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -61,8 +61,8 @@ public class TaskOutputterTest {
         }
 
         @Override
-        public Map<Long, List<TaskReader>> getAllTasks() {
-            return new HashMap<>();
+        public List<TaskReader> getAllTasks() {
+            return new ArrayList<>();
         }
 
         @Override
@@ -111,15 +111,15 @@ public class TaskOutputterTest {
         private boolean presentTasksSuccess = false;
 
         @Override
-        public void presentTasks(TodoListsInfo todoListInfo) {
-            if (todoListInfo.getAllTasks().equals(new ArrayList<>())) {
+        public void presentTasks(List<TaskInfo> taskInfos) {
+            if (taskInfos.equals(new ArrayList<>())) {
                 presentTasksSuccess = true;
             }
         }
 
         @Override
-        public Map<Integer, Long> presentTasksForUserSelection(TodoListsInfo todoListInfo) {
-            if (todoListInfo.getAllTasks().equals(new ArrayList<>())) {
+        public Map<Integer, Long> presentTasksForUserSelection(List<TaskInfo> taskInfos) {
+            if (taskInfos.equals(new ArrayList<>())) {
                 return new HashMap<>();
             } else {
                 return null;
@@ -129,5 +129,6 @@ public class TaskOutputterTest {
         public boolean isPresentTasksSuccess() {
             return presentTasksSuccess;
         }
+
     }
 }
