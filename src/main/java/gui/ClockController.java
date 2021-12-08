@@ -1,6 +1,7 @@
 package gui;
 
 import com.jfoenix.controls.JFXDrawer;
+import consoleapp.ApplicationDriver;
 import gui.utility.NavigationHelper;
 import gui.view.ViewModelBindingController;
 import gui.viewmodel.ViewModel;
@@ -82,7 +83,6 @@ public class ClockController implements ViewModelBindingController {
 
             @Override
             public void handle(long now) {
-
                 if(newStart) {
                     startNano = now;
                     newStart = false;
@@ -108,6 +108,7 @@ public class ClockController implements ViewModelBindingController {
             setDefaults();
             workTimeText.setEditable(false);
             breakTimeText.setEditable(false);
+            System.out.println(currentDuration);
             timer.start();
         }
     }
@@ -130,22 +131,46 @@ public class ClockController implements ViewModelBindingController {
     }
 
     private long calculateCurrentIntervalsStartTime(boolean isWork, long startTime) {
-        long elapsedTime = Instant.now().toEpochMilli() - startTime;
+        long elapsedTime = System.nanoTime() - startTime;
         long remainder = 0;
+        long tempTime;
         while (elapsedTime > 0) {
+            System.out.println(elapsedTime);
             if (isWork) {
-                elapsedTime = elapsedTime - workDuration;
+                tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES);
+                if (tempTime < 0) {
+                    remainder = elapsedTime;
+                    elapsedTime = -1;
+                }
+                else {
+                    elapsedTime = tempTime;
+                }
+
+//                System.out.println(TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES));
             }
             else {
-                elapsedTime = elapsedTime - breakDuration;
+                tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(breakDuration, TimeUnit.MINUTES);
+                if (tempTime < 0) {
+                    remainder = elapsedTime;
+                    elapsedTime = -1;
+                }
+                else {
+                    elapsedTime = tempTime;
+                }
+
             }
             isWork = !isWork;
-            if (elapsedTime < 0) {
-                remainder = abs(elapsedTime);
-            }
+//            if (elapsedTime < 0) {
+//                remainder = abs(elapsedTime);
+//                System.out.println(remainder);
+//
+//            }
         }
-        isBreak = !isWork;
-        return Instant.now().toEpochMilli() - remainder;
+        isBreak = isWork;
+        System.out.println(isBreak);
+        System.out.println(System.nanoTime());
+        System.out.println(System.nanoTime() - remainder);
+        return System.nanoTime() - remainder;
     }
 
     /**
@@ -227,7 +252,7 @@ public class ClockController implements ViewModelBindingController {
         workTimeText.setEditable(false);
         breakTimeText.setEditable(false);
 
-        pomodoroManager.createTimer(Instant.now().toEpochMilli(),!isBreak, breakDuration, workDuration, newStart);
+        pomodoroManager.createTimer(System.nanoTime(),!isBreak, breakDuration, workDuration, newStart);
         try {
             pomodoroManager.saveTimer();
         } catch (IOException e) {
@@ -253,5 +278,8 @@ public class ClockController implements ViewModelBindingController {
     }
 
     @Override
-    public void init(ViewModel viewModel) { }
+    public void init(ViewModel viewModel) {
+
+    }
 }
+
