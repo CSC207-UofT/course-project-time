@@ -2,6 +2,7 @@ package services.eventcreation;
 
 import datagateway.event.CalendarManager;
 import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 import services.strategybuilding.DatesForm;
 import services.strategybuilding.StrategyBuilderDirector;
 
@@ -28,8 +29,8 @@ public class EventAdder implements CalendarEventCreationBoundary {
 
         StrategyBuilderDirector director = new StrategyBuilderDirector();
         DateStrategy strategy = director.createStrategy(form);
-        List<LocalDateTime> times = strategy.datesBetween(LocalDateTime.now(), LocalDateTime.now().plusYears(1));
-        LocalDateTime startTime = times.get(0);
+        List<TimeFrame> times = strategy.datesBetween(LocalDateTime.now(), LocalDateTime.now().plusYears(1), eventDuration);
+        LocalDateTime startTime = times.get(0).startTime;
 
         return calendarManager.addEvent(eventName, startTime, startTime.plus(eventDuration), tags, startTime.toLocalDate());
     }

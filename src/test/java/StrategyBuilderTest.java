@@ -1,6 +1,7 @@
 import entity.dates.DateStrategy;
 import entity.dates.DecoratorStrategy;
 import entity.dates.OrStrategy;
+import entity.dates.TimeFrame;
 import org.junit.jupiter.api.Test;
 import services.strategybuilding.StrategyBuilder;
 import services.strategybuilding.strategies.EndRestrictionDecorator;
@@ -8,9 +9,11 @@ import services.strategybuilding.strategies.StartRestrictionDecorator;
 import services.strategybuilding.strategies.WeeklyStrategy;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StrategyBuilderTest {
 
     final LocalDate arbitraryFriday = LocalDate.of(2021, 11, 19);
+
+    private List<TimeFrame> sortTimeFrames(List<TimeFrame> timeFrames) {
+        List<TimeFrame> sortedFrames = new ArrayList<>(timeFrames);
+        sortedFrames.sort((a, b) -> a.startTime.isBefore(b.startTime) ? -1 : a.startTime.equals(b.startTime) ? 0 : 1);
+        return sortedFrames;
+    }
 
     @Test
     public void testWeeklyStrategyAcrossTwoWeeks() {
@@ -32,18 +41,17 @@ public class StrategyBuilderTest {
         LocalDateTime start = arbitraryFriday.atStartOfDay();
         LocalDateTime twoWeeksLater = start.plusDays(14);
 
-        List<LocalDateTime> actualDates = strategy.datesBetween(start, twoWeeksLater);
-
+        List<TimeFrame> actualDates = strategy.datesBetween(start, twoWeeksLater, Duration.ofMinutes(5));
+        List<TimeFrame> sortedFrames = sortTimeFrames(actualDates);
 
         LocalDate firstSunday = arbitraryFriday.plusDays(2);
         LocalDateTime firstTarget = LocalDateTime.of(firstSunday, LocalTime.MIDNIGHT);
         LocalDate secondSunday = firstSunday.plusDays(7);
         LocalDateTime secondTarget = LocalDateTime.of(secondSunday, LocalTime.MIDNIGHT);
 
-
-        assertEquals(2, actualDates.size());
-        assertTrue(actualDates.contains(firstTarget));
-        assertTrue(actualDates.contains(secondTarget));
+        assertEquals(2, sortedFrames.size());
+        assertEquals(sortedFrames.get(0).startTime, firstTarget);
+        assertEquals(sortedFrames.get(1).startTime, secondTarget);
     }
 
     @Test
@@ -64,7 +72,8 @@ public class StrategyBuilderTest {
         LocalDateTime start = arbitraryFriday.atStartOfDay();
         LocalDateTime weekAfter = start.plusDays(7);
 
-        List<LocalDateTime> actualDates = strategy.datesBetween(start, weekAfter);
+        List<TimeFrame> actualDates = strategy.datesBetween(start, weekAfter, Duration.ofMinutes(5));
+        List<TimeFrame> sortedFrames = sortTimeFrames(actualDates);
 
 
         LocalDate sunday = arbitraryFriday.plusDays(2);
@@ -74,9 +83,9 @@ public class StrategyBuilderTest {
         LocalDateTime tuesdayTarget = LocalDateTime.of(tuesday, LocalTime.NOON);
 
 
-        assertEquals(2, actualDates.size());
-        assertTrue(actualDates.contains(sundayTarget));
-        assertTrue(actualDates.contains(tuesdayTarget));
+        assertEquals(2, sortedFrames.size());
+        assertEquals(sortedFrames.get(0).startTime, sundayTarget);
+        assertEquals(sortedFrames.get(1).startTime, tuesdayTarget);
     }
 
     @Test
@@ -97,19 +106,17 @@ public class StrategyBuilderTest {
         LocalDateTime start = arbitraryFriday.atStartOfDay();
         LocalDateTime twoWeeksLater = start.plusDays(14);
 
-        List<LocalDateTime> actualDates = strategy.datesBetween(start, twoWeeksLater);
+        List<TimeFrame> actualDates = strategy.datesBetween(start, twoWeeksLater, Duration.ofMinutes(5));
+        List<TimeFrame> sortedFrames = sortTimeFrames(actualDates);
 
 
         LocalDate firstSunday = arbitraryFriday.plusDays(2);
-        LocalDate secondSunday = firstSunday.plusDays(7);
 
         LocalDateTime target = LocalDateTime.of(firstSunday, LocalTime.MIDNIGHT);
-        LocalDateTime nonTarget = LocalDateTime.of(secondSunday, LocalTime.MIDNIGHT);
 
 
-        assertEquals(1, actualDates.size());
-        assertEquals(target, actualDates.get(0));
-        assertFalse(actualDates.contains(nonTarget));
+        assertEquals(1, sortedFrames.size());
+        assertEquals(target, sortedFrames.get(0).startTime);
     }
 
     @Test
@@ -132,15 +139,16 @@ public class StrategyBuilderTest {
         LocalDateTime start = arbitraryFriday.atStartOfDay();
         LocalDateTime weekAfter = start.plusDays(7);
 
-        List<LocalDateTime> actualDates = strategy.datesBetween(start, weekAfter);
+        List<TimeFrame> actualDates = strategy.datesBetween(start, weekAfter, Duration.ofMinutes(5));
+        List<TimeFrame> sortedFrames = sortTimeFrames(actualDates);
 
 
         LocalDate sunday = arbitraryFriday.plusDays(2);
         LocalDateTime target = LocalDateTime.of(sunday, LocalTime.MIDNIGHT);
 
 
-        assertEquals(1, actualDates.size());
-        assertEquals(target, actualDates.get(0));
+        assertEquals(1, sortedFrames.size());
+        assertEquals(target, sortedFrames.get(0).startTime);
     }
 
     @Test
@@ -161,19 +169,18 @@ public class StrategyBuilderTest {
         LocalDateTime start = arbitraryFriday.atStartOfDay();
         LocalDateTime twoWeeksLater = start.plusDays(14);
 
-        List<LocalDateTime> actualDates = strategy.datesBetween(start, twoWeeksLater);
+        List<TimeFrame> actualDates = strategy.datesBetween(start, twoWeeksLater, Duration.ofMinutes(5));
+        List<TimeFrame> sortedFrames = sortTimeFrames(actualDates);
 
 
         LocalDate firstSunday = arbitraryFriday.plusDays(2);
         LocalDate secondSunday = firstSunday.plusDays(7);
 
         LocalDateTime target = LocalDateTime.of(secondSunday, LocalTime.MIDNIGHT);
-        LocalDateTime nonTarget = LocalDateTime.of(firstSunday, LocalTime.MIDNIGHT);
 
 
-        assertEquals(1, actualDates.size());
-        assertEquals(target, actualDates.get(0));
-        assertFalse(actualDates.contains(nonTarget));
+        assertEquals(1, sortedFrames.size());
+        assertEquals(target, sortedFrames.get(0).startTime);
     }
 
     @Test
@@ -197,21 +204,17 @@ public class StrategyBuilderTest {
         LocalDateTime start = arbitraryFriday.atStartOfDay();
         LocalDateTime threeWeeksLater = start.plusDays(21);
 
-        List<LocalDateTime> actualDates = strategy.datesBetween(start, threeWeeksLater);
+        List<TimeFrame> actualDates = strategy.datesBetween(start, threeWeeksLater, Duration.ofMinutes(5));
+        List<TimeFrame> sortedFrames = sortTimeFrames(actualDates);
 
 
         LocalDate firstSunday = arbitraryFriday.plusDays(2);
         LocalDate secondSunday = firstSunday.plusDays(7);
-        LocalDate thirdSunday = secondSunday.plusDays(7);
 
-        LocalDateTime firstNonTarget = LocalDateTime.of(firstSunday, LocalTime.MIDNIGHT);
         LocalDateTime middleTarget = LocalDateTime.of(secondSunday, LocalTime.MIDNIGHT);
-        LocalDateTime lastNonTarget = LocalDateTime.of(thirdSunday, LocalTime.MIDNIGHT);
 
 
-        assertEquals(1, actualDates.size());
-        assertEquals(middleTarget, actualDates.get(0));
-        assertFalse(actualDates.contains(firstNonTarget));
-        assertFalse(actualDates.contains(lastNonTarget));
+        assertEquals(1, sortedFrames.size());
+        assertEquals(middleTarget, sortedFrames.get(0).startTime);
     }
 }

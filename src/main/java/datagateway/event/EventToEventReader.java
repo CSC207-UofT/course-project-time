@@ -1,16 +1,19 @@
 package datagateway.event;
 
+import datagateway.strategy.SessionDateStrategy;
 import entity.Event;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class EventToEventReader implements EventReader{
     private final Event event;
+    private final SessionDateStrategy sessionDateStrategy;
 
-    public EventToEventReader(Event event){
+    public EventToEventReader(Event event, SessionDateStrategy sessionDateStrategy ){
         this.event = event;
+        this.sessionDateStrategy = sessionDateStrategy;
     }
 
     @Override
@@ -24,13 +27,8 @@ public class EventToEventReader implements EventReader{
     }
 
     @Override
-    public LocalTime getStartTime() {
-        return event.getStartTime();
-    }
-
-    @Override
-    public LocalTime getEndTime() {
-        return event.getEndTime();
+    public Duration getDuration() {
+        return null;
     }
 
     @Override
@@ -39,7 +37,7 @@ public class EventToEventReader implements EventReader{
     }
 
     @Override
-    public Set<LocalDate> getDates() {
+    public Set<LocalDateTime> getDates() {
         return event.getDates();
     }
 

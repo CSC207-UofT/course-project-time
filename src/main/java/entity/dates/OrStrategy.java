@@ -1,5 +1,6 @@
 package entity.dates;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,11 +15,11 @@ import java.util.Set;
 public class OrStrategy extends CompositeDateStrategy {
 
     @Override
-    public List<LocalDateTime> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        Set<LocalDateTime> acceptedDates = new HashSet<>();
+    public List<TimeFrame> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, Duration eventDuration) {
+        Set<TimeFrame> acceptedDates = new HashSet<>();
 
         for (DateStrategy strategy : super.getStrategies())
-            acceptedDates.addAll(strategy.datesBetween(startDateTime, endDateTime));
+            acceptedDates.addAll(strategy.datesBetween(startDateTime, endDateTime, eventDuration));
 
         return new ArrayList<>(acceptedDates);
     }

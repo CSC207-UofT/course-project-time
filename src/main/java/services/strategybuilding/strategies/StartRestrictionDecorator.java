@@ -1,7 +1,9 @@
 package services.strategybuilding.strategies;
 
 import entity.dates.DecoratorStrategy;
+import entity.dates.TimeFrame;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +17,12 @@ public class StartRestrictionDecorator extends DecoratorStrategy {
     }
 
     @Override
-    public List<LocalDateTime> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<LocalDateTime> acceptedDates = new ArrayList<>();
+    public List<TimeFrame> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, Duration eventDuration) {
+        List<TimeFrame> acceptedDates = new ArrayList<>();
 
-        List<LocalDateTime> wrappedDates = super.datesBetween(startDateTime, endDateTime);
-        for (LocalDateTime date : wrappedDates)
-            if (date.isAfter(rangeStart))
+        List<TimeFrame> wrappedDates = super.datesBetween(startDateTime, endDateTime, eventDuration);
+        for (TimeFrame date : wrappedDates)
+            if (date.startTime.isAfter(rangeStart))
                 acceptedDates.add(date);
 
         return acceptedDates;

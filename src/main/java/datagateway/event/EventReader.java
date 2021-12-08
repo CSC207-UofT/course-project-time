@@ -1,7 +1,7 @@
 package datagateway.event;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface EventReader {
@@ -9,13 +9,11 @@ public interface EventReader {
 
     String getName();
 
-    LocalTime getStartTime();
-
-    LocalTime getEndTime();
+    Duration getDuration();
 
     Set<String> getTags();
 
-    Set<LocalDate> getDates();
+    Set<LocalDateTime> getDates();
 
     boolean getCompleted();
 }

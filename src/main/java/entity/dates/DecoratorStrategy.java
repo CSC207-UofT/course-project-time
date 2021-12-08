@@ -1,5 +1,6 @@
 package entity.dates;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,7 +16,7 @@ abstract public class DecoratorStrategy implements DateStrategy {
     }
 
     @Override
-    public List<LocalDateTime> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return strategy.datesBetween(startDateTime, endDateTime);
+    public List<TimeFrame> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, Duration eventDuration) {
+        return strategy.datesBetween(startDateTime, endDateTime, eventDuration);
     }
 }

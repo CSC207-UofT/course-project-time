@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import datagateway.strategy.DateStrategyManager;
 import entity.Event;
 import services.Snowflake;
 
@@ -26,12 +27,16 @@ public class EventEntityManager implements CalendarManager{
     private final Gson gson;
     private final Snowflake snowflake;
 
-    public EventEntityManager(Snowflake snowflake){
+    private final DateStrategyManager strategyManager;
+
+    public EventEntityManager(Snowflake snowflake, DateStrategyManager strategyManager){
         this.eventList = new ArrayList<>();
         this.snowflake = snowflake;
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Event.class, new JsonEventAdapter());
         gson = builder.create();
+
+        this.strategyManager = strategyManager;
     }
 
     public void saveEvents(String savePath) throws IOException {
@@ -90,7 +95,7 @@ public class EventEntityManager implements CalendarManager{
         List<EventReader> eventReaderList = new ArrayList<>();
 
         for(Event event: eventList){
-            EventReader eventReader = new EventToEventReader(event);
+            EventReader eventReader = new EventToEventReader(event, strategyManager.getStrategy(event.getStrategyId()));
             eventReaderList.add(eventReader);
         }
         return eventReaderList;
