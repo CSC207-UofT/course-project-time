@@ -21,7 +21,7 @@ import java.util.*;
 public class MainPageController implements Initializable, ViewModelBindingController {
 
     private MainPageViewModel viewModel;
-    final double labelFontSize = 15;
+    final double labelFontSize = 18;
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -64,8 +64,8 @@ public class MainPageController implements Initializable, ViewModelBindingContro
             Label deadline = new Label(taskInfo.getValue());
             taskName.setFont(new Font(labelFontSize));
             deadline.setFont(new Font(labelFontSize));
-            taskName.setMinWidth(550);
-            taskName.setMaxWidth(550);
+            taskName.setMinWidth(620);
+            taskName.setMaxWidth(620);
             HBox task = new HBox(taskName, deadline);
             taskListView.getItems().add(task);
         }
@@ -82,17 +82,15 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         eventListView.getItems().clear();
         for (Map.Entry<String, List<String>> eventInfo : map.entrySet()) {
             Label eventName = new Label(eventInfo.getKey());
-            Label startTime = new Label("Start Time is " + eventInfo.getValue().get(0));
-            Label endTime = new Label("End Time is " + eventInfo.getValue().get(1));
+            String startTime = eventInfo.getValue().get(0);
+            String endTime = eventInfo.getValue().get(1);
+            Label duration = new Label(startTime + " - " + endTime);
             eventName.setFont(new Font(labelFontSize));
-            startTime.setFont(new Font(labelFontSize));
-            endTime.setFont(new Font(labelFontSize));
-            eventName.setMinWidth(200);
-            eventName.setMaxWidth(200);
-            startTime.setMinWidth(300);
-            startTime.setMaxWidth(300);
+            duration.setFont(new Font(labelFontSize));
+            eventName.setMinWidth(580);
+            eventName.setMaxWidth(580);
 
-            HBox task = new HBox(eventName, startTime, endTime);
+            HBox task = new HBox(eventName, duration);
             eventListView.getItems().add(task);
         }
         eventListView.refresh();
@@ -116,8 +114,8 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         }
         for (TaskInfo task: taskInfo) {
             String taskName = task.getName();
-            String deadline = this.viewModel.formatDeadline(task.getDeadline());
-            taskMap.put(taskName, deadline);
+            String dueTime = this.viewModel.formatDeadline(task.getDeadline());
+            taskMap.put(taskName, dueTime);
         }
         return taskMap;
     }

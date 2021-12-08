@@ -7,7 +7,6 @@ import gui.view.AddTaskPageController;
 import gui.view.MonthlyCalendarController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
-import gui.viewmodel.MonthlyCalendarViewModel;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +27,7 @@ public class GUIDriver extends Application {
     public void start(Stage primaryStage) throws Exception{
         ViewModelFactory factory = configure();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPageNew.fxml")));
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
         Parent root = loader.load();
         ((MainPageController) loader.getController()).init(factory.getMainPageViewModel());
 
