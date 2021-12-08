@@ -1,7 +1,6 @@
 package gui;
 
 import com.jfoenix.controls.JFXDrawer;
-import consoleapp.ApplicationDriver;
 import gui.utility.NavigationHelper;
 import gui.view.ViewModelBindingController;
 import gui.viewmodel.ViewModel;
@@ -19,12 +18,9 @@ import javafx.scene.text.TextAlignment;
 import services.pomodororunning.TimeFormatter;
 import datagateway.pomodoro.PomodoroManager;
 
-
 import java.io.IOException;
-import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
-import static java.lang.Math.abs;
 
 public class ClockController implements ViewModelBindingController {
 
@@ -44,7 +40,7 @@ public class ClockController implements ViewModelBindingController {
 
     private final Alert error = new Alert(Alert.AlertType.INFORMATION);
 
-    private PomodoroManager pomodoroManager = new PomodoroManager();
+    private final PomodoroManager pomodoroManager = new PomodoroManager();
 
     static final TimeFormatter timeFormatter = new TimeFormatter();
 
@@ -108,7 +104,6 @@ public class ClockController implements ViewModelBindingController {
             setDefaults();
             workTimeText.setEditable(false);
             breakTimeText.setEditable(false);
-            System.out.println(currentDuration);
             timer.start();
         }
     }
@@ -122,9 +117,11 @@ public class ClockController implements ViewModelBindingController {
 
         if (!isBreak) {
             currentDuration = workDuration;
+            setWork(gc);
         }
         else{
             currentDuration = breakDuration;
+            setBreak(gc);
         }
 
         newStart = false;
@@ -135,7 +132,6 @@ public class ClockController implements ViewModelBindingController {
         long remainder = 0;
         long tempTime;
         while (elapsedTime > 0) {
-            System.out.println(elapsedTime);
             if (isWork) {
                 tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES);
                 if (tempTime < 0) {
@@ -145,8 +141,6 @@ public class ClockController implements ViewModelBindingController {
                 else {
                     elapsedTime = tempTime;
                 }
-
-//                System.out.println(TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES));
             }
             else {
                 tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(breakDuration, TimeUnit.MINUTES);
@@ -160,16 +154,8 @@ public class ClockController implements ViewModelBindingController {
 
             }
             isWork = !isWork;
-//            if (elapsedTime < 0) {
-//                remainder = abs(elapsedTime);
-//                System.out.println(remainder);
-//
-//            }
         }
         isBreak = isWork;
-        System.out.println(isBreak);
-        System.out.println(System.nanoTime());
-        System.out.println(System.nanoTime() - remainder);
         return System.nanoTime() - remainder;
     }
 
