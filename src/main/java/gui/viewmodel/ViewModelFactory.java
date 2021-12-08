@@ -17,6 +17,9 @@ public class ViewModelFactory {
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
     private MainPageViewModel mainPageViewModel;
+    private TaskPageViewModel taskPageViewModel;
+
+    private final TaskDataBinding taskDataBinding = new TaskDataBinding();
 
     public ViewModelFactory(ObservableRepositoryFactory repositoryFactory, ServicesFactory servicesFactory) {
         this.servicesFactory = servicesFactory;
@@ -46,9 +49,10 @@ public class ViewModelFactory {
 
     public TodoListPageViewModel getTodoListPageViewModel() {
         if (todoListPageViewModel == null) {
-            todoListPageViewModel = new TodoListPageViewModel(servicesFactory.makeTaskGetter());
+            todoListPageViewModel = new TodoListPageViewModel(servicesFactory.makeTaskGetter(), taskDataBinding);
             taskRepository.addCreationObserver(todoListPageViewModel::handleCreation);
             taskRepository.addUpdateObserver(todoListPageViewModel::handleUpdate);
+            taskRepository.addDeleteObservers(todoListPageViewModel::handleDeletion);
         }
         return todoListPageViewModel;
     }
@@ -70,5 +74,14 @@ public class ViewModelFactory {
             addTaskPageViewModel = new AddTaskPageViewModel(servicesFactory.makeTaskCreator());
         }
         return addTaskPageViewModel;
+    }
+
+    public TaskPageViewModel getTaskPageViewModel() {
+        if (taskPageViewModel == null) {
+            taskPageViewModel = new TaskPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskUpdater(),
+                    servicesFactory.makeTaskDeleter());
+            taskDataBinding.addObserver(taskPageViewModel);
+        }
+        return taskPageViewModel;
     }
 }

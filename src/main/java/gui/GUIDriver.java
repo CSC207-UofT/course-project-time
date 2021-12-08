@@ -5,6 +5,7 @@ import gui.utility.NavigationHelper;
 import gui.view.MainPageController;
 import gui.view.AddTaskPageController;
 import gui.view.MonthlyCalendarController;
+import gui.view.TaskPageController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
 import gui.viewmodel.ViewModelFactory;
@@ -60,6 +61,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
+        instanceMapper.addMapping(TaskPageController.class, factory.getTaskPageViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
 
         return factory;
