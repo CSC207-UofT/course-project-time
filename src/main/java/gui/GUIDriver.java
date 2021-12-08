@@ -3,10 +3,7 @@ package gui;
 import com.sun.source.tree.BreakTree;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
-import gui.view.AddTaskPageController;
-import gui.view.MonthlyCalendarController;
-import gui.view.TodoListPageController;
-import gui.view.WeeklyCalendarController;
+import gui.view.*;
 import gui.viewmodel.MonthlyCalendarViewModel;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
@@ -60,6 +57,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
+        instanceMapper.addMapping(SettingsController.class, factory.getSettingViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
 
         return factory;

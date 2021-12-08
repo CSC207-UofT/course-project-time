@@ -1,4 +1,4 @@
 package gui.viewmodel;
 
-public class SettingsViewModel {
+public class SettingsViewModel extends ViewModel{
 }

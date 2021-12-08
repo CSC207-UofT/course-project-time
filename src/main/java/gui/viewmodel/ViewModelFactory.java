@@ -16,6 +16,7 @@ public class ViewModelFactory {
     private WeeklyCalendarViewModel weeklyCalendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
+    private SettingsViewModel settingsViewModel;
 
     public ViewModelFactory(ObservableRepositoryFactory repositoryFactory, ServicesFactory servicesFactory) {
         this.servicesFactory = servicesFactory;
@@ -58,4 +59,11 @@ public class ViewModelFactory {
         }
         return addTaskPageViewModel;
     }
+    public SettingsViewModel getSettingViewModel() {
+        if (settingsViewModel == null) {
+            settingsViewModel = new SettingsViewModel();
+        }
+        return settingsViewModel;
+    }
+
 }
