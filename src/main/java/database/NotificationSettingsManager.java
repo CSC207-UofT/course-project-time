@@ -1,4 +1,6 @@
-package datagateway.notification;
+package database;
+
+import datagateway.notification.SettingsManager;
 
 import java.util.HashMap;
 import java.util.Map;

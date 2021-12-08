@@ -1,15 +1,16 @@
-package datagateway.notification;
+package database;
 
+import datagateway.notification.NotificationReader;
 import entity.Notification;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class NotificationToNotificationReader implements NotificationReader{
+public class NotificationDataToReader implements NotificationReader {
 
-    private final Notification notification;
+    private final NotificationDataClass notification;
 
-    public NotificationToNotificationReader(Notification notification) {
+    public NotificationDataToReader(NotificationDataClass notification) {
         this.notification = notification;
     }
 

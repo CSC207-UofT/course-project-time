@@ -1,10 +1,11 @@
-package datagateway.notification;
+package database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import entity.Notification;
+import datagateway.notification.NotificationManager;
+import datagateway.notification.NotificationReader;
 import services.Snowflake;
 import services.notification.NotificationCreationModel;
 
@@ -19,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationEntityManager implements NotificationManager {
-    private final List<Notification> notifications;
+    private final List<NotificationDataClass> notifications;
     private final Gson gson;
 
     public NotificationEntityManager(Snowflake snowflake) {
         this.notifications = new ArrayList<>();
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Notification.class, new JsonNotificationAdapter());
+        builder.registerTypeAdapter(NotificationDataClass.class, new JsonNotificationAdapter());
         gson = builder.create();
     }
 
@@ -35,7 +36,7 @@ public class NotificationEntityManager implements NotificationManager {
      */
     @Override
     public void addNotification(NotificationCreationModel model) {
-        Notification notification = new Notification(model.getAssociatedId(), model.getTimeInAdvance(),
+        NotificationDataClass notification = new NotificationDataClass(model.getAssociatedId(), model.getTimeInAdvance(),
                 model.getNotificationDateTime(), model.getMessage());
 
         notifications.add(notification);
@@ -48,7 +49,7 @@ public class NotificationEntityManager implements NotificationManager {
      */
     @Override
     public void deleteNotification(long associatedId, Duration timeInAdvance) {
-        for (Notification notification : notifications) {
+        for (NotificationDataClass notification : notifications) {
             if (notification.getAssociatedId() == associatedId
                     && notification.getNotificationTimeInAdvance().equals(timeInAdvance)) {
                 notifications.remove(notification);
@@ -63,8 +64,8 @@ public class NotificationEntityManager implements NotificationManager {
     @Override
     public List<NotificationReader> getAllNotifications() {
         List<NotificationReader> notificationReaderList = new ArrayList<>();
-        for (Notification notification : notifications) {
-            notificationReaderList.add(new NotificationToNotificationReader(notification));
+        for (NotificationDataClass notification : notifications) {
+            notificationReaderList.add(new NotificationDataToReader(notification));
         }
         return notificationReaderList;
     }
@@ -77,9 +78,9 @@ public class NotificationEntityManager implements NotificationManager {
     @Override
     public List<NotificationReader> getNotificationsForAssociatedObject(long associatedId) {
         List<NotificationReader> notificationReaderList = new ArrayList<>();
-        for (Notification notification : notifications) {
+        for (NotificationDataClass notification : notifications) {
             if (notification.getAssociatedId() == associatedId) {
-                notificationReaderList.add(new NotificationToNotificationReader(notification));
+                notificationReaderList.add(new NotificationDataToReader(notification));
             }
         }
         return notificationReaderList;
@@ -93,10 +94,10 @@ public class NotificationEntityManager implements NotificationManager {
      */
     @Override
     public NotificationReader getNotification(long associatedId, Duration timeInAdvance) {
-        for (Notification notification : notifications) {
+        for (NotificationDataClass notification : notifications) {
             if (notification.getAssociatedId() == associatedId
                     && notification.getNotificationTimeInAdvance().equals(timeInAdvance)) {
-                return new NotificationToNotificationReader(notification);
+                return new NotificationDataToReader(notification);
             }
         }
         return null;
@@ -112,8 +113,8 @@ public class NotificationEntityManager implements NotificationManager {
         File file = new File(filePath);
         if(file.isFile()) {
             JsonReader reader = new JsonReader(new FileReader(filePath));
-            Type listType = new TypeToken<List<Notification>>(){}.getType();
-            List<Notification> notifications = gson.fromJson(reader, listType);
+            Type listType = new TypeToken<List<NotificationDataClass>>(){}.getType();
+            List<NotificationDataClass> notifications = gson.fromJson(reader, listType);
 
             if(notifications != null) {
                 this.notifications.addAll(notifications);
