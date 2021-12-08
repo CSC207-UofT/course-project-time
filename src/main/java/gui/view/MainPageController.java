@@ -54,6 +54,12 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         updateTaskListView(formatTaskInfos(this.viewModel.getRelevantTasks()));
         updateEventListView(formatEventInfos(this.viewModel.getRelevantEvents()));
 
+        eventListView.setMouseTransparent( true );
+        eventListView.setFocusTraversable( false );
+
+        taskListView.setMouseTransparent( true );
+        taskListView.setFocusTraversable( false );
+
     }
 
     /**
