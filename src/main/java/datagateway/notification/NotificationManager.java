@@ -11,6 +11,8 @@ public interface NotificationManager {
 
     void deleteNotification(long associatedId, Duration timeInAdvance);
 
+    void deleteNotification(long associatedId);
+
     List<NotificationReader> getAllNotifications();
 
     List<NotificationReader> getNotificationsForAssociatedObject(long associatedId);

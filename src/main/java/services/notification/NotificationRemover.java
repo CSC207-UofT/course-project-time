@@ -18,4 +18,9 @@ public class NotificationRemover {
         notificationManager.deleteNotification(associatedId, timeInAdvance);
         notificationTracker.updateUpcomingNotification();
     }
+
+    public void deleteNotification(Long associatedId) {
+        notificationManager.deleteNotification(associatedId);
+        notificationTracker.updateUpcomingNotification();
+    }
 }

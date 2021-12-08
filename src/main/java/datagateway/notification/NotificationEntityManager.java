@@ -57,6 +57,15 @@ public class NotificationEntityManager implements NotificationManager {
         }
     }
 
+    /***
+     * Deletes notifications with associatedId
+     * @param associatedId the id of the associated object that the notification is for
+     */
+    @Override
+    public void deleteNotification(long associatedId) {
+        notifications.removeIf(notification -> notification.getAssociatedId() == associatedId);
+    }
+
     /**
      * @return all notifications
      */
