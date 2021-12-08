@@ -96,7 +96,7 @@ public final class NavigationHelper {
      */
     public static void enterHomePage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/mainPage.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/mainPageNew.fxml")));
         initializeControllerAndSetNewScene(event, loader);
 
     }

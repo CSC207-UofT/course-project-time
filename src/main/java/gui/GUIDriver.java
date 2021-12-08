@@ -28,7 +28,7 @@ public class GUIDriver extends Application {
     public void start(Stage primaryStage) throws Exception{
         ViewModelFactory factory = configure();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPageNew.fxml")));
         Parent root = loader.load();
         ((MainPageController) loader.getController()).init(factory.getMainPageViewModel());
 
