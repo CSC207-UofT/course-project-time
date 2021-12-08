@@ -1,23 +1,10 @@
 package services.notification;
 
-import services.eventcreation.CalendarEventModel;
-import services.taskcreation.TodoListTaskCreationModel;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class NotificationFormatter implements NotificationFormat{
-    @Override
-    public String formatNotificationMessage(CalendarEventModel eventModel) {
-        return null;
-    }
-
-    @Override
-    public String formatNotificationMessage(TodoListTaskCreationModel taskModel) {
-        return null;
-    }
-
     /***
      * Generate a task notification message with the format
      *          You have an upcoming task <task name> due on <deadline>
