@@ -149,7 +149,7 @@ public class ApplicationDriver {
                     formBuilder.addSingleOccurrence(userSuggestedTime);
                     DatesForm form = formBuilder.getForm();
 
-                    controller.createEvent(taskInfo.getName(), taskInfo.getDuration(), form);
+                    controller.createEvent(taskInfo.getId(), form);
                     System.out.println("Event created from task");
                 }
                 break;
@@ -339,7 +339,7 @@ public class ApplicationDriver {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
             return LocalDateTime.parse(timeString, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
             return LocalDate.parse(timeString, dateFormatter).atTime(defaultTime);
         }
     }

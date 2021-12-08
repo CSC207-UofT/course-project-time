@@ -1,7 +1,6 @@
 package datagateway.task;
 
 import datagateway.Observer;
-import services.taskcreation.TodoListTaskCreationModel;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -52,8 +51,8 @@ public class ObservableTaskEntityManager implements ObservableTaskRepository {
     }
 
     @Override
-    public long addTask(TodoListTaskCreationModel taskData) {
-        long newTaskId = taskManager.addTask(taskData);
+    public long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
+        long newTaskId = taskManager.addTask(name, duration, deadline, subtasks);
         TaskReader newTask = getTask(newTaskId);
         notifyCreationObservers(newTask);
         return newTaskId;

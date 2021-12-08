@@ -7,9 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class ObservableEventEntityManager implements ObservableEventRepository {
 
@@ -50,8 +50,16 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
     }
 
     @Override
-    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags, LocalDate date) {
+    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
         long newEventId = calendarManager.addEvent(eventName, startTime, endTime, tags, date);
+        EventReader newEvent = getById(newEventId);
+        notifyCreationObservers(newEvent);
+        return newEventId;
+    }
+
+    @Override
+    public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+        long newEventId = calendarManager.addEvent(taskId, startTime, tags, date);
         EventReader newEvent = getById(newEventId);
         notifyCreationObservers(newEvent);
         return newEventId;

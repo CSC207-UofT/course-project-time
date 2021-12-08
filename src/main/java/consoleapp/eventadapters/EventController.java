@@ -2,6 +2,7 @@ package consoleapp.eventadapters;
 
 
 import services.eventcreation.CalendarEventCreationBoundary;
+import services.eventcreation.EventFromTaskData;
 import services.eventcreation.EventSaver;
 import services.eventdeletion.EventDeletionBoundary;
 import services.eventpresentation.CalendarEventDisplayBoundary;
@@ -16,8 +17,8 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EventController {
 
@@ -49,13 +50,6 @@ public class EventController {
     }
 
     /**
-     * {@link #createEvent(String, Duration, DatesForm, HashSet)}
-     */
-    public void createEvent(String eventName, Duration duration, DatesForm form) {
-        createEvent(eventName, duration, form, new HashSet<>());
-    }
-
-    /**
      * checks whether the time period is available to schedule a new event
      * and add the event if it is available
      * @param eventName name of event
@@ -63,9 +57,13 @@ public class EventController {
      * @param form the StrategyBuilderDirector form used to generate the dates strategy
      * @param tags relevant tags of event
      */
-    public void createEvent(String eventName, Duration duration, DatesForm form, HashSet<String> tags) {
+    public void createEvent(String eventName, Duration duration, DatesForm form, Set<String> tags) {
 
         eventAdder.addEvent(new CalendarEventData(eventName, duration, form, tags));
+    }
+
+    public void createEvent(long taskId, DatesForm form, Set<String> tags) {
+        eventAdder.addEvent(new EventFromTaskData(tags, form, taskId));
     }
 
     public void saveEvents(String filename) throws IOException {
