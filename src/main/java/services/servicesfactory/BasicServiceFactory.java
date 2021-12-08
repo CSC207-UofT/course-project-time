@@ -6,6 +6,8 @@ import datagateway.task.TodoListManager;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdder;
 import services.eventcreation.EventSaver;
+import services.eventdeletion.EventDeleter;
+import services.eventdeletion.EventDeletionBoundary;
 import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventfromtaskcreation.EventScheduler;
 import services.eventpresentation.CalendarEventDisplayBoundary;
@@ -16,6 +18,8 @@ import services.eventpresentation.EventOutputter;
 import services.taskcreation.TaskAdder;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
+import services.taskdeletion.TaskDeleter;
+import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TaskGetter;
 import services.taskpresentation.TaskOutputter;
 import services.taskpresentation.TodoListDisplayBoundary;
@@ -37,11 +41,13 @@ public class BasicServiceFactory implements ServicesFactory {
     private CalendarEventRequestBoundary cachedEventGetter;
     private EventSaver cachedEventSaver;
     private UpdateEventBoundary cachedEventUpdater;
+    private EventDeletionBoundary cachedEventDeleter;
     private TodoListTaskCreationBoundary cachedTaskCreator;
     private TodoListDisplayBoundary cachedTaskOutputter;
     private TodoListRequestBoundary cachedTaskGetter;
     private TaskSaver cachedTaskSaver;
     private UpdateTaskBoundary cachedTaskUpdater;
+    private TaskDeletionBoundary cachedTaskDeleter;
 
 
     public BasicServiceFactory(RepositoryFactory repositoryFactory) {
@@ -92,6 +98,13 @@ public class BasicServiceFactory implements ServicesFactory {
     }
 
     @Override
+    public EventDeletionBoundary makeEventDeleter() {
+        if (cachedEventDeleter == null)
+            cachedEventDeleter = new EventDeleter(eventRepository);
+        return cachedEventDeleter;
+    }
+
+    @Override
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedTaskCreator == null)
             cachedTaskCreator = new TaskAdder(taskRepository);
@@ -125,5 +138,12 @@ public class BasicServiceFactory implements ServicesFactory {
         if (cachedTaskUpdater == null)
             cachedTaskUpdater = new TaskUpdater(taskRepository);
         return cachedTaskUpdater;
+    }
+
+    @Override
+    public TaskDeletionBoundary makeTaskDeleter() {
+        if (cachedTaskDeleter == null)
+            cachedTaskDeleter = new TaskDeleter(taskRepository);
+        return cachedTaskDeleter;
     }
 }

@@ -217,4 +217,12 @@ public class MainController {
     public List<HashMap<String, String >> getEvents() {
         return eventController.getEvents();
     }
+
+    public void deleteTask(long taskId) {
+        taskController.deleteTask(taskId);
+    }
+
+    public void deleteEvent(long eventId) {
+        eventController.deleteEvent(eventId);
+    }
 }
