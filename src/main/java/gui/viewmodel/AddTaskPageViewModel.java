@@ -24,7 +24,7 @@ public class AddTaskPageViewModel extends ViewModel {
      * @param dueDate date of the deadline
      * @param dueTimeHours hour of the deadline
      * @param dueTimeMinutes minute of the deadline
-     * @param duration duration needed for the task
+     * @param duration duration needed for the task in minutes
      * @param subtasks list of subtasks
      */
     public void addTask(String taskName, LocalDate dueDate, String dueTimeHours, String dueTimeMinutes, String duration,
