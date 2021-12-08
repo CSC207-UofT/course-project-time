@@ -42,7 +42,7 @@ public class TaskGetterTest {
     private static class MockTodoListManager implements TodoListManager {
 
         @Override
-        public long addTask(TodoListTaskCreationModel taskData) {
+        public long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
             return 0;
         }
 
