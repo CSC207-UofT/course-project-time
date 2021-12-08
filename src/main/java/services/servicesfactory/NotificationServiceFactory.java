@@ -73,7 +73,7 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedNotifTaskAdder == null)
-            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(), notificationAdder);
+            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(), notificationAdder, notificationFormat);
         return cachedNotifTaskAdder;
     }
 
