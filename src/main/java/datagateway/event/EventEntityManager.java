@@ -121,10 +121,13 @@ public class EventEntityManager implements CalendarManager{
 
         for(Event event: eventList){
             TaskReader tr = taskManager.getTask(event.getTaskId());
-            String name = tr.getName();
-            boolean completed = tr.getCompleted();
-            EventReader eventReader = new EventToEventReader(event, name, completed);
-            eventReaderList.add(eventReader);
+
+            if(tr != null) {
+                String name = tr.getName();
+                boolean completed = tr.getCompleted();
+                EventReader eventReader = new EventToEventReader(event, name, completed);
+                eventReaderList.add(eventReader);
+            }
         }
         return eventReaderList;
     }

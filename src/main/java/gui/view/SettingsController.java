@@ -5,6 +5,8 @@ import gui.utility.NavigationHelper;
 import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -21,6 +23,10 @@ public class SettingsController implements Initializable, ViewModelBindingContro
     @FXML
     private AnchorPane mainBackground;
 
+    @FXML
+    private Button exportButton;
+    private ViewModel viewModel;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -29,6 +35,10 @@ public class SettingsController implements Initializable, ViewModelBindingContro
 
     @Override
     public void init(ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void exportICS(MouseEvent event) {
 
     }
 
