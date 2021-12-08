@@ -66,6 +66,9 @@ We organized our code according to the various layers as outlined in Clean Archi
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
 
+In the graphical user interface that we have implemented in phase 2, we have used the MVVM pattern to decouple
+the user interface and the rest of the application.
+
 __A scenario walk through that demonstrates clean architecture__
 
 
@@ -77,6 +80,18 @@ we have used the **facade design pattern** with the `MainController` in `console
 the facade. It routes requests from the `ApplicationDriver` to the respective controllers and acts as a facade.
 We chose to use the facade design pattern to separate concerns of which controllers to call away from
 the `ApplicationDriver`, whose main responsibility is to interact with the user.
+
+We have used the **observer pattern** as part of our notification system which
+notifies users if there is an upcoming event or task due.
+
+In the notification system, we are also using the **proxy pattern** to add an event to the program,
+together with its notification time. In phase 0, we only have an `EventAdder` in `services\eventcreation` package,
+which adds an event to the program. As mentioned in the OCP section, we created an additional entity `Notification`
+which has reference to the `id` of an `Event`, so the event creation process would also need
+to create a `Notification` instance that corresponds to the event. This design pattern was chosen as we
+needed a wrapper of the `EventAdder`, that both creates an event and a task, but we needed to hide this creation
+process from the client code. Proxy would be the most suitable choice here, allowing the client code to remain
+the same, while getting the `Notification` instance created.
 
 
 ## Use of GitHub Features (add in github actions)
