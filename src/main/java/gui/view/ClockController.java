@@ -279,8 +279,6 @@ public class ClockController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(workDuration);
-        System.out.println(currentDuration);
         timer.start();
     }
 
