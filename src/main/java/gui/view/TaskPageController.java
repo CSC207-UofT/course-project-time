@@ -157,6 +157,10 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
         }
     }
 
+    public void deleteTask(MouseEvent event) {
+
+    }
+
     public void enterTodoListPage(MouseEvent event) {
         try {
             NavigationHelper.enterTodoListPage(event);
