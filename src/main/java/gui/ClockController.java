@@ -168,6 +168,12 @@ public class ClockController implements ViewModelBindingController {
         return System.nanoTime() - remainder;
     }
 
+    /**
+     * format the elapsed time into the time left in the format: HH:mm
+     * @param elapsedTime the time to be formatted
+     * @param currentDuration the length of this interval
+     * @return a string containing the formatted time
+     */
     public String formatTime(double elapsedTime, long currentDuration) {
         double totalTime = (double) TimeUnit.SECONDS.convert(currentDuration, TimeUnit.MINUTES);
         double timeLeft = totalTime - (double)TimeUnit.SECONDS.convert((long)elapsedTime, TimeUnit.NANOSECONDS);
