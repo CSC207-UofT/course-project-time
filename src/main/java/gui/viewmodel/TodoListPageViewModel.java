@@ -18,8 +18,11 @@ public class TodoListPageViewModel extends ViewModel {
 
     private final ObservableList<TaskInfo> taskInfoList;
     private final ObservableList<Map<String, String>> viewInfoList;
+    private final TaskDataBinding taskDataBinding;
 
-    public TodoListPageViewModel(TodoListRequestBoundary taskGetter) {
+    public TodoListPageViewModel(TodoListRequestBoundary taskGetter, TaskDataBinding taskDataBinding) {
+
+        this.taskDataBinding = taskDataBinding;
 
         // initialize sorted taskInfoList
         List<TaskInfo> taskList = taskGetter.getTasks();
@@ -81,6 +84,10 @@ public class TodoListPageViewModel extends ViewModel {
             taskViewInfo.put("deadline", deadline);
             this.viewInfoList.add(taskViewInfo);
         }
+    }
+
+    public void taskSelected(long taskId) {
+        taskDataBinding.setTaskId(taskId);
     }
 
     public ObservableList<Map<String, String>> getTaskInfoList() {

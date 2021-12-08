@@ -1,43 +1,48 @@
 package gui.viewmodel;
 
-import datagateway.task.ObservableTaskRepository;
-import datagateway.task.TaskReader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import services.taskpresentation.TaskInfo;
+import services.taskpresentation.TodoListRequestBoundary;
+import services.updateentities.UpdateTaskBoundary;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.List;
 
-public class TaskPageViewModel extends ViewModel {
+public class TaskPageViewModel extends ViewModel implements PropertyChangeListener {
 
-    private final ObservableTaskRepository repository;
+    private final TodoListRequestBoundary taskGetter;
+    private final UpdateTaskBoundary taskUpdater;
 
     private final ObservableMap<String, String> taskInfoMap;
 
-    public TaskPageViewModel(ObservableTaskRepository repository) {
-        this.repository = repository;
+    public TaskPageViewModel(TodoListRequestBoundary taskGetter, UpdateTaskBoundary taskUpdater) {
+        this.taskGetter = taskGetter;
+        this.taskUpdater = taskUpdater;
 
         // initialize taskInfoMap
         taskInfoMap = FXCollections.observableHashMap();
     }
 
-    public Map<String, String> getTaskInfo(long taskId) {
+    public void updateTaskInfoMap(long taskId) {
         this.taskInfoMap.clear();
 
-        TaskReader tr = repository.getTask(taskId);
-        taskInfoMap.put("name", tr.getName());
+        TaskInfo taskInfo = taskGetter.getTaskById(taskId);
+        taskInfoMap.put("taskName", taskInfo.getName());
 
         String dueDate = "";
         String dueTimeHours = "";
         String dueTimeMinutes = "";
-        if (tr.getDeadline() != null) {
-            dueDate = tr.getDeadline().format(
+        if (taskInfo.getDeadline() != null) {
+            dueDate = taskInfo.getDeadline().format(
                     DateTimeFormatter.ofPattern("yyyy-MM-dd")
             );
-            dueTimeHours = tr.getDeadline().format(
+            dueTimeHours = taskInfo.getDeadline().format(
                     DateTimeFormatter.ofPattern("HH")
             );
-            dueTimeMinutes = tr.getDeadline().format(
+            dueTimeMinutes = taskInfo.getDeadline().format(
                     DateTimeFormatter.ofPattern("mm")
             );
         }
@@ -45,11 +50,26 @@ public class TaskPageViewModel extends ViewModel {
         taskInfoMap.put("dueTimeHours", dueTimeHours);
         taskInfoMap.put("dueTimeMinutes", dueTimeMinutes);
 
-        String completed = tr.getCompleted() ? "yes" : "no";
+        taskInfoMap.put("duration", Long.toString(taskInfo.getDuration().toMinutes()));
+
+        String completed = taskInfo.getCompleted() ? "yes" : "no";
         taskInfoMap.put("completed", completed);
 
-        String subTasks = tr.getSubtasks().toString();
-        return null;  // todo
+        List<String> subtaskList = taskInfo.getSubtasks();
+        StringBuilder subtaskSb = new StringBuilder();
+        for (String s : subtaskList) {
+            subtaskSb.append(s).append(" ");
+        }
+        taskInfoMap.put("subtasks", subtaskSb.toString());
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        long taskId = (long) evt.getNewValue();
+        updateTaskInfoMap(taskId);
+    }
+
+    public ObservableMap<String, String> getTaskInfoMap() {
+        return taskInfoMap;
+    }
 }

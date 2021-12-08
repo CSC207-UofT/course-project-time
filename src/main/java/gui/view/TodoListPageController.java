@@ -3,6 +3,7 @@ package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
+import gui.viewmodel.TaskDataBinding;
 import gui.viewmodel.TodoListPageViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
@@ -27,8 +28,6 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     private TodoListPageViewModel viewModel;
     private final ObservableList<Map<String, String>> taskInfoList = FXCollections.observableArrayList();
 
-    private TaskPageController taskPage;
-
     @FXML
     private JFXDrawer collapsedNavPanel;
 
@@ -46,8 +45,8 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     public void enterTaskPage(MouseEvent event) {
         try {
             HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
+            viewModel.taskSelected(Long.parseLong(clickedItem.getId()));
             NavigationHelper.enterTaskPage(event);
-            taskPage.displayTask(Long.parseLong(clickedItem.getId()));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
