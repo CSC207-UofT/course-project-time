@@ -15,7 +15,7 @@ public class EventDataClass {
     private LocalTime startTime;
     private LocalTime endTime;
     private final Set<String> tags;
-    private final Task task;
+    private final TaskDataClass task;
     private final Set<LocalDate> dates;
     private boolean completed;
 
@@ -26,7 +26,7 @@ public class EventDataClass {
      * @param startTime the start time of the event
      * @param endTime the end time the event
      */
-    public EventDataClass(long id, Task task, LocalDateTime startTime, LocalTime endTime) {
+    public EventDataClass(long id, TaskDataClass task, LocalDateTime startTime, LocalTime endTime) {
         this.id = id;
         this.task = task;
         this.startTime = startTime.toLocalTime();
@@ -44,7 +44,7 @@ public class EventDataClass {
      * @param startTime the start time of the event
      * @param endTime the end time the event
      */
-    public EventDataClass(long id, Task task, LocalTime startTime, LocalTime endTime,
+    public EventDataClass(long id, TaskDataClass task, LocalTime startTime, LocalTime endTime,
                  Set<LocalDate> dates) {
         this.id = id;
         this.task = task;
@@ -72,7 +72,7 @@ public class EventDataClass {
         this.endTime = endTime;
         this.tags = tags;
         Duration timeNeeded = Duration.between(startTime, endTime);
-        this.task = new Task(id, eventName, timeNeeded);
+        this.task = new TaskDataClass(id, eventName, timeNeeded);
         this.dates = new HashSet<>();
         this.dates.add(date);
         this.completed = false;
@@ -120,7 +120,7 @@ public class EventDataClass {
         return this.tags;
     }
 
-    public Task getTask() {
+    public TaskDataClass getTask() {
         return this.task;
     }
 

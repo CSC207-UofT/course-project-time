@@ -3,7 +3,6 @@ package database;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import entity.Task;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -13,10 +12,10 @@ import java.util.List;
 
 // Based on GSON type adapter documentation from
 // https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.1/com/google/gson/TypeAdapter.html
-public class JsonTaskAdapter extends TypeAdapter<Task> {
+public class JsonTaskAdapter extends TypeAdapter<TaskDataClass> {
 
     @Override
-    public void write(JsonWriter jsonWriter, Task task) throws IOException {
+    public void write(JsonWriter jsonWriter, TaskDataClass task) throws IOException {
         jsonWriter.setIndent("    ");
         jsonWriter.beginObject();
         jsonWriter.name("id").value(task.getId());
@@ -40,11 +39,11 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
     }
 
     @Override
-    public Task read(JsonReader jsonReader) throws IOException {
+    public TaskDataClass read(JsonReader jsonReader) throws IOException {
         long id = 0;
         String taskName = "";
         boolean completed = false;
-        Duration timeNeeded = Task.DEFAULT_DURATION;
+        Duration timeNeeded = TaskDataClass.DEFAULT_DURATION;
         LocalDateTime deadline = null;
         List<String> subTasks = new ArrayList<>();
 
@@ -86,7 +85,7 @@ public class JsonTaskAdapter extends TypeAdapter<Task> {
 
         int MIN_TASK_ATTRIBUTES = 2;
         if (read_so_far == MIN_TASK_ATTRIBUTES) {
-            Task task = new Task(id, taskName, timeNeeded, deadline, subTasks);
+            TaskDataClass task = new TaskDataClass(id, taskName, timeNeeded, deadline, subTasks);
             task.setCompleted(completed);
 
             return task;

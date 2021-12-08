@@ -3,7 +3,6 @@ package database;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import entity.Task;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,7 +51,7 @@ public class JsonEventAdapter extends TypeAdapter<EventDataClass> {
         LocalTime startTime = null;
         LocalTime endTime = null;
         Set<String> tags = new HashSet<>();
-        Task task = null;
+        TaskDataClass task = null;
         Set<LocalDate> dates = new HashSet<>();
 
         int read_so_far = 0;
