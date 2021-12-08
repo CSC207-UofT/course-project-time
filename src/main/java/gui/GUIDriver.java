@@ -2,12 +2,7 @@ package gui;
 
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
-import gui.view.MainPageController;
-import gui.view.AddTaskPageController;
-import gui.view.MonthlyCalendarController;
-import gui.view.TaskPageController;
-import gui.view.TodoListPageController;
-import gui.view.WeeklyCalendarController;
+import gui.view.*;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
