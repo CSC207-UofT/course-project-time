@@ -66,6 +66,7 @@ public class TodoListPageViewModel extends ViewModel {
         for (TaskInfo taskInfo : taskInfoList) {
             String id = String.valueOf(taskInfo.getId());
             String taskName = taskInfo.getName();
+            String completed = Boolean.toString(taskInfo.getCompleted());
 
             String deadline = new String("No Deadline");
             if (taskInfo.getDeadline() != null) {
@@ -79,6 +80,8 @@ public class TodoListPageViewModel extends ViewModel {
             taskViewInfo.put("id", id);
             taskViewInfo.put("taskName", taskName);
             taskViewInfo.put("deadline", deadline);
+            taskViewInfo.put("completed", completed);
+
             this.viewInfoList.add(taskViewInfo);
         }
     }
@@ -90,6 +93,7 @@ public class TodoListPageViewModel extends ViewModel {
     public void handleCreation(TaskReader taskReader) {
         String id = String.valueOf(taskReader.getId());
         String taskName = taskReader.getName();
+        String completed = Boolean.toString(taskReader.getCompleted());
         String deadline;
         if (taskReader.getDeadline() != null) {
             deadline = taskReader.getDeadline().format(
@@ -105,6 +109,7 @@ public class TodoListPageViewModel extends ViewModel {
         taskInfoMap.put("id", id);
         taskInfoMap.put("taskName", taskName);
         taskInfoMap.put("deadline", deadline);
+        taskInfoMap.put("completed", completed);
 
         this.viewInfoList.add(taskInfoMap);
     }
