@@ -1,10 +1,15 @@
 package consoleapp;
 
 import services.eventpresentation.EventInfo;
+import services.servicesfactory.BasicRepositoryFactory;
+import services.servicesfactory.BasicServiceFactory;
+import services.servicesfactory.RepositoryFactory;
+import services.servicesfactory.ServicesFactory;
 import services.strategybuilding.DatesForm;
 import services.strategybuilding.MultipleRuleFormBuilder;
 import services.taskpresentation.TaskInfo;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -25,14 +30,24 @@ import java.util.Set;
 
 public class ApplicationDriver {
 
-    private final consoleapp.MainController controller;
+    private final MainController controller;
 
     private static final Map<String, String> queryMenu = createdQueryMap();
     public TaskQuery taskQuery;
     public EventQuery eventQuery;
 
     public ApplicationDriver() {
-        this.controller = new consoleapp.MainController(this);
+        RepositoryFactory repositoryFactory = new BasicRepositoryFactory();
+        ServicesFactory serviceFactory = new BasicServiceFactory(repositoryFactory);
+        ConsoleAppFactory consoleAppFactory = new ConsoleAppFactory(serviceFactory);
+        this.controller = new MainController(this, consoleAppFactory);
+
+        try {
+            repositoryFactory.makeEventRepository().loadEvents("EventData.json");
+            repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.taskQuery = new TaskQuery(controller);
         this.eventQuery = new EventQuery(controller);
     }
@@ -309,7 +324,7 @@ public class ApplicationDriver {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
             return LocalDateTime.parse(timeString, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateTimeFormat);
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
             return LocalDate.parse(timeString, dateFormatter).atTime(defaultTime);
         }
     }

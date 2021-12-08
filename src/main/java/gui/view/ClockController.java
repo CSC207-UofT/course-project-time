@@ -1,9 +1,7 @@
-package gui;
+package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.view.ViewModelBindingController;
-import gui.viewmodel.ViewModel;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -20,8 +18,8 @@ import datagateway.pomodoro.PomodoroManager;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+public class ClockController {
 
-public class ClockController implements ViewModelBindingController {
 
     private AnimationTimer timer;
     private GraphicsContext gc;
@@ -295,11 +293,6 @@ public class ClockController implements ViewModelBindingController {
         breakTimeText.setEditable(true);
         workTimeText.setEditable(true);
         pomodoroManager.deleteTimer("PomodoroData.json");
-    }
-
-    @Override
-    public void init(ViewModel viewModel) {
-
     }
 }
 

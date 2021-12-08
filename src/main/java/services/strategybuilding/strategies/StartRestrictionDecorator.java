@@ -1,6 +1,5 @@
 package services.strategybuilding.strategies;
 
-import entity.dates.DateStrategy;
 import entity.dates.DecoratorStrategy;
 
 import java.time.LocalDateTime;
@@ -11,8 +10,7 @@ public class StartRestrictionDecorator extends DecoratorStrategy {
 
     private final LocalDateTime rangeStart;
 
-    public StartRestrictionDecorator(DateStrategy strategy, LocalDateTime rangeStart) {
-        super(strategy);
+    public StartRestrictionDecorator(LocalDateTime rangeStart) {
         this.rangeStart = rangeStart;
     }
 
