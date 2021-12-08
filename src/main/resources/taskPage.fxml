@@ -40,7 +40,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <DatePicker fx:id="dueDate" layoutX="280.0" layoutY="141.0" />
+            <DatePicker fx:id="dueDate" editable="false" layoutX="280.0" layoutY="141.0" />
             <TextField fx:id="dueTimeHours" layoutX="281.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" />
             <Text layoutX="328.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
                <font>
@@ -59,7 +59,7 @@
                   <Font size="20.0" />
                </font>
             </TextField>
-            <Button onMouseClicked="#removeSubtask" layoutX="691.0" layoutY="177.0" mnemonicParsing="false" text="Remove" />
+            <Button fx:id="removeSubtask" onMouseClicked="#removeSubtask" layoutX="691.0" layoutY="177.0" mnemonicParsing="false" text="Remove" />
             <JFXListView fx:id="subtaskList" layoutX="613.0" layoutY="229.0" prefHeight="334.0" prefWidth="200.0" />
             <DialogPane fx:id="message" layoutX="111.0" layoutY="500.0" visible="false" />
          </children></AnchorPane>
