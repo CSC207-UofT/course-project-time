@@ -2,8 +2,6 @@ package gui.view;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
-import datagateway.event.EventReader;
-import datagateway.task.TaskReader;
 import gui.utility.NavigationHelper;
 import gui.viewmodel.MainPageViewModel;
 import gui.viewmodel.ViewModel;
@@ -12,9 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import services.eventpresentation.EventInfo;
+import services.taskpresentation.TaskInfo;
 
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.*;
@@ -48,19 +47,18 @@ public class MainPageController implements Initializable, ViewModelBindingContro
 
         this.viewModel.addObserver(this::acceptReaders);
 
-        updateListView(taskListView, formatTaskReaders(this.viewModel.getRelevantTasks()));
-        updateEventListView(eventListView, formatEventReaders(this.viewModel.getRelevantEvents()));
+        updateTaskListView(formatTaskInfos(this.viewModel.getRelevantTasks()));
+        updateEventListView(formatEventInfos(this.viewModel.getRelevantEvents()));
 
     }
 
     /**
      * Note: removes visibility of all previously rendered labels in the list view before flushing it out.
-     * @param listView the list view to update
      * @param map a mapping of name and time for today's relevant items
      */
-    private void updateListView(JFXListView<HBox> listView, Map<String, String> map) {
-        listView.getItems().forEach(i -> i.setVisible(false));
-        listView.getItems().clear();
+    private void updateTaskListView(Map<String, String> map) {
+        taskListView.getItems().forEach(i -> i.setVisible(false));
+        taskListView.getItems().clear();
         for (Map.Entry<String, String> taskInfo : map.entrySet()) {
             Label taskName = new Label(taskInfo.getKey());
             Label deadline = new Label(taskInfo.getValue());
@@ -69,18 +67,17 @@ public class MainPageController implements Initializable, ViewModelBindingContro
             taskName.setMinWidth(550);
             taskName.setMaxWidth(550);
             HBox task = new HBox(taskName, deadline);
-            listView.getItems().add(task);
+            taskListView.getItems().add(task);
         }
-        listView.refresh();
+        taskListView.refresh();
 
     }
 
     /**
      * Note: removes visibility of all previously rendered labels in the list view before flushing it out.
-     * @param eventListView the list view to update
      * @param map a mapping of name and time for today's relevant items
      */
-    private void updateEventListView(JFXListView<HBox> eventListView, Map<String, List<String>> map) {
+    private void updateEventListView(Map<String, List<String>> map) {
         eventListView.getItems().forEach(i -> i.setVisible(false));
         eventListView.getItems().clear();
         for (Map.Entry<String, List<String>> eventInfo : map.entrySet()) {
@@ -105,41 +102,35 @@ public class MainPageController implements Initializable, ViewModelBindingContro
 
     /**
      * Method listening to updates from the {@link MainPageViewModel}.
-     * @param readers the lists of updated readers
+     * @param infos the lists of updated infos
      */
-    private void acceptReaders(MainPageViewModel.Readers readers) {
-        updateListView(taskListView, formatTaskReaders(readers.taskReaders));
-        updateEventListView(eventListView, formatEventReaders(readers.eventReaders));
+    private void acceptReaders(MainPageViewModel.Infos infos) {
+        updateTaskListView(formatTaskInfos(infos.taskInfos));
+        updateEventListView(formatEventInfos(infos.eventInfos));
     }
 
-    private Map<String, String> formatTaskReaders(List<TaskReader> taskReaders) {
+    private Map<String, String> formatTaskInfos(List<TaskInfo> taskInfo) {
         Map<String, String> taskMap = new HashMap<>();
-        if (taskReaders.isEmpty()){
+        if (taskInfo.isEmpty()){
             taskMap.put("No Scheduled Tasks", null);
         }
-        for (TaskReader task: taskReaders) {
+        for (TaskInfo task: taskInfo) {
             String taskName = task.getName();
-            String deadline = formatDeadline(task.getDeadline());
+            String deadline = this.viewModel.formatDeadline(task.getDeadline());
             taskMap.put(taskName, deadline);
         }
         return taskMap;
     }
 
-    private String formatDeadline(LocalDateTime localDateTime) {
-        return localDateTime.format(
-                DateTimeFormatter.ofLocalizedDateTime(
-                        FormatStyle.MEDIUM,
-                        FormatStyle.SHORT));
-    }
 
-    private Map<String, List<String>> formatEventReaders(List<EventReader> eventReaders) {
+    private Map<String, List<String>> formatEventInfos(List<EventInfo> eventInfos) {
         Map<String, List<String>> eventMap = new HashMap<>();
         List<String> list = new ArrayList<>();
-        if (eventReaders.isEmpty()){
+        if (eventInfos.isEmpty()){
             eventMap.put("No Scheduled Events", null);
         }
 
-        for (EventReader event: eventReaders) {
+        for (EventInfo event: eventInfos) {
             String eventName = event.getName();
 
             String startTime = event.getStartTime().format(

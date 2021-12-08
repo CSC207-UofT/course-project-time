@@ -5,29 +5,32 @@ import datagateway.event.EventReader;
 import datagateway.event.ObservableEventRepository;
 import datagateway.task.ObservableTaskRepository;
 import datagateway.task.TaskReader;
+import services.eventcreation.EventInfoFromReader;
+import services.eventpresentation.CalendarEventRequestBoundary;
+import services.eventpresentation.EventInfo;
+import services.taskpresentation.TaskInfo;
+import services.taskpresentation.TaskInfoFromTaskReader;
+import services.taskpresentation.TodoListRequestBoundary;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
 
 public class MainPageViewModel extends ViewModel implements Runnable{
-    private final ObservableTaskRepository taskRepository;
-    private final ObservableEventRepository eventRepository;
-    private final List<TaskReader> relevantTasks = new ArrayList<>();
-    private final List<EventReader> relevantEvents = new ArrayList<>();
-    private final List<Consumer<Readers>> observers = new ArrayList<>();
+    private final TodoListRequestBoundary taskRepository;
+    private final CalendarEventRequestBoundary eventRepository;
+    private final List<TaskInfo> relevantTasks = new ArrayList<>();
+    private final List<EventInfo> relevantEvents = new ArrayList<>();
+    private final List<Consumer<Infos>> observers = new ArrayList<>();
 
-    public MainPageViewModel(ObservableTaskRepository observableTaskRepository, ObservableEventRepository observableEventRepository){
-        this.taskRepository = observableTaskRepository;
-        this.eventRepository = observableEventRepository;
-
-        observableTaskRepository.addCreationObserver(this::handleCreation);
-        observableTaskRepository.addUpdateObserver(this::handleUpdate);
-
-        observableEventRepository.addCreationObserver(this::handleCreation);
-        observableEventRepository.addUpdateObserver(this::handleUpdate);
+    public MainPageViewModel(TodoListRequestBoundary taskGetter, CalendarEventRequestBoundary eventGetter){
+        this.taskRepository = taskGetter;
+        this.eventRepository = eventGetter;
 
         updateRelevantTasks();
         updateRelevantEvents();
@@ -39,12 +42,12 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      * Flushes out current relevant tasks with data live from the {@link ObservableTaskRepository}
      */
     private void updateRelevantTasks() {
-        List<TaskReader> tasks = taskRepository.getAllTasks().get(0L);
+        List<TaskInfo> tasks = taskRepository.getTasks();
         relevantTasks.clear();
-        for (TaskReader tr : tasks) {
-            boolean taskEndsToday = tr.getDeadline() != null && tr.getDeadline().toLocalDate().equals(LocalDate.now());
+        for (TaskInfo taskInfo : tasks) {
+            boolean taskEndsToday = taskInfo.getDeadline() != null && taskInfo.getDeadline().toLocalDate().equals(LocalDate.now());
             if (taskEndsToday)
-                relevantTasks.add(tr);
+                relevantTasks.add(taskInfo);
         }
         notifyObservers();
     }
@@ -53,30 +56,37 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      * Flushes out current relevant events with data live from the {@link ObservableEventRepository}
      */
     private void updateRelevantEvents() {
-        List<EventReader> events = eventRepository.getAllEvents();
+        List<EventInfo> events = eventRepository.getEvents();
         relevantEvents.clear();
-        for(EventReader er: events){
-            for(LocalDate date: er.getDates())
+        for(EventInfo eventInfo: events){
+            for(LocalDate date: eventInfo.getDates())
                 if (date.equals(LocalDate.now())){
-                    relevantEvents.add(er);
+                    relevantEvents.add(eventInfo);
                 }
         }
         notifyObservers();
     }
 
-    public void addObserver(Consumer<Readers> observer) {
+    public String formatDeadline(LocalDateTime localDateTime) {
+        return localDateTime.format(
+                DateTimeFormatter.ofLocalizedDateTime(
+                        FormatStyle.MEDIUM,
+                        FormatStyle.SHORT));
+    }
+
+    public void addObserver(Consumer<Infos> observer) {
         observers.add(observer);
     }
 
     private void notifyObservers() {
-        observers.forEach(o -> o.accept(new Readers(relevantEvents, relevantTasks)));
+        observers.forEach(o -> o.accept(new Infos(relevantEvents, relevantTasks)));
     }
 
-    public List<TaskReader> getRelevantTasks() {
+    public List<TaskInfo> getRelevantTasks() {
         return new ArrayList<>(relevantTasks);
     }
 
-    public List<EventReader> getRelevantEvents() {
+    public List<EventInfo> getRelevantEvents() {
         return new ArrayList<>(relevantEvents);
     }
 
@@ -87,8 +97,9 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      * @param taskReader the newly created task
      */
     public void handleCreation(TaskReader taskReader) {
-        if (taskReader.getDeadline() != null && taskReader.getDeadline().toLocalDate().equals(LocalDate.now())){
-            relevantTasks.add(taskReader);
+        TaskInfo taskInfo = new TaskInfoFromTaskReader(taskReader);
+        if (taskInfo.getDeadline() != null && taskInfo.getDeadline().toLocalDate().equals(LocalDate.now())){
+            relevantTasks.add(taskInfo);
             notifyObservers();
         }
     }
@@ -101,26 +112,16 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      */
     public void handleUpdate(TaskReader taskReader) {
         LocalDate todayDate = LocalDate.now();
-        relevantTasks.removeIf(tr -> tr.getName().equals(taskReader.getName()));
-        if (taskReader.getDeadline().toLocalDate().equals(todayDate)){
-            relevantTasks.add(taskReader);
+        TaskInfo taskInfo = new TaskInfoFromTaskReader(taskReader);
+        relevantTasks.removeIf(ti -> ti.getName().equals(taskInfo.getName()));
+        if (taskInfo.getDeadline().toLocalDate().equals(todayDate)){
+            relevantTasks.add(taskInfo);
         }
 
         notifyObservers();
     }
 
-    private void handleUpdate(EventReader eventReader) {
-        LocalDate todayDate = LocalDate.now();
-        relevantEvents.removeIf(er -> er.getName().equals(eventReader.getName()));
-        for (LocalDate date : eventReader.getDates()) {
-            if (date.equals(todayDate)) {
-                relevantEvents.add(eventReader);
-            }
-            notifyObservers();
-        }
-    }
-
-    private void handleCreation(EventReader eventReader) {
+    public void handleCreation(EventReader eventReader) {
         for (LocalDate date : eventReader.getDates()){
             if (date.equals(LocalDate.now())){
                 notifyObservers();
@@ -128,8 +129,22 @@ public class MainPageViewModel extends ViewModel implements Runnable{
         }
     }
 
+    public void handleUpdate(EventReader eventReader) {
+        EventInfo eventInfo = new EventInfoFromReader(eventReader);
+        LocalDate todayDate = LocalDate.now();
+        relevantEvents.removeIf(ei -> ei.getName().equals(eventInfo.getName()));
+        for (LocalDate date : eventReader.getDates()) {
+            if (date.equals(todayDate)) {
+                relevantEvents.add(eventInfo);
+            }
+            notifyObservers();
+        }
+    }
+
+
+
     /**
-     * Background thread which refreshes the cached relevant readers when the day changes.
+     * Background thread which refreshes the cached relevant infos when the day changes.
      */
     @Override
     public void run() {
@@ -149,15 +164,16 @@ public class MainPageViewModel extends ViewModel implements Runnable{
 
     }
 
+
     /**
-     * Just a data class containing both families of readers.
+     * Just a data class containing both families of infos.
      */
-    public static class Readers {
-        public final List<EventReader> eventReaders;
-        public final List<TaskReader> taskReaders;
-        public Readers(List<EventReader> eventReaders, List<TaskReader> taskReaders) {
-            this.eventReaders = eventReaders;
-            this.taskReaders = taskReaders;
+    public static class Infos {
+        public final List<EventInfo> eventInfos;
+        public final List<TaskInfo> taskInfos;
+        public Infos(List<EventInfo> eventInfos, List<TaskInfo> taskInfos) {
+            this.eventInfos = eventInfos;
+            this.taskInfos = taskInfos;
         }
     }
 }
