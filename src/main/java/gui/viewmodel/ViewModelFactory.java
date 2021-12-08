@@ -16,6 +16,7 @@ public class ViewModelFactory {
     private WeeklyCalendarViewModel weeklyCalendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
+    private SettingsViewModel settingsViewModel;
     private MainPageViewModel mainPageViewModel;
     private TaskPageViewModel taskPageViewModel;
 
@@ -84,4 +85,11 @@ public class ViewModelFactory {
         }
         return taskPageViewModel;
     }
+    public SettingsViewModel getSettingViewModel() {
+        if (settingsViewModel == null) {
+            settingsViewModel = new SettingsViewModel();
+        }
+        return settingsViewModel;
+    }
+
 }

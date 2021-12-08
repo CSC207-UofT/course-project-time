@@ -52,7 +52,6 @@ public final class NavigationHelper {
         }
     }
 
-
     /**
      * Changes view to the monthly calendar page.
      * @param event the event that triggered the request to change view
@@ -98,7 +97,6 @@ public final class NavigationHelper {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/mainPage.fxml")));
         initializeControllerAndSetNewScene(event, loader);
-
     }
 
     /**
@@ -120,9 +118,8 @@ public final class NavigationHelper {
      */
     public static void enterSettingsPage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/setting.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/settings.fxml")));
         initializeControllerAndSetNewScene(event, loader);
-
     }
 
     /**

@@ -62,6 +62,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         instanceMapper.addMapping(TaskPageController.class, factory.getTaskPageViewModel());
+        instanceMapper.addMapping(SettingsController.class, factory.getSettingViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
 
         return factory;
