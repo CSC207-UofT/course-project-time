@@ -13,7 +13,6 @@ import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
 import services.updateentities.UpdateEventBoundary;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -155,17 +154,6 @@ public class CalendarViewModel extends ViewModel {
     public void addEventFromView(Entry<String> newEntry) {
         eventCreatedFromView = true;
         entryList.add(newEntry);
-    }
-
-    /**
-     * Persists data into the database
-     */
-    public void saveData() {
-        try {
-            eventSaver.saveEventData("EventData.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

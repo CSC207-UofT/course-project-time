@@ -19,7 +19,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -82,11 +81,6 @@ public class MonthlyCalendarController implements Initializable, ViewModelBindin
 
     private void handleUpdateEntry(CalendarEvent event) {
         this.viewModel.updateEventFromView(event);
-    }
-
-    @FXML
-    public void saveData(MouseEvent mouseEvent) {
-        this.viewModel.saveData();
     }
 
     private record EventCreationHandler(

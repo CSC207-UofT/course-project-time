@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import com.jfoenix.controls.JFXButton?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.WeeklyCalendarController">
    <children>
@@ -15,6 +14,5 @@
          </children></AnchorPane>
       <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0" />
       <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0" />
-      <JFXButton fx:id="saveButton" buttonType="RAISED" layoutX="10.0" layoutY="10.0" onMouseClicked="#saveData" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #5974FF;" text="SAVE" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="20.0" />
    </children>
 </AnchorPane>
