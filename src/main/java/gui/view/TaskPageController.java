@@ -3,27 +3,35 @@ package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
-import gui.viewmodel.AddTaskPageViewModel;
+import gui.viewmodel.TaskPageViewModel;
 import gui.viewmodel.ViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class AddTaskPageController implements Initializable, ViewModelBindingController {
+public class TaskPageController implements Initializable, ViewModelBindingController {
 
-    private AddTaskPageViewModel viewModel;
+    private TaskPageViewModel viewModel;
+
+    private final ObservableMap<String, String> taskInfoMap = FXCollections.observableHashMap();
 
     @FXML
     private JFXDrawer collapsedNavPanel;
@@ -47,6 +55,9 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     private TextField duration;
 
     @FXML
+    private ToggleButton completed;
+
+    @FXML
     private JFXListView<TextField> subtaskList;
 
     @FXML
@@ -55,6 +66,10 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
     private final Pattern dueTimeHoursPattern = Pattern.compile("[01]?[0-9]|2[0-4]");
     private final Pattern dueTimeMinutesPattern = Pattern.compile("[0-5][0-9]");
     private final Pattern durationPattern = Pattern.compile("[0-9]+");
+
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    private List<String> oldSubtaskList;  // track the subtasks before updating
 
     public void addSubtask() {
         TextField newSubtask = new TextField();
@@ -72,43 +87,70 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
         }
     }
 
-    public void saveTask(MouseEvent event) {
+    public void displayTask() {
+        taskName.setText(taskInfoMap.get("taskName"));
+
+        if (!"".equals(taskInfoMap.get("dueDate"))) {
+            dueDate.setValue(LocalDate.parse(taskInfoMap.get("dueDate"), dateFormat));
+            dueTimeHours.setText(taskInfoMap.get("dueTimeHours"));
+            dueTimeMinutes.setText(taskInfoMap.get("dueTimeMinutes"));
+        }
+
+        duration.setText(taskInfoMap.get("duration"));
+        completed.setSelected("yes".equals(taskInfoMap.get("completed")));
+
+        String subtasks = taskInfoMap.get("subtasks");
+        oldSubtaskList = new ArrayList<>();
+        if (subtasks != null) {
+            String[] subtaskArray = subtasks.split(" ");
+            for (String s : subtaskArray) {
+                TextField newSubtask = new TextField();
+                newSubtask.setText(s);
+                subtaskList.getItems().add(newSubtask);
+            }
+            oldSubtaskList.addAll(List.of(subtaskArray));  // record the subtasks before any changes
+        }
+    }
+
+    public void updateTask(MouseEvent event) {
         Label messageLabel;
         HBox messageBox;
         if ("".equals(taskName.getText())) {
-            messageLabel = new Label("Task creation failed: task name cannot be empty");
+            messageLabel = new Label("Task modification failed: task name cannot be empty");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else if (dueDate.getValue() != null && !dueTimeHoursPattern.matcher(dueTimeHours.getText()).matches()) {
             // do not check for due time if there is no due date
             // since without due date we would not need the due time either
-            messageLabel = new Label("Task creation failed: invalid input for due time hours");
+            messageLabel = new Label("Task modification failed: invalid input for due time hours");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else if (dueDate.getValue() != null && !dueTimeMinutesPattern.matcher(dueTimeMinutes.getText()).matches()) {
-            messageLabel = new Label("Task creation failed: invalid input for due time minutes");
+            messageLabel = new Label("Task modification failed: invalid input for due time minutes");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else if (!durationPattern.matcher(duration.getText()).matches()) {
-            messageLabel = new Label("Task creation failed: invalid input for duration");
+            messageLabel = new Label("Task modification failed: invalid input for duration");
             messageBox = new HBox(messageLabel);
             message.setContent(messageBox);
             message.setVisible(true);
         } else {
             // convert the subtasks JFXListView to Java List
-            List<String> subTasks = new ArrayList<>();
+            List<String> newSubtaskList = new ArrayList<>();
             for (TextField item : subtaskList.getItems()) {
-                subTasks.add(item.getText());
+                newSubtaskList.add(item.getText());
             }
 
             if (dueDate.getValue() == null) {
-                viewModel.addTask(taskName.getText(), duration.getText(), subTasks);
+                viewModel.updateTask(taskName.getText(), duration.getText(), oldSubtaskList, newSubtaskList,
+                        completed.isSelected());
             } else {
-                viewModel.addTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
-                        dueTimeMinutes.getText(), duration.getText(), subTasks);
+                viewModel.updateTask(taskName.getText(), dueDate.getValue(), dueTimeHours.getText(),
+                        dueTimeMinutes.getText(), duration.getText(), oldSubtaskList, newSubtaskList,
+                        completed.isSelected());
             }
 
             enterTodoListPage(event);
@@ -125,11 +167,17 @@ public class AddTaskPageController implements Initializable, ViewModelBindingCon
 
     @Override
     public void init(ViewModel viewModel) {
-        this.viewModel = (AddTaskPageViewModel) viewModel;
+        this.viewModel = (TaskPageViewModel) viewModel;
+        Bindings.bindContentBidirectional(this.taskInfoMap, this.viewModel.getTaskInfoMap());
+
+        if (!taskInfoMap.containsValue(null)) {
+            displayTask();
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
     }
+
 }

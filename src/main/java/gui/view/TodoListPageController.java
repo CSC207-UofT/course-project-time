@@ -3,6 +3,7 @@ package gui.view;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
+import gui.viewmodel.TaskDataBinding;
 import gui.viewmodel.TodoListPageViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
@@ -41,9 +42,9 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
 
     public void enterTaskPage(MouseEvent event) {
         try {
-            NavigationHelper.enterTaskPage(event);
             HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
-            System.out.println(clickedItem.getId());  // todo when id can be obtained, use id to find task info
+            viewModel.taskSelected(Long.parseLong(clickedItem.getId()));
+            NavigationHelper.enterTaskPage(event);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
