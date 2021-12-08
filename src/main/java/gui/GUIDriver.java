@@ -7,6 +7,7 @@ import gui.view.AddTaskPageController;
 import gui.view.MonthlyCalendarController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
+import gui.viewmodel.MonthlyCalendarViewModel;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -44,15 +45,15 @@ public class GUIDriver extends Application {
     private ViewModelFactory configure() {
 
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
+        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
+        ViewModelFactory factory = new ViewModelFactory(repositoryFactory, servicesFactory);
+
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");
             repositoryFactory.makeTaskRepository().loadTodo("TaskData.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ViewModelFactory factory = new ViewModelFactory(repositoryFactory);
-        ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
 
         InstanceMapper instanceMapper = new InstanceMapper();
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
