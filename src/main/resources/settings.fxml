@@ -43,7 +43,7 @@
                   </Label>
                </children>
             </HBox>
-            <TextField fx:id="textField" alignment="CENTER" layoutX="325.0" layoutY="474.0" prefHeight="43.0" prefWidth="288.0" promptText="Input Email" styleClass="search-box" stylesheets="@style.css" />
+            <TextField fx:id="textField" alignment="CENTER" layoutX="325.0" layoutY="474.0" prefHeight="43.0" prefWidth="288.0" promptText="Input Email" styleClass="search-box" />
             <Button fx:id="updateSettings" contentDisplay="CENTER" layoutX="756.0" layoutY="662.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="101.0" text="Update">
                <font>
                   <Font name="Cambria" size="20.0" />
