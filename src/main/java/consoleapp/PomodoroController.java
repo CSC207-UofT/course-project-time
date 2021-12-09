@@ -1,9 +1,9 @@
 package consoleapp;
 
 import datagateway.ConsolePomodoroTimerManager;
-import services.pomodororunning.CancelTimerInput;
-import services.pomodororunning.PomodoroObserver;
-import services.pomodororunning.PomodoroRunner;
+import services.consolepomodororunning.CancelTimerInput;
+import services.consolepomodororunning.PomodoroObserver;
+import services.consolepomodororunning.PomodoroRunner;
 
 public class PomodoroController {
     private PomodoroRunner pomodoroRunner;

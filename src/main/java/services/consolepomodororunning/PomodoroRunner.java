@@ -1,4 +1,4 @@
-package services.pomodororunning;
+package services.consolepomodororunning;
 
 import entity.ConsolePomodoroTimer;
 
