@@ -1,4 +1,4 @@
-package data_gateway;
+package datagateway;
 import com.google.gson.Gson;
 
 import java.io.FileWriter;
