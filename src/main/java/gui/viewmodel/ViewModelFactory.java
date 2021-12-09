@@ -12,10 +12,10 @@ public class ViewModelFactory {
     private final ObservableEventRepository eventRepository;
     private final ObservableTaskRepository taskRepository;
 
-    private MonthlyCalendarViewModel monthlyCalendarViewModel;
-    private WeeklyCalendarViewModel weeklyCalendarViewModel;
+    private CalendarViewModel calendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
+    private SettingsViewModel settingsViewModel;
     private MainPageViewModel mainPageViewModel;
     private TaskPageViewModel taskPageViewModel;
 
@@ -27,24 +27,23 @@ public class ViewModelFactory {
         taskRepository = repositoryFactory.makeTaskRepository();
     }
 
-    public MonthlyCalendarViewModel getMonthlyCalendarViewModel() {
-        if (monthlyCalendarViewModel == null) {
-            monthlyCalendarViewModel = new MonthlyCalendarViewModel(servicesFactory.makeEventCreator(),
+    public CalendarViewModel getMonthlyCalendarViewModel() {
+        if (calendarViewModel == null) {
+            calendarViewModel = new CalendarViewModel(servicesFactory.makeEventCreator(),
                     servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater(), servicesFactory.makeEventSaver());
-            eventRepository.addCreationObserver(monthlyCalendarViewModel::handleCreation);
-            eventRepository.addUpdateObserver(monthlyCalendarViewModel::handleUpdate);
+            eventRepository.addCreationObserver(calendarViewModel::handleCreation);
+            eventRepository.addUpdateObserver(calendarViewModel::handleUpdate);
         }
-        return monthlyCalendarViewModel;
+        return calendarViewModel;
     }
 
-    public WeeklyCalendarViewModel getWeeklyCalendarViewModel() {
-        if (weeklyCalendarViewModel == null) {
-            weeklyCalendarViewModel = new WeeklyCalendarViewModel(servicesFactory.makeEventCreator(),
-                    servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater(), servicesFactory.makeEventSaver());
-            eventRepository.addCreationObserver(weeklyCalendarViewModel::handleCreation);
-            eventRepository.addUpdateObserver(weeklyCalendarViewModel::handleUpdate);
-        }
-        return weeklyCalendarViewModel;
+    /**
+     * Returns a view model for the weekly calendar view, which is implemented as being the same as that of
+     * the monthly calendar view.
+     * @return a view model
+     */
+    public CalendarViewModel getWeeklyCalendarViewModel() {
+        return getMonthlyCalendarViewModel();
     }
 
     public TodoListPageViewModel getTodoListPageViewModel() {
@@ -59,7 +58,8 @@ public class ViewModelFactory {
 
     public MainPageViewModel getMainPageViewModel()  {
         if (mainPageViewModel == null) {
-            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeEventGetter());
+            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskSaver(),
+                    servicesFactory.makeEventGetter(), servicesFactory.makeEventSaver());
             taskRepository.addCreationObserver(mainPageViewModel::handleCreation);
             taskRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
 
@@ -84,4 +84,11 @@ public class ViewModelFactory {
         }
         return taskPageViewModel;
     }
+    public SettingsViewModel getSettingViewModel() {
+        if (settingsViewModel == null) {
+            settingsViewModel = new SettingsViewModel(servicesFactory.makeICSSaver());
+        }
+        return settingsViewModel;
+    }
+
 }

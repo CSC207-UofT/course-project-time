@@ -8,6 +8,7 @@ import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import services.eventpresentation.EventInfo;
@@ -159,4 +160,8 @@ public class MainPageController implements Initializable, ViewModelBindingContro
         return eventMap;
     }
 
+    @FXML
+    public void saveData(MouseEvent mouseEvent) {
+        this.viewModel.saveData();
+    }
 }
