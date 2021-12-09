@@ -60,8 +60,7 @@ is an example of this as not only does it implement the interface `CalendarManag
 it also extends the interface's methods by adding the `loadEvents` and `saveEvents`
 methods. Our added functionalities in phase 2 continues to show that LSP has been followed .
 For example, when creating the GUI in phase 2, we have wanted the "model" of the MVVM 
-to be an observable repository which allows the view model to access the data in the database. Instead of modifying 
-existing code. Instead of editing current implementations of the gateway classes to fulfil our needs, 
+to be an observable repository which allows the view model to access the data in the database. Instead of editing current implementations of the gateway classes to fulfil our needs, 
 we created a new interface `ObservableTaskRepository` which extends the previous 
 interface for the manager, `TodoListManager`. We have avoided extending concrete classes as this structure tends to create
 method overriding that violates LSP. Moreover, it shows that our code has been following LSP,
