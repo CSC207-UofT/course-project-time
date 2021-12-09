@@ -49,7 +49,7 @@ public class TaskSaverTest {
         }
 
         @Override
-        public Map<Long, List<TaskReader>> getAllTasks() {
+        public List<TaskReader> getAllTasks() {
             return null;
         }
 

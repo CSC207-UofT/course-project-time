@@ -3,6 +3,7 @@ package services.taskpresentation;
 import datagateway.task.TaskReader;
 import datagateway.task.TodoListManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +21,10 @@ public class TaskOutputter implements TodoListDisplayBoundary {
      */
     @Override
     public void presentAllTasks() {
-        Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
-        TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
-        taskPresenter.presentTasks(todoListInfo);
+        List<TaskReader> taskReaders = todoListManager.getAllTasks();
+        List<TaskInfo> taskInfos = new ArrayList<>();
+        taskReaders.forEach(tr -> taskInfos.add(new TaskInfoFromTaskReader(tr)));
+        taskPresenter.presentTasks(taskInfos);
     }
 
 
@@ -33,9 +35,10 @@ public class TaskOutputter implements TodoListDisplayBoundary {
      */
     @Override
     public Map<Integer, Long> presentAllTasksForUserSelection() {
-        Map<Long, List<TaskReader>> taskReaders = todoListManager.getAllTasks();
-        TodoListsInfo todoListInfo = new TodoListInfoFromTaskReaders(taskReaders);
-        return taskPresenter.presentTasksForUserSelection(todoListInfo);
+        List<TaskReader> taskReaders = todoListManager.getAllTasks();
+        List<TaskInfo> taskInfos = new ArrayList<>();
+        taskReaders.forEach(tr -> taskInfos.add(new TaskInfoFromTaskReader(tr)));
+        return taskPresenter.presentTasksForUserSelection(taskInfos);
     }
 
 }
