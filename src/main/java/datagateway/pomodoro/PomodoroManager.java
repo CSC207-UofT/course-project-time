@@ -48,13 +48,14 @@ public class PomodoroManager {
     public void deleteTimer(String filePath) {
         File file = new File(filePath);
         if(file.isFile()) {
-            file.delete();
+            if(file.delete()) {
+                this.pomodoroTimer = null;
+            }
         }
-        this.pomodoroTimer = null;
     }
 
-    public void createTimer(long startTime, boolean isWork, long breakDuration, long workDuration, boolean newStart) {
-        this.pomodoroTimer = new PomodoroTimer(startTime, isWork, breakDuration, workDuration, newStart);
+    public void createTimer(long startTime, boolean isWork, long breakDuration, long workDuration) {
+        this.pomodoroTimer = new PomodoroTimer(startTime, isWork, breakDuration, workDuration);
     }
     public PomodoroTimer getPomodoroTimer(){
         return pomodoroTimer;

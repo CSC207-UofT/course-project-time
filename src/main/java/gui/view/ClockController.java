@@ -141,24 +141,17 @@ public class ClockController {
         while (elapsedTime > 0) {
             if (isWork) {
                 tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES);
-                if (tempTime < 0) {
-                    remainder = elapsedTime;
-                    elapsedTime = -1;
-                }
-                else {
-                    elapsedTime = tempTime;
-                }
             }
             else {
                 tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(breakDuration, TimeUnit.MINUTES);
-                if (tempTime < 0) {
-                    remainder = elapsedTime;
-                    elapsedTime = -1;
-                }
-                else {
-                    elapsedTime = tempTime;
-                }
 
+            }
+            if (tempTime < 0) {
+                remainder = elapsedTime;
+                elapsedTime = -1;
+            }
+            else {
+                elapsedTime = tempTime;
             }
             isWork = !isWork;
         }
@@ -273,7 +266,7 @@ public class ClockController {
         breakTimeText.setEditable(false);
 
         // saves the timer so that the user can leave the pomodoro page and come back without restarting their pomodoro
-        pomodoroManager.createTimer(System.nanoTime(),!isBreak, breakDuration, workDuration, newStart);
+        pomodoroManager.createTimer(System.nanoTime(),!isBreak, breakDuration, workDuration);
         try {
             pomodoroManager.saveTimer();
         } catch (IOException e) {

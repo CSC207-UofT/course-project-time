@@ -16,7 +16,7 @@ public class PomodoroSaverAndLoaderTest {
     @BeforeEach
     void SetUp() {
         pomodoroManager = new PomodoroManager();
-        pomodoroManager.createTimer(0, true, 25, 5, false);
+        pomodoroManager.createTimer(0, true, 25, 5);
         pomodoroTimer = pomodoroManager.getPomodoroTimer();
     }
 

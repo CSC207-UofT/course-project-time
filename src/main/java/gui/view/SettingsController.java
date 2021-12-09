@@ -39,7 +39,7 @@ public class SettingsController implements Initializable, ViewModelBindingContro
         this.viewModel = (SettingsViewModel)viewModel;
     }
 
-    public void exportICS(MouseEvent event) {
+    public void exportICS() {
         viewModel.exportICS();
     }
 
