@@ -8,9 +8,13 @@ import java.util.Set;
 
 public class EventToEventReader implements EventReader{
     private final Event event;
+    private final String name;
+    private final boolean completed;
 
-    public EventToEventReader(Event event){
+    public EventToEventReader(Event event, String name, boolean completed){
         this.event = event;
+        this.name = name;
+        this.completed = completed;
     }
 
     @Override
@@ -20,7 +24,7 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public String getName() {
-        return event.getEventName();
+        return name;
     }
 
     @Override
@@ -45,6 +49,6 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public boolean getCompleted() {
-        return event.getCompleted();
+        return completed;
     }
 }

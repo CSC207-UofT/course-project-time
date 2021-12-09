@@ -3,7 +3,6 @@ import datagateway.task.TodoListManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.taskcreation.TaskSaver;
-import services.taskcreation.TodoListTaskCreationModel;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -35,8 +34,13 @@ public class TaskSaverTest {
         private boolean saveTodoSuccess = false;
 
         @Override
-        public long addTask(TodoListTaskCreationModel taskData) {
+        public long addTask(String name, Duration duration, LocalDateTime deadline, List<String> subtasks) {
             return 0;
+        }
+
+        @Override
+        public void deleteTask(long taskId) {
+
         }
 
         @Override

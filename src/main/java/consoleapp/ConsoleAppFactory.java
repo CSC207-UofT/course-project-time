@@ -7,6 +7,7 @@ import consoleapp.taskadapters.TaskController;
 import consoleapp.tasktoeventadapters.TaskToEventController;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventSaver;
+import services.eventdeletion.EventDeletionBoundary;
 import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventPresenter;
@@ -14,6 +15,7 @@ import services.eventpresentation.CalendarEventRequestBoundary;
 import services.servicesfactory.ServicesFactory;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
+import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
 import services.taskpresentation.TodoListRequestBoundary;
 import services.updateentities.UpdateEventBoundary;
@@ -40,7 +42,8 @@ public class ConsoleAppFactory {
             TodoListTaskCreationBoundary taskCreator = servicesFactory.makeTaskCreator();
             TaskSaver taskSaver = servicesFactory.makeTaskSaver();
             UpdateTaskBoundary taskUpdater = servicesFactory.makeTaskUpdater();
-            cachedTaskController = new TaskController(taskGetter, taskOutputter, taskCreator, taskSaver, taskUpdater);
+            TaskDeletionBoundary taskDeleter = servicesFactory.makeTaskDeleter();
+            cachedTaskController = new TaskController(taskGetter, taskOutputter, taskCreator, taskSaver, taskUpdater, taskDeleter);
         }
         return cachedTaskController;
     }
@@ -52,7 +55,9 @@ public class ConsoleAppFactory {
             CalendarEventRequestBoundary eventGetter = servicesFactory.makeEventGetter();
             EventSaver eventSaver = servicesFactory.makeEventSaver();
             UpdateEventBoundary eventUpdater = servicesFactory.makeEventUpdater();
-            cachedEventController = new EventController(eventCreator, eventGetter, eventOutputter, eventSaver, eventUpdater);
+            EventDeletionBoundary eventDeleter = servicesFactory.makeEventDeleter();
+            cachedEventController = new EventController(eventCreator, eventGetter, eventOutputter, eventSaver,
+                    eventUpdater, eventDeleter);
         }
         return cachedEventController;
     }

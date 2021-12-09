@@ -1,6 +1,7 @@
 package services.notification;
 
 import services.eventcreation.CalendarEventModel;
+import services.eventcreation.EventFromTaskModel;
 import services.taskcreation.TodoListTaskCreationModel;
 
 public class NotificationAdder {
@@ -12,6 +13,9 @@ public class NotificationAdder {
      * @param eventId the id of the event
      */
     public void createNotification(CalendarEventModel eventData, long eventId) {
+    }
+
+    public void createNotification(EventFromTaskModel eventData, long eventId) {
     }
 
     /***

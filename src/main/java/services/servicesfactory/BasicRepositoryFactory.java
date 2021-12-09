@@ -19,7 +19,7 @@ public class BasicRepositoryFactory implements RepositoryFactory {
     @Override
     public CalendarManager makeEventRepository() {
         if (cachedEventRepository == null)
-            cachedEventRepository = new EventEntityManager(snowflake);
+            cachedEventRepository = new EventEntityManager(snowflake, makeTaskRepository());
         return cachedEventRepository;
     }
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -75,10 +76,10 @@ public class EventAdderTest {
         public final String eventName;
         public final LocalDateTime startTime;
         public final LocalDateTime endTime;
-        public final HashSet<String> tags;
+        public final Set<String> tags;
         public final LocalDate date;
 
-        public EventBuffer(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
+        public EventBuffer(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags,
                            LocalDate date) {
             this.eventName = eventName;
             this.startTime = startTime;
@@ -93,10 +94,19 @@ public class EventAdderTest {
         public EventBuffer output;
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, HashSet<String> tags,
-                             LocalDate date) {
+        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
             output = new EventBuffer(eventName, startTime, endTime, tags, date);
             return 0L;
+        }
+
+        @Override
+        public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+            return 0;
+        }
+
+        @Override
+        public void deleteEvent(long eventId) {
+
         }
 
         @Override

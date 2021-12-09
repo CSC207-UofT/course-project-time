@@ -16,6 +16,11 @@ public class ViewModelFactory {
     private WeeklyCalendarViewModel weeklyCalendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
+    private SettingsViewModel settingsViewModel;
+    private MainPageViewModel mainPageViewModel;
+    private TaskPageViewModel taskPageViewModel;
+
+    private final TaskDataBinding taskDataBinding = new TaskDataBinding();
 
     public ViewModelFactory(ObservableRepositoryFactory repositoryFactory, ServicesFactory servicesFactory) {
         this.servicesFactory = servicesFactory;
@@ -45,11 +50,25 @@ public class ViewModelFactory {
 
     public TodoListPageViewModel getTodoListPageViewModel() {
         if (todoListPageViewModel == null) {
-            todoListPageViewModel = new TodoListPageViewModel(servicesFactory.makeTaskGetter());
+            todoListPageViewModel = new TodoListPageViewModel(servicesFactory.makeTaskGetter(), taskDataBinding);
             taskRepository.addCreationObserver(todoListPageViewModel::handleCreation);
             taskRepository.addUpdateObserver(todoListPageViewModel::handleUpdate);
+            taskRepository.addDeleteObservers(todoListPageViewModel::handleDeletion);
         }
         return todoListPageViewModel;
+    }
+
+    public MainPageViewModel getMainPageViewModel()  {
+        if (mainPageViewModel == null) {
+            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskSaver(),
+                    servicesFactory.makeEventGetter(), servicesFactory.makeEventSaver());
+            taskRepository.addCreationObserver(mainPageViewModel::handleCreation);
+            taskRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
+
+            eventRepository.addCreationObserver(mainPageViewModel::handleCreation);
+            eventRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
+        }
+        return mainPageViewModel;
     }
 
     public AddTaskPageViewModel getAddTaskPageViewModel() {
@@ -58,4 +77,20 @@ public class ViewModelFactory {
         }
         return addTaskPageViewModel;
     }
+
+    public TaskPageViewModel getTaskPageViewModel() {
+        if (taskPageViewModel == null) {
+            taskPageViewModel = new TaskPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskUpdater(),
+                    servicesFactory.makeTaskDeleter());
+            taskDataBinding.addObserver(taskPageViewModel);
+        }
+        return taskPageViewModel;
+    }
+    public SettingsViewModel getSettingViewModel() {
+        if (settingsViewModel == null) {
+            settingsViewModel = new SettingsViewModel(servicesFactory.makeICSSaver());
+        }
+        return settingsViewModel;
+    }
+
 }
