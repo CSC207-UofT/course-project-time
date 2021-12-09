@@ -59,8 +59,11 @@ They include:
 notifications in the settings window is saved. We have the notification system on the branch
 [`notification-system`](https://github.com/CSC207-UofT/course-project-time/tree/notification_system) instead of `main` to avoid
 - intellij code style warnings, since they have not been integrated with the frontend and remain unused. 
-- Our GUI supports changing of dates of events (either by dragging them on the calendar pages, or clicking into an event to change
-explicitly), but the changed dates will not be propagated to the backend, even though our backend supports this functionality.
+- Our GUI supports adding a recurrence rule, but it has not been wired up with the backend, so these types
+of events cannot be persisted. However, our program does support recurrence rule, and can be shown in the GUI if the 
+user has a recurring event saved in the database (JSON file).
+- Our GUI supports adding a location for a scheduled event, but this is not supported by our program. (This is included in the GUI
+as we used an external dependency to create the view for the calendar.)
 
 ## Known Issues
 
