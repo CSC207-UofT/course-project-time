@@ -45,7 +45,7 @@ public class TodoListInfoFromTaskReadersTest {
         assertTrue(actualTask.getCompleted());
     }
 
-    private class MockTaskReader implements TaskReader {
+    private static class MockTaskReader implements TaskReader {
 
         @Override
         public long getId() {

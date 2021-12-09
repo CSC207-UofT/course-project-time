@@ -5,7 +5,7 @@ import datagateway.event.EventReader;
 import datagateway.event.ObservableEventRepository;
 import datagateway.task.ObservableTaskRepository;
 import datagateway.task.TaskReader;
-import services.eventcreation.EventInfoFromReader;
+import entity.dates.TimeFrame;
 import services.eventcreation.EventSaver;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
@@ -21,6 +21,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 
@@ -30,8 +32,8 @@ public class MainPageViewModel extends ViewModel implements Runnable{
     private final CalendarEventRequestBoundary eventGetter;
     private final EventSaver eventSaver;
 
-    private final List<TaskInfo> relevantTasks = new ArrayList<>();
-    private final List<EventInfo> relevantEvents = new ArrayList<>();
+    private final List<TaskEntry> relevantTasks = new ArrayList<>();
+    private final List<EventEntry> relevantEvents = new ArrayList<>();
     private final List<Consumer<Infos>> observers = new ArrayList<>();
 
     public MainPageViewModel(TodoListRequestBoundary taskGetter, TaskSaver taskSaver, CalendarEventRequestBoundary eventGetter, EventSaver eventSaver){
@@ -57,7 +59,7 @@ public class MainPageViewModel extends ViewModel implements Runnable{
                     taskInfo.getDeadline() != null
                     && taskInfo.getDeadline().toLocalDate().equals(LocalDate.now());
             if (taskEndsToday)
-                relevantTasks.add(taskInfo);
+                relevantTasks.add(new TaskEntry(taskInfo.getName(), taskInfo.getDeadline()));
         }
         notifyObservers();
     }
@@ -69,9 +71,9 @@ public class MainPageViewModel extends ViewModel implements Runnable{
         List<EventInfo> events = eventGetter.getEvents();
         relevantEvents.clear();
         for(EventInfo eventInfo: events){
-            for(LocalDate date: eventInfo.getDates())
-                if (date.equals(LocalDate.now())){
-                    relevantEvents.add(eventInfo);
+            for(TimeFrame tr : getTimesFromStaticRange(eventInfo::getDatesBetween))
+                if (tr.startTime.toLocalDate().equals(LocalDate.now())){
+                    relevantEvents.add(new EventEntry(eventInfo.getName(), tr.startTime, tr.startTime.plus(tr.duration)));
                 }
         }
         notifyObservers();
@@ -90,11 +92,11 @@ public class MainPageViewModel extends ViewModel implements Runnable{
         observers.forEach(o -> o.accept(new Infos(relevantEvents, relevantTasks)));
     }
 
-    public List<TaskInfo> getRelevantTasks() {
+    public List<TaskEntry> getRelevantTasks() {
         return new ArrayList<>(relevantTasks);
     }
 
-    public List<EventInfo> getRelevantEvents() {
+    public List<EventEntry> getRelevantEvents() {
         return new ArrayList<>(relevantEvents);
     }
 
@@ -107,7 +109,7 @@ public class MainPageViewModel extends ViewModel implements Runnable{
     public void handleCreation(TaskReader taskReader) {
         TaskInfo taskInfo = new TaskInfoFromTaskReader(taskReader);
         if (taskInfo.getDeadline() != null && taskInfo.getDeadline().toLocalDate().equals(LocalDate.now())){
-            relevantTasks.add(taskInfo);
+            relevantTasks.add(new TaskEntry(taskInfo.getName(), taskInfo.getDeadline()));
             notifyObservers();
         }
     }
@@ -121,29 +123,28 @@ public class MainPageViewModel extends ViewModel implements Runnable{
     public void handleUpdate(TaskReader taskReader) {
         LocalDate todayDate = LocalDate.now();
         TaskInfo taskInfo = new TaskInfoFromTaskReader(taskReader);
-        relevantTasks.removeIf(ti -> ti.getName().equals(taskInfo.getName()));
+        relevantTasks.removeIf(ti -> ti.name.equals(taskInfo.getName()));
         if (taskInfo.getDeadline().toLocalDate().equals(todayDate)){
-            relevantTasks.add(taskInfo);
+            relevantTasks.add(new TaskEntry(taskInfo.getName(), taskInfo.getDeadline()));
         }
 
         notifyObservers();
     }
 
     public void handleCreation(EventReader eventReader) {
-        for (LocalDate date : eventReader.getDates()){
-            if (date.equals(LocalDate.now())){
+        for (TimeFrame tr : getTimesFromStaticRange(eventReader::getDatesBetween)){
+            if (tr.startTime.toLocalDate().equals(LocalDate.now())){
                 notifyObservers();
             }
         }
     }
 
     public void handleUpdate(EventReader eventReader) {
-        EventInfo eventInfo = new EventInfoFromReader(eventReader);
         LocalDate todayDate = LocalDate.now();
-        relevantEvents.removeIf(ei -> ei.getName().equals(eventInfo.getName()));
-        for (LocalDate date : eventReader.getDates()) {
-            if (date.equals(todayDate)) {
-                relevantEvents.add(eventInfo);
+        relevantEvents.removeIf(ei -> ei.name.equals(eventReader.getName()));
+        for (TimeFrame tr : getTimesFromStaticRange(eventReader::getDatesBetween)) {
+            if (tr.startTime.toLocalDate().equals(todayDate)) {
+                relevantEvents.add(new EventEntry(eventReader.getName(), tr.startTime, tr.startTime.plus(tr.duration)));
             }
             notifyObservers();
         }
@@ -188,11 +189,40 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      * Just a data class containing both families of infos.
      */
     public static class Infos {
-        public final List<EventInfo> eventInfos;
-        public final List<TaskInfo> taskInfos;
-        public Infos(List<EventInfo> eventInfos, List<TaskInfo> taskInfos) {
-            this.eventInfos = eventInfos;
-            this.taskInfos = taskInfos;
+        public final List<EventEntry> eventEntries;
+        public final List<TaskEntry> taskEntries;
+        public Infos(List<EventEntry> eventEntries, List<TaskEntry> taskEntries) {
+            this.eventEntries = eventEntries;
+            this.taskEntries = taskEntries;
         }
+    }
+
+    public static class TaskEntry {
+        public final String name;
+        public final LocalDateTime deadline;
+
+        public TaskEntry(String name, LocalDateTime deadline) {
+            this.name = name;
+            this.deadline = deadline;
+        }
+    }
+
+    public static class EventEntry {
+        public final String name;
+        public final LocalDateTime startTime;
+        public final LocalDateTime endTime;
+
+        public EventEntry(String name, LocalDateTime startTime, LocalDateTime endTime) {
+            this.name = name;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+    }
+
+
+    private Set<TimeFrame> getTimesFromStaticRange(BiFunction<LocalDateTime, LocalDateTime, Set<TimeFrame>> dateStrategy) {
+        LocalDateTime from = LocalDateTime.now().minusYears(2);
+        LocalDateTime to = LocalDateTime.now().plusYears(2);
+        return dateStrategy.apply(from, to);
     }
 }
