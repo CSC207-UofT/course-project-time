@@ -29,7 +29,7 @@ public class ConsoleAppFactory {
     private EventController cachedEventController;
     private TaskToEventController cachedTaskToEventController;
 
-    private PomodoroController cachedPomodoroController;
+    private OldPomodoroController cachedOldPomodoroController;
 
     public ConsoleAppFactory(ServicesFactory servicesFactory) {
         this.servicesFactory = servicesFactory;
@@ -71,10 +71,10 @@ public class ConsoleAppFactory {
 
     }
 
-    public PomodoroController makePomodoroController() {
-        if (cachedPomodoroController == null)
-            cachedPomodoroController = new PomodoroController();
-        return cachedPomodoroController;
+    public OldPomodoroController makePomodoroController() {
+        if (cachedOldPomodoroController == null)
+            cachedOldPomodoroController = new OldPomodoroController();
+        return cachedOldPomodoroController;
     }
 
 }

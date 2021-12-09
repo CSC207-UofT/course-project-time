@@ -23,13 +23,13 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
-    private final PomodoroController pomodoroController;
+    private final OldPomodoroController oldPomodoroController;
 
     public MainController(ApplicationDriver applicationDriver, ConsoleAppFactory consoleAppFactory) {
         eventController = consoleAppFactory.makeEventController(new ConsoleEventPresenter(applicationDriver));
         taskController = consoleAppFactory.makeTaskController(new ConsoleTaskPresenter(applicationDriver));
         taskToEventController = consoleAppFactory.makeTaskToEventController();
-        pomodoroController = consoleAppFactory.makePomodoroController();
+        oldPomodoroController = consoleAppFactory.makePomodoroController();
     }
 
     /**
@@ -181,12 +181,12 @@ public class MainController {
      * @param breakTime the time interval that the user specified they want to break for
      */
     public void createAndEndTimer(int workTime, int breakTime) {
-        pomodoroController.checkUserInput();
-        pomodoroController.setPomodoroRunner(workTime, breakTime);
+        oldPomodoroController.checkUserInput();
+        oldPomodoroController.setPomodoroRunner(workTime, breakTime);
         boolean work = true;
         boolean switchInterval = true;
         while (switchInterval) {
-            switchInterval = pomodoroController.startTimer();
+            switchInterval = oldPomodoroController.startTimer();
             if (switchInterval) {
                 if (work) {
                     System.out.println("Break time!");
@@ -198,7 +198,7 @@ public class MainController {
                 }
             }
         }
-        pomodoroController.stopTimer();
+        oldPomodoroController.stopTimer();
         System.out.println("Timer stopped");
     }
 

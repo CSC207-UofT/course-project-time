@@ -100,6 +100,7 @@ public class CalendarViewModel extends ViewModel {
         if (!eventCreatedFromView) {
             Entry<String> newEntry = EventHelper.eventReaderToEntry(eventReader);
             entryToEventIdMapping.put(newEntry.getId(), eventReader.getId());
+            entryList.add(newEntry);
         } else {
             // find the entry with no mapping and add mapping
             for (Entry<String> entry : entryList) {

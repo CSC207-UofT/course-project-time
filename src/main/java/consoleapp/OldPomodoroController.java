@@ -1,13 +1,13 @@
 package consoleapp;
 
-import datagateway.ConsolePomodoroTimerManager;
-import services.consolepomodororunning.CancelTimerInput;
-import services.consolepomodororunning.PomodoroObserver;
-import services.consolepomodororunning.PomodoroRunner;
+import datagateway.OldPomodoroTimerManager;
+import services.oldpomodororunning.CancelTimerInput;
+import services.oldpomodororunning.PomodoroObserver;
+import services.oldpomodororunning.PomodoroRunner;
 
-public class PomodoroController {
+public class OldPomodoroController {
     private PomodoroRunner pomodoroRunner;
-    private final ConsolePomodoroTimerManager consolePomodoroTimerManager = new ConsolePomodoroTimerManager();
+    private final OldPomodoroTimerManager oldPomodoroTimerManager = new OldPomodoroTimerManager();
     private boolean switched = false;
     private final CancelTimerInput cancelTimerInput = new CancelTimerInput();
 
@@ -41,7 +41,7 @@ public class PomodoroController {
     }
 
     public void setPomodoroRunner(int workTime, int breakTime) {
-        this.pomodoroRunner = new PomodoroRunner(consolePomodoroTimerManager.createPomodoroTimer(workTime, breakTime));
+        this.pomodoroRunner = new PomodoroRunner(oldPomodoroTimerManager.createPomodoroTimer(workTime, breakTime));
     }
 
 }
