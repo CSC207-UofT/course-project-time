@@ -22,13 +22,12 @@ public class TaskGetter implements TodoListRequestBoundary {
      */
     @Override
     public TaskInfo getTaskById(Long id) {
-        Map<Long, List<TaskReader>> taskMap = todoListManager.getAllTasks();
-        for (List<TaskReader> todoListTasks : taskMap.values())
-            for (TaskReader tr : todoListTasks) {
-                if (((Long) tr.getId()).equals(id)) {
-                    return new TaskInfoFromTaskReader(tr);
-                }
+        List<TaskReader> taskList = todoListManager.getAllTasks();
+        for (TaskReader tr : taskList) {
+            if (((Long) tr.getId()).equals(id)) {
+                return new TaskInfoFromTaskReader(tr);
             }
+        }
         return null;
     }
 
@@ -38,12 +37,10 @@ public class TaskGetter implements TodoListRequestBoundary {
      */
     @Override
     public List<TaskInfo> getTasks() {
-        Map<Long, List<TaskReader>> taskMap = todoListManager.getAllTasks();
+        List<TaskReader> taskList = todoListManager.getAllTasks();
         List<TaskInfo> taskInfos = new ArrayList<>();
-        for (List<TaskReader> todoListTasks : taskMap.values()) {
-            for (TaskReader tr : todoListTasks) {
-                taskInfos.add(new TaskInfoFromTaskReader(tr));
-            }
+        for (TaskReader tr : taskList) {
+            taskInfos.add(new TaskInfoFromTaskReader(tr));
         }
         return taskInfos;
     }

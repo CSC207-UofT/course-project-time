@@ -16,9 +16,7 @@ import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TodoEntityManager implements TodoListManager{
     private final List<Task> taskArrayList= new ArrayList<>();
@@ -58,14 +56,11 @@ public class TodoEntityManager implements TodoListManager{
     }
 
     @Override
-    public Map<Long, List<TaskReader>> getAllTasks() {
-        Map<Long, List<TaskReader>> taskMap = new HashMap<>();
+    public List<TaskReader> getAllTasks() {
         List<TaskReader> todoListTaskReaders = new ArrayList<>();
         for (Task t : taskArrayList)
             todoListTaskReaders.add(new TaskToTaskReader(t));
-        // 0 because there is one todolist
-        taskMap.put(0L, todoListTaskReaders);
-        return taskMap;
+        return todoListTaskReaders;
     }
 
     @Override

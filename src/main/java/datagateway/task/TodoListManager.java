@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public interface TodoListManager {
 
@@ -14,7 +13,7 @@ public interface TodoListManager {
 
     TaskReader getTask(long taskId);
 
-    Map<Long, List<TaskReader>> getAllTasks();
+    List<TaskReader> getAllTasks();
 
     void completeTask(long taskId);
 
