@@ -30,8 +30,7 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
         this.subject = subject;
     }
 
-    @Override
-    public void presentNotification(String message) {
+    private void presentNotification() {
         if (enabled) {
             Properties props = new Properties();
             props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
@@ -54,7 +53,7 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
                 MimeMessage msg = new MimeMessage(session);
                 msg.addRecipient(Message.RecipientType.TO,new InternetAddress(userEmail));
                 msg.setSubject(subject);
-                msg.setText(message);
+                msg.setText("Hey!");
                 Transport.send(msg);
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
@@ -78,6 +77,6 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
         EmailNotificationPresenter emailSender = new EmailNotificationPresenter(
                 true, "TimeTeam207@gmail.com",
                 "CSC207CSC207!", "lin507892@gmail.com", "CSC207");
-        emailSender.presentNotification("Hey!");
+        emailSender.presentNotification();
     }
 }

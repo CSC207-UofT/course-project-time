@@ -5,9 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,8 +43,6 @@ public class EventInfoFromReaderTest {
 
         public MockEventReader() {
             tags.add("CSC207");
-            Set<LocalDate> dates = new HashSet<>();
-            dates.add(LocalDate.of(2021, 11, 15));
         }
 
         @Override

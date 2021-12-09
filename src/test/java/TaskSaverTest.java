@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -84,12 +83,12 @@ public class TaskSaverTest {
         }
 
         @Override
-        public void loadTodo(String filepath) throws IOException {
+        public void loadTodo(String filepath) {
 
         }
 
         @Override
-        public void saveTodo(String filepath) throws IOException {
+        public void saveTodo(String filepath) {
             if (filepath.equals("mock")) {
                 saveTodoSuccess = true;
             }
