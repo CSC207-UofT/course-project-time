@@ -1,35 +1,37 @@
 package entity;
 
 public class PomodoroTimer {
-    private final int workLength;
-    private final int breakLength;
-    private boolean isWorking;
+    private long startTime;
+    private boolean isWork;
+    private long breakDuration;
+    private long workDuration;
+    private boolean newStart;
 
-    /***
-     *
-     * @param workLength  the length of time in minutes the user wants to work for
-     * @param breakLength the length of time in minutes the user wants to break for
-     */
-    public PomodoroTimer(int workLength, int breakLength) {
-        this.workLength = workLength;
-        this.breakLength = breakLength;
-        this.isWorking = true;
+    public PomodoroTimer(long startTime, boolean isWork, long breakDuration, long workDuration, boolean newStart) {
+        this.startTime = startTime;
+        this.isWork = isWork;
+        this.breakDuration = breakDuration;
+        this.workDuration = workDuration;
+        this.newStart = newStart;
     }
 
-    public int getWorkLength() {
-        return this.workLength;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public int getBreakLength() {
-        return this.breakLength;
+    public boolean getIsWork() {
+        return isWork;
     }
 
-    public boolean getIsWorking() {
-        return this.isWorking;
+    public long getBreakDuration() {
+        return breakDuration;
     }
 
-    public void setWorking(boolean isWorking) {
-        this.isWorking = isWorking;
+    public long getWorkDuration() {
+        return workDuration;
     }
 
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
 }

@@ -19,6 +19,7 @@ import services.servicesfactory.BasicObservableRepositoryFactory;
 import services.servicesfactory.NotificationServiceFactory;
 import services.servicesfactory.ObservableRepositoryFactory;
 import services.servicesfactory.ServicesFactory;
+import datagateway.pomodoro.PomodoroManager;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -49,6 +50,8 @@ public class GUIDriver extends Application {
         ObservableRepositoryFactory repositoryFactory = new BasicObservableRepositoryFactory();
         ServicesFactory servicesFactory = new NotificationServiceFactory(repositoryFactory);
         ViewModelFactory factory = new ViewModelFactory(repositoryFactory, servicesFactory);
+        PomodoroManager pomodoroManager = new PomodoroManager();
+        pomodoroManager.deleteTimer("PomodoroData.json");
 
         try {
             repositoryFactory.makeEventRepository().loadEvents("EventData.json");

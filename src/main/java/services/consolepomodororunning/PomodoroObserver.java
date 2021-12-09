@@ -1,4 +1,4 @@
-package services.pomodororunning;
+package services.consolepomodororunning;
 
 
 public class PomodoroObserver{
