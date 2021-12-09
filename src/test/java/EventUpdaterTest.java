@@ -79,6 +79,11 @@ public class EventUpdaterTest {
         }
 
         @Override
+        public void deleteEvent(long eventId) {
+
+        }
+
+        @Override
         public void markEventAsCompleted(long eventId) {
             if (eventId == 15L) {
                 markEventAsCompletedSuccess = true;
@@ -102,6 +107,11 @@ public class EventUpdaterTest {
             List<TimeFrame> times = strategy.datesBetween(LocalDateTime.now().minusDays(1), LocalDateTime.now().plusDays(1), Duration.ofMinutes(5));
             if (id == 11L && times.size() > 0 && times.get(0).startTime.toLocalTime().equals(LocalTime.of(3, 14)))
                 updatedDateStrategySuccess = true;
+        }
+
+        @Override
+        public void updateDuration(long id, Duration duration) {
+
         }
 
         @Override

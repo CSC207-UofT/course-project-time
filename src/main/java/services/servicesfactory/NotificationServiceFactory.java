@@ -3,6 +3,8 @@ package services.servicesfactory;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdderWithNotification;
 import services.eventcreation.EventSaver;
+import services.eventcreation.ICSSaver;
+import services.eventdeletion.EventDeletionBoundary;
 import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventPresenter;
@@ -11,6 +13,7 @@ import services.notification.NotificationAdder;
 import services.taskcreation.TaskAdderWithNotification;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
+import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
 import services.taskpresentation.TodoListPresenter;
 import services.taskpresentation.TodoListRequestBoundary;
@@ -71,6 +74,12 @@ public class NotificationServiceFactory implements ServicesFactory {
     }
 
     @Override
+    public EventDeletionBoundary makeEventDeleter() {
+        //TODO: develop notification-deletion family event deleter
+        return innerFactory.makeEventDeleter();
+    }
+
+    @Override
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedNotifTaskAdder == null)
             cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(), notificationAdder);
@@ -95,5 +104,16 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public UpdateTaskBoundary makeTaskUpdater() {
         return innerFactory.makeTaskUpdater();
+    }
+
+    @Override
+    public TaskDeletionBoundary makeTaskDeleter() {
+        //TODO: develop notification-deletion family task deleter
+        return innerFactory.makeTaskDeleter();
+    }
+
+    @Override
+    public ICSSaver makeICSSaver() {
+        return innerFactory.makeICSSaver();
     }
 }

@@ -2,6 +2,7 @@ package consoleapp.taskadapters;
 
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
+import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TaskInfo;
 import services.updateentities.UpdateTaskBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
@@ -20,15 +21,18 @@ public class TaskController {
     private final TodoListTaskCreationBoundary taskAdder;
     private final TaskSaver taskSaver;
     private final UpdateTaskBoundary taskUpdater;
+    private final TaskDeletionBoundary taskDeleter;
 
     public TaskController(TodoListRequestBoundary taskGetter, TodoListDisplayBoundary taskOutputter,
-                          TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver, UpdateTaskBoundary taskUpdater) {
+                          TodoListTaskCreationBoundary taskAdder, TaskSaver taskSaver, UpdateTaskBoundary taskUpdater,
+                          TaskDeletionBoundary taskDeleter) {
 
         this.taskGetter = taskGetter;
         this.taskOutputter = taskOutputter;
         this.taskAdder = taskAdder;
         this.taskSaver = taskSaver;
         this.taskUpdater = taskUpdater;
+        this.taskDeleter = taskDeleter;
     }
 
     /**
@@ -87,5 +91,9 @@ public class TaskController {
 
     public void saveTodoList(String filename) throws IOException {
         taskSaver.save(filename);
+    }
+
+    public void deleteTask(long taskId) {
+        taskDeleter.deleteTask(taskId);
     }
 }

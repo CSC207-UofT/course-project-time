@@ -4,7 +4,6 @@ import entity.dates.DateStrategy;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +13,8 @@ public interface CalendarManager {
 
     long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags);
 
+    void deleteEvent(long eventId);
+
     void markEventAsCompleted(long eventId);
 
     List<EventReader> getAllEvents();
@@ -21,6 +22,8 @@ public interface CalendarManager {
     void updateName(long id, String newName);
 
     void updateDateStrategy(long id, DateStrategy strategy);
+
+    void updateDuration(long id, Duration duration);
 
     void addTag(long id, String tag);
 

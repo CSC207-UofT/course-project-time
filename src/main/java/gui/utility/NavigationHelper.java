@@ -95,7 +95,7 @@ public final class NavigationHelper {
      */
     public static void enterHomePage(MouseEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/monthlyCalendar.fxml")));
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/mainPage.fxml")));
         initializeControllerAndSetNewScene(event, loader);
     }
 
@@ -117,7 +117,9 @@ public final class NavigationHelper {
      * @throws IOException if the resource file cannot be found
      */
     public static void enterSettingsPage(MouseEvent event) throws IOException {
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Objects.requireNonNull(NavigationHelper.class.getResource("/settings.fxml")));
+        initializeControllerAndSetNewScene(event, loader);
     }
 
     /**

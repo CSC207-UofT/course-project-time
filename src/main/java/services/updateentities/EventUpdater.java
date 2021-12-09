@@ -5,6 +5,7 @@ import datagateway.event.CalendarManager;
 import services.strategybuilding.DatesForm;
 import services.strategybuilding.StrategyBuilderDirector;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class EventUpdater implements UpdateEventBoundary{
@@ -24,6 +25,11 @@ public class EventUpdater implements UpdateEventBoundary{
     public void updateDateStrategy(long id, DatesForm form) {
         StrategyBuilderDirector director = new StrategyBuilderDirector();
         calendarManager.updateDateStrategy(id, director.createStrategy(form));
+    }
+
+    @Override
+    public void updateDuration(long id, Duration duration) {
+        calendarManager.updateDuration(id, duration);
     }
 
     @Override

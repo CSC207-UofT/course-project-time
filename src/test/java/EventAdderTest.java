@@ -101,6 +101,11 @@ public class EventAdderTest {
         }
 
         @Override
+        public void deleteEvent(long eventId) {
+
+        }
+
+        @Override
         public void markEventAsCompleted(long eventId) {
         }
 
@@ -116,6 +121,11 @@ public class EventAdderTest {
 
         @Override
         public void updateDateStrategy(long id, DateStrategy strategy) {
+
+        }
+
+        @Override
+        public void updateDuration(long id, Duration duration) {
 
         }
 

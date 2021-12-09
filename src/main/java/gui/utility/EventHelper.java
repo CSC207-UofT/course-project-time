@@ -1,12 +1,19 @@
 package gui.utility;
 
 import com.calendarfx.model.Entry;
+import consoleapp.eventadapters.CalendarEventData;
 import datagateway.event.EventReader;
+import entity.dates.TimeFrame;
+import services.eventcreation.CalendarEventModel;
 import services.eventpresentation.EventInfo;
+import services.strategybuilding.MultipleRuleFormBuilder;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * A helper class that contains methods related
@@ -15,21 +22,23 @@ import java.util.List;
  */
 public class EventHelper {
 
-    public static Entry<String> eventInfoToEntry(EventInfo eventInfo) {
-        Entry<String> entry = new Entry<>(eventInfo.getName());
-//        entry.changeStartTime(eventInfo.getStartTime());
-//        entry.changeEndTime(eventInfo.getEndTime());
-        LocalDate date = LocalDate.of(2021, 12, 8);
-        entry.changeStartDate(date);
-        entry.changeEndDate(date);
-        return entry;
+    /**
+     * Returns an event model from the name and time of the entry, with a default form.
+     * @param entry the entry created from a view
+     * @return an event model (DTO)
+     */
+    public static CalendarEventModel entryToCalendarEventModel(Entry<String> entry) {
+        Duration duration = Duration.between(entry.getStartAsLocalDateTime(), entry.getEndAsLocalDateTime());
+        MultipleRuleFormBuilder builder = new MultipleRuleFormBuilder();
+        builder.addSingleOccurrence(entry.getStartAsLocalDateTime());
+        return new CalendarEventData(entry.getTitle(),
+                duration, builder.getForm(), new HashSet<>());
     }
 
-    public static List<Entry<String>> eventInfoToEntry(List<EventInfo> eventInfos) {
-        List<Entry<String>> entries = new ArrayList<>();
-        for (EventInfo eventInfo : eventInfos) {
-            entries.add(EventHelper.eventInfoToEntry(eventInfo));
-        }
-        return entries;
+    public static Set<TimeFrame> getTimesFromStaticRange(BiFunction<LocalDateTime, LocalDateTime, Set<TimeFrame>> dateStrategy) {
+        LocalDateTime from = LocalDateTime.now().minusYears(2);
+        LocalDateTime to = LocalDateTime.now().plusYears(2);
+        return dateStrategy.apply(from, to);
     }
+
 }
