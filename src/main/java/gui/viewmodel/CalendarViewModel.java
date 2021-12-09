@@ -22,7 +22,6 @@ public class CalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final UpdateEventBoundary eventUpdater;
-    private final EventSaver eventSaver;
 
     private final ObservableList<Entry<String>> entryList;
     private final Map<String, Long> entryToEventIdMapping;
@@ -34,11 +33,9 @@ public class CalendarViewModel extends ViewModel {
 
     public CalendarViewModel(CalendarEventCreationBoundary eventAdder,
                              CalendarEventRequestBoundary eventGetter,
-                             UpdateEventBoundary eventUpdater,
-                             EventSaver eventSaver) {
+                             UpdateEventBoundary eventUpdater) {
         this.eventAdder = eventAdder;
         this.eventUpdater = eventUpdater;
-        this.eventSaver = eventSaver;
 
         this.entryList = FXCollections.observableArrayList(new ArrayList<>());
         this.entryToEventIdMapping = new HashMap<>();
@@ -49,8 +46,6 @@ public class CalendarViewModel extends ViewModel {
                 if (c.wasAdded()) {
                     Entry<String> entry = c.getAddedSubList().get(0);
                     onCreation(entry);
-                } else if (c.wasRemoved()) {
-                    Entry<String> entry = c.getRemoved().get(0);
                 }
             }
         });

@@ -73,13 +73,6 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
         return this.enabled;
     }
 
-    public String getUserEmail() {
-        return this.userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
 
     public static void main(String[] args) {
         EmailNotificationPresenter emailSender = new EmailNotificationPresenter(

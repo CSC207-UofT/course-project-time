@@ -161,7 +161,7 @@ public class MainPageController implements Initializable, ViewModelBindingContro
     }
 
     @FXML
-    public void saveData(MouseEvent mouseEvent) {
+    public void saveData() {
         this.viewModel.saveData();
     }
 }

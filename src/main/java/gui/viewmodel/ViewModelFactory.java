@@ -30,7 +30,7 @@ public class ViewModelFactory {
     public CalendarViewModel getMonthlyCalendarViewModel() {
         if (calendarViewModel == null) {
             calendarViewModel = new CalendarViewModel(servicesFactory.makeEventCreator(),
-                    servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater(), servicesFactory.makeEventSaver());
+                    servicesFactory.makeEventGetter(), servicesFactory.makeEventUpdater());
             eventRepository.addCreationObserver(calendarViewModel::handleCreation);
             eventRepository.addUpdateObserver(calendarViewModel::handleUpdate);
         }

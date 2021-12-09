@@ -49,7 +49,7 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public CalendarEventCreationBoundary makeEventCreator() {
         if (cachedNotifEventAdder == null)
-            cachedNotifEventAdder = new EventAdderWithNotification(innerFactory.makeEventCreator(), notificationAdder);
+            cachedNotifEventAdder = new EventAdderWithNotification(innerFactory.makeEventCreator());
         return cachedNotifEventAdder;
     }
 
