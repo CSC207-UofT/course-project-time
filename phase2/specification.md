@@ -12,6 +12,8 @@ The application helps the user to auto-schedule a task into an event. When a tas
 
 The user will also be able to reschedule an event if they did not end up completing the event in the scheduled time, or if they want to change a time for the event.
 
-Furthermore, the application contains a notification system that notifies users when their events are about to begin so that the users do not miss their events, and when the tasks will be due. Users are able to set how long before the deadline should the notification be sent. Users can choose to be notified on their desktop or email, or both.
+Furthermore, the application contains a notification system that notifies users when their events are about to begin so that the users do not miss their events, and when the tasks will be due. Users can choose to be notified on their desktop or email, or both in the settings page. If an email notification is chosen, the user will also need to input their email.
+
+In the settings page, the user is also able to export their data as an ICS file. 
 
 Lastly, there is be a pomodoro feature to help users work productively. The user will be able to select durations for "work time", and a "break time". Our program will then start timing and alternate between "work time" and "break time" for the user to work and take a break accordingly. The user is able to leave the pomodoro page without the timer stoping. 
