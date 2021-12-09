@@ -1,4 +1,4 @@
-package gui.view;
+package gui.view.pomodoro;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
@@ -8,7 +8,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
@@ -23,7 +22,7 @@ public class ClockController {
 
     private AnimationTimer timer;
     private GraphicsContext gc;
-    private final float BRUSHSIZE = 30;
+    private final float BRUSH_SIZE = 30;
 
     private final long DEFAULT_WORK = 25;
     private final long DEFAULT_BREAK = 5;
@@ -67,7 +66,7 @@ public class ClockController {
         gc = canvas.getGraphicsContext2D();
         gc.setTextAlign(TextAlignment.CENTER);
 
-        gc.setLineWidth(BRUSHSIZE);
+        gc.setLineWidth(BRUSH_SIZE);
         setWork(gc);
 
 
@@ -88,8 +87,8 @@ public class ClockController {
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
                 drawTimer(gc, timeLeft);
-                gc.strokeArc(BRUSHSIZE, BRUSHSIZE, canvas.getWidth() - BRUSHSIZE * 2,
-                        canvas.getHeight() - BRUSHSIZE * 2, 90, -angle, ArcType.OPEN);
+                gc.strokeArc(BRUSH_SIZE, BRUSH_SIZE, canvas.getWidth() - BRUSH_SIZE * 2,
+                        canvas.getHeight() - BRUSH_SIZE * 2, 90, -angle, ArcType.OPEN);
 
                 if(elapsedTime >= TimeUnit.NANOSECONDS.convert(currentDuration, TimeUnit.MINUTES)) {
                     switchCircle(gc);
@@ -141,24 +140,17 @@ public class ClockController {
         while (elapsedTime > 0) {
             if (isWork) {
                 tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(workDuration, TimeUnit.MINUTES);
-                if (tempTime < 0) {
-                    remainder = elapsedTime;
-                    elapsedTime = -1;
-                }
-                else {
-                    elapsedTime = tempTime;
-                }
             }
             else {
                 tempTime = elapsedTime - TimeUnit.NANOSECONDS.convert(breakDuration, TimeUnit.MINUTES);
-                if (tempTime < 0) {
-                    remainder = elapsedTime;
-                    elapsedTime = -1;
-                }
-                else {
-                    elapsedTime = tempTime;
-                }
 
+            }
+            if (tempTime < 0) {
+                remainder = elapsedTime;
+                elapsedTime = -1;
+            }
+            else {
+                elapsedTime = tempTime;
             }
             isWork = !isWork;
         }
@@ -236,10 +228,9 @@ public class ClockController {
 
     /**
      * Begin the clock, called by the start button
-     * @param event Mouse click event from JavaFX
      */
     @FXML
-    void startClock(MouseEvent event) {
+    void startClock() {
         if (!workTimeText.getText().isEmpty()) {
             String potentialWorkTime = workTimeText.getText();
             if (invalidTimeChecker(potentialWorkTime)){
@@ -273,7 +264,7 @@ public class ClockController {
         breakTimeText.setEditable(false);
 
         // saves the timer so that the user can leave the pomodoro page and come back without restarting their pomodoro
-        pomodoroManager.createTimer(System.nanoTime(),!isBreak, breakDuration, workDuration, newStart);
+        pomodoroManager.createTimer(System.nanoTime(),!isBreak, breakDuration, workDuration);
         try {
             pomodoroManager.saveTimer();
         } catch (IOException e) {
@@ -290,7 +281,7 @@ public class ClockController {
     }
 
     @FXML
-    void resetClock(MouseEvent event) {
+    void resetClock() {
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         timer.stop();
         breakTimeText.setEditable(true);

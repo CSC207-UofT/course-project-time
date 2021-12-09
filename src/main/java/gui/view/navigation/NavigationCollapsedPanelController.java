@@ -1,4 +1,4 @@
-package gui.view;
+package gui.view.navigation;
 
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;

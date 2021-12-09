@@ -2,13 +2,10 @@ package datagateway;
 
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
-import datagateway.event.ObservableEventRepository;
 import entity.dates.TimeFrame;
-import org.joda.time.DateTime;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;

@@ -33,8 +33,8 @@ public class ApplicationDriver {
     private final MainController controller;
 
     private static final Map<String, String> queryMenu = createdQueryMap();
-    public TaskQuery taskQuery;
-    public EventQuery eventQuery;
+    public final TaskQuery taskQuery;
+    public final EventQuery eventQuery;
 
     public ApplicationDriver() {
         RepositoryFactory repositoryFactory = new BasicRepositoryFactory();

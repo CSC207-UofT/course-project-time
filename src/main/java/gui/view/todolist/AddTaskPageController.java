@@ -1,9 +1,10 @@
-package gui.view;
+package gui.view.todolist;
 
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXListView;
 import gui.utility.NavigationHelper;
-import gui.viewmodel.AddTaskPageViewModel;
+import gui.view.ViewModelBindingController;
+import gui.viewmodel.todolist.AddTaskPageViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

@@ -1,35 +1,39 @@
-package gui.view;
+package gui.view.calendar;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
-import com.calendarfx.view.DateControl;
-import com.calendarfx.view.page.WeekPage;
+import com.calendarfx.view.MonthEntryView;
+import com.calendarfx.view.MonthView;
+import com.calendarfx.view.page.MonthPage;
 import com.jfoenix.controls.JFXDrawer;
 import gui.utility.NavigationHelper;
-import gui.viewmodel.CalendarViewModel;
+import gui.view.ViewModelBindingController;
+import gui.viewmodel.calendar.CalendarViewModel;
 import gui.viewmodel.ViewModel;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-import javafx.event.ActionEvent;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class WeeklyCalendarController implements Initializable, ViewModelBindingController {
+public class MonthlyCalendarController implements Initializable, ViewModelBindingController {
 
     private CalendarViewModel viewModel;
 
     @FXML
-    private WeekPage weekPage;
+    private MonthPage monthPage;
 
     private final ObservableList<Entry<String>> entryList = FXCollections.observableArrayList();
 
@@ -45,6 +49,7 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         NavigationHelper.initializeNavPanel(extendedNavPanel, collapsedNavPanel);
+
         calendarType.getItems().addAll("Month", "Week");
     }
 
@@ -59,19 +64,20 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
         this.viewModel = (CalendarViewModel) viewModel;
         Bindings.bindContentBidirectional(this.entryList, this.viewModel.getEntryList());
 
+
         Calendar calendar = new Calendar("all");
         for (Entry<String> entry : this.entryList) {
             entry.setCalendar(calendar);
         }
         CalendarSource source = new CalendarSource();
         source.getCalendars().add(calendar);
-        weekPage.getCalendarSources().add(source);
+        monthPage.getCalendarSources().add(source);
 
         EventHandler<CalendarEvent> updateEntryHandler = this::handleUpdateEntry;
         calendar.addEventHandler(updateEntryHandler);
 
-        Callback<DateControl.CreateEntryParameter, Entry<?>> defaultFactory = weekPage.getEntryFactory();
-        weekPage.setEntryFactory(new EventCreationHandler(this.entryList, defaultFactory, (CalendarViewModel) viewModel));
+        MonthView monthView = this.monthPage.getMonthView();
+        monthView.setEntryViewFactory(new EventCreationHandler(this.entryList, this.viewModel));
     }
 
     private void handleUpdateEntry(CalendarEvent event) {
@@ -79,22 +85,24 @@ public class WeeklyCalendarController implements Initializable, ViewModelBinding
     }
 
     private record EventCreationHandler(
-            ObservableList<Entry<String>> entryList,
-            Callback<DateControl.CreateEntryParameter, Entry<?>> defaultFactory,
-            CalendarViewModel viewModel)
-            implements Callback<DateControl.CreateEntryParameter, Entry<?>> {
+            ObservableList<Entry<String>> entryList, CalendarViewModel viewModel) implements Callback<Entry<?>, MonthEntryView> {
 
         /**
          * Handles the entry creation by intercepting it and passing
          * it to the view model, then continue with its creation
-         * @param param the parameter passed to the entry factory to create an entry
-         * @return the entry created
+         * @param param the entry created
+         * @return the entry created, specific for the view
          */
         @Override
-        public Entry<?> call(DateControl.CreateEntryParameter param) {
-            Entry<?> defaultEntry = defaultFactory.call(param);
-            viewModel.addEventFromView((Entry<String>) defaultEntry);
-            return defaultEntry;
+        public MonthEntryView call(Entry<?> param) {
+            List<Integer> ids = new ArrayList<>();
+            for (Entry<String> entry : this.entryList) {
+                ids.add(Integer.valueOf(entry.getId()));
+            }
+            if (!ids.contains(Integer.valueOf(param.getId()))) {
+                viewModel.addEventFromView((Entry<String>) param);
+            }
+            return new MonthEntryView(param);
         }
     }
 }

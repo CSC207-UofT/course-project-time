@@ -1,6 +1,7 @@
-package gui.viewmodel;
+package gui.viewmodel.todolist;
 
 import datagateway.task.TaskReader;
+import gui.viewmodel.ViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.taskpresentation.TaskInfo;
@@ -63,7 +64,7 @@ public class TodoListPageViewModel extends ViewModel {
     }
 
     /***
-     * Update viewInfoList to make it consistent with taskReaderList
+     * Update viewInfoList to make it consistent with taskInfoList
      */
     public void updateViewInfoList() {
         this.viewInfoList.clear();
@@ -72,7 +73,7 @@ public class TodoListPageViewModel extends ViewModel {
             String taskName = taskInfo.getName();
             String completed = Boolean.toString(taskInfo.getCompleted());
 
-            String deadline = new String("No Deadline");
+            String deadline = "No Deadline";
             if (taskInfo.getDeadline() != null) {
                 deadline = taskInfo.getDeadline().format(
                         DateTimeFormatter.ofLocalizedDateTime(
@@ -80,7 +81,7 @@ public class TodoListPageViewModel extends ViewModel {
                                 FormatStyle.SHORT)); // The format for time
             }
 
-            Map<String, String> taskViewInfo = new HashMap<String, String>();
+            Map<String, String> taskViewInfo = new HashMap<>();
             taskViewInfo.put("id", id);
             taskViewInfo.put("taskName", taskName);
             taskViewInfo.put("deadline", deadline);

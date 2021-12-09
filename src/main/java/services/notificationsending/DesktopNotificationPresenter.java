@@ -14,11 +14,10 @@ import java.awt.AWTException;
  */
 public class DesktopNotificationPresenter implements NotificationPresenter, SettingsRegistry {
     private boolean enabled;
-    private SystemTray tray = SystemTray.getSystemTray();
+    private final SystemTray tray = SystemTray.getSystemTray();
 
 
-    @Override
-    public void presentNotification(String message) {
+    private void presentNotification() {
         try{
             // necessary because you need to instantiate TrayIcon with an image, icon.png doesn't actually exist
             Image image = Toolkit.getDefaultToolkit().createImage("icon.png");
@@ -26,9 +25,9 @@ public class DesktopNotificationPresenter implements NotificationPresenter, Sett
             tray.add(trayIcon);
 
             // MessageType.INFO is where the icon actually comes from
-            trayIcon.displayMessage("TIME", message, MessageType.INFO);
+            trayIcon.displayMessage("TIME", "HI", MessageType.INFO);
         } catch(AWTException e) {
-            System.err.print(e);
+            System.err.print(e.getMessage());
         }
 
     }
@@ -45,6 +44,6 @@ public class DesktopNotificationPresenter implements NotificationPresenter, Sett
 
     public static void main(String[] args) {
         DesktopNotificationPresenter desktopNotificationPresenter = new DesktopNotificationPresenter();
-        desktopNotificationPresenter.presentNotification("HI");
+        desktopNotificationPresenter.presentNotification();
     }
 }

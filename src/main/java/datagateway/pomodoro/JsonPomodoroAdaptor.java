@@ -34,29 +34,29 @@ public class JsonPomodoroAdaptor extends TypeAdapter<PomodoroTimer> {
             String name = jsonReader.nextName();
 
             switch (name) {
-                case "startTime":
+                case "startTime" -> {
                     startTime = jsonReader.nextLong();
                     read_so_far += 1;
-                    break;
-                case "isWorkTime":
+                }
+                case "isWorkTime" -> {
                     read_so_far += 1;
                     isWork = jsonReader.nextBoolean();
-                    break;
-                case "breakDuration":
+                }
+                case "breakDuration" -> {
                     read_so_far += 1;
                     breakDuration = jsonReader.nextLong();
-                    break;
-                case "workDuration":
+                }
+                case "workDuration" -> {
                     read_so_far += 1;
                     workDuration = jsonReader.nextLong();
-                    break;
+                }
             }
         }
         jsonReader.endObject();
 
         int MIN_TASK_ATTRIBUTES = 4;
         if (read_so_far == MIN_TASK_ATTRIBUTES) {
-            return new PomodoroTimer(startTime, isWork, breakDuration, workDuration, false);
+            return new PomodoroTimer(startTime, isWork, breakDuration, workDuration);
         }
         return null;
 

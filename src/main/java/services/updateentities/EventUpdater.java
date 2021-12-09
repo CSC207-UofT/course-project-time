@@ -6,10 +6,9 @@ import services.strategybuilding.DatesForm;
 import services.strategybuilding.StrategyBuilderDirector;
 
 import java.time.Duration;
-import java.time.LocalTime;
 
 public class EventUpdater implements UpdateEventBoundary{
-    CalendarManager calendarManager;
+    final CalendarManager calendarManager;
 
     public EventUpdater(CalendarManager eventEntityManager){
         this.calendarManager = eventEntityManager;
