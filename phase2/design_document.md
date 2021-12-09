@@ -166,7 +166,8 @@ no major changes on the interfaces side,
 
 Coverage-wise, our tests covers almost all methods in the `services` package. All of our tests passing guarantees
 that the classes are working properly. If any use cases are changed and there is a subtle bug, our tests could
-effectively locate the bug and determine the cause, saving much debugging time and avoiding much nuisance.
+effectively locate the bug and determine the cause, saving much debugging time and avoiding much nuisance. 
+The `oldpomodororunning` package in the `services` package is not covered as we are no longer using this package in our final project. We did not delete the files as we were told to still hand in our console application where `oldpomodororunning` is still being used.
 
 ## Refactoring
 
