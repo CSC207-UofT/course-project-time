@@ -1,4 +1,4 @@
-package data_gateway;
+package datagateway;
 
 public interface UserSettingsGateway {
     String getEmail(String email);

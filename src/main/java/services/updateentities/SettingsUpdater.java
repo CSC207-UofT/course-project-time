@@ -1,6 +1,6 @@
-package services.update_entities;
+package services.updateentities;
 
-import data_gateway.UserSettingsGateway;
+import datagateway.UserSettingsGateway;
 
 public class SettingsUpdater {
 
