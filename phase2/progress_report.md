@@ -21,6 +21,19 @@ I think my contributions to this PR demonstrate an implementation of a new featu
 
 #### Craig
 
+In Phase 2 I added the `DateStrategy`, which allows us to offer users to create rules for when events should reoccur
+rather than storing a finite list. These changes were introduced in [#95](https://github.com/CSC207-UofT/course-project-time/pull/95)
+but only replacing previous static-date behavior here, and then later fully incorporated into the service layer in
+[#165](https://github.com/CSC207-UofT/course-project-time/pull/165).
+
+I also introduced the observer family of repositories to allow for more up-to-date data syncing between the
+view model and domain repositories.
+
+Outside of those, I helped maintain and manage the dependencies and structure of our code in various PRs throughout
+the process. This includes introducing factories, removing middle man classes, resolving features with poor source code
+dependencies (like creating Events from Tasks used to be all over the place).
+
+
 #### Junru
 During phase 2, I mainly worked on notification system development and GUI.
 
