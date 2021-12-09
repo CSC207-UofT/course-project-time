@@ -41,3 +41,19 @@ It allows users to input a work time and break time which the program alternates
 The user is able to leave the pomodoro page without the timer stopping.
 Lastly, the settings page which enables the user to edit settings related to the notification and choose
 to export data as an ICS file.
+
+## How to Use our Program
+
+To run our program please use gradle. We used gradle to set up the dependencies of our project. To run the project with gradle in IntelliJ, open the gradle tool window, and select 'run', under application. Please do not try to run the individual files of the program, since the dependencies will not be included that way.
+
+## Incompleted Aspects
+
+The notification system is currently implemented in the back-end, however, our team did not have time to implement it into the front end of our program. Since the notification system is unused, currently none of the data pertaining to notifications in the settings window is saved.
+
+We also did not have time to connect the auto scheduling of an event to the front end of our program.
+
+## Known Issues
+
+The side menu bar may become disabled if it is expanded on the main page. It also may disappear if clicked repeatedly.
+
+
