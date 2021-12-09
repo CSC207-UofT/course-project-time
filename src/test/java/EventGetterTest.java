@@ -8,7 +8,6 @@ import services.eventcreation.EventInfoFromReader;
 import services.eventpresentation.EventGetter;
 import services.eventpresentation.EventInfo;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

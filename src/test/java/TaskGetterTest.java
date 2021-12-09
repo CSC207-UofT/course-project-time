@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import services.taskpresentation.TaskGetter;
 import services.taskpresentation.TaskInfo;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
