@@ -202,12 +202,20 @@ public class TaskPageController implements Initializable, ViewModelBindingContro
 
     public void taskToEvent(MouseEvent event) {
         viewModel.taskToEvent();
-        enterTodoListPage(event);
+        enterCalendarPage(event);
     }
 
     public void enterTodoListPage(MouseEvent event) {
         try {
             NavigationHelper.enterTodoListPage(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void enterCalendarPage(MouseEvent event) {
+        try {
+            NavigationHelper.enterMonthlyCalendarPage(event);
         } catch (IOException e) {
             e.printStackTrace();
         }
