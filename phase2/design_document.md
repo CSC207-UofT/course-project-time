@@ -68,7 +68,7 @@ method overriding that violates LSP. Moreover, it shows that our code has been f
 hence allowing easy extension.
 
 
-### The Interface segregation principle (can be further explained)
+### The Interface segregation principle
 The interfaces we created are quite small thereby allowing them to be fully
 used by the classes. For example `EventInfo` just has the methods to get the
 attributes relating to `Event` and nothing else. This makes our interfaces
