@@ -1,5 +1,9 @@
 ## Functionality
-
+Please read `specification.md` for information about 
+- What our program is about
+- How to run our program
+- Incompleted aspects and unsupported functionalities of our program
+- Known issues
 
 ## Code Organization
 
@@ -89,6 +93,9 @@ We organized our code according to the various layers as outlined in Clean Archi
 [this](https://drive.google.com/file/d/1MepffESg7WIG2lEm6N33ytD_fawoBvkP/view?usp=sharing) early design UML diagram.
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
+The notification system that was added later on continues to follow clean architecture, as shown in its 
+[UML diagram](https://drive.google.com/file/d/1d6-EMS59UJDCOAwQ8ZjQiKCUdbTaeNX0/view) 
+(separated from the UML of the rest of the program).
 
 In the graphical user interface that we have implemented in phase 2, we have used the MVVM pattern to decouple
 the user interface and the rest of the application. We have integrated the MVVM pattern with clean architecture, with
