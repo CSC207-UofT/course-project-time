@@ -1,7 +1,9 @@
 package services.eventpresentation;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import entity.dates.TimeFrame;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface EventInfo {
@@ -9,13 +11,13 @@ public interface EventInfo {
 
     String getName();
 
-    LocalTime getStartTime();
-
-    LocalTime getEndTime();
+    Duration getDuration();
 
     Set<String> getTags();
 
-    Set<LocalDate> getDates();
+    Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime);
+
+    String getWhen();
 
     boolean getCompleted();
 }

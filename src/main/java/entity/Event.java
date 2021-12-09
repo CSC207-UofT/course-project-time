@@ -1,8 +1,7 @@
 package entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import entity.dates.DateStrategy;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,70 +13,37 @@ import java.util.Set;
 public class Event {
 
     private final long id;
-    private LocalTime startTime;
-    private LocalTime endTime;
     private final Set<String> tags;
     private final long taskId;
-    private final Set<LocalDate> dates;
+    private DateStrategy dateStrategy;
 
     /**
      * Construct an event based on a task.
      * @param id unique id of event
-     * @param startTime the start time of the event
-     * @param endTime the end time the event
+     * @param taskId the id of the associated task which contains name and duration
+     * @param dateStrategy the strategy containing the days which this event will reoccur
+     * @param tags the list of tags categorizing this event
      */
-    public Event(long id, long taskId, LocalDateTime startTime, LocalTime endTime) {
+    public Event(long id, long taskId, DateStrategy dateStrategy, Set<String> tags) {
         this.id = id;
         this.taskId = taskId;
-        this.startTime = startTime.toLocalTime();
-        this.endTime = endTime;
-        this.tags = new HashSet<>();
-        this.dates = new HashSet<>();
-        this.dates.add(startTime.toLocalDate());
-    }
-
-    /**
-     * Construct an event based on a task.
-     * @param id unique id of event
-     * @param startTime the start time of the event
-     * @param endTime the end time the event
-     */
-    public Event(long id, long taskId, LocalTime startTime, LocalTime endTime,
-                 Set<LocalDate> dates) {
-        this.id = id;
-        this.taskId = taskId;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.tags = new HashSet<>();
-        this.dates = dates;
-    }
-
-    /**
-     * Construct an event directly, with the event name, start time,
-     * end time, and the date
-     * @param id unique id of event
-     * @param startTime the start time of the event (without date)
-     * @param endTime the end time of the event (without date)
-     * @param tags the tags of the event
-     * @param date the date time of the event
-     */
-    public Event(long id, LocalTime startTime, LocalTime endTime,
-                 Set<String> tags, LocalDate date, long taskId) {
-        this.id = id;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.dateStrategy = dateStrategy;
         this.tags = tags;
-        this.taskId = taskId;
-        this.dates = new HashSet<>();
-        this.dates.add(date);
     }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
+    /**
+     * {@link #Event(long, long, DateStrategy, Set)}
+     */
+    public Event(long id, long taskId, DateStrategy dateStrategy) {
+        this(id, taskId, dateStrategy, new HashSet<>());
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setDateStrategy(DateStrategy strategy) {
+        this.dateStrategy = strategy;
+    }
+
+    public DateStrategy getDateStrategy() {
+        return dateStrategy;
     }
 
     public void addTag(String tag) {
@@ -94,19 +60,7 @@ public class Event {
         return taskId;
     }
 
-    public LocalTime getStartTime() {
-        return this.startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return this.endTime;
-    }
-
     public Set<String> getTags() {
         return this.tags;
-    }
-
-    public Set<LocalDate> getDates() {
-        return this.dates;
     }
 }

@@ -2,6 +2,12 @@ package gui.viewmodel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import services.eventcreation.CalendarEventCreationBoundary;
+import services.eventcreation.EventFromTaskData;
+import services.eventcreation.EventFromTaskModel;
+import services.eventfromtaskcreation.CalendarAnalyzer;
+import services.strategybuilding.MultipleRuleFormBuilder;
+import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TaskInfo;
 import services.taskpresentation.TodoListRequestBoundary;
 import services.updateentities.UpdateTaskBoundary;
@@ -13,20 +19,29 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
 
 public class TaskPageViewModel extends ViewModel implements PropertyChangeListener {
 
     private final TodoListRequestBoundary taskGetter;
     private final UpdateTaskBoundary taskUpdater;
+    private final TaskDeletionBoundary taskDeleter;
+    private final CalendarEventCreationBoundary eventCreator;
+    private final CalendarAnalyzer calendarAnalyzer;
 
     private final ObservableMap<String, String> taskInfoMap;
 
     private long taskId;
 
-    public TaskPageViewModel(TodoListRequestBoundary taskGetter, UpdateTaskBoundary taskUpdater) {
+    public TaskPageViewModel(TodoListRequestBoundary taskGetter, UpdateTaskBoundary taskUpdater,
+                             TaskDeletionBoundary taskDeleter, CalendarEventCreationBoundary eventCreator,
+                             CalendarAnalyzer calendarAnalyzer) {
         this.taskGetter = taskGetter;
         this.taskUpdater = taskUpdater;
+        this.taskDeleter = taskDeleter;
+        this.eventCreator = eventCreator;
+        this.calendarAnalyzer = calendarAnalyzer;
 
         // initialize taskInfoMap
         taskInfoMap = FXCollections.observableHashMap();
@@ -134,6 +149,26 @@ public class TaskPageViewModel extends ViewModel implements PropertyChangeListen
         if (completed) {
             taskUpdater.completeTask(taskId);
         }
+    }
+
+    /**
+     * Delete the selected task (i.e. whose ID is taskId)
+     */
+    public void deleteTask() {
+        taskDeleter.deleteTask(taskId);
+    }
+
+    /**
+     * Schedule the selected task to an event
+     */
+    public void taskToEvent() {
+        TaskInfo taskInfo = taskGetter.getTaskById(taskId);
+
+        LocalDateTime availableTime = calendarAnalyzer.getAvailableTime(taskInfo.getDuration());
+        MultipleRuleFormBuilder formBuilder = new MultipleRuleFormBuilder();
+        formBuilder.addSingleOccurrence(availableTime);
+        EventFromTaskModel eventData = new EventFromTaskData(new HashSet<>(), formBuilder.getForm(), taskId);
+        eventCreator.addEvent(eventData);
     }
 
     @Override

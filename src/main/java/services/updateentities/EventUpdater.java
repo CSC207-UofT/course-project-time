@@ -2,7 +2,10 @@ package services.updateentities;
 
 
 import datagateway.event.CalendarManager;
+import services.strategybuilding.DatesForm;
+import services.strategybuilding.StrategyBuilderDirector;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class EventUpdater implements UpdateEventBoundary{
@@ -19,13 +22,14 @@ public class EventUpdater implements UpdateEventBoundary{
     }
 
     @Override
-    public void updateStartTime(long id, LocalTime newStartTime) {
-        calendarManager.updateStartTime(id, newStartTime);
+    public void updateDateStrategy(long id, DatesForm form) {
+        StrategyBuilderDirector director = new StrategyBuilderDirector();
+        calendarManager.updateDateStrategy(id, director.createStrategy(form));
     }
 
     @Override
-    public void updateEndTime(long id, LocalTime newEndTime) {
-        calendarManager.updateEndTime(id, newEndTime);
+    public void updateDuration(long id, Duration duration) {
+        calendarManager.updateDuration(id, duration);
     }
 
     @Override

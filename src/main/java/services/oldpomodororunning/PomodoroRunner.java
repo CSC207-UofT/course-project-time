@@ -1,16 +1,16 @@
-package services.pomodororunning;
+package services.oldpomodororunning;
 
-import entity.PomodoroTimer;
+import entity.OldPomodoroTimer;
 
 import java.util.Timer;
 
 public class PomodoroRunner {
-    private final PomodoroTimer pomodoroTimer;
+    private final OldPomodoroTimer oldPomodoroTimer;
     private final Timer timer;
     private PomodoroTimerTask pomodoroTimerTask;
 
-    public PomodoroRunner(PomodoroTimer pomodoroTimer) {
-        this.pomodoroTimer = pomodoroTimer;
+    public PomodoroRunner(OldPomodoroTimer oldPomodoroTimer) {
+        this.oldPomodoroTimer = oldPomodoroTimer;
         this.timer = new Timer();
     }
 
@@ -19,12 +19,12 @@ public class PomodoroRunner {
      * @param isWorking whether the user is on a "work" interval or "break" interval
      */
     public void startTimer(boolean isWorking){
-        this.pomodoroTimerTask = new PomodoroTimerTask(timer, pomodoroTimer);
+        this.pomodoroTimerTask = new PomodoroTimerTask(timer, oldPomodoroTimer);
         if (isWorking) {
-            timer.schedule(pomodoroTimerTask, (pomodoroTimer.getWorkLength())* 60000L);
+            timer.schedule(pomodoroTimerTask, (oldPomodoroTimer.getWorkLength())* 60000L);
         }
         else {
-            timer.schedule(pomodoroTimerTask, (pomodoroTimer.getBreakLength())* 60000L);
+            timer.schedule(pomodoroTimerTask, (oldPomodoroTimer.getBreakLength())* 60000L);
         }
     }
 

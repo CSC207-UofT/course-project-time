@@ -12,7 +12,6 @@ import services.taskpresentation.TaskInfo;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,13 +22,13 @@ public class MainController {
     private final EventController eventController;
     private final TaskController taskController;
     private final TaskToEventController taskToEventController;
-    private final PomodoroController pomodoroController;
+    private final OldPomodoroController oldPomodoroController;
 
     public MainController(ApplicationDriver applicationDriver, ConsoleAppFactory consoleAppFactory) {
         eventController = consoleAppFactory.makeEventController(new ConsoleEventPresenter(applicationDriver));
         taskController = consoleAppFactory.makeTaskController(new ConsoleTaskPresenter(applicationDriver));
         taskToEventController = consoleAppFactory.makeTaskToEventController();
-        pomodoroController = consoleAppFactory.makePomodoroController();
+        oldPomodoroController = consoleAppFactory.makePomodoroController();
     }
 
     /**
@@ -149,9 +148,7 @@ public class MainController {
 
     public void updateEventName(long id, String newName){eventController.updateName(id, newName);}
 
-    public void updateEventStartTime(long id, LocalTime newStartTime){eventController.updateStartTime(id, newStartTime);}
-
-    public void updateEventEndTime(long id, LocalTime newEndTime){eventController.updateEndTime(id, newEndTime);}
+    public void updateEventDateStrategy(long id, DatesForm datesForm){eventController.updateDateStrategy(id, datesForm);}
 
     public void addTag(long id, String tag){eventController.addTag(id, tag);}
 
@@ -181,12 +178,12 @@ public class MainController {
      * @param breakTime the time interval that the user specified they want to break for
      */
     public void createAndEndTimer(int workTime, int breakTime) {
-        pomodoroController.checkUserInput();
-        pomodoroController.setPomodoroRunner(workTime, breakTime);
+        oldPomodoroController.checkUserInput();
+        oldPomodoroController.setPomodoroRunner(workTime, breakTime);
         boolean work = true;
         boolean switchInterval = true;
         while (switchInterval) {
-            switchInterval = pomodoroController.startTimer();
+            switchInterval = oldPomodoroController.startTimer();
             if (switchInterval) {
                 if (work) {
                     System.out.println("Break time!");
@@ -198,7 +195,7 @@ public class MainController {
                 }
             }
         }
-        pomodoroController.stopTimer();
+        oldPomodoroController.stopTimer();
         System.out.println("Timer stopped");
     }
 

@@ -72,9 +72,7 @@ public class EventController {
 
     public void updateName(long id, String newName){eventUpdater.updateName(id, newName);}
 
-    public void updateStartTime(long id, LocalTime newStartTime){eventUpdater.updateStartTime(id, newStartTime);}
-
-    public void updateEndTime(long id, LocalTime newEndTime){eventUpdater.updateEndTime(id, newEndTime);}
+    public void updateDateStrategy(long id, DatesForm datesForm){eventUpdater.updateDateStrategy(id, datesForm);}
 
     public void addTag(long id, String tag){eventUpdater.addTag(id, tag);}
 
@@ -92,10 +90,9 @@ public class EventController {
         for (EventInfo info : eventInfos) {
             HashMap<String, String> infoMap = new HashMap<>();
             infoMap.put("name", info.getName());
-            infoMap.put("start", info.getStartTime().toString());
-            infoMap.put("end", info.getEndTime().toString());
+            infoMap.put("when", info.getWhen());
+            infoMap.put("duration", info.getDuration().toString());
             infoMap.put("tags", info.getTags().toString());
-            infoMap.put("dates", info.getDates().toString());
             hashMapList.add(infoMap);
         }
         return hashMapList;

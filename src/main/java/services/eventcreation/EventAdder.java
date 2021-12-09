@@ -6,8 +6,6 @@ import services.strategybuilding.DatesForm;
 import services.strategybuilding.StrategyBuilderDirector;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 public class EventAdder implements CalendarEventCreationBoundary {
@@ -28,10 +26,8 @@ public class EventAdder implements CalendarEventCreationBoundary {
 
         StrategyBuilderDirector director = new StrategyBuilderDirector();
         DateStrategy strategy = director.createStrategy(form);
-        List<LocalDateTime> times = strategy.datesBetween(LocalDateTime.now(), LocalDateTime.now().plusYears(1));
-        LocalDateTime startTime = times.get(0);
 
-        return calendarManager.addEvent(eventName, startTime, startTime.plus(eventDuration), tags, startTime.toLocalDate());
+        return calendarManager.addEvent(eventName, strategy, eventDuration, tags);
     }
 
     @Override
@@ -43,10 +39,8 @@ public class EventAdder implements CalendarEventCreationBoundary {
 
         StrategyBuilderDirector director = new StrategyBuilderDirector();
         DateStrategy strategy = director.createStrategy(form);
-        List<LocalDateTime> times = strategy.datesBetween(LocalDateTime.now(), LocalDateTime.now().plusYears(1));
-        LocalDateTime startTime = times.get(0);
 
-        return calendarManager.addEvent(taskId, startTime, tags, startTime.toLocalDate());
+        return calendarManager.addEvent(taskId, strategy, tags);
     }
 
 }

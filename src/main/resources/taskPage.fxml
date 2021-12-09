@@ -40,7 +40,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <DatePicker fx:id="dueDate" layoutX="280.0" layoutY="141.0" />
+            <DatePicker fx:id="dueDate" editable="false" layoutX="280.0" layoutY="141.0" />
             <TextField fx:id="dueTimeHours" layoutX="281.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" />
             <Text layoutX="328.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
                <font>
@@ -51,15 +51,15 @@
             <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" />
             <ToggleButton fx:id="completed" layoutX="281.0" layoutY="388.0" mnemonicParsing="false" text="Yes" />
             <Button fx:id="addSubtask" onMouseClicked="#addSubtask" layoutX="612.0" layoutY="177.0" mnemonicParsing="false" text="Add" />
-            <Button layoutX="191.0" layoutY="654.0" mnemonicParsing="false" text="Schedule as Event" />
+            <Button fx:id="schedule" onMouseClicked="#taskToEvent" layoutX="191.0" layoutY="654.0" mnemonicParsing="false" text="Schedule as Event" />
             <Button onMouseClicked="#updateTask" layoutX="115.0" layoutY="654.0" mnemonicParsing="false" text="Update" />
-            <Button layoutX="332.0" layoutY="654.0" mnemonicParsing="false" text="Delete Task" />
+            <Button onMouseClicked="#deleteTask" layoutX="332.0" layoutY="654.0" mnemonicParsing="false" text="Delete Task" />
             <TextField fx:id="taskName" layoutX="105.0" layoutY="66.0">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-            <Button onMouseClicked="#removeSubtask" layoutX="691.0" layoutY="177.0" mnemonicParsing="false" text="Remove" />
+            <Button fx:id="removeSubtask" onMouseClicked="#removeSubtask" layoutX="691.0" layoutY="177.0" mnemonicParsing="false" text="Remove" />
             <JFXListView fx:id="subtaskList" layoutX="613.0" layoutY="229.0" prefHeight="334.0" prefWidth="200.0" />
             <DialogPane fx:id="message" layoutX="111.0" layoutY="500.0" visible="false" />
          </children></AnchorPane>

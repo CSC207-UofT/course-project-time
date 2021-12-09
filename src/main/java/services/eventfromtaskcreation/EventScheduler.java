@@ -49,10 +49,9 @@ public class EventScheduler implements CalendarAnalyzer {
         for (LocalDateTime time : timesToIgnore)
             timeFramesToIgnore.add(new TimeFrame(time, time.plus(taskDuration)));
         for (EventReader evt : calendarManager.getAllEvents()) {
-            for (LocalDate date : evt.getDates()) {
-                LocalDateTime startTime = evt.getStartTime().atDate(date);
-                LocalDateTime endTime = evt.getEndTime().atDate(date);
-                timeFramesToIgnore.add(new TimeFrame(startTime, endTime));
+            for (entity.dates.TimeFrame tf : evt.getDatesBetween(LocalDateTime.now(), LocalDateTime.now().plusMonths(2))) {
+                if (tf != null)
+                    timeFramesToIgnore.add(new TimeFrame(tf.startTime, tf.startTime.plus(tf.duration)));
             }
         }
 
@@ -81,9 +80,9 @@ public class EventScheduler implements CalendarAnalyzer {
      */
     public boolean checkAvailability(LocalDateTime targetTime, Duration timeNeeded) {
         for (EventReader evt : calendarManager.getAllEvents()) {
-            for (LocalDate date : evt.getDates()) {
-                LocalDateTime startTime = evt.getStartTime().atDate(date);
-                LocalDateTime endTime = evt.getEndTime().atDate(date);
+            for (entity.dates.TimeFrame tf: evt.getDatesBetween(targetTime.minusDays(1), targetTime.plusDays(1))) {
+                LocalDateTime startTime = tf.startTime;
+                LocalDateTime endTime = tf.startTime.plus(tf.duration);
                 if (targetTime.isAfter(startTime) && targetTime.isBefore(endTime)) {
                     return false;
                 } else if (targetTime.plus(timeNeeded).isAfter(startTime) && targetTime.plus(timeNeeded).isBefore(endTime)) {
