@@ -41,3 +41,11 @@ It allows users to input a work time and break time which the program alternates
 The user is able to leave the pomodoro page without the timer stopping.
 Lastly, the settings page which enables the user to edit settings related to the notification and choose
 to export data as an ICS file.
+
+## How to run our program
+
+To run our program you must use gradle, in order to properly build dependencies. Simply select 'run', under the application tab in the gradle window in IntelliJ. Please do not try to run our program by selecting specific files, since the dependencies will not be included.
+
+
+
+
