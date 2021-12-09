@@ -43,8 +43,10 @@ public class TodoListPageController implements Initializable, ViewModelBindingCo
     public void enterTaskPage(MouseEvent event) {
         try {
             HBox clickedItem = todoList.getSelectionModel().getSelectedItem();
-            viewModel.taskSelected(Long.parseLong(clickedItem.getId()));
-            NavigationHelper.enterTaskPage(event);
+            if (clickedItem != null) {
+                viewModel.taskSelected(Long.parseLong(clickedItem.getId()));
+                NavigationHelper.enterTaskPage(event);
+            }
         } catch (IOException exception) {
             exception.printStackTrace();
         }

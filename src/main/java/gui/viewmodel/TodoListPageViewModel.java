@@ -126,4 +126,10 @@ public class TodoListPageViewModel extends ViewModel {
         // the new values are auto-filled (rather than the old values)
         taskDataBinding.setTaskId(taskId);
     }
+
+    public void handleDeletion(TaskReader taskReader) {
+        long taskId = taskReader.getId();
+        taskInfoList.removeIf(taskInfo -> taskInfo.getId() == taskId);
+        updateViewInfoList();
+    }
 }

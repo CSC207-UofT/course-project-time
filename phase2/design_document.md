@@ -66,6 +66,15 @@ We organized our code according to the various layers as outlined in Clean Archi
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
 
+One source of confusion might come from the use of the word Controllers to describe aspects of our view. In JavaFx, the UI is handled by assigned controllers.
+These controllers are responsbile for UI opterations, like delegating operations when a button is pressed. We decided to stick to the naming convention of controllers,
+to align with JavaFx's system, however they operate solely in the Frameworks and Drivers layer. Our controllers for our UI can be found in the ViewModels. The UI delegates tasks to these ViewModels, which interact with use cases. These use cases are built through a factory system, which also injects them with our data access interfaces.
+
+In the graphical user interface that we have implemented in phase 2, we have used the MVVM pattern to decouple
+the user interface and the rest of the application.
+
+We have also followed clean architecture in the data persistence layer.
+
 __A scenario walk through that demonstrates clean architecture__
 
 
@@ -78,8 +87,41 @@ the facade. It routes requests from the `ApplicationDriver` to the respective co
 We chose to use the facade design pattern to separate concerns of which controllers to call away from
 the `ApplicationDriver`, whose main responsibility is to interact with the user.
 
+We have used the **observer pattern** as part of our notification system which
+notifies users if there is an upcoming event or task due. `NotificationTracker` in `services\notification` package
+keeps track of all notifications. When it is time to notify the user, it will call the `presentNotification()` method 
+of its observers, which are presenters (in the clean architecture jargon). These presenters present the notification
+in various ways (through email and on desktop), which is abstracted away from the `NotificationTracker`.
+We chose this design pattern because the actors responsible for sending out the notifications
+should not have control over `NotificationTracker`, nor should it be exposed to the tracking responsibilities
+or the tracker. More importantly, it allows us to define a one-to-many dependency between the tracker
+and the presenters without making them tightly coupled. With this design, it would be easy to add another way of presenting
+notifications, or removing existing ones, ensuring flexibility.
 
-## Use of GitHub Features (add in github actions)
+In the notification system, we are also using the **proxy pattern** to add an event to the program,
+together with its notification time. In phase 0, we only have an `EventAdder` in `services\eventcreation` package,
+which adds an event to the program. As mentioned in the OCP section, we created an additional entity `Notification`
+which has reference to the `id` of an `Event`, so the event creation process would also need
+to create a `Notification` instance that corresponds to the event. This design pattern was chosen as we
+needed a wrapper of the `EventAdder`, that both creates an event and a task, but we needed to hide this creation
+process from the client code. Proxy would be the most suitable choice here, allowing the client code to remain
+the same, while getting the `Notification` instance created.
+
+As part of refactoring of our code (see the section on refactoring), we have used the **factory method** to created 
+factories that are responsible for class creation and managing dependencies between classes. In the package `services\servicefactory`,
+it can be seen that we have `RepositoryFactory`, `ObservableRepositoryFactory`, and `ServicesFactory`.
+Not only does this decouples our code since classes that uses other classes do not need to be exposed to manage the 
+dependencies used by the classes used, but it also allows us to save system resources since it allows us to
+reuse existing objects. As can be since from the implementations of the factories' interfaces, cached instances are
+returned, instead of creating new ones. Moreover, it becomes easy to extend our program as we can create new concrete
+factories that extend the existing ones, and change the products returns, where the altered products are an extension of
+what the original factories return. An example of the ease of extension can be seen in `NotificationServiceFactory`. 
+In phase 2, when we introduced the notification system, we had to have event creation classes that will also create a
+notification instance (refer to the section on OCP for explanation of why is this so). However, the `BasicServiceFactory`
+did not provide us with the required event creation class. Therefore, we created another implementation of `ServicesFactory`
+that solved the issue. This shows how easily extendable our code it, with the help of this chosen design pattern.
+
+## Use of GitHub Features
 
 Our group utilised various features of Github to improve our efficiency and keep ourselves organized.
 We set up different **branches** when developing various features for our program. When a feature has been developed,
@@ -93,23 +135,66 @@ To better visualize our progress, we used **Projects** to keep track of our task
 plan to develop, we created a “column” for it and added cards to the column to break down what we have to do,
 or to indicate things to take note of when developing that feature.
 
+To ensure that our pull requests wouldn't break our program when merged in, we used github actions to run our test suite every time
+a PR was opened, reopened, marked ready for review, or committed to. This allowed us to quickly and easily see what needed to be fixed. 
+We implemented this by changing our project to a Gradle project, which was done by adding a build.gradle file. 
+
 ## Code Style and Documentation
 
-We ensured that code warnings are resolved and documented most of the methods, especially those that are
+We ensured that most of our code warnings are resolved. The only two code warnings are in `MonthlyCalendarController`
+and `WeeklyCalendarController`, with `Entry<String>` marked as an unchecked cast when we tried to cast Entry<?> as 
+Entry<String>. However, this would not be an issue because the only usage of Entry<?> in our application is Entry<String>. 
+
+We documented most of the methods, especially those that are
 not clear on what they do at first glance. We have also documented some classes that we thought needed
 some explanation of its responsibilities. The methods that are not documented were the methods we felt had
 sufficient explanation in their names, such as getters and setters.
 
-## Testing (give an example)
+## Testing
 
 Most of the components are easy to test because we follow the clean architecture closely and ensured that
 classes are decoupled. Many of the classes rely on other classes through interfaces.
 This makes our code easy to test as we can easily create a mock class that implements the
-interface that the class is using.
+interface that the class is using. An example is `TaskInfoFromTaskReaderTest`, which tests the class
+`TestInfoFromTaskReader`. The class being tested depends on `TaskReader`, which is an interface. By
+creating a mock-class of the `TaskReader` interface, the tests become very straightforward since we
+do not need to worry about dependencies in our tests, where on the other hand if `TaskReader` was to be a
+concrete class, we would also have to worry about the classes which `TaskReader` depend on as well.
+Additionally, since interfaces are a lot less likely to be changed rather than concrete classes implementing
+them, the tests we wrote are resistant to changes, and therefore is effective as long as there are
+no major changes on the interfaces side,
+
+Coverage-wise, our tests covers almost all methods in the `services` package. All of our tests passing guarantees
+that the classes are working properly. If any use cases are changed and there is a subtle bug, our tests could
+effectively locate the bug and determine the cause, saving much debugging time and avoiding much nuisance. 
+The `oldpomodororunning` package in the `services` package is not covered as we are no longer using this package in our final project. We did not delete the files as we were told to still hand in our console application where `oldpomodororunning` is still being used.
 
 ## Refactoring
 
+In phase 1, we mentioned that we refactored the code to follow clean architecture more closely,
+by introducing clear service layer interfaces to helper decouple the application domain
+and the program that uses it. This was implemented in pull request #36.
 
+In phase 2, we continued to remove concrete dependencies by introducing more interfaces. 
+This made us separate existing classes into smaller ones, to follow SRP. As can be seen in 
+pull requests [#110](https://github.com/CSC207-UofT/course-project-time/pull/110) and 
+[#111](https://github.com/CSC207-UofT/course-project-time/pull/111), we seperated `TaskGetter` and `EventGetter`
+into two smaller classes for retrieval of data and outputting data respectively. At the same time, we add interfaces
+to decouple them from the rest of the application. 
+
+In phase 2, most of our refactoring was focused on moving the responsibility of class creation to factories.
+As mentioned in the phase 1 report, the refactoring that moved us towards clean architecture has 
+pushed a large amount of class creation into the controllers, specifically `MainController` in `consoleapp`.
+In the files of pull request [#109](https://github.com/CSC207-UofT/course-project-time/pull/109/files), it can 
+be seen that `MainController` previously had a long constructor, since it was creating all the dependencies needed.
+However, `MainController` should not be responsible for creating these dependencies, as its main role was to 
+act as a facade, as mentioned in the design pattern section.
+
+In pull request [#109](https://github.com/CSC207-UofT/course-project-time/pull/109), we created factories that are 
+responsible for class creation. In `services\servicefactory`, it can be seen that we 
+separated the factories into interfaces `ServicesFactory` and `RepositoryFactory`, 
+together with its implementations. Once again, interfaces was used to ensure that these factories are not tightly 
+coupled with other classes. More explanation of the factories was done in the design patterns section.
 
 
 ## Code Organization

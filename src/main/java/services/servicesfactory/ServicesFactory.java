@@ -2,6 +2,7 @@ package services.servicesfactory;
 
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventSaver;
+import services.eventcreation.ICSSaver;
 import services.eventdeletion.EventDeletionBoundary;
 import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventpresentation.CalendarEventDisplayBoundary;
@@ -33,4 +34,5 @@ public interface ServicesFactory {
     TaskSaver makeTaskSaver();
     UpdateTaskBoundary makeTaskUpdater();
     TaskDeletionBoundary makeTaskDeleter();
+    ICSSaver makeICSSaver();
 }

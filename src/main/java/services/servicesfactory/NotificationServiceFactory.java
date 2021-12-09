@@ -5,6 +5,7 @@ import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdderWithNotification;
 import services.eventcreation.EventNotificationFormatter;
 import services.eventcreation.EventSaver;
+import services.eventcreation.ICSSaver;
 import services.eventdeletion.EventDeletionBoundary;
 import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventpresentation.CalendarEventDisplayBoundary;
@@ -142,5 +143,10 @@ public class NotificationServiceFactory implements ServicesFactory {
     public TaskDeletionBoundary makeTaskDeleter() {
         //TODO: develop notification-deletion family task deleter
         return innerFactory.makeTaskDeleter();
+    }
+
+    @Override
+    public ICSSaver makeICSSaver() {
+        return innerFactory.makeICSSaver();
     }
 }

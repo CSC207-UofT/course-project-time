@@ -1,18 +1,18 @@
-package services.pomodororunning;
+package services.oldpomodororunning;
 
-import entity.PomodoroTimer;
+import entity.OldPomodoroTimer;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class PomodoroTimerTask extends TimerTask {
     private final Timer timer;
-    private final PomodoroTimer pomodoroTimer;
+    private final OldPomodoroTimer oldPomodoroTimer;
     private boolean switchNow;
 
-    public PomodoroTimerTask(Timer timer, PomodoroTimer pomodoroTimer) {
+    public PomodoroTimerTask(Timer timer, OldPomodoroTimer oldPomodoroTimer) {
         this.timer = timer;
-        this.pomodoroTimer = pomodoroTimer;
+        this.oldPomodoroTimer = oldPomodoroTimer;
         this.switchNow = false;
     }
 
@@ -22,7 +22,7 @@ public class PomodoroTimerTask extends TimerTask {
      */
     @Override
     public void run() {
-       pomodoroTimer.setWorking(!pomodoroTimer.getIsWorking());
+       oldPomodoroTimer.setWorking(!oldPomodoroTimer.getIsWorking());
        this.switchNow = true;
     }
 
