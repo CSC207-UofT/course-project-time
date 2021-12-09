@@ -200,18 +200,18 @@ classes into the relationship between the types of these strategies (base, decor
 ## Use of GitHub Features
 
 Our group utilised various features of Github to improve our efficiency and keep ourselves organized.
-We set up different **branches** when developing various features for our program. When a feature has been developed,
-a **pull request** will be made. We often have at least two reviewers to review the pull request,
+We set up different **Branches** when developing various features for our program. When a feature has been developed,
+a **Pull Request** will be made. We often have at least two reviewers to review the pull request,
 and more if it is a larger pull request. Reviewers of pull requests frequently provided feedback, which was implemented before
 merging.
 
-Also, we have taken note of various problems that we have to fix in the future by opening new **issues**.
+Also, we have taken note of various problems that we have to fix in the future by opening new **Issues**.
 
 To better visualize our progress, we used **Projects** to keep track of our tasks. For each feature that we
 plan to develop, we created a “column” for it and added cards to the column to break down what we have to do,
 or to indicate things to take note of when developing that feature.
 
-To ensure that our pull requests wouldn't break our program when merged in, we used github actions to run our test suite every time
+To ensure that our pull requests wouldn't break our program when merged in, we used github **Actions** to run our test suite every time
 a PR was opened, reopened, marked ready for review, or committed to. This allowed us to quickly and easily see what needed to be fixed. 
 We implemented this by changing our project to a Gradle project, which was done by adding a build.gradle file. 
 
