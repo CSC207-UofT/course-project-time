@@ -1,4 +1,12 @@
 #### Emily
+During phase 2, I worked on the pomodoro timer and also the desktop notification presenter.
+
+https://github.com/CSC207-UofT/course-project-time/pull/127
+https://github.com/CSC207-UofT/course-project-time/pull/140
+
+In these two pull requests, I worked on the pomodoro system. 
+The first one was done with Xandar, which implemented most of the pomodoro system including error checking. However, it did not allow the user to leave and return to the pomodoro page without the timer restarting. This is fixed in the second pull request. Here, I created a system that saves where the user is at in the timer and when they return
+to the pomodoro page, it calculates how much time has passed and whether they are now on a work or break interval. think these were both significant contributions as without them, the pomodoro feature would not be in the final project.
 
 #### Alexander
 
