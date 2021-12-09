@@ -41,3 +41,21 @@ easily extensible, as future addition of views and view models, as all the class
 #### Tahseen
 
 #### Jenci
+
+Since Phase 1, I mainly have been working on two things: writing tests and developing the GUI. For the test part, 
+I wrote tests for multiple methods in the `services` package. For the GUI part, I made the task creation page and the 
+task modification page.
+
+https://github.com/CSC207-UofT/course-project-time/pull/161
+
+This pull request is the implementation of the task modification page, allowing tasks to be modified on the front end 
+and the changes reflected to the back end. This demonstrates a significant contribution to the team since this feature 
+is a crucial part of our front end, and the code (i.e. view and viewmodel) also serves as a foundation to some of the 
+features implemented later, such as task deletion and scheduling task into an event.
+
+https://github.com/CSC207-UofT/course-project-time/pull/121
+
+This pull request consists of 4 tests I added. To make the size of pull requests reasonable, I did not cram all the 
+test suites in one pull request. Along with the other testing-oriented pull requests, I made a significant contribution 
+to the testing aspect of the project. 
+
