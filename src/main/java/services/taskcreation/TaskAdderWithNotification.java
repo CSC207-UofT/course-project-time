@@ -40,4 +40,9 @@ public class TaskAdderWithNotification implements TaskWithNotificationCreationBo
         notificationAdder.addNotification(notificationData);
         return taskId;
     }
+
+    @Override
+    public long addTask(TodoListTaskCreationModel taskData) {
+        return service.addTask(taskData);
+    }
 }

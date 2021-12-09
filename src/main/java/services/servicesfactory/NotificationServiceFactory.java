@@ -16,6 +16,7 @@ import services.notificationsending.NotificationPresenter;
 import services.taskcreation.TaskAdderWithNotification;
 import services.taskcreation.TaskNotificationFormatter;
 import services.taskcreation.TaskSaver;
+import services.taskcreation.TaskWithNotificationCreationBoundary;
 import services.taskcreation.TodoListTaskCreationBoundary;
 import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
@@ -112,7 +113,7 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedNotifTaskAdder == null) {
-            cachedNotifTaskAdder = (TodoListTaskCreationBoundary) new TaskAdderWithNotification(innerFactory.makeTaskCreator(),
+            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(),
                     makeNotificationAdder(), taskNotificationFormatter);
         }
         return cachedNotifTaskAdder;
