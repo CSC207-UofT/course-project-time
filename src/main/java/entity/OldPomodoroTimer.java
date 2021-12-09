@@ -1,6 +1,12 @@
 package entity;
 
-public class ConsolePomodoroTimer {
+/**
+ * For the GUI, this class and any other pomodoro class/package with the word "old" in front of it are no longer being
+ * used, since the way the pomodoro system is being implemented has changed tremendously.
+ * We have kept these classes around so that the console application can still be run.
+ * This is why there are two pomodoro entities (one for the GUI and one for the console app)
+ */
+public class OldPomodoroTimer {
     private final int workLength;
     private final int breakLength;
     private boolean isWorking;
@@ -10,7 +16,7 @@ public class ConsolePomodoroTimer {
      * @param workLength  the length of time in minutes the user wants to work for
      * @param breakLength the length of time in minutes the user wants to break for
      */
-    public ConsolePomodoroTimer(int workLength, int breakLength) {
+    public OldPomodoroTimer(int workLength, int breakLength) {
         this.workLength = workLength;
         this.breakLength = breakLength;
         this.isWorking = true;

@@ -1,4 +1,4 @@
-package services.consolepomodororunning;
+package services.oldpomodororunning;
 
 import java.util.Objects;
 import java.util.Scanner;
