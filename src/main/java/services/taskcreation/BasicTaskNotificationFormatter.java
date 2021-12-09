@@ -12,6 +12,6 @@ public class BasicTaskNotificationFormatter implements TaskNotificationFormatter
      */
     @Override
     public String formatMessage(String taskName, LocalDateTime deadline) {
-        return "You have an upcoming task due at" + deadline.toString();
+        return "You have an upcoming task due at " + deadline.toString();
     }
 }

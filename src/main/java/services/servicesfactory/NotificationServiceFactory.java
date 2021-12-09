@@ -16,7 +16,6 @@ import services.notificationsending.NotificationPresenter;
 import services.taskcreation.TaskAdderWithNotification;
 import services.taskcreation.TaskNotificationFormatter;
 import services.taskcreation.TaskSaver;
-import services.taskcreation.TaskWithNotificationCreationBoundary;
 import services.taskcreation.TodoListTaskCreationBoundary;
 import services.taskdeletion.TaskDeletionBoundary;
 import services.taskpresentation.TodoListDisplayBoundary;
