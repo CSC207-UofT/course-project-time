@@ -56,13 +56,11 @@ public class TaskGetterTest {
         }
 
         @Override
-        public Map<Long, List<TaskReader>> getAllTasks() {
-            Map<Long, List<TaskReader>> tasksMap = new HashMap<>();
+        public List<TaskReader> getAllTasks() {
             List<TaskReader> tasks = new ArrayList<>();
             TaskReader task = new MockTaskReader();
             tasks.add(task);
-            tasksMap.put(2L, tasks);
-            return tasksMap;
+            return tasks;
         }
 
         @Override

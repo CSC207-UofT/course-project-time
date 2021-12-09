@@ -3,7 +3,6 @@ package consoleapp.taskadapters;
 import consoleapp.ApplicationDriver;
 import services.taskpresentation.TaskInfo;
 import services.taskpresentation.TodoListPresenter;
-import services.taskpresentation.TodoListsInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,13 +18,12 @@ public class ConsoleTaskPresenter implements TodoListPresenter {
 
     /**
      * Formats tasks' information and presents them on the console.
-     * @param todoListInfo the todolist DTO whose tasks are to be presented
+     * @param taskInfos the tasks DTO whose tasks are to be presented
      */
     @Override
-    public void presentTasks(TodoListsInfo todoListInfo) {
+    public void presentTasks(List<TaskInfo> taskInfos) {
         List<String> taskFormattedInfo = new ArrayList<>();
-        List<TaskInfo> tasks = todoListInfo.getAllTasks();
-        for (TaskInfo ti : tasks) {
+        for (TaskInfo ti : taskInfos) {
 
             String name = ti.getName();
 
@@ -52,16 +50,15 @@ public class ConsoleTaskPresenter implements TodoListPresenter {
      * Formats the tasks' information in an ordered list and presents them.
      * Passes the mapping of the position of task in the list to the task's actual id
      * to the ApplicationDriver by setting it as an attribute of the ApplicationDriver.
-     * @param todoListInfo the todolist DTO whose tasks are to be presented in an ordered list
+     * @param taskInfos the task DTO whose tasks are to be presented in an ordered list
      * @return a mapping of task's position in the presented list and id
      */
     @Override
-    public Map<Integer, Long> presentTasksForUserSelection(TodoListsInfo todoListInfo) {
+    public Map<Integer, Long> presentTasksForUserSelection(List<TaskInfo> taskInfos) {
         List<String> taskFormattedInfo = new ArrayList<>();
         Map<Integer, Long> positionToIdMapping = new HashMap<>();
-        List<TaskInfo> tasks = todoListInfo.getAllTasks();
         int counter = 1;
-        for (TaskInfo ti : tasks) {
+        for (TaskInfo ti : taskInfos) {
             positionToIdMapping.put(counter, ti.getId());
 
             String name = ti.getName();

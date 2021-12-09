@@ -22,6 +22,12 @@ I think my contributions to this PR demonstrate an implementation of a new featu
 #### Craig
 
 #### Junru
+During phase 2, I mainly worked on notification system development and GUI.
+
+I worked on notification system with Valerie. We designed the [UML diagram](https://drive.google.com/file/d/1d6-EMS59UJDCOAwQ8ZjQiKCUdbTaeNX0/view) and implemented the code. We divided the code into several PRs based on clean architecture, and [#141](https://github.com/CSC207-UofT/course-project-time/pull/141) is mainly the use case part of the notification system code. This PR is not merged for phase 2 since the front end have not been implemented for notification system.
+
+I also worked on GUI design. I'm mainly responsible for the todo list page display, making the most recent tasks appear on the top, and making the completed tasks display in a different way. [#132](https://github.com/CSC207-UofT/course-project-time/pull/132/files) includes the initial design of the todo list page.
+Besides, I also worked with Tahseen for the design of the main page.
 
 #### Valerie
 

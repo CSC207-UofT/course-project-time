@@ -124,7 +124,7 @@ public class MainPageViewModel extends ViewModel implements Runnable{
         LocalDate todayDate = LocalDate.now();
         TaskInfo taskInfo = new TaskInfoFromTaskReader(taskReader);
         relevantTasks.removeIf(ti -> ti.name.equals(taskInfo.getName()));
-        if (taskInfo.getDeadline().toLocalDate().equals(todayDate)){
+        if (taskInfo.getDeadline() != null && taskInfo.getDeadline().toLocalDate().equals(todayDate)){
             relevantTasks.add(new TaskEntry(taskInfo.getName(), taskInfo.getDeadline()));
         }
 

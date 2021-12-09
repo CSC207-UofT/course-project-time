@@ -44,16 +44,21 @@ to export data as an ICS file.
 
 ## How to run our Program
 
-To run our program please use gradle. We used gradle to set up the dependencies of our project. 
+To run our program, please use gradle. We used gradle to set up the dependencies of our project. 
 To run the project with gradle in IntelliJ, open the gradle tool window, and select 'run', under application. 
 Please do not try to run the individual files of the program, since the dependencies will not be included that way.
+
+Note that to persist the data (events and tasks) that you have created and edited, press the "save" button
+in the home page.
 
 ## Incompleted Aspects/ Unsupported Functionalities
 
 Some functionalities are not hooked up with the GUI, even though they have been implemented in the backend, due to tine constraints.
 They include:
 - The notification system is currently implemented in the back-end. Since the notification system is currently unused, none of the data pertaining to 
-notifications in the settings window is saved.
+notifications in the settings window is saved. We have the notification system on the branch
+[`notification-system`](https://github.com/CSC207-UofT/course-project-time/tree/notification_system) instead of `main` to avoid
+- intellij code style warnings, since they have not been integrated with the frontend and remain unused. 
 - Our GUI supports changing of dates of events (either by dragging them on the calendar pages, or clicking into an event to change
 explicitly), but the changed dates will not be propagated to the backend, even though our backend supports this functionality.
 

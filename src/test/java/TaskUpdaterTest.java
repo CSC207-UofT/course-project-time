@@ -84,7 +84,7 @@ public class TaskUpdaterTest {
         }
 
         @Override
-        public Map<Long, List<TaskReader>> getAllTasks() {
+        public List<TaskReader> getAllTasks() {
             return null;
         }
 
