@@ -66,6 +66,10 @@ We organized our code according to the various layers as outlined in Clean Archi
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
 
+One source of confusion might come from the use of the word Controllers to describe aspects of our view. In JavaFx, the UI is handled by assigned controllers.
+These controllers are responsbile for UI opterations, like delegating operations when a button is pressed. We decided to stick to the naming convention of controllers,
+to align with JavaFx's system, however they operate solely in the Frameworks and Drivers layer. Our controllers for our UI can be found in the ViewModels. The UI delegates tasks to these ViewModels, which interact with use cases. These use cases are built through a factory system, which also injects them with our data access interfaces.
+
 In the graphical user interface that we have implemented in phase 2, we have used the MVVM pattern to decouple
 the user interface and the rest of the application.
 
