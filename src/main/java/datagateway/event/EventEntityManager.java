@@ -69,6 +69,7 @@ public class EventEntityManager implements CalendarManager{
     public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
         long taskId = taskManager.addTask(eventName, duration, null, new ArrayList<>());
         Event event = new Event(snowflake.nextId(), taskId, strategy, tags);
+        eventList.add(event);
         return event.getId();
     }
 
