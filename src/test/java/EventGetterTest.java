@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,8 +42,8 @@ public class EventGetterTest {
         nov25Nov27.add(LocalDate.of(2021, 11, 25));
         nov25Nov27.add(LocalDate.of(2021, 11, 27));
 
-        e1 = new MockEventReader(1, "mock1", LocalTime.of(12, 0),
-                LocalTime.of(14, 0), tags1, nov25Nov27);
+        e1 = new MockEventReader(1, "mock1",
+                tags1);
 
         tags2 = new HashSet<>();
         tags2.add("CSC207");
@@ -54,8 +53,8 @@ public class EventGetterTest {
         nov25Nov26.add(LocalDate.of(2021, 11, 25));
         nov25Nov26.add(LocalDate.of(2021, 11, 26));
 
-        e2 = new MockEventReader(2, "mock2", LocalTime.of(14, 0),
-                LocalTime.of(16, 0), tags2, nov25Nov26);
+        e2 = new MockEventReader(2, "mock2",
+                tags2);
 
         allEvents = new ArrayList<>();
         allEvents.add(e1);
@@ -68,10 +67,10 @@ public class EventGetterTest {
     @Test
     void getEvents() {
         MockEventReader eventReader1 = new MockEventReader(1L, "mock1",
-                LocalTime.of(12, 0), LocalTime.of(14, 0), tags1, nov25Nov27);
+                tags1);
         EventInfo eventInfo1 = new EventInfoFromReader(eventReader1);
         MockEventReader eventReader2 = new MockEventReader(2L, "mock2",
-                LocalTime.of(14, 0), LocalTime.of(16, 0), tags2, nov25Nov26);
+                tags2);
         EventInfo eventInfo2 = new EventInfoFromReader(eventReader2);
 
         List<EventInfo> expected = new ArrayList<>();
@@ -156,12 +155,12 @@ public class EventGetterTest {
         }
 
         @Override
-        public void loadEvents(String filePath) throws IOException {
+        public void loadEvents(String filePath) {
 
         }
 
         @Override
-        public void saveEvents(String savePath) throws IOException {
+        public void saveEvents(String savePath)  {
 
         }
     }
@@ -169,19 +168,13 @@ public class EventGetterTest {
     private static class MockEventReader implements EventReader {
         final long id;
         final String name;
-        final LocalTime startTime;
-        final LocalTime endTime;
         final Set<String> tags;
-        final Set<LocalDate> dates;
 
-        public MockEventReader(long id, String name, LocalTime startTime, LocalTime endTime,
-                               Set<String> tags, Set<LocalDate> dates) {
+        public MockEventReader(long id, String name,
+                               Set<String> tags) {
             this.id = id;
             this.name = name;
-            this.startTime = startTime;
-            this.endTime = endTime;
             this.tags = tags;
-            this.dates = dates;
         }
 
         @Override

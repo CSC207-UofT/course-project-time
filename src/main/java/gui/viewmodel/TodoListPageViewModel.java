@@ -72,7 +72,7 @@ public class TodoListPageViewModel extends ViewModel {
             String taskName = taskInfo.getName();
             String completed = Boolean.toString(taskInfo.getCompleted());
 
-            String deadline = new String("No Deadline");
+            String deadline = "No Deadline";
             if (taskInfo.getDeadline() != null) {
                 deadline = taskInfo.getDeadline().format(
                         DateTimeFormatter.ofLocalizedDateTime(
@@ -80,7 +80,7 @@ public class TodoListPageViewModel extends ViewModel {
                                 FormatStyle.SHORT)); // The format for time
             }
 
-            Map<String, String> taskViewInfo = new HashMap<String, String>();
+            Map<String, String> taskViewInfo = new HashMap<>();
             taskViewInfo.put("id", id);
             taskViewInfo.put("taskName", taskName);
             taskViewInfo.put("deadline", deadline);

@@ -7,7 +7,6 @@ import gui.viewmodel.ViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -40,7 +39,7 @@ public class SettingsController implements Initializable, ViewModelBindingContro
         this.viewModel = (SettingsViewModel)viewModel;
     }
 
-    public void exportICS(MouseEvent event) {
+    public void exportICS() {
         LocalDateTime fiveYearsAgo = LocalDateTime.now().minusYears(5);
         LocalDateTime fiveYearsFromNow = LocalDateTime.now().plusYears(5);
         viewModel.exportICS(fiveYearsAgo, fiveYearsFromNow);

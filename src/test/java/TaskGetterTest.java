@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -94,12 +92,12 @@ public class TaskGetterTest {
         }
 
         @Override
-        public void loadTodo(String filepath) throws IOException {
+        public void loadTodo(String filepath) {
 
         }
 
         @Override
-        public void saveTodo(String filepath) throws IOException {
+        public void saveTodo(String filepath) {
 
         }
     }
