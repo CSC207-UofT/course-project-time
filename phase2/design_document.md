@@ -168,19 +168,26 @@ needed a wrapper of the `EventAdder`, that both creates an event and a task, but
 process from the client code. Proxy would be the most suitable choice here, allowing the client code to remain
 the same, while getting the `Notification` instance created.
 
-As part of refactoring of our code (see the section on refactoring), we have used the **factory method** to created 
+As part of refactoring of our code (see the section on refactoring), we have used the **abstract factory** to create 
 factories that are responsible for class creation and managing dependencies between classes. In the package `services\servicefactory`,
-it can be seen that we have `RepositoryFactory`, `ObservableRepositoryFactory`, and `ServicesFactory`.
-Not only does this decouples our code since classes that uses other classes do not need to be exposed to manage the 
-dependencies used by the classes used, but it also allows us to save system resources since it allows us to
-reuse existing objects. As can be since from the implementations of the factories' interfaces, cached instances are
-returned, instead of creating new ones. Moreover, it becomes easy to extend our program as we can create new concrete
+it can be seen that we have `RepositoryFactory`, `ObservableRepositoryFactory`, and `BasicRepositoryFactory`.
+The factories follow the abstract factory pattern because each subclass implements a family of repositories. One family
+is the observable repositories, which extend another subclass that allows listeners to observe the basic CRUD operations
+done to the entities the repository manages. Applications that don't require heavy view-domain syncing may opt for
+using just a `RepositoryFactory`, with the concrete class being any of the `ObservableRepositoryFactory` or
+`BasicRepositoryFactory` because of maintenance of LSP. Using factories helps decouples our code since classes that
+uses other classes are only exposed to the interface, not the concrete implementation of the interfaces.
+Moreover, it becomes easy to extend our program as we can create new concrete
 factories that extend the existing ones, and change the products returns, where the altered products are an extension of
-what the original factories return. An example of the ease of extension can be seen in `NotificationServiceFactory`. 
-In phase 2, when we introduced the notification system, we had to have event creation classes that will also create a
-notification instance (refer to the section on OCP for explanation of why is this so). However, the `BasicServiceFactory`
-did not provide us with the required event creation class. Therefore, we created another implementation of `ServicesFactory`
-that solved the issue. This shows how easily extendable our code it, with the help of this chosen design pattern.
+what the original factories return. An example of the ease of extension can be seen in `NotificationServiceFactory`.
+This is part of another **abstract factory** centering around the `ServicesFactory` interface. In phase 2,
+when we introduced the notification system, we had to have event creation classes that will also create a
+notification instance (refer to the section on OCP for explanation of why is this so). However, the service interfaces
+should not be aware of notifications, so we decided that it made sense to leave the old services alone and add
+onto them with the **proxy** pattern. The proxied services are a new family of service classes, hence are created
+with the `NotificationServiceFactory` and the old ones that are unaware of notifications are made with the
+`BasicServiceFactory`.
+
 
 ## Use of GitHub Features
 
