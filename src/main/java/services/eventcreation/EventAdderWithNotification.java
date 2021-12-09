@@ -1,7 +1,5 @@
 package services.eventcreation;
 
-import services.notification.NotificationAdder;
-
 public class EventAdderWithNotification implements CalendarEventCreationBoundary {
 
     private final CalendarEventCreationBoundary service;

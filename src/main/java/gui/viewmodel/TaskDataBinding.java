@@ -6,7 +6,7 @@ import java.beans.PropertyChangeSupport;
 
 public class TaskDataBinding {
 
-    private long taskId = 0;
+    private long taskId;
     private static long count = 0;  // has no actual meaning, just there to trigger property change
 
     private final PropertyChangeSupport observable;
@@ -14,10 +14,6 @@ public class TaskDataBinding {
     public TaskDataBinding() {
         this.taskId = 0;
         this.observable = new PropertyChangeSupport(this);
-    }
-
-    public long getTaskId() {
-        return taskId;
     }
 
     public void setTaskId(long taskId) {

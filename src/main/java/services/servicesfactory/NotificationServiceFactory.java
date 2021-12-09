@@ -9,7 +9,6 @@ import services.eventfromtaskcreation.CalendarAnalyzer;
 import services.eventpresentation.CalendarEventDisplayBoundary;
 import services.eventpresentation.CalendarEventPresenter;
 import services.eventpresentation.CalendarEventRequestBoundary;
-import services.notification.NotificationAdder;
 import services.taskcreation.TaskAdderWithNotification;
 import services.taskcreation.TaskSaver;
 import services.taskcreation.TodoListTaskCreationBoundary;
@@ -30,7 +29,6 @@ public class NotificationServiceFactory implements ServicesFactory {
     private CalendarEventCreationBoundary cachedNotifEventAdder;
     private TodoListTaskCreationBoundary cachedNotifTaskAdder;
 
-    private final NotificationAdder notificationAdder = new NotificationAdder();
     private final ServicesFactory innerFactory;
 
     public NotificationServiceFactory(ServicesFactory innerFactory) {
@@ -82,7 +80,7 @@ public class NotificationServiceFactory implements ServicesFactory {
     @Override
     public TodoListTaskCreationBoundary makeTaskCreator() {
         if (cachedNotifTaskAdder == null)
-            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator(), notificationAdder);
+            cachedNotifTaskAdder = new TaskAdderWithNotification(innerFactory.makeTaskCreator());
         return cachedNotifTaskAdder;
     }
 
