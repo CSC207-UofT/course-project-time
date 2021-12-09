@@ -1,5 +1,7 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.eventfromtaskcreation.CalendarAnalyzer;
@@ -7,7 +9,6 @@ import services.eventfromtaskcreation.EventScheduler;
 import services.taskpresentation.TaskInfo;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -88,12 +89,12 @@ public class CalendarAnalyzerTest {
     private static class MockCalendarManager implements CalendarManager {
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
             return 0;
         }
 
         @Override
-        public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
             return 0;
         }
 
@@ -120,12 +121,12 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public void updateStartTime(long id, LocalTime newStartTime) {
+        public void updateDateStrategy(long id, DateStrategy strategy) {
 
         }
 
         @Override
-        public void updateEndTime(long id, LocalTime newEndTime) {
+        public void updateDuration(long id, Duration duration) {
 
         }
 
@@ -162,12 +163,7 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public LocalTime getStartTime() {
-            return null;
-        }
-
-        @Override
-        public LocalTime getEndTime() {
+        public Duration getDuration() {
             return null;
         }
 
@@ -177,8 +173,13 @@ public class CalendarAnalyzerTest {
         }
 
         @Override
-        public Set<LocalDate> getDates() {
+        public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
             return new HashSet<>();
+        }
+
+        @Override
+        public String getWhen() {
+            return null;
         }
 
         @Override

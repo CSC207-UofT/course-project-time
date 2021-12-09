@@ -4,6 +4,8 @@ import datagateway.ICSGateway;
 import datagateway.event.CalendarManager;
 import datagateway.event.ObservableEventRepository;
 
+import java.time.LocalDateTime;
+
 public class ICSSaver {
 
     final ICSGateway gateway;
@@ -13,7 +15,7 @@ public class ICSSaver {
         this.cal= cal;
     }
 
-    public void export() {
-        this.gateway.saveICS(cal);
+    public void export(LocalDateTime from, LocalDateTime to) {
+        this.gateway.saveICS(cal, from, to);
     }
 }

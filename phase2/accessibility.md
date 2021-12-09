@@ -60,6 +60,7 @@ via keyboard, mouse or any equivalent assistive technologies. Since we have litt
 our users, whether or not a user has adequate space to use our program is largely dependent on them.
 
 ## Intended Demographics
+We would market out program towards students or professionals. We designed our program with us in mind, which is why students could easily adopt this application into their planning routine. While anyone could get some use our of our progra, we believe that students and professionals would get the most use. This is because our program allows users to schedule recurring events, something that could easily be used to schedule a school or work schedule. The application also autoschedules tasks for the users, eliminating the time and thought that planning usually requires. This is great for busy students/professionals. The pomodoro system also is a well known and proven study/work system that helps people stay on track and get their work done. By including a pomodoro system in our application, we have created a more well rounded productivity app so that users do not have to have two applications to accomplish the same thing. These are the reasons why we believe that students and professionals would benefit the most from our application.
 
 ## Excluded Demographics
 

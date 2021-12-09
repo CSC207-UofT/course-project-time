@@ -3,12 +3,14 @@ package datagateway;
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
 import datagateway.event.ObservableEventRepository;
+import entity.dates.TimeFrame;
 import org.joda.time.DateTime;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -19,7 +21,14 @@ public class ICSExporter implements ICSGateway {
 
     private final TimeZone local = TimeZone.getDefault();
 
-    public void saveICS(CalendarManager cal) {
+    /**
+     * Creates a .ics file with the program's events
+     * @param cal the repository that stores the dates
+     * @param from the start date from when to check for events
+     * @param to the end date until when to check for events
+     */
+    @Override
+    public void saveICS(CalendarManager cal, LocalDateTime from, LocalDateTime to) {
         List<EventReader> events = cal.getAllEvents();
 
         FileWriter writer;
@@ -27,7 +36,7 @@ public class ICSExporter implements ICSGateway {
             writer = new FileWriter("time_calendar_export.ics", false);
             writer.write(generateHeader());
             writer.write(generateTimeZone());
-            writer.append(generateICSEvents(events));
+            writer.append(generateICSEvents(events, from, to));
             writer.append("END:VCALENDAR");
             writer.close();
         } catch (IOException e) {
@@ -91,24 +100,28 @@ public class ICSExporter implements ICSGateway {
      * @param events the events to be formated
      * @return a string containing a sequence of ics file events
      */
-    String generateICSEvents(List<EventReader> events) {
+    String generateICSEvents(List<EventReader> events, LocalDateTime from, LocalDateTime to) {
 
         StringBuilder eventsString = new StringBuilder();
 
 
 
         for(EventReader event : events) {
-            LocalDate date = (LocalDate)event.getDates().toArray()[0];
-            LocalDateTime start = date.atTime(event.getStartTime());
-            LocalDateTime end = date.atTime(event.getEndTime());
 
-            eventsString.append("BEGIN:VEVENT\n");
-            eventsString.append("UID:").append(event.getId()).append("\n");
-            eventsString.append("DTSTART:").append(formatDate(start)).append("\n");
-            eventsString.append("DTEND:").append(formatDate(end)).append("\n");
-            eventsString.append("DTSTAMP:").append(formatDate(LocalDateTime.now()));
-            eventsString.append("DESCRIPTION:").append(formatTags(event.getTags())).append("\n");
-            eventsString.append("END:VEVENT\n");
+            for (TimeFrame tf : event.getDatesBetween(from, to)) {
+
+                LocalDateTime start = tf.startTime;
+                LocalDateTime end = tf.startTime.plus(tf.duration);
+
+                eventsString.append("BEGIN:VEVENT\n");
+                eventsString.append("UID:").append(event.getId() + start.toEpochSecond(ZoneOffset.UTC)).append("\n");
+                eventsString.append("DTSTART:").append(formatDate(start)).append("\n");
+                eventsString.append("DTEND:").append(formatDate(end)).append("\n");
+                eventsString.append("DTSTAMP:").append(formatDate(LocalDateTime.now()));
+                eventsString.append("DESCRIPTION:").append(formatTags(event.getTags())).append("\n");
+                eventsString.append("END:VEVENT\n");
+            }
+
 
         }
 

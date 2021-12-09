@@ -1,8 +1,10 @@
-package services.strategybuilding.strategies;
+package services.strategies;
 
 import entity.dates.DateStrategy;
+import entity.dates.TimeFrame;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,12 +22,13 @@ public class WeeklyStrategy implements DateStrategy {
     }
 
     @Override
-    public List<LocalDateTime> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        List<LocalDateTime> acceptedDates = new ArrayList<>();
+    public List<TimeFrame> datesBetween(LocalDateTime startDateTime, LocalDateTime endDateTime, Duration eventDuration) {
+        List<TimeFrame> acceptedDates = new ArrayList<>();
 
-        LocalDateTime date = findFirstDate(startDateTime);
+        // offset the date by the duration to include time frames starting before startDateTime but ending after.
+        LocalDateTime date = findFirstDate(startDateTime.minus(eventDuration));
         while (date.isBefore(endDateTime)) {
-            acceptedDates.add(date);
+            acceptedDates.add(new TimeFrame(date, date.plus(eventDuration)));
 
             date = date.plusDays(7);
         }
@@ -40,5 +43,10 @@ public class WeeklyStrategy implements DateStrategy {
         LocalDateTime firstDateTime = LocalDateTime.of(firstDate, timeOfDay);
 
         return firstDateTime.isAfter(startDateTime) ? firstDateTime : firstDateTime.plusDays(7);
+    }
+
+    @Override
+    public String toString() {
+        return "occur every week on " + dayOfWeek.toString() + " at " + timeOfDay.toString();
     }
 }

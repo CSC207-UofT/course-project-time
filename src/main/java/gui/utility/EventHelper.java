@@ -3,13 +3,17 @@ package gui.utility;
 import com.calendarfx.model.Entry;
 import consoleapp.eventadapters.CalendarEventData;
 import datagateway.event.EventReader;
+import entity.dates.TimeFrame;
 import services.eventcreation.CalendarEventModel;
 import services.eventpresentation.EventInfo;
 import services.strategybuilding.MultipleRuleFormBuilder;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * A helper class that contains methods related
@@ -17,21 +21,6 @@ import java.util.HashSet;
  * to data required by the GUI
  */
 public class EventHelper {
-
-    /**
-     * Given an EventInfo, extract relevant information and create and new entry for the view
-     * @param eventInfo DTO that holds relevant information for creating an Entry
-     * @return an entry for the view to present
-     */
-    public static Entry<String> eventInfoToEntry(EventInfo eventInfo) {
-        Entry<String> entry = new Entry<>(eventInfo.getName());
-        entry.changeStartTime(eventInfo.getStartTime());
-        entry.changeEndTime(eventInfo.getEndTime());
-        LocalDate date = eventInfo.getDates().iterator().next();
-        entry.changeStartDate(date);
-        entry.changeEndDate(date);
-        return entry;
-    }
 
     /**
      * Returns an event model from the name and time of the entry, with a default form.
@@ -46,18 +35,10 @@ public class EventHelper {
                 duration, builder.getForm(), new HashSet<>());
     }
 
-    /**
-     * Given an EventReader, extract relevant information and create and new entry for the view
-     * @param eventReader DTO that holds relevant information for creating an Entry
-     * @return an entry for the view to present
-     */
-    public static Entry<String> eventReaderToEntry(EventReader eventReader) {
-        Entry<String> entry = new Entry<>(eventReader.getName());
-        entry.changeStartTime(eventReader.getStartTime());
-        entry.changeEndTime(eventReader.getEndTime());
-        LocalDate date = eventReader.getDates().iterator().next();
-        entry.changeStartDate(date);
-        entry.changeEndDate(date);
-        return entry;
+    public static Set<TimeFrame> getTimesFromStaticRange(BiFunction<LocalDateTime, LocalDateTime, Set<TimeFrame>> dateStrategy) {
+        LocalDateTime from = LocalDateTime.now().minusYears(2);
+        LocalDateTime to = LocalDateTime.now().plusYears(2);
+        return dateStrategy.apply(from, to);
     }
+
 }
