@@ -85,11 +85,11 @@ public class JsonEventAdapter extends TypeAdapter<Event> {
         ObjectOutputStream serializer = new ObjectOutputStream(outputStream);
         serializer.writeObject(strategy);
         serializer.close();
-        return outputStream.toString();
+        return outputStream.toString("windows-1252");
     }
 
     private DateStrategy deserializeStrategy(String strategySerialization) throws IOException, ClassNotFoundException {
-        byte[] strategyBytes = strategySerialization.getBytes();
+        byte[] strategyBytes = strategySerialization.getBytes("windows-1252");
         ObjectInputStream serializationReader = new ObjectInputStream(new ByteArrayInputStream(strategyBytes));
         DateStrategy strategy = (DateStrategy) serializationReader.readObject();
         serializationReader.close();
