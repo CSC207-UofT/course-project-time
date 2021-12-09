@@ -1,3 +1,27 @@
+## Functionality
+
+
+## Code Organization
+
+In phase 0, we organized our code by layers (entities, use case etc). However, as more functionalities
+are added, this way of packaging becomes confusing. In pull request #68 in phase 1, we repackaged our code
+and organized classes by a combination of layers and components. CLasses were mainly organized by layer,
+such as the view being the `consoleapp`, the data gateway in `datagateway` etc. We decided to further
+break down the classes in the use case layer by responsibilities. All use case classes are packaged
+under `services`, where we seperated them further to responsibilities. For instance, `eventcreation`
+is a package that contains all the classes needed to create a new event.
+
+With this structure, it is easy to locate classes that interact closely together, since they
+are responsible for the same functionality, such as creation or presentation of tasks and events.
+Moreover, when functionalities are added or changed, the changes will likely be limited to a single package.
+
+In phase 2, when the GUI was added in, it was easy to organize the code by having all classes and interfaces
+related to the GUI in the `gui` package which represents the view. Since we were utilizing the MVVM pattern
+for the frontend, we then decided to separate the classes into `view`, `viewmodel`, and a `utility` package
+with helper classes. `model` was left out as we were using the gateway classes directly as our `model` in the
+MVVM pattern.
+
+
 ## SOLID
 
 ###  The Single-responsibility principle
@@ -66,17 +90,47 @@ We organized our code according to the various layers as outlined in Clean Archi
 Arrows point from outer to inner layers, which is consistent with the dependency rule that says that outer layers
 can depend on inner layers but not vice versa. The imports in our files are consistent with clean architecture as well.
 
-One source of confusion might come from the use of the word Controllers to describe aspects of our view. In JavaFx, the UI is handled by assigned controllers.
-These controllers are responsbile for UI opterations, like delegating operations when a button is pressed. We decided to stick to the naming convention of controllers,
-to align with JavaFx's system, however they operate solely in the Frameworks and Drivers layer. Our controllers for our UI can be found in the ViewModels. The UI delegates tasks to these ViewModels, which interact with use cases. These use cases are built through a factory system, which also injects them with our data access interfaces.
-
 In the graphical user interface that we have implemented in phase 2, we have used the MVVM pattern to decouple
-the user interface and the rest of the application.
+the user interface and the rest of the application. We have integrated the MVVM pattern with clean architecture, with
+the view models in MVVM being the interface adaptors of clean architecture.
+One source of confusion might come from the use of the word Controllers to describe aspects of our view. In JavaFx, the UI is handled by assigned controllers.
+These controllers are responsible for UI operations, like delegating operations when a button is pressed. We decided to stick to the naming convention of controllers,
+to align with JavaFx's system, however they operate solely in the Frameworks and Drivers layer. Our clean architecture controllers for
+our UI can be found in the ViewModels. The UI delegates tasks to these ViewModels, which interact with use cases.
+These use cases are built through a factory system, which also injects them with our data access interfaces.
 
-We have also followed clean architecture in the data persistence layer.
+We have also followed clean architecture in the data persistence layer. In the package `datagateway\event`, it can
+be seen that `CalendarManager` is the data access interface as referenced in [this](\CleanArchitectureReference.PNG) 
+clean architecture diagram used in class. It provides an interface for other use cases to access data from. Looking into
+use case classes, such as `EventAdder` in the `services\eventcreation`, it uses `CalendarManager`, instead of its concrete
+implementation, `EventEntityManager`, which is the data access class, as in the diagram referenced above. Since the data access
+interface uses entity classes, our `EventEntityManager` also uses `Event`, which is an entity, by storing a list of `Event`.
+Therefore, our data layer follows clean architecture as well.
 
 __A scenario walk through that demonstrates clean architecture__
+When the application starts from `GUIDriver`, the home page on the desktop application is shown, which displays the tasks due today and 
+events occurring today. When clicking into the todolist page using the navigation panel on the left side, the view switches to
+the todolist page. This is purely in the view, and it is done with the help of `gui\utility\NavigationHelper`.
+In order to display events on the calendar view, the `TodoListPageController`uses `TodoListPageViewModel` to retrieve a list of 
+events. Following the MVVM pattern, the view model is injected into the controller, in the `init()` method of the
+`TodoListPageController`. The controller class (as per javafx convention, as explained above) is the _view_, whereas the
+view model is part of the _interface adaptors_ of clean architecture. Since view is on an outer layer, the view model is 
+unaware of its existence. It provides the necessary information by letting the view observe it. This is done efficiently with 
+the usage of Javafx's built-in methods, such as `ObservableList`. When the list in the view model changes, the list in the 
+Javafx controller class changes too, allowing automatic updates (acting like a built-in observer).
 
+The `TodoListPageViewModel` then gets the information to be displayed through use case classes. Notice that it accepts a 
+`TodoListRequestBoundary`, which is responsible for returning a list of `TaskInfo`, which is a data transfer object. 
+When the task getter is being called to get the list of task information, he calls `CalendarManager`, which is 
+the data access interface as in the clean architecture diagram. `TodoEntityManager` is a concrete implementation
+of the database, which has already had a list of `Task` loaded and stored in itself when the program starts running.
+He then returns the list to the use case class, which returns the information as DTOs to the view model, which is an interface
+adaptor. As can be seen, clean architecture has been followed.
+
+The clean architecture presenter was more heavily utilised in the `consoleapp`, as part of the command line interface
+that we have built for phase 1. We have continued using it as an entry point to debug our program, and to perform functionalities
+that we have yet to implement in our desktop application. Details of how clean architecture is shown through the command line 
+interface as being the entry point is written in `phase1\design_document.md`.
 
 
 ## Design Patterns
@@ -194,24 +248,3 @@ responsible for class creation. In `services\servicefactory`, it can be seen tha
 separated the factories into interfaces `ServicesFactory` and `RepositoryFactory`, 
 together with its implementations. Once again, interfaces was used to ensure that these factories are not tightly 
 coupled with other classes. More explanation of the factories was done in the design patterns section.
-
-
-## Code Organization
-
-In phase 0, we organized our code by layers (entities, use case etc). However, as more functionalities
-are added, this way of packaging becomes confusing. In pull request #68 in phase 1, we repackaged our code
-and organized classes by a combination of layers and components. CLasses were mainly organized by layer,
-such as the view being the `consoleapp`, the data gateway in `datagateway` etc. We decided to further
-break down the classes in the use case layer by responsibilities. All use case classes are packaged
-under `services`, where we seperated them further to responsibilities. For instance, `eventcreation` 
-is a package that contains all the classes needed to create a new event.
-
-With this structure, it is easy to locate classes that interact closely together, since they
-are responsible for the same functionality, such as creation or presentation of tasks and events.
-Moreover, when functionalities are added or changed, the changes will likely be limited to a single package.
-
-In phase 2, when the GUI was added in, it was easy to organize the code by having all classes and interfaces
-related to the GUI in the `gui` package which represents the view. Since we were utilizing the MVVM pattern
-for the frontend, we then decided to separate the classes into `view`, `viewmodel`, and a `utility` package
-with helper classes. `model` was left out as we were using the gateway classes directly as our `model` in the
-MVVM pattern.
