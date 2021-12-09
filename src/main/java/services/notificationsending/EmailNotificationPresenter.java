@@ -86,10 +86,4 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
         this.userEmail = userEmail;
     }
 
-    public static void main(String[] args) {
-        EmailNotificationPresenter emailSender = new EmailNotificationPresenter(
-                true, "TimeTeam207@gmail.com",
-                "CSC207CSC207!", "lin507892@gmail.com", "CSC207");
-        emailSender.presentNotification("Hey!");
-    }
 }
