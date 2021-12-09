@@ -2,11 +2,13 @@ package gui;
 
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
-import gui.view.AddTaskPageController;
+import gui.view.MainPageController;
 import gui.view.MonthlyCalendarController;
-import gui.view.TaskPageController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
+import gui.view.AddTaskPageController;
+import gui.view.TaskPageController;
+import gui.view.SettingsController;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +29,9 @@ public class GUIDriver extends Application {
     public void start(Stage primaryStage) throws Exception{
         ViewModelFactory factory = configure();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Objects.requireNonNull(getClass().getResource("/monthlyCalendar.fxml")));
+        loader.setLocation(Objects.requireNonNull(getClass().getResource("/mainPage.fxml")));
         Parent root = loader.load();
-        ((MonthlyCalendarController) loader.getController()).init(factory.getMonthlyCalendarViewModel());
+        ((MainPageController) loader.getController()).init(factory.getMainPageViewModel());
 
         primaryStage.setResizable(false);
         primaryStage.setTitle("Project Time");
@@ -56,11 +58,13 @@ public class GUIDriver extends Application {
         }
 
         InstanceMapper instanceMapper = new InstanceMapper();
+        instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
         instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         instanceMapper.addMapping(TaskPageController.class, factory.getTaskPageViewModel());
+        instanceMapper.addMapping(SettingsController.class, factory.getSettingViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
 
         return factory;

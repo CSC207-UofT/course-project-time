@@ -15,6 +15,8 @@ public class ViewModelFactory {
     private CalendarViewModel calendarViewModel;
     private TodoListPageViewModel todoListPageViewModel;
     private AddTaskPageViewModel addTaskPageViewModel;
+    private SettingsViewModel settingsViewModel;
+    private MainPageViewModel mainPageViewModel;
     private TaskPageViewModel taskPageViewModel;
 
     private final TaskDataBinding taskDataBinding = new TaskDataBinding();
@@ -54,6 +56,19 @@ public class ViewModelFactory {
         return todoListPageViewModel;
     }
 
+    public MainPageViewModel getMainPageViewModel()  {
+        if (mainPageViewModel == null) {
+            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskSaver(),
+                    servicesFactory.makeEventGetter(), servicesFactory.makeEventSaver());
+            taskRepository.addCreationObserver(mainPageViewModel::handleCreation);
+            taskRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
+
+            eventRepository.addCreationObserver(mainPageViewModel::handleCreation);
+            eventRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
+        }
+        return mainPageViewModel;
+    }
+
     public AddTaskPageViewModel getAddTaskPageViewModel() {
         if (addTaskPageViewModel == null) {
             addTaskPageViewModel = new AddTaskPageViewModel(servicesFactory.makeTaskCreator());
@@ -69,4 +84,11 @@ public class ViewModelFactory {
         }
         return taskPageViewModel;
     }
+    public SettingsViewModel getSettingViewModel() {
+        if (settingsViewModel == null) {
+            settingsViewModel = new SettingsViewModel(servicesFactory.makeICSSaver());
+        }
+        return settingsViewModel;
+    }
+
 }
