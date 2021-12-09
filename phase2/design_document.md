@@ -188,6 +188,14 @@ onto them with the **proxy** pattern. The proxied services are a new family of s
 with the `NotificationServiceFactory` and the old ones that are unaware of notifications are made with the
 `BasicServiceFactory`.
 
+The `DateStrategy` classes implement a complex network of relationships to allow for various types of logic to be
+incorporated. The composite pattern allows for the dates produced by multiple other strategies to be combined, and
+the decorator pattern allows for a set of dates to be modified such as trimming off values after a certain date.
+
+Because the creation process for these classes became incredibly unwieldy in terms of maintaining in the invariants
+of each of the patterns, a `StrategyBuilder` was introduced to add a layer of abstraction around the concrete
+classes into the relationship between the types of these strategies (base, decorator, and composite).
+
 
 ## Use of GitHub Features
 
