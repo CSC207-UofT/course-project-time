@@ -60,7 +60,8 @@ public class ViewModelFactory {
 
     public MainPageViewModel getMainPageViewModel()  {
         if (mainPageViewModel == null) {
-            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeEventGetter());
+            mainPageViewModel = new MainPageViewModel(servicesFactory.makeTaskGetter(), servicesFactory.makeTaskSaver(),
+                    servicesFactory.makeEventGetter(), servicesFactory.makeEventSaver());
             taskRepository.addCreationObserver(mainPageViewModel::handleCreation);
             taskRepository.addUpdateObserver(mainPageViewModel::handleUpdate);
 
