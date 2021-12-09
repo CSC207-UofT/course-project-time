@@ -2,14 +2,11 @@ package gui.utility;
 
 import com.calendarfx.model.Entry;
 import consoleapp.eventadapters.CalendarEventData;
-import datagateway.event.EventReader;
 import entity.dates.TimeFrame;
 import services.eventcreation.CalendarEventModel;
-import services.eventpresentation.EventInfo;
 import services.strategybuilding.MultipleRuleFormBuilder;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;

@@ -73,13 +73,11 @@ public class EventAdderTest {
 
     private static class EventBuffer {
         public final String eventName;
-        public final DateStrategy strategy;
         public final Duration duration;
         public final Set<String> tags;
 
-        public EventBuffer(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+        public EventBuffer(String eventName, Duration duration, Set<String> tags) {
             this.eventName = eventName;
-            this.strategy = strategy;
             this.duration = duration;
             this.tags = tags;
         }
@@ -91,7 +89,7 @@ public class EventAdderTest {
 
         @Override
         public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
-            output = new EventBuffer(eventName, strategy, duration, tags);
+            output = new EventBuffer(eventName, duration, tags);
             return 0L;
         }
 

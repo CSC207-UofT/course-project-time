@@ -15,10 +15,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TodoEntityManager implements TodoListManager{
     private final List<Task> taskArrayList= new ArrayList<>();
@@ -70,33 +67,33 @@ public class TodoEntityManager implements TodoListManager{
 
     @Override
     public void completeTask(long taskId) {
-        getById(taskId).setCompleted(true);
+        Objects.requireNonNull(getById(taskId)).setCompleted(true);
     }
 
 
     @Override
     public void updateName(long id, String newName) {
-        getById(id).setTaskName(newName);
+        Objects.requireNonNull(getById(id)).setTaskName(newName);
     }
 
     @Override
     public void updateDuration(long id, Duration newDuration) {
-        getById(id).setTimeNeeded(newDuration);
+        Objects.requireNonNull(getById(id)).setTimeNeeded(newDuration);
     }
 
     @Override
     public void updateDeadline(long id, LocalDateTime newDeadline) {
-        getById(id).setDeadline(newDeadline);
+        Objects.requireNonNull(getById(id)).setDeadline(newDeadline);
     }
 
     @Override
     public void addSubtask(long id, String subtask) {
-        getById(id).addSubtask(subtask);
+        Objects.requireNonNull(getById(id)).addSubtask(subtask);
     }
 
     @Override
     public void removeSubtask(long id, String subtask) {
-        getById(id).removeSubtask(subtask);
+        Objects.requireNonNull(getById(id)).removeSubtask(subtask);
     }
 
     private Task getById(long id){

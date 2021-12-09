@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -98,7 +99,7 @@ public class EventEntityManager implements CalendarManager{
      */
     @Override
     public void markEventAsCompleted(long eventId) {
-        taskManager.completeTask(getById(eventId).getTaskId());
+        taskManager.completeTask(Objects.requireNonNull(getById(eventId)).getTaskId());
     }
 
     @Override
@@ -115,27 +116,27 @@ public class EventEntityManager implements CalendarManager{
 
     @Override
     public void updateName(long id, String newName) {
-        taskManager.updateName(getById(id).getTaskId(), newName);
+        taskManager.updateName(Objects.requireNonNull(getById(id)).getTaskId(), newName);
     }
 
     @Override
     public void updateDateStrategy(long id, DateStrategy strategy) {
-        getById(id).setDateStrategy(strategy);
+        Objects.requireNonNull(getById(id)).setDateStrategy(strategy);
     }
 
     @Override
     public void updateDuration(long id, Duration duration) {
-        taskManager.updateDuration(getById(id).getId(), duration);
+        taskManager.updateDuration(Objects.requireNonNull(getById(id)).getId(), duration);
     }
 
     @Override
     public void addTag(long id, String tag) {
-        getById(id).addTag(tag);
+        Objects.requireNonNull(getById(id)).addTag(tag);
     }
 
     @Override
     public void removeTag(long id, String tag) {
-        getById(id).removeTag(tag);
+        Objects.requireNonNull(getById(id)).removeTag(tag);
     }
 
     private Event getById(long id){

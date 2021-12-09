@@ -41,8 +41,6 @@ public class EventInfoFromReaderTest {
     }
 
     private static class MockEventReader implements EventReader {
-        private final LocalTime startTime = LocalTime.of(12, 0);
-        private final LocalTime endTime = LocalTime.of(14, 0);
         private final Set<String> tags = new HashSet<>();
 
         public MockEventReader() {

@@ -18,7 +18,7 @@ public class EmailNotificationPresenter implements NotificationPresenter, Settin
     private boolean enabled;
     private final String senderEmail;
     private final String password;
-    private String userEmail;
+    private final String userEmail;
     private final String subject;
 
     public EmailNotificationPresenter(boolean enabled, String senderEmail,

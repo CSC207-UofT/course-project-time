@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import services.eventcreation.CalendarEventCreationBoundary;
-import services.eventcreation.EventSaver;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
 import services.updateentities.UpdateEventBoundary;
@@ -26,7 +25,6 @@ public class CalendarViewModel extends ViewModel {
 
     private final CalendarEventCreationBoundary eventAdder;
     private final UpdateEventBoundary eventUpdater;
-    private final EventSaver eventSaver;
 
     private final ObservableList<Entry<String>> entryList;
     private final Map<String, Long> entryToEventIdMapping;
@@ -38,11 +36,9 @@ public class CalendarViewModel extends ViewModel {
 
     public CalendarViewModel(CalendarEventCreationBoundary eventAdder,
                              CalendarEventRequestBoundary eventGetter,
-                             UpdateEventBoundary eventUpdater,
-                             EventSaver eventSaver) {
+                             UpdateEventBoundary eventUpdater) {
         this.eventAdder = eventAdder;
         this.eventUpdater = eventUpdater;
-        this.eventSaver = eventSaver;
 
         this.entryList = FXCollections.observableArrayList(new ArrayList<>());
         this.entryToEventIdMapping = new HashMap<>();
@@ -53,9 +49,6 @@ public class CalendarViewModel extends ViewModel {
                 if (c.wasAdded()) {
                     Entry<String> entry = c.getAddedSubList().get(0);
                     onCreation(entry);
-                } else if (c.wasRemoved()) {
-                    Entry<String> entry = c.getRemoved().get(0);
-                    onDeletion(entry);
                 }
             }
         });
@@ -73,10 +66,6 @@ public class CalendarViewModel extends ViewModel {
         }
     }
 
-    @SuppressWarnings("unused")
-    private void onDeletion(Entry<String> entry) {
-
-    }
 
     /**
      * Initializes the mapping between entries id from the view and event id from the program.

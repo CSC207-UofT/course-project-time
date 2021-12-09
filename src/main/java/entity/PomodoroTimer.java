@@ -1,7 +1,7 @@
 package entity;
 
 public class PomodoroTimer {
-    private long startTime;
+    private final long startTime;
     private final boolean isWork;
     private final long breakDuration;
     private final long workDuration;

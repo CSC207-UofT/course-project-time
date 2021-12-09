@@ -2,7 +2,6 @@ package services.eventcreation;
 
 import datagateway.ICSGateway;
 import datagateway.event.CalendarManager;
-import datagateway.event.ObservableEventRepository;
 
 import java.time.LocalDateTime;
 

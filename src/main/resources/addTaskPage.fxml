@@ -10,54 +10,63 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.AddTaskPageController">
-    <children>
-        <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0" style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-            <AnchorPane layoutX="66.0" layoutY="44.0" prefHeight="661.0" prefWidth="809.0" style="-fx-background-color: #FFFFFF;">
-               <children>
-                  <DialogPane fx:id="message" layoutX="45.0" layoutY="448.0" visible="false" />
-                  <JFXListView fx:id="subtaskList" editable="true" layoutX="534.0" layoutY="207.0" prefHeight="304.0" prefWidth="200.0" />
-                  <Text layoutX="536.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtasks">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
-                  <Button layoutX="606.0" layoutY="148.0" mnemonicParsing="false" onMouseClicked="#removeSubtask" text="Remove" />
-                      <Button layoutX="535.0" layoutY="148.0" mnemonicParsing="false" onMouseClicked="#addSubtask" text="Add" />
-               </children></AnchorPane>
-                <Text layoutX="108.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due date:">
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                </Text>
-                <Text layoutX="110.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due time:">
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                </Text>
-                <Text layoutX="108.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration (min):">
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                </Text>
-                <DatePicker fx:id="dueDate" editable="false" layoutX="280.0" layoutY="141.0" />
-                <TextField fx:id="dueTimeHours" layoutX="281.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" text="00" />
-                <Text layoutX="328.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                </Text>
-                <TextField fx:id="dueTimeMinutes" layoutX="340.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0" text="00" />
-                <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" text="60" />
-                <Button layoutX="111.0" layoutY="609.0" mnemonicParsing="false" onMouseClicked="#saveTask" text="Save" />
-                <TextField fx:id="taskName" layoutX="107.0" layoutY="71.0" promptText="Name of your task">
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                </TextField>
-            </children></AnchorPane>
-        <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0" prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0" />
-        <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0" />
-    </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+            prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.view.AddTaskPageController">
+    <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0"
+                style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane layoutX="66.0" layoutY="44.0" prefHeight="661.0" prefWidth="809.0"
+                    style="-fx-background-color: #FFFFFF;">
+            <DialogPane fx:id="message" layoutX="45.0" layoutY="448.0" visible="false"/>
+            <JFXListView fx:id="subtaskList" editable="true" layoutX="534.0" layoutY="207.0" prefHeight="304.0"
+                         prefWidth="200.0"/>
+            <Text layoutX="536.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subtasks">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Text>
+            <Button layoutX="606.0" layoutY="148.0" mnemonicParsing="false" onMouseClicked="#removeSubtask"
+                    text="Remove"/>
+            <Button layoutX="535.0" layoutY="148.0" mnemonicParsing="false" onMouseClicked="#addSubtask"
+                    text="Add"/>
+        </AnchorPane>
+        <Text layoutX="108.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due date:">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Text>
+        <Text layoutX="110.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Due time:">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Text>
+        <Text layoutX="108.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration (min):">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Text>
+        <DatePicker fx:id="dueDate" editable="false" layoutX="280.0" layoutY="141.0"/>
+        <TextField fx:id="dueTimeHours" layoutX="281.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0"
+                   text="00"/>
+        <Text layoutX="328.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Text>
+        <TextField fx:id="dueTimeMinutes" layoutX="340.0" layoutY="228.0" prefHeight="26.0" prefWidth="39.0"
+                   text="00"/>
+        <TextField fx:id="duration" layoutX="281.0" layoutY="305.0" prefHeight="26.0" prefWidth="39.0" text="60"/>
+        <Button layoutX="111.0" layoutY="609.0" mnemonicParsing="false" onMouseClicked="#saveTask" text="Save"/>
+        <TextField fx:id="taskName" layoutX="107.0" layoutY="71.0" promptText="Name of your task">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </TextField>
+    </AnchorPane>
+    <JFXDrawer fx:id="collapsedNavPanel" defaultDrawerSize="50.0" layoutX="-225.0" layoutY="145.0" prefHeight="800.0"
+               prefWidth="50.0" style="-fx-background-color: ffffff;" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="950.0" AnchorPane.topAnchor="0.0"/>
+    <JFXDrawer fx:id="extendedNavPanel" defaultDrawerSize="160.0" AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0"/>
 </AnchorPane>
