@@ -1,6 +1,11 @@
 package gui.viewmodel;
 
 
+import gui.viewmodel.calendar.CalendarViewModel;
+import gui.viewmodel.todolist.AddTaskPageViewModel;
+import gui.viewmodel.todolist.TaskDataBinding;
+import gui.viewmodel.todolist.TaskPageViewModel;
+import gui.viewmodel.todolist.TodoListPageViewModel;
 import services.servicesfactory.ObservableRepositoryFactory;
 import datagateway.event.ObservableEventRepository;
 import datagateway.task.ObservableTaskRepository;

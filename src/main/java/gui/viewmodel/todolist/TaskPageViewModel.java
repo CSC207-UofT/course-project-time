@@ -1,5 +1,6 @@
-package gui.viewmodel;
+package gui.viewmodel.todolist;
 
+import gui.viewmodel.ViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import services.eventcreation.CalendarEventCreationBoundary;

@@ -1,4 +1,4 @@
-package gui.viewmodel;
+package gui.viewmodel.todolist;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

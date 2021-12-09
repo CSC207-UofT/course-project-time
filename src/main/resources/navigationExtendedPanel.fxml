@@ -13,7 +13,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
       prefWidth="160.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.NavigationExtendedPanelController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.view.navigation.NavigationExtendedPanelController">
     <AnchorPane prefHeight="50.0" prefWidth="160.0">
         <JFXHamburger fx:id="menuIcon" onMouseClicked="#menuIconClicked" scaleX="0.8" scaleY="0.8"
                       AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="120.0"

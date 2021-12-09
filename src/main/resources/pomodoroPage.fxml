@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
             prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.view.ClockController">
+            fx:controller="gui.view.pomodoro.ClockController">
    <AnchorPane layoutX="294.0" prefHeight="800.0" prefWidth="885.0"
                style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0"
                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

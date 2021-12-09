@@ -1,6 +1,7 @@
-package gui.viewmodel;
+package gui.viewmodel.todolist;
 
 import consoleapp.taskadapters.NewTodoListTaskData;
+import gui.viewmodel.ViewModel;
 import services.taskcreation.TodoListTaskCreationBoundary;
 import services.taskcreation.TodoListTaskCreationModel;
 

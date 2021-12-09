@@ -1,10 +1,11 @@
-package gui.viewmodel;
+package gui.viewmodel.calendar;
 
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
 import datagateway.event.EventReader;
 import entity.dates.TimeFrame;
 import gui.utility.EventHelper;
+import gui.viewmodel.ViewModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

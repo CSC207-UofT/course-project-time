@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
             prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="gui.view.WeeklyCalendarController">
+            fx:controller="gui.view.calendar.WeeklyCalendarController">
     <AnchorPane fx:id="mainBackground" layoutX="294.0" prefHeight="800.0" prefWidth="740.0"
                 style="-fx-background-color: #E5E5E5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0"
                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
