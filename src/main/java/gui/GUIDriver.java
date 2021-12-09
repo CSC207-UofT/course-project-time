@@ -38,6 +38,8 @@ public class GUIDriver extends Application {
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
     }
 
 
