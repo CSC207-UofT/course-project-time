@@ -33,6 +33,7 @@ public class GUIDriver extends Application {
         Parent root = loader.load();
         ((MainPageController) loader.getController()).init(factory.getMainPageViewModel());
 
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Project Time");
         primaryStage.setScene(new Scene(root, 1000, 800));
         primaryStage.show();
@@ -57,10 +58,10 @@ public class GUIDriver extends Application {
         }
 
         InstanceMapper instanceMapper = new InstanceMapper();
+        instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(MonthlyCalendarController.class, factory.getMonthlyCalendarViewModel());
         instanceMapper.addMapping(WeeklyCalendarController.class, factory.getWeeklyCalendarViewModel());
         instanceMapper.addMapping(TodoListPageController.class, factory.getTodoListPageViewModel());
-        instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         instanceMapper.addMapping(TaskPageController.class, factory.getTaskPageViewModel());
         instanceMapper.addMapping(SettingsController.class, factory.getSettingViewModel());

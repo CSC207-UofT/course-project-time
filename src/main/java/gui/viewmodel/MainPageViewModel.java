@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 public class MainPageViewModel extends ViewModel implements Runnable{
     private final TodoListRequestBoundary taskGetter;
     private final TaskSaver taskSaver;
-    private final CalendarEventRequestBoundary eventRepository;
+    private final CalendarEventRequestBoundary eventGetter;
     private final EventSaver eventSaver;
 
     private final List<TaskInfo> relevantTasks = new ArrayList<>();
@@ -37,7 +37,7 @@ public class MainPageViewModel extends ViewModel implements Runnable{
     public MainPageViewModel(TodoListRequestBoundary taskGetter, TaskSaver taskSaver, CalendarEventRequestBoundary eventGetter, EventSaver eventSaver){
         this.taskGetter = taskGetter;
         this.taskSaver = taskSaver;
-        this.eventRepository = eventGetter;
+        this.eventGetter = eventGetter;
         this.eventSaver = eventSaver;
 
         updateRelevantTasks();
@@ -66,7 +66,7 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      * Flushes out current relevant events with data live from the {@link ObservableEventRepository}
      */
     private void updateRelevantEvents() {
-        List<EventInfo> events = eventRepository.getEvents();
+        List<EventInfo> events = eventGetter.getEvents();
         relevantEvents.clear();
         for(EventInfo eventInfo: events){
             for(LocalDate date: eventInfo.getDates())
