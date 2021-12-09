@@ -58,6 +58,14 @@ easily extensible, as future addition of views and view models, as all the class
 
 
 #### Tahseen
+During phase 1, I have been working on rescheduling entities however, in phase 2 we scraped that idea of rescheduling and
+changed it to generally updating entities. To showcase the implementation, I worked on adding the update entities to the console
+application, the pr: https://github.com/CSC207-UofT/course-project-time/pull/115.
+
+Aside from that, in phase 2 I primarily worked on the graphical user interface. I worked on the view model of the main page
+and worked with Junru with the view of the main page. I also worked on the view for the settings page alongside Alexander who implemented
+the settings view model. 
+https://github.com/CSC207-UofT/course-project-time/pull/154
 
 #### Jenci
 
