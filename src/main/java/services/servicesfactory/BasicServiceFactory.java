@@ -1,11 +1,14 @@
 package services.servicesfactory;
 
 
+import datagateway.ICSExporter;
+import datagateway.ICSGateway;
 import datagateway.event.CalendarManager;
 import datagateway.task.TodoListManager;
 import services.eventcreation.CalendarEventCreationBoundary;
 import services.eventcreation.EventAdder;
 import services.eventcreation.EventSaver;
+import services.eventcreation.ICSSaver;
 import services.eventdeletion.EventDeleter;
 import services.eventdeletion.EventDeletionBoundary;
 import services.eventfromtaskcreation.CalendarAnalyzer;
@@ -34,6 +37,7 @@ public class BasicServiceFactory implements ServicesFactory {
 
     private final CalendarManager eventRepository;
     private final TodoListManager taskRepository;
+    private final ICSGateway icsGateway;
 
     private CalendarAnalyzer cachedAnalyzer;
     private CalendarEventCreationBoundary cachedEventCreator;
@@ -48,11 +52,13 @@ public class BasicServiceFactory implements ServicesFactory {
     private TaskSaver cachedTaskSaver;
     private UpdateTaskBoundary cachedTaskUpdater;
     private TaskDeletionBoundary cachedTaskDeleter;
+    private ICSSaver cachedICSSaver;
 
 
     public BasicServiceFactory(RepositoryFactory repositoryFactory) {
         this.eventRepository = repositoryFactory.makeEventRepository();
         this.taskRepository = repositoryFactory.makeTaskRepository();
+        this.icsGateway = new ICSExporter();
     }
 
     @Override
@@ -145,5 +151,11 @@ public class BasicServiceFactory implements ServicesFactory {
         if (cachedTaskDeleter == null)
             cachedTaskDeleter = new TaskDeleter(taskRepository);
         return cachedTaskDeleter;
+    }
+
+    public ICSSaver makeICSSaver() {
+        if (cachedICSSaver== null)
+            cachedICSSaver = new ICSSaver(icsGateway, eventRepository);
+        return cachedICSSaver;
     }
 }

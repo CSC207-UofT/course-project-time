@@ -6,12 +6,15 @@ import datagateway.event.ObservableEventRepository;
 import datagateway.task.ObservableTaskRepository;
 import datagateway.task.TaskReader;
 import services.eventcreation.EventInfoFromReader;
+import services.eventcreation.EventSaver;
 import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
+import services.taskcreation.TaskSaver;
 import services.taskpresentation.TaskInfo;
 import services.taskpresentation.TaskInfoFromTaskReader;
 import services.taskpresentation.TodoListRequestBoundary;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,15 +25,20 @@ import java.util.function.Consumer;
 
 
 public class MainPageViewModel extends ViewModel implements Runnable{
-    private final TodoListRequestBoundary taskRepository;
+    private final TodoListRequestBoundary taskGetter;
+    private final TaskSaver taskSaver;
     private final CalendarEventRequestBoundary eventRepository;
+    private final EventSaver eventSaver;
+
     private final List<TaskInfo> relevantTasks = new ArrayList<>();
     private final List<EventInfo> relevantEvents = new ArrayList<>();
     private final List<Consumer<Infos>> observers = new ArrayList<>();
 
-    public MainPageViewModel(TodoListRequestBoundary taskGetter, CalendarEventRequestBoundary eventGetter){
-        this.taskRepository = taskGetter;
+    public MainPageViewModel(TodoListRequestBoundary taskGetter, TaskSaver taskSaver, CalendarEventRequestBoundary eventGetter, EventSaver eventSaver){
+        this.taskGetter = taskGetter;
+        this.taskSaver = taskSaver;
         this.eventRepository = eventGetter;
+        this.eventSaver = eventSaver;
 
         updateRelevantTasks();
         updateRelevantEvents();
@@ -42,7 +50,7 @@ public class MainPageViewModel extends ViewModel implements Runnable{
      * Flushes out current relevant tasks with data live from the {@link ObservableTaskRepository}
      */
     private void updateRelevantTasks() {
-        List<TaskInfo> tasks = taskRepository.getTasks();
+        List<TaskInfo> tasks = taskGetter.getTasks();
         relevantTasks.clear();
         for (TaskInfo taskInfo : tasks) {
             boolean taskEndsToday =
@@ -164,6 +172,17 @@ public class MainPageViewModel extends ViewModel implements Runnable{
 
     }
 
+    /**
+     * Persists all data to the database.
+     */
+    public void saveData() {
+        try {
+            eventSaver.saveEventData("EventData.json");
+            taskSaver.save("TaskData.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Just a data class containing both families of infos.

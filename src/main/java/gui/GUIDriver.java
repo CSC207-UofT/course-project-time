@@ -3,11 +3,12 @@ package gui;
 import gui.utility.InstanceMapper;
 import gui.utility.NavigationHelper;
 import gui.view.MainPageController;
-import gui.view.AddTaskPageController;
 import gui.view.MonthlyCalendarController;
-import gui.view.TaskPageController;
 import gui.view.TodoListPageController;
 import gui.view.WeeklyCalendarController;
+import gui.view.AddTaskPageController;
+import gui.view.TaskPageController;
+import gui.view.SettingsController;
 import gui.viewmodel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +63,7 @@ public class GUIDriver extends Application {
         instanceMapper.addMapping(MainPageController.class, factory.getMainPageViewModel());
         instanceMapper.addMapping(AddTaskPageController.class, factory.getAddTaskPageViewModel());
         instanceMapper.addMapping(TaskPageController.class, factory.getTaskPageViewModel());
+        instanceMapper.addMapping(SettingsController.class, factory.getSettingViewModel());
         NavigationHelper.setInstanceMap(instanceMapper);
 
         return factory;
