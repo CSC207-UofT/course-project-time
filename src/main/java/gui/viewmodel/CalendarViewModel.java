@@ -51,7 +51,6 @@ public class CalendarViewModel extends ViewModel {
                     onCreation(entry);
                 } else if (c.wasRemoved()) {
                     Entry<String> entry = c.getRemoved().get(0);
-                    onDeletion(entry);
                 }
             }
         });
@@ -67,10 +66,6 @@ public class CalendarViewModel extends ViewModel {
         if (eventCreatedFromView) {
             eventAdder.addEvent(EventHelper.entryToCalendarEventModel(entry));
         }
-    }
-
-    private void onDeletion(Entry<String> entry) {
-
     }
 
     /**

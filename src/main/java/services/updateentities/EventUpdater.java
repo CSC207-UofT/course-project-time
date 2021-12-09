@@ -6,7 +6,7 @@ import datagateway.event.CalendarManager;
 import java.time.LocalTime;
 
 public class EventUpdater implements UpdateEventBoundary{
-    CalendarManager calendarManager;
+    final CalendarManager calendarManager;
 
     public EventUpdater(CalendarManager eventEntityManager){
         this.calendarManager = eventEntityManager;

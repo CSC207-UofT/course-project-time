@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class TaskUpdater implements UpdateTaskBoundary{
-    TodoListManager todoListManager;
+    final TodoListManager todoListManager;
 
     public TaskUpdater(TodoListManager todoEntityManager){
         this.todoListManager = todoEntityManager;

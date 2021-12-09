@@ -2,10 +2,10 @@ package entity;
 
 public class PomodoroTimer {
     private long startTime;
-    private boolean isWork;
-    private long breakDuration;
-    private long workDuration;
-    private boolean newStart;
+    private final boolean isWork;
+    private final long breakDuration;
+    private final long workDuration;
+    private final boolean newStart;
 
     public PomodoroTimer(long startTime, boolean isWork, long breakDuration, long workDuration, boolean newStart) {
         this.startTime = startTime;

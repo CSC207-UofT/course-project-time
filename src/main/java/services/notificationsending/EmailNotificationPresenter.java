@@ -16,10 +16,10 @@ import java.util.Properties;
  */
 public class EmailNotificationPresenter implements NotificationPresenter, SettingsRegistry {
     private boolean enabled;
-    private String senderEmail;
-    private String password;
+    private final String senderEmail;
+    private final String password;
     private String userEmail;
-    private String subject;
+    private final String subject;
 
     public EmailNotificationPresenter(boolean enabled, String senderEmail,
                                       String password, String userEmail, String subject) {

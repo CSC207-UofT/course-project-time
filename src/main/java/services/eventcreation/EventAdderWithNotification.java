@@ -14,15 +14,11 @@ public class EventAdderWithNotification implements CalendarEventCreationBoundary
 
     @Override
     public long addEvent(CalendarEventModel eventData) {
-        long eventId = service.addEvent(eventData);
-        notificationAdder.createNotification(eventData, eventId);
-        return eventId;
+        return service.addEvent(eventData);
     }
 
     @Override
     public long addEvent(EventFromTaskModel eventData) {
-        long eventId = service.addEvent(eventData);
-        notificationAdder.createNotification(eventData, eventId);
-        return eventId;
+        return service.addEvent(eventData);
     }
 }

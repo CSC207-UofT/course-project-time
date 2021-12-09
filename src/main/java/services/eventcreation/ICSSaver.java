@@ -6,8 +6,8 @@ import datagateway.event.ObservableEventRepository;
 
 public class ICSSaver {
 
-    ICSGateway gateway;
-    CalendarManager cal;
+    final ICSGateway gateway;
+    final CalendarManager cal;
     public ICSSaver(ICSGateway gateway, CalendarManager cal) {
         this.gateway = gateway;
         this.cal= cal;

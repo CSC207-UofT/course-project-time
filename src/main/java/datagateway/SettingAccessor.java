@@ -7,9 +7,9 @@ import java.io.IOException;
 public class SettingAccessor implements UserSettingsGateway {
 
 
-    private SettingDataStructure settings;
+    private final SettingDataStructure settings;
     private final Gson gson = new Gson();
-    private String filepath;
+    private final String filepath;
 
     public SettingAccessor(String filepath) {
         this.filepath = filepath;

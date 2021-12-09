@@ -14,8 +14,6 @@ public class TaskAdderWithNotification implements TodoListTaskCreationBoundary {
 
     @Override
     public long addTask(TodoListTaskCreationModel taskData) {
-        long taskId = service.addTask(taskData);
-        notificationAdder.createNotification(taskData, taskId);
-        return taskId;
+        return service.addTask(taskData);
     }
 }
