@@ -5,7 +5,6 @@ import datagateway.event.EventReader;
 import services.eventcreation.EventInfoFromReader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class EventGetter implements CalendarEventRequestBoundary {

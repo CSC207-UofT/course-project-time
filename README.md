@@ -1,12 +1,5 @@
-## Phase1 Things to Note
-Download and install gson jar from 
-[here](https://search.maven.org/artifact/com.google.code.gson/gson/2.8.9/jar).
+## Phase2 Things to Note
 
-For phase 1, run ApplicationDriver.java, and you will be prompted for inputs to 
-interact with our application. 
+To run our program please use gradle. We used gradle to set up the dependencies of our project. To run the project with gradle in IntelliJ, open the gradle tool window, and select 'run', under application. Please do not try to run the individual files of the program, since the dependencies will not be included that way.
 
-Our program prints a prompt indicating that there are 10 actions for users to choose from.
-
-Note that the json files will only be created when the `ApplicationDriver` stops running.
-
-See `phase1/design-document.md` for our phase 1 report.
+See `phase2/design-document.md` for our phase 2 report.

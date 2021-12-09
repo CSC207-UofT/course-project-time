@@ -1,5 +1,6 @@
 import datagateway.event.CalendarManager;
 import datagateway.event.EventReader;
+import entity.dates.DateStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.eventpresentation.CalendarEventPresenter;
@@ -7,11 +8,9 @@ import services.eventpresentation.EventInfo;
 import services.eventpresentation.EventOutputter;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -39,12 +38,12 @@ public class EventOutputterTest {
     private static class MockCalendarManager implements CalendarManager {
 
         @Override
-        public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
+        public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
             return 0;
         }
 
         @Override
-        public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
+        public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
             return 0;
         }
 
@@ -69,12 +68,12 @@ public class EventOutputterTest {
         }
 
         @Override
-        public void updateStartTime(long id, LocalTime newStartTime) {
+        public void updateDateStrategy(long id, DateStrategy strategy) {
 
         }
 
         @Override
-        public void updateEndTime(long id, LocalTime newEndTime) {
+        public void updateDuration(long id, Duration duration) {
 
         }
 

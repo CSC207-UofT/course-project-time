@@ -1,11 +1,10 @@
 package datagateway.event;
 
 import datagateway.Observer;
+import entity.dates.DateStrategy;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -50,16 +49,16 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
     }
 
     @Override
-    public long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags, LocalDate date) {
-        long newEventId = calendarManager.addEvent(eventName, startTime, endTime, tags, date);
+    public long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags) {
+        long newEventId = calendarManager.addEvent(eventName, strategy, duration, tags);
         EventReader newEvent = getById(newEventId);
         notifyCreationObservers(newEvent);
         return newEventId;
     }
 
     @Override
-    public long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date) {
-        long newEventId = calendarManager.addEvent(taskId, startTime, tags, date);
+    public long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags) {
+        long newEventId = calendarManager.addEvent(taskId, dateStrategy, tags);
         EventReader newEvent = getById(newEventId);
         notifyCreationObservers(newEvent);
         return newEventId;
@@ -92,15 +91,15 @@ public class ObservableEventEntityManager implements ObservableEventRepository {
     }
 
     @Override
-    public void updateStartTime(long id, LocalTime newStartTime) {
-        calendarManager.updateStartTime(id, newStartTime);
+    public void updateDateStrategy(long id, DateStrategy strategy) {
+        calendarManager.updateDateStrategy(id, strategy);
         EventReader updatedEvent = getById(id);
         notifyUpdateObservers(updatedEvent);
     }
 
     @Override
-    public void updateEndTime(long id, LocalTime newEndTime) {
-        calendarManager.updateEndTime(id, newEndTime);
+    public void updateDuration(long id, Duration duration) {
+        calendarManager.updateDuration(id, duration);
         EventReader updatedEvent = getById(id);
         notifyUpdateObservers(updatedEvent);
     }

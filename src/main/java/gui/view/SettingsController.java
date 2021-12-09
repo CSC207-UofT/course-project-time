@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable, ViewModelBindingController{
@@ -40,7 +41,9 @@ public class SettingsController implements Initializable, ViewModelBindingContro
     }
 
     public void exportICS(MouseEvent event) {
-        viewModel.exportICS();
+        LocalDateTime fiveYearsAgo = LocalDateTime.now().minusYears(5);
+        LocalDateTime fiveYearsFromNow = LocalDateTime.now().plusYears(5);
+        viewModel.exportICS(fiveYearsAgo, fiveYearsFromNow);
     }
 
 }

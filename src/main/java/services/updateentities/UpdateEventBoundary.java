@@ -1,13 +1,15 @@
 package services.updateentities;
 
-import java.time.LocalTime;
+import services.strategybuilding.DatesForm;
+
+import java.time.Duration;
 
 public interface UpdateEventBoundary {
     void updateName(long id, String newName);
 
-    void updateStartTime(long id, LocalTime newStartTime);
+    void updateDateStrategy(long id, DatesForm form);
 
-    void updateEndTime(long id, LocalTime newEndTime);
+    void updateDuration(long id, Duration duration);
 
     void addTag(long id, String tag);
 

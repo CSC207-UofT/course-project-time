@@ -3,6 +3,7 @@ package gui.viewmodel;
 import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.Entry;
 import datagateway.event.EventReader;
+import entity.dates.TimeFrame;
 import gui.utility.EventHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -13,10 +14,13 @@ import services.eventpresentation.CalendarEventRequestBoundary;
 import services.eventpresentation.EventInfo;
 import services.updateentities.UpdateEventBoundary;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
 
 public class CalendarViewModel extends ViewModel {
 
@@ -69,6 +73,7 @@ public class CalendarViewModel extends ViewModel {
         }
     }
 
+    @SuppressWarnings("unused")
     private void onDeletion(Entry<String> entry) {
 
     }
@@ -79,10 +84,33 @@ public class CalendarViewModel extends ViewModel {
      */
     private void initializeIdMappingAndEntryList(List<EventInfo> infoList) {
         for (EventInfo eventInfo : infoList) {
-            Entry<String> entry = EventHelper.eventInfoToEntry(eventInfo);
+            initializeEventInfo(eventInfo);
+        }
+    }
+
+    private void initializeEventInfo(EventInfo eventInfo) {
+        for (TimeFrame tr : EventHelper.getTimesFromStaticRange(eventInfo::getDatesBetween)) {
+            Entry<String> entry = buildEntry(eventInfo::getName, tr.startTime, tr.startTime.plus(tr.duration));
             entryToEventIdMapping.put(entry.getId(), eventInfo.getId());
             entryList.add(entry);
         }
+    }
+
+    private void initializeEventReader(EventReader eventReader) {
+        for (TimeFrame tr : EventHelper.getTimesFromStaticRange(eventReader::getDatesBetween)) {
+            Entry<String> entry = buildEntry(eventReader::getName, tr.startTime, tr.startTime.plus(tr.duration));
+            entryToEventIdMapping.put(entry.getId(), eventReader.getId());
+            entryList.add(entry);
+        }
+    }
+
+    private Entry<String> buildEntry(Supplier<String> eventNameSupplier, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        Entry<String> entry = new Entry<>(eventNameSupplier.get());
+        entry.changeStartTime(startDateTime.toLocalTime());
+        entry.changeEndTime(endDateTime.toLocalTime());
+        entry.changeStartDate(startDateTime.toLocalDate());
+        entry.changeStartDate(endDateTime.toLocalDate());
+        return entry;
     }
 
     public ObservableList<Entry<String>> getEntryList() {
@@ -98,9 +126,7 @@ public class CalendarViewModel extends ViewModel {
      */
     public void handleCreation(EventReader eventReader) {
         if (!eventCreatedFromView) {
-            Entry<String> newEntry = EventHelper.eventReaderToEntry(eventReader);
-            entryToEventIdMapping.put(newEntry.getId(), eventReader.getId());
-            entryList.add(newEntry);
+            initializeEventReader(eventReader);
         } else {
             // find the entry with no mapping and add mapping
             for (Entry<String> entry : entryList) {
@@ -140,11 +166,7 @@ public class CalendarViewModel extends ViewModel {
             eventUpdater.updateName(correspondingEventId, updatedEntry.getTitle());
         }
         if (event.getEventType() == CalendarEvent.ENTRY_INTERVAL_CHANGED) {
-            eventUpdater.updateStartTime(correspondingEventId, updatedEntry.getStartTime());
-
-            // set eventUpdatedFromView to be true again as the previous update call makes this false
-            eventUpdatedFromView = true;
-            eventUpdater.updateEndTime(correspondingEventId, updatedEntry.getEndTime());
+            eventUpdater.updateDuration(correspondingEventId, updatedEntry.getDuration());
         }
     }
 
@@ -163,54 +185,8 @@ public class CalendarViewModel extends ViewModel {
      * @param eventReader the reader that holds relevant information that corresponds to an entry
      */
     private void updateEntry(EventReader eventReader) {
-        if (entryToEventIdMapping.containsValue(eventReader.getId())) {
-            Entry<String> entry = this.getEntryFromEvent(eventReader);
-            assert entry != null;
-            this.updateEntryWithEventReader(entry, eventReader);
-        } else {
-            System.err.println("Event data may not be synchronized");
-        }
+        Set<TimeFrame> intervals = EventHelper.getTimesFromStaticRange(eventReader::getDatesBetween);
+        entryList.removeIf(e -> intervals.stream().anyMatch(i -> i.startTime.equals(e.getStartAsLocalDateTime())));
     }
 
-    /**
-     * Find an entry that corresponds to the eventReader
-     * @param eventReader the reader that holds relevant information that corresponds to an entry
-     * @return an entry
-     */
-    private Entry<String> getEntryFromEvent(EventReader eventReader) {
-        for (String entryId : entryToEventIdMapping.keySet()) {
-            if (eventReader.getId() == entryToEventIdMapping.get(entryId)) {
-                for (Entry<String> entry : entryList) {
-                    if (entryId.equals(entry.getId())) {
-                        return entry;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Given an entry and a reader, updates the entry such that
-     * it matches information in the reader
-     * @param entry the entry to be updated
-     * @param eventReader the reader with the information
-     */
-    private void updateEntryWithEventReader(Entry<String> entry, EventReader eventReader) {
-        if (!entry.getTitle().equals(eventReader.getName())) {
-            entry.setTitle(eventReader.getName());
-        }
-        if (!entry.getStartDate().equals(eventReader.getDates().iterator().next())) {
-            entry.changeStartDate(eventReader.getDates().iterator().next());
-        }
-        if (!entry.getEndDate().equals(eventReader.getDates().iterator().next())) {
-            entry.changeEndDate(eventReader.getDates().iterator().next());
-        }
-        if (!entry.getStartAsLocalDateTime().toLocalTime().equals(eventReader.getStartTime())) {
-            entry.changeStartTime(eventReader.getStartTime());
-        }
-        if (!entry.getEndAsLocalDateTime().toLocalTime().equals(eventReader.getEndTime())) {
-            entry.changeStartTime(eventReader.getEndTime());
-        }
-    }
 }

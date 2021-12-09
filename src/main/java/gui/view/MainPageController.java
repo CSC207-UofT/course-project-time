@@ -11,8 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-import services.eventpresentation.EventInfo;
-import services.taskpresentation.TaskInfo;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -118,39 +116,39 @@ public class MainPageController implements Initializable, ViewModelBindingContro
      * @param infos the lists of updated infos
      */
     private void acceptReaders(MainPageViewModel.Infos infos) {
-        updateTaskListView(formatTaskInfos(infos.taskInfos));
-        updateEventListView(formatEventInfos(infos.eventInfos));
+        updateTaskListView(formatTaskInfos(infos.taskEntries));
+        updateEventListView(formatEventInfos(infos.eventEntries));
     }
 
-    private Map<String, String> formatTaskInfos(List<TaskInfo> taskInfo) {
+    private Map<String, String> formatTaskInfos(List<MainPageViewModel.TaskEntry> taskInfo) {
         Map<String, String> taskMap = new HashMap<>();
         if (taskInfo.isEmpty()){
             taskMap.put("No Scheduled Tasks", null);
         }
-        for (TaskInfo task: taskInfo) {
-            String taskName = task.getName();
-            String dueTime = this.viewModel.formatDeadline(task.getDeadline());
+        for (MainPageViewModel.TaskEntry task: taskInfo) {
+            String taskName = task.name;
+            String dueTime = this.viewModel.formatDeadline(task.deadline);
             taskMap.put(taskName, dueTime);
         }
         return taskMap;
     }
 
 
-    private Map<String, List<String>> formatEventInfos(List<EventInfo> eventInfos) {
+    private Map<String, List<String>> formatEventInfos(List<MainPageViewModel.EventEntry> eventInfos) {
         Map<String, List<String>> eventMap = new HashMap<>();
         List<String> list = new ArrayList<>();
         if (eventInfos.isEmpty()){
             eventMap.put("No Scheduled Events", null);
         }
 
-        for (EventInfo event: eventInfos) {
-            String eventName = event.getName();
+        for (MainPageViewModel.EventEntry event: eventInfos) {
+            String eventName = event.name;
 
-            String startTime = event.getStartTime().format(
+            String startTime = event.startTime.format(
                     DateTimeFormatter.ofLocalizedTime(
                             FormatStyle.SHORT));
 
-            String endTime = event.getEndTime().format(
+            String endTime = event.endTime.format(
                     DateTimeFormatter.ofLocalizedTime(
                             FormatStyle.SHORT));
             list.add(startTime);

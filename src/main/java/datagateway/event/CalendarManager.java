@@ -1,18 +1,17 @@
 package datagateway.event;
 
+import entity.dates.DateStrategy;
+
 import java.io.IOException;
-import java.time.LocalTime;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
 public interface CalendarManager {
 
-    long addEvent(String eventName, LocalDateTime startTime, LocalDateTime endTime, Set<String> tags,
-                  LocalDate date);
+    long addEvent(String eventName, DateStrategy strategy, Duration duration, Set<String> tags);
 
-    long addEvent(long taskId, LocalDateTime startTime, Set<String> tags, LocalDate date);
+    long addEvent(long taskId, DateStrategy dateStrategy, Set<String> tags);
 
     void deleteEvent(long eventId);
 
@@ -22,9 +21,9 @@ public interface CalendarManager {
 
     void updateName(long id, String newName);
 
-    void updateStartTime(long id, LocalTime newStartTime);
+    void updateDateStrategy(long id, DateStrategy strategy);
 
-    void updateEndTime(long id, LocalTime newEndTime);
+    void updateDuration(long id, Duration duration);
 
     void addTag(long id, String tag);
 

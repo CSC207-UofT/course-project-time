@@ -392,7 +392,7 @@ public class ApplicationDriver {
         Scanner sc = new Scanner(System.in);
         String input;
         do {
-            System.out.print("Input what day of the week you want the event to reoccur: ");
+            System.out.print("Input what day of the week you want the event to reoccur (full name like 'Monday'): ");
             input = sc.nextLine().toLowerCase();
         } while (!daysSet.contains(input));
 

@@ -1,20 +1,21 @@
 package datagateway.event;
 
+import datagateway.task.TaskReader;
 import entity.Event;
+import entity.dates.TimeFrame;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class EventToEventReader implements EventReader{
     private final Event event;
-    private final String name;
-    private final boolean completed;
+    private final TaskReader task;
 
-    public EventToEventReader(Event event, String name, boolean completed){
+    public EventToEventReader(Event event, TaskReader associatedTask){
         this.event = event;
-        this.name = name;
-        this.completed = completed;
+        this.task = associatedTask;
     }
 
     @Override
@@ -24,17 +25,12 @@ public class EventToEventReader implements EventReader{
 
     @Override
     public String getName() {
-        return name;
+        return task.getName();
     }
 
     @Override
-    public LocalTime getStartTime() {
-        return event.getStartTime();
-    }
-
-    @Override
-    public LocalTime getEndTime() {
-        return event.getEndTime();
+    public Duration getDuration() {
+        return task.getDuration();
     }
 
     @Override
@@ -43,12 +39,17 @@ public class EventToEventReader implements EventReader{
     }
 
     @Override
-    public Set<LocalDate> getDates() {
-        return event.getDates();
+    public Set<TimeFrame> getDatesBetween(LocalDateTime startTime, LocalDateTime endTime) {
+        return new HashSet<>(event.getDateStrategy().datesBetween(startTime, endTime, getDuration()));
+    }
+
+    @Override
+    public String getWhen() {
+        return event.getDateStrategy().toString();
     }
 
     @Override
     public boolean getCompleted() {
-        return completed;
+        return task.getCompleted();
     }
 }
