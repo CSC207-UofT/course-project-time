@@ -1,4 +1,4 @@
-package data_gateway;
+package datagateway;
 
 public class SettingDataStructure {
     public String email;
